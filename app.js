@@ -40,6 +40,10 @@ const TOOLS = [
     type: "游戏",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
     // 缩略图数量决定详情页的排版：1张=整幅铺开，2张=左右对分，4张=2x2
     // 这 4 张是用 Playwright 实际操作 https://grade2-math-tools.vercel.app 截的真实画面，不是 mock
     thumbnails: [
@@ -71,6 +75,10 @@ const TOOLS = [
     type: "游戏",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
     // 这 4 张是用 Playwright 实际操作 https://tahun1-mt-bundar.vercel.app 截的真实画面，不是 mock
     thumbnails: [
       { img: "assets/thumbs/tahun1-mt-bundar/1-setup.png", label: "开局设定：队伍数量与队名可调整" },
@@ -99,6 +107,10 @@ const TOOLS = [
     type: "游戏",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
     // 这 4 张是用 Playwright 实际操作 https://tahun4-mt-nombor.vercel.app 截的真实画面，不是 mock
     thumbnails: [
       { img: "assets/thumbs/tahun4-mt-nombor/1-setup.png", label: "开局设定：学生人数与获胜题数" },
@@ -127,6 +139,10 @@ const TOOLS = [
     type: "游戏",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
     // 这 4 张是用 Playwright 实际操作 https://tahun1-bc-shizi.vercel.app 截的真实画面，不是 mock
     thumbnails: [
       { img: "assets/thumbs/tahun1-bc-shizi/1-landing.png", label: "首页：闪卡 / PK 两种模式" },
@@ -155,6 +171,10 @@ const TOOLS = [
     type: "游戏",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
     // 这 2 张是用 Playwright 实际操作 https://tahun1-bm-kvkv.vercel.app 截的真实画面，不是 mock
     thumbnails: [
       { img: "assets/thumbs/tahun1-bm-kvkv/1-cover.png", label: "开局：18个KVKV词汇总览" },
@@ -181,6 +201,10 @@ const TOOLS = [
     type: "游戏",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
     // 这 3 张是用 Playwright 实际操作 https://tahun1-bc-bushou.vercel.app 截的真实画面，不是 mock
     thumbnails: [
       { img: "assets/thumbs/tahun1-bc-bushou/1-setup.png", label: "开局设定：两组人数可调" },
@@ -208,6 +232,10 @@ const TOOLS = [
     type: "工具",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
     // 这 3 张是用 Playwright 实际操作 https://tahun1-bc-zaoju.vercel.app 截的真实画面，不是 mock
     thumbnails: [
       { img: "assets/thumbs/tahun1-bc-zaoju/1-empty.png", label: "四类词语卡" },
@@ -235,6 +263,10 @@ const TOOLS = [
     type: "游戏",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
     // 这 3 张是用 Playwright 实际操作 https://tahun2-mt-shuzhi.vercel.app 截的真实画面，不是 mock
     thumbnails: [
       { img: "assets/thumbs/tahun2-mt-shuzhi/1-learn.png", label: "学习模式：果园视觉化分组" },
@@ -262,6 +294,10 @@ const TOOLS = [
     type: "工具",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
     // 这 2 张是用 Playwright 实际操作 https://tahun2-mt-shulie-explore.vercel.app 截的真实画面，不是 mock
     thumbnails: [
       { img: "assets/thumbs/tahun2-mt-shulie-explore/1-menu.png", label: "四个环节总览" },
@@ -288,6 +324,10 @@ const TOOLS = [
     type: "游戏",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
     // 这 2 张是用 Playwright 实际操作 https://tahun2-mt-shulie-boss.vercel.app 截的真实画面，不是 mock
     thumbnails: [
       { img: "assets/thumbs/tahun2-mt-shulie-boss/1-menu.png", label: "三个难度关卡" },
@@ -314,6 +354,10 @@ const TOOLS = [
     type: "游戏",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
     // 这 2 张是用 Playwright 实际操作 https://tahun2-mt-shulie-duel.vercel.app 截的真实画面，不是 mock
     thumbnails: [
       { img: "assets/thumbs/tahun2-mt-shulie-duel/1-menu.png", label: "三个难度关卡+按键说明" },
@@ -340,6 +384,10 @@ const TOOLS = [
     type: "游戏",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
     // 这 3 张是用 Playwright 实际操作 https://tahun3-bc-kewen.vercel.app 截的真实画面，不是 mock
     thumbnails: [
       { img: "assets/thumbs/tahun3-bc-kewen/1-menu.png", label: "游戏规则说明" },
@@ -367,6 +415,10 @@ const TOOLS = [
     type: "工具",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
     // 这 3 张是用 Playwright 实际操作 https://tahun2-mt-baigetu.vercel.app 截的真实画面，不是 mock
     thumbnails: [
       { img: "assets/thumbs/tahun2-mt-baigetu/1-init.png", label: "选择乘数" },
@@ -593,6 +645,21 @@ function renderStandards(tool) {
   `).join("");
 }
 
+// 版本记录：老师反馈后每次调整都要在这里加一笔（新版本号+日期+简短说明），
+// 不是覆盖旧版本资料，让老师能看到这个工具是怎么一步步改进的
+function renderChangelog(tool) {
+  const el = document.getElementById("detailChangelog");
+  if (!tool.changelog || !tool.changelog.length) { el.hidden = true; el.innerHTML = ""; return; }
+  el.hidden = false;
+  const rows = [...tool.changelog].reverse(); // 最新版本排最前面
+  el.innerHTML = `
+    <p class="detail__changelog-title">更新记录</p>
+    <ul class="detail__changelog-list">
+      ${rows.map((c) => `<li><span class="detail__changelog-version">v${c.version}</span> · ${c.date} · ${c.note}</li>`).join("")}
+    </ul>
+  `;
+}
+
 function openDetail(tool) {
   renderGallery(tool.thumbnails);
   document.getElementById("detailCreator").innerHTML = creatorHtml(tool);
@@ -602,6 +669,8 @@ function openDetail(tool) {
   renderStandards(tool);
   document.getElementById("detailSlug").textContent = tool.slug;
   document.getElementById("detailUses").textContent = `用过 ${getUses(tool.slug)} 次`;
+  document.getElementById("detailVersion").textContent = tool.version ? `v${tool.version}` : "";
+  renderChangelog(tool);
 
   const link = document.getElementById("detailOpenLink");
   if (tool.url) {

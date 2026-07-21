@@ -495,6 +495,26 @@ body {
   margin-bottom: 12px;
 }
 .detail__uses { font-size: 0.78rem; color: rgba(31,58,52,0.45); }
+.detail__version {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--orange);
+  background: rgba(232,135,62,0.12);
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+.detail__changelog { margin: 0 0 12px; }
+.detail__changelog-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(31,58,52,0.4);
+  margin: 0 0 4px;
+}
+.detail__changelog-list { margin: 0; padding-left: 18px; font-size: 0.8rem; line-height: 1.7; color: rgba(31,58,52,0.6); }
+.detail__changelog-version { font-family: var(--font-mono); font-weight: 600; color: rgba(31,58,52,0.75); }
 .detail__actions { margin-top: 6px; }
 .detail__open {
   display: inline-block;
