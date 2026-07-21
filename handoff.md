@@ -5,27 +5,28 @@
 
 ## 🚦 目前状态（2026-07-21）
 **已正式上线**：https://kongsi-idea.vercel.app （Vercel Team `kongsi-idea`）
-**代码仓库**：https://github.com/kongsi-idea/eduneo-hub （private，git 已初始化，历史完整）
-**13 个真实工具**已全部上架，示例/mock 作品已经清空，`app.js` 的 `TOOLS` 里现在都是真货。
+**代码仓库**：https://github.com/kongsi-idea/eduneo-hub （public，git 已初始化，历史完整）
+**14 个真实工具**已全部上架，示例/mock 作品已经清空，`app.js` 的 `TOOLS` 里现在都是真货。
 
 品牌名：**课堂点子铺**（Kedai Idea）。核心文案：「老师有点子，课堂有办法。」
 
-## 📦 已上架的 13 个工具
+## 📦 已上架的 14 个工具
 逐一对应关系、覆盖矩阵看 `docs/published-tools-coverage.md`（新增工具/`status`改`published`时记得回来更新这份文件）。简要列表：
 - `tahun1-mt-bundar` 近似值特快车、`tahun2-mt-wang` 钱币乐园、`tahun4-mt-nombor` 数学知识大比拼
 - `tahun2-mt-shuzhi` 苹果果园数学、`tahun2-mt-baigetu` 百格图乘法表动画
 - `tahun2-mt-shulie-explore`/`-boss`/`-duel` 有规律的数列三件套（同一DSKP单元的学习/练习/对战三种场景）
 - `tahun1-bc-shizi` 识字大对决、`tahun1-bc-bushou` 部首大对垒、`tahun1-bc-zaoju` 神奇句子小火车、`tahun3-bc-kewen` 语文课文大PK
 - `tahun1-bm-kvkv` KVKV音节打地鼠
+- **`tahun1-dst-magnet` 磁铁大发现**——本平台第一个不靠老师投稿、直接照 DSKP 内容标准自主设计的工具（科学 7.1 磁铁）。拖磁铁靠近11件物品，磁性物品飞向磁铁、非磁性掉落，另有磁极相吸相斥实验+磁铁形状图鉴。**这个工具部署在新的 `kongsi-idea` Vercel team 底下**（不是 `mr007's projects`），网址 `tahun1-dst-magnet.vercel.app`——以后新工具建议都跟着放这个team，逐步跟旧的13个（还在个人账号）拉开距离，是否回头统一搬迁未定
 
-所有工具仓库都在 GitHub org `kongsi-idea` 底下，仓库名＝slug；大部分部署在 `mr007's projects`（个人Vercel账号）底下，**还没有统一搬去 `kongsi-idea` Vercel team**（只有 `eduneo-hub` 自己搬了）——以后要不要统一搬需要另外讨论，涉及重新部署+域名，目前没有默认去动。
+所有工具仓库都在 GitHub org `kongsi-idea` 底下，仓库名＝slug；原本13个大部分部署在 `mr007's projects`（个人Vercel账号）底下，**还没有统一搬去 `kongsi-idea` Vercel team**——以后要不要统一搬需要另外讨论，涉及重新部署+域名，目前没有默认去动。新工具（如上面的磁铁）已经开始改放新team了。
 
 ## ⚠️ 安全提醒（未完成，需要用户本人操作）
 处理 `yquan77/teaching-tools` 仓库时发现 `y1-bc-火车造句.html` 第325行硬编码了一个**真实有效的 Gemini API key**，已经在做成 `tahun1-bc-zaoju` 时完全移除、改用浏览器内建语音。**但这个 key 本来就在公开仓库里暴露过**，即使这次没有沿用，**用户应该自己去 Google Cloud / AI Studio 控制台把这个 key 撤销或重新生成**，以防已经被盗刷或滥用。这件事这次没有做，需要用户手动处理。
 
 ## 🧭 首页功能现状
 1. **主入口「今天要教什么？」**（`.finder`）：年级→科目→（有索引才有）单元/学习目标树，结果卡显示对应学习目标/可练习什么/课堂方式/准备条件/DSKP核对状态。搜索支持代码/中文/马来文关键词，最多5条建议；URL 状态同步（`?tahun=&subjek=&unit=&objective=&q=`），复制网址能还原筛选。
-   - `data/dskp-index.js` 的 `DSKP_INDEX` 目前有 **6 笔结构化记录**（数学 Tahun1 近似值、Tahun2 钱币、Tahun4 数值……），其余工具的 DSKP 对照还没转成结构化索引，「按学习目标找工具」目前只对这几笔生效，其他工具要靠下方「浏览全部工具」找
+   - `data/dskp-index.js` 的 `DSKP_INDEX` 目前有 **7 笔结构化记录**（数学 Tahun1/2/4、华文 Tahun1/3、马来文 Tahun1、科学 Tahun1 磁铁），其余工具的 DSKP 对照还没转成结构化索引，「按学习目标找工具」目前只对这几笔生效，其他工具要靠下方「浏览全部工具」找
    - 常用入口只有「钱币」真的可点，其他几个诚实显示「索引整理中」
 2. **辅助路径「浏览全部工具」**：年级+科目双筛选facet + 自由搜索，两者取交集（之前有个「搜索词会跳过筛选」的bug已修复并用Playwright验证过）
 3. **点子许愿池**（原「许愿」按钮）：三步结构化表单（这堂课／学生卡在哪里／你希望怎样帮上忙），本机草稿暂存，**送出按钮固定禁用**（没有后端+登录系统，不会假装送出成功；这是刻意决定——即使规格文件没提，用户明确要求许愿仍需要登录才能真的送出）
@@ -33,6 +34,12 @@
 5. **新访客欢迎侧边卡**：第一次造访这台浏览器才会滑出，附「去点子许愿池看看」按钮
 6. **工具详情页**：缩略图画廊（1/2/4张自适应版位）+点击放大灯箱、创作人具名署名、对应课程标准（只有真的核对过DSKP的才显示）、`version`+`changelog`版本记录（倒序显示）、喜欢数（任何人可点，不用登录）、使用次数
 7. **控件视觉规格已统一**：所有输入框/下拉选单共用同一套 `--field-*` token，select 用 `appearance:none`+自画箭头去除浏览器系统外观差异，跟搜索框像素级对齐（Playwright 实测过）；统计条改用 grid 固定断点，不会再有数字排版对不齐的情况
+
+## 🌱 新增能力：不靠老师投稿，直接照 DSKP 自主开发
+用户确认这条路径可行——不必等老师给点子，也可以自己翻 `docs/dskp/` 挑一个还空白的年级/科目，设计构思后开发上架（`tahun1-dst-magnet` 磁铁大发现是第一个案例）。**前提**：核心玩法设计仍要经用户本人的教学判断把关，不是纯粹照 DSKP 条文清单照做——先讲清楚要做成什么效果、confirm 方向，再动手，避免做出"技术上对得上标准但课堂不缺"的东西。`docs/published-tools-coverage.md` 的覆盖矩阵就是找空白年级/科目的起点。
+
+## 🔬 待确认：科学科的 `dst`/`sains` 分界
+`docs/subjek-tahun.md` 把 Tahun1-3 科学科归类为 `dst`（Dunia Sains dan Teknologi），Tahun4-6 才叫 `sains`——但这次查证 Tahun1 官方 DSKP PDF，文件标题其实是《**Sains** SJK(C) Tahun 1》，不是「Dunia Sains dan Teknologi」。`subjek-tahun.md` 自己也承认这个不确定性未查实。目前 `tahun1-dst-magnet` 还是沿用现有平台分类（`dst`）避免打乱现有筛选逻辑，但这个分界之后有空应该回头核对 BPK 官网 Tahun2/3 页面的 DSKP 文件实际标题，确认「dst」这个名称在最新课纲文件里到底还用不用。
 
 ## 🔑 长期规则（写在 `agents.md`「关键决定」，别忘记）
 - 工具打磨时把原作者写死的设定（人数/名单/难度等）主动改成开局前可调整，不用每次问
@@ -59,4 +66,4 @@
 
 ## 🕐 最后更新
 - 时间：2026-07-21
-- Git：已初始化，远端 `github.com/kongsi-idea/eduneo-hub`，本地有未提交的改动（这轮的CSS/统计条/欢迎卡片相关修改），收工前记得 commit
+- Git：已初始化，远端 `github.com/kongsi-idea/eduneo-hub`（public），这轮改动（磁铁工具上架+弹窗背景点击关闭+版本管理等）已 commit 并 push

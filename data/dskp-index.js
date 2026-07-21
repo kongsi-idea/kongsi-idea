@@ -245,4 +245,50 @@ const DSKP_INDEX = [
       },
     ],
   },
+  {
+    curriculum: "KSSR Semakan 2017",
+    tahun: 1,
+    // ⚠️ 科目代码用 "dst"（跟 app.js SUBJECTS 现有分类一致：Tahun1-3 归为「科学与科技世界」），
+    // 但这次查证官方 PDF 时发现文件本身标题是《Sains SJK(C) Tahun 1》，不是「Dunia Sains dan
+    // Teknologi」——docs/subjek-tahun.md 自己也标注过这个不确定性（未找到官方文件明确写
+    // "Tahun1-3统称DST"这个说法）。这次沿用现有平台分类不引发混乱，但这个 dst/sains 该怎么分
+    // 界，之后有空应该回头核对 BPK 官网 Tahun2/3 页面的 DSKP 文件名称再确认一次。
+    subjek: "dst",
+    sourceUrl: "https://bpk.moe.gov.my/kurikulum/kssr/kssr-tahun-1/32-08-dskp-kssr-tahun-1-sains-06122016/file",
+    sourceLabel: "DSKP Sains Tahun 1 SJK(C)",
+    verifiedAt: "2026-07-21",
+    units: [
+      {
+        code: "7.1",
+        title_zh: "磁铁",
+        title_bm: "Magnet",
+        objectives: [
+          {
+            code: "7.1.1",
+            title_zh: "举例磁铁在生活中的用途",
+            title_bm: "Memberi contoh kegunaan magnet dalam kehidupan",
+            terms: ["磁铁用途", "kegunaan magnet"],
+          },
+          {
+            code: "7.1.2",
+            title_zh: "确认磁铁形状：条形/棒形/马蹄形/U形/钮扣形/环形",
+            title_bm: "Mengenal pasti bentuk magnet",
+            terms: ["磁铁形状", "bentuk magnet"],
+          },
+          {
+            code: "7.1.3",
+            title_zh: "概括磁铁对各种物体的作用（通过活动验证哪些物体会被磁铁吸引）",
+            title_bm: "Mengitlak tindakan magnet ke atas pelbagai objek",
+            terms: ["磁铁吸引", "tarikan magnet"],
+          },
+          {
+            code: "7.1.4",
+            title_zh: "通过探究得出磁极相吸相斥的结论",
+            title_bm: "Membuat kesimpulan tentang daya tarikan dan tolakan antara kutub magnet",
+            terms: ["磁极", "相吸相斥", "kutub magnet", "tolakan"],
+          },
+        ],
+      },
+    ],
+  },
 ];

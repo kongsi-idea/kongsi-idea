@@ -432,6 +432,38 @@ const TOOLS = [
     teachingMode: ["投影互动", "教师带教"],
     prep: "打开即用，不需要打印，不需要学生设备",
   },
+
+  {
+    slug: "tahun1-dst-magnet",
+    tahun: 1,
+    subjek: "dst",
+    status: "published",
+    title_zh: "磁铁大发现",
+    title_bm: "Penemuan Magnet",
+    desc: "拖动磁铁靠近11件生活物品：会被磁铁吸引的东西会飞向磁铁，不会的就掉下去，具象化呈现磁力效果（含铝罐这个常见迷思概念道具，破除「金属都会被磁铁吸」的误解）。另附磁极相吸相斥实验、6种磁铁形状图鉴。",
+    keywords: ["磁铁", "磁力", "磁极", "一年级", "科学", "magnet", "tarikan", "tolakan"],
+    url: "https://tahun1-dst-magnet.vercel.app",
+    type: "工具",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
+    // 这 4 张是用 Playwright 实际操作 https://tahun1-dst-magnet.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-dst-magnet/1-test.png", label: "拖磁铁测试11件物品" },
+      { img: "assets/thumbs/tahun1-dst-magnet/2-summary.png", label: "测试结果+小结论" },
+      { img: "assets/thumbs/tahun1-dst-magnet/3-pole.png", label: "磁极相吸相斥实验" },
+      { img: "assets/thumbs/tahun1-dst-magnet/4-shapes.png", label: "磁铁形状图鉴" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "7.1", objectiveCodes: ["7.1.1", "7.1.2", "7.1.3", "7.1.4"] },
+    ],
+    practiceSummary: "举例磁铁用途、确认磁铁形状、概括物体对磁铁的反应、研究磁极相吸相斥",
+    teachingMode: ["投影互动", "教师带教/演示"],
+    prep: "打开即用，不需要打印，不需要真的磁铁教具",
+  },
 ];
 
 // ---------- DSKP 索引查询辅助（读 data/dskp-index.js 的 DSKP_INDEX） ----------
@@ -1377,11 +1409,13 @@ function renderStats() {
   const toolCount = TOOLS.filter((t) => t.status === "published").length;
   const visits = getVisits();
   statsBarEl.innerHTML = `
-    <span class="stat"><span class="stat__num" data-target="${visits}">0</span><span class="stat__label">次网页浏览（本机累计）</span></span>
-    <span class="stat"><span class="stat__num" data-target="${totalUses}">0</span><span class="stat__label">次工具使用（本机累计）</span></span>
+    <span class="stat"><span class="stat__num" data-target="${visits}">0</span><span class="stat__label">次网页浏览</span></span>
+    <span class="stat"><span class="stat__num" data-target="${totalUses}">0</span><span class="stat__label">次工具使用</span></span>
     <span class="stat"><span class="stat__num" data-target="${toolCount}">0</span><span class="stat__label">个作品已上架</span></span>
-    <span class="stat stat--pending"><span class="stat__num" data-target="0">0</span><span class="stat__label">位老师注册（账号系统尚未上线，先如实显示 0）</span></span>
+    <span class="stat stat--pending"><span class="stat__num" data-target="0">0</span><span class="stat__label">位老师注册</span><span class="stat__badge">即将上线</span></span>
   `;
+  const footnoteEl = document.getElementById("statsFootnote");
+  if (footnoteEl) footnoteEl.textContent = "以上数字来自你这台设备的浏览记录，账号系统上线后会换成全站老师的真实数据。";
   observeStats(statsBarEl);
 }
 

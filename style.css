@@ -314,13 +314,31 @@ body {
 /* ---------- 全局统计条：放在页面最底部，滑到才跑数字动画 ----------
    用 grid 固定断点（4欄→2x2→1欄），不用 flex-wrap——flex-wrap 换行是「塞不下才擠到下一行」，
    4 个东西常常挤成 3+1，最后一个孤零零飘在中间对不齐上面任何一栏，grid 直接锁死每个断点的欄数 */
+.stats-section {
+  background: var(--ink);
+  padding: clamp(40px, 6vw, 64px) clamp(20px, 5vw, 56px) clamp(24px, 4vw, 36px);
+}
 .stats-bar {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   justify-items: center;
   gap: 36px clamp(16px, 4vw, 48px);
-  padding: clamp(40px, 6vw, 64px) clamp(20px, 5vw, 56px);
-  background: var(--ink);
+}
+.stats-footnote {
+  margin: 28px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid rgba(251,246,234,0.12);
+  text-align: center;
+  font-size: 0.76rem;
+  color: rgba(251,246,234,0.4);
+}
+.stat__badge {
+  margin-top: 4px;
+  font-size: 0.68rem;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: rgba(251,246,234,0.12);
+  color: rgba(251,246,234,0.65);
 }
 @media (max-width: 860px) {
   .stats-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
