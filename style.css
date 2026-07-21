@@ -491,7 +491,7 @@ body {
 }
 
 /* Detail modal (thumbnail + description, before opening tool full-screen) */
-.modal__frame--detail { display: flex; flex-direction: column; gap: 16px; }
+.modal__frame--detail { display: flex; flex-direction: column; gap: 16px; max-height: 88vh; overflow-y: auto; }
 /* 缩略图画廊：1张整幅铺开／2张左右对分／4张 2x2 分割 */
 .detail__gallery {
   width: 100%;
@@ -718,6 +718,21 @@ body {
   margin: 0 0 2px;
 }
 .finder__sub { margin: 0 0 18px; color: rgba(31,58,52,0.55); font-size: 0.9rem; }
+
+/* 标题打字机效果的光标；文字本身由 app.js 逐字打出，光标持续闪烁模拟真的输入中 */
+.typewriter-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 0.9em;
+  margin-left: 3px;
+  background: var(--orange);
+  vertical-align: text-bottom;
+  animation: typewriter-blink 0.9s step-start infinite;
+}
+@keyframes typewriter-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .typewriter-cursor { animation: none; opacity: 0; }
+}
 
 /* grid 而不是 flex：两个 select 永远各占一半宽度，不会被选项文字长度撑开撑窄
    （原本用 flex:1，年级选单选项短、科目选单选项长，浏览器会照各自内容撑宽度，

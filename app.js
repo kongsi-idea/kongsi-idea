@@ -708,7 +708,7 @@ function openDetail(tool) {
   if (tool.url) {
     link.href = tool.url;
     link.classList.remove("detail__open--disabled");
-    link.textContent = "开始使用（另开全屏页面）";
+    link.textContent = "开始使用";
     link.onclick = () => {
       bumpUses(tool.slug);
       // 目前用 localStorage 记在这台电脑本地，之后接账号系统才会变成全体老师共用的真实次数
@@ -1476,8 +1476,24 @@ document.getElementById("welcomeToastCta").addEventListener("click", () => {
   document.getElementById("openWish").click();
 });
 
+// ---------- 首页标题打字机效果：一个字一个字打出来，尊重「减少动态效果」系统设置 ----------
+function typewriterInto(el, text, speed) {
+  if (!el) return;
+  const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReduced) { el.textContent = text; return; }
+  el.textContent = "";
+  let i = 0;
+  (function tick() {
+    if (i > text.length) return;
+    el.textContent = text.slice(0, i);
+    i++;
+    setTimeout(tick, speed);
+  })();
+}
+
 // ---------- 初始化 ----------
 bumpVisits();
+typewriterInto(document.getElementById("finderTitleText"), "今天要教什么？", 85);
 renderFacets();
 renderBoard();
 renderStats();
