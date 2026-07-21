@@ -53,7 +53,8 @@
 - 许愿池提交需要登录（即使规格文件语焉不详，这条以用户重申的为准）
 - 不要给没真的核对过 DSKP 的工具编造 `standards`/`DSKP_INDEX` 记录
 - 新建 Vercel Team 底下的专案要检查并关掉默认的 SSO 保护，不然老师打开工具会看到登录墙
-- **`vercel deploy --prod` 不会自动把正式网址 `kongsi-idea.vercel.app` 指向新部署**：这个别名是手动用 `vercel alias set` 加的。每次 `vercel deploy --prod` 之后，如果要让 `kongsi-idea.vercel.app` 看到最新内容，要再跑一次 `vercel alias set <这次部署的url> kongsi-idea.vercel.app`（部署完的输出会给这个url）。**`eduneo-hub.vercel.app` 这个旧别名已经移除**（技术代号统一改成kongsi-idea的一部分），Vercel 项目默认的 git 关联域名现在也应该是 `kongsi-idea-*.vercel.app` 系列，不会再看到 eduneo-hub 字样。
+- **`vercel deploy --prod` 不会自动把正式网址 `kongsi-idea.vercel.app` 指向新部署**：这个别名是手动用 `vercel alias set` 加的。每次 `vercel deploy --prod` 之后，如果要让 `kongsi-idea.vercel.app` 看到最新内容，要再跑一次 `vercel alias set <这次部署的url> kongsi-idea.vercel.app`（部署完的输出会给这个url）。
+- **`eduneo-hub.vercel.app` 这个附带网址删不掉，会自动重新长回来**：手动 `vercel alias rm` 删过，但下一次 `vercel deploy --prod` 又会自动把它重新指向最新部署——这是 Vercel 项目建立时绑定的默认域名字根，即使项目显示名称已经改成 `kongsi-idea`，这个自动网址的字根还是没变，除非把整个 Vercel 项目删掉重建才能真正消灭。**用户已确认这个残留网址保留不管**（没有任何地方链接到它，主用网址 `kongsi-idea.vercel.app` 才是真正对外展示的），不用再花力气去处理，也不用为了这个重建整个项目。
 
 ## 📚 参考资料（按需查询，不要整批读进对话）
 - `docs/dskp/{tahun}/{subjek}.md`——DSKP散文摘要，覆盖数学/科学/马来文/英文全年级+华文5个年级；历史/道德/体育/美术/音乐/RBT等还没做
