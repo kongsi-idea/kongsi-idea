@@ -691,9 +691,11 @@ body {
   opacity: 0.7;
 }
 .modal__close {
-  position: absolute;
+  position: sticky;
   top: 10px;
-  right: 10px;
+  display: block;
+  margin-left: auto;
+  margin-bottom: -32px; /* 不占用文档流高度，同时滚动时仍固定在可视区右上角 */
   border: none;
   background: rgba(31,58,52,0.08);
   border-radius: 50%;
@@ -701,6 +703,7 @@ body {
   height: 32px;
   cursor: pointer;
   font-size: 1rem;
+  z-index: 5;
 }
 
 /* ============ 按学习目标找工具（主入口） ============ */

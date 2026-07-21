@@ -1476,9 +1476,13 @@ document.getElementById("welcomeToastCta").addEventListener("click", () => {
   document.getElementById("openWish").click();
 });
 
-// ---------- 首页标题打字机效果：一个字一个字打出来，尊重「减少动态效果」系统设置 ----------
-function typewriterInto(el, text, speed) {
+// ---------- 首页标题打字机效果：一个字一个字打出来，中间可以停顿分段，尊重「减少动态效果」系统设置 ----------
+function typewriterInto(el, text, opts) {
   if (!el) return;
+  opts = opts || {};
+  const speed = opts.speed || 140;
+  const pauseAfterChar = opts.pauseAfterChar || 0; // 打到第几个字之后要停顿
+  const pauseMs = opts.pauseMs || 0;
   const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (prefersReduced) { el.textContent = text; return; }
   el.textContent = "";
@@ -1486,14 +1490,16 @@ function typewriterInto(el, text, speed) {
   (function tick() {
     if (i > text.length) return;
     el.textContent = text.slice(0, i);
+    const isPausePoint = pauseAfterChar && i === pauseAfterChar;
     i++;
-    setTimeout(tick, speed);
+    setTimeout(tick, isPausePoint ? pauseMs : speed);
   })();
 }
 
 // ---------- 初始化 ----------
 bumpVisits();
-typewriterInto(document.getElementById("finderTitleText"), "今天要教什么？", 85);
+// 「今天」两个字先出来，停顿 2 秒，再继续把后面的字打完，整体也放慢一点
+typewriterInto(document.getElementById("finderTitleText"), "今天要教什么？", { speed: 140, pauseAfterChar: 2, pauseMs: 2000 });
 renderFacets();
 renderBoard();
 renderStats();
