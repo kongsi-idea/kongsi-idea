@@ -5,22 +5,22 @@
 
 ## 已上架工具清单
 
-| slug | 年级 | 科目 | 名称 | 对应 DSKP 单元/学习标准 | 上线网址 |
-|---|---|---|---|---|---|
-| `tahun2-mt-wang` | Tahun 2 | 数学 (mt) | 钱币乐园 | 4.0 钱币 — 4.1/4.2/4.3/4.6 | https://tahun2-mt-wang.vercel.app |
-| `tahun1-mt-bundar` | Tahun 1 | 数学 (mt) | 近似值特快车 | 1.0 数与运算 — 1.8 近似值 | https://tahun1-mt-bundar.vercel.app |
-| `tahun4-mt-nombor` | Tahun 4 | 数学 (mt) | 数学知识大比拼 | 1.0 数与运算 — 1.1 数值 | https://tahun4-mt-nombor.vercel.app |
-| `tahun1-bc-shizi` | Tahun 1 | 华文 (bc) | 识字大对决 | 2.0 阅读技能 — 2.1 阅读与理解教材 | https://tahun1-bc-shizi.vercel.app |
-| `tahun1-bm-kvkv` | Tahun 1 | 马来文 (bm) | KVKV音节打地鼠 | 2.0 阅读技能 — 2.1 基础阅读与理解 | https://tahun1-bm-kvkv.vercel.app |
-| `tahun1-bc-bushou` | Tahun 1 | 华文 (bc) | 部首大对垒 | 5.0 语文基础知识 — 5.1 汉字基本知识 | https://tahun1-bc-bushou.vercel.app |
-| `tahun1-bc-zaoju` | Tahun 1 | 华文 (bc) | 神奇句子小火车 | 3.0 书写技能 — 3.2 书面表达能力 | https://tahun1-bc-zaoju.vercel.app |
-| `tahun2-mt-shuzhi` | Tahun 2 | 数学 (mt) | 苹果果园数学 | 1.0 数与运算 — 1.4 数位 | https://tahun2-mt-shuzhi.vercel.app |
-| `tahun2-mt-shulie-explore` | Tahun 2 | 数学 (mt) | 数序列小探险 | 1.0 数与运算 — 1.7 有规律的数列 | https://tahun2-mt-shulie-explore.vercel.app |
-| `tahun2-mt-shulie-boss` | Tahun 2 | 数学 (mt) | 数字数列大对决 | 1.0 数与运算 — 1.7 有规律的数列 | https://tahun2-mt-shulie-boss.vercel.app |
-| `tahun2-mt-shulie-duel` | Tahun 2 | 数学 (mt) | 双人数字对决 | 1.0 数与运算 — 1.7 有规律的数列 | https://tahun2-mt-shulie-duel.vercel.app |
-| `tahun2-mt-baigetu` | Tahun 2 | 数学 (mt) | 百格图乘法表动画 | 2.0 基本运算 — 2.3 乘法 | https://tahun2-mt-baigetu.vercel.app |
-| `tahun3-bc-kewen` | Tahun 3 | 华文 (bc) | 语文课文大PK | 2.0 阅读技能 — 2.1 阅读与理解教材 | https://tahun3-bc-kewen.vercel.app |
-| `tahun1-dst-magnet` | Tahun 1 | 科学 (dst) | 磁铁大发现 | 7.1 磁铁 — 7.1.1/7.1.2/7.1.3/7.1.4 | https://tahun1-dst-magnet.vercel.app |
+| slug | 年级 | 科目 | 名称 | 对应 DSKP 单元/学习标准 | 上线网址 | 本机源码 |
+|---|---|---|---|---|---|---|
+| `tahun2-mt-wang` | Tahun 2 | 数学 (mt) | 钱币乐园 | 4.0 钱币 — 4.1/4.2/4.3/4.6 | https://tahun2-mt-wang.vercel.app | `../teaching-tools/tahun2-mt-wang/` |
+| `tahun1-mt-bundar` | Tahun 1 | 数学 (mt) | 近似值特快车 | 1.0 数与运算 — 1.8 近似值 | https://tahun1-mt-bundar.vercel.app | `../teaching-tools/tahun1-mt-bundar/` |
+| `tahun4-mt-nombor` | Tahun 4 | 数学 (mt) | 数学知识大比拼 | 1.0 数与运算 — 1.1 数值 | https://tahun4-mt-nombor.vercel.app | `../teaching-tools/tahun4-mt-nombor/` |
+| `tahun1-bc-shizi` | Tahun 1 | 华文 (bc) | 识字大对决 | 2.0 阅读技能 — 2.1 阅读与理解教材 | https://tahun1-bc-shizi.vercel.app | `../teaching-tools/tahun1-bc-shizi/` |
+| `tahun1-bm-kvkv` | Tahun 1 | 马来文 (bm) | KVKV音节打地鼠 | 2.0 阅读技能 — 2.1 基础阅读与理解 | https://tahun1-bm-kvkv.vercel.app | `../teaching-tools/tahun1-bm-kvkv/` |
+| `tahun1-bc-bushou` | Tahun 1 | 华文 (bc) | 部首大对垒 | 5.0 语文基础知识 — 5.1 汉字基本知识 | https://tahun1-bc-bushou.vercel.app | `../teaching-tools/tahun1-bc-bushou/` |
+| `tahun1-bc-zaoju` | Tahun 1 | 华文 (bc) | 神奇句子小火车 | 3.0 书写技能 — 3.2 书面表达能力 | https://tahun1-bc-zaoju.vercel.app | `../teaching-tools/tahun1-bc-zaoju/` |
+| `tahun2-mt-shuzhi` | Tahun 2 | 数学 (mt) | 苹果果园数学 | 1.0 数与运算 — 1.4 数位 | https://tahun2-mt-shuzhi.vercel.app | `../teaching-tools/tahun2-mt-shuzhi/` |
+| `tahun2-mt-shulie-explore` | Tahun 2 | 数学 (mt) | 数序列小探险 | 1.0 数与运算 — 1.7 有规律的数列 | https://tahun2-mt-shulie-explore.vercel.app | `../teaching-tools/tahun2-mt-shulie-explore/` |
+| `tahun2-mt-shulie-boss` | Tahun 2 | 数学 (mt) | 数字数列大对决 | 1.0 数与运算 — 1.7 有规律的数列 | https://tahun2-mt-shulie-boss.vercel.app | `../teaching-tools/tahun2-mt-shulie-boss/` |
+| `tahun2-mt-shulie-duel` | Tahun 2 | 数学 (mt) | 双人数字对决 | 1.0 数与运算 — 1.7 有规律的数列 | https://tahun2-mt-shulie-duel.vercel.app | `../teaching-tools/tahun2-mt-shulie-duel/` |
+| `tahun2-mt-baigetu` | Tahun 2 | 数学 (mt) | 百格图乘法表动画 | 2.0 基本运算 — 2.3 乘法 | https://tahun2-mt-baigetu.vercel.app | `../teaching-tools/tahun2-mt-baigetu/` |
+| `tahun3-bc-kewen` | Tahun 3 | 华文 (bc) | 语文课文大PK | 2.0 阅读技能 — 2.1 阅读与理解教材 | https://tahun3-bc-kewen.vercel.app | `../teaching-tools/tahun3-bc-kewen/` |
+| `tahun1-dst-magnet` | Tahun 1 | 科学 (dst) | 磁铁大发现 | 7.1 磁铁 — 7.1.1/7.1.2/7.1.3/7.1.4 | https://tahun1-dst-magnet.vercel.app | `../teaching-tools/tahun1-dst-magnet/` |
 
 ## 年级 × 科目覆盖矩阵
 

@@ -5,8 +5,10 @@
 
 ## 🚦 目前状态（2026-07-21）
 **已正式上线**：https://kongsi-idea.vercel.app （Vercel Team `kongsi-idea`）
-**代码仓库**：https://github.com/kongsi-idea/eduneo-hub （public，git 已初始化，历史完整）
+**代码仓库**：https://github.com/kongsi-idea/kongsi-idea （public，git 已初始化，历史完整；原名 `eduneo-hub`，已改名统一用 `kongsi-idea`）
 **14 个真实工具**已全部上架，示例/mock 作品已经清空，`app.js` 的 `TOOLS` 里现在都是真货。
+
+**本机源码位置**：Hub 与工具已整理为同级资料夹；平台在 `kongsi-idea/`（原名 `eduneo-hub/`，已改名），14 个独立工具在 `../teaching-tools/{slug}/`。工具总规范／清单见 `../teaching-tools/agents.md` 与 `README.md`；钱币乐园原本的「二年级数学／互动学习软件」已规范为 `../teaching-tools/tahun2-mt-wang/app/`。
 
 品牌名：**课堂点子铺**（Kedai Idea）。核心文案：「老师有点子，课堂有办法。」
 
@@ -35,7 +37,8 @@
 6. **工具详情页**：缩略图画廊（1/2/4张自适应版位）+点击放大灯箱、创作人具名署名、对应课程标准（只有真的核对过DSKP的才显示）、`version`+`changelog`版本记录（倒序显示）、喜欢数（任何人可点，不用登录）、使用次数
 7. **控件视觉规格已统一**：所有输入框/下拉选单共用同一套 `--field-*` token，select 用 `appearance:none`+自画箭头去除浏览器系统外观差异，跟搜索框像素级对齐（Playwright 实测过）；统计条改用 grid 固定断点，不会再有数字排版对不齐的情况
 8. **首页标题打字机效果**：「今天要教什么？」用 `typewriterInto()` 逐字打出，「今天」两字先出现、停顿2秒、再继续打完剩下的字；`aria-label` 让屏幕阅读器直接读到完整文字（动画只是视觉效果），尊重 `prefers-reduced-motion` 直接显示完整文字不跑动画
-9. **「浏览全部工具」筛选记住上次选择**：年级/科目 facet 存进 `localStorage`（键 `eduneo-hub-board-filter`），刷新页面不会跳回「全部」——之前只有上面的「按学习目标找工具」finder 有 URL 同步持久化，这个辅助路径本来完全没有持久化，这次补上
+9. **「浏览全部工具」筛选记住上次选择**：年级/科目 facet 存进 `localStorage`（键 `kongsi-idea-board-filter`），刷新页面不会跳回「全部」——之前只有上面的「按学习目标找工具」finder 有 URL 同步持久化，这个辅助路径本来完全没有持久化，这次补上
+10. **技术代号统一改成 `kongsi-idea`**：GitHub 仓库（原 `eduneo-hub`）、本机资料夹（原 `eduneo-hub/`）、所有 localStorage 键名前缀（原 `eduneo-hub-*`）都改成 `kongsi-idea`，跟 Vercel 项目名/网址完全对齐，不再有旧技术代号残留。**副作用**：改 localStorage 键名会让现有访客本机累计的喜欢数/使用次数/是否看过欢迎卡等数据归零重来——这轮几乎没有真实访客，用户已确认这个代价可以接受。
 
 ## 🌱 新增能力：不靠老师投稿，直接照 DSKP 自主开发
 用户确认这条路径可行——不必等老师给点子，也可以自己翻 `docs/dskp/` 挑一个还空白的年级/科目，设计构思后开发上架（`tahun1-dst-magnet` 磁铁大发现是第一个案例）。**前提**：核心玩法设计仍要经用户本人的教学判断把关，不是纯粹照 DSKP 条文清单照做——先讲清楚要做成什么效果、confirm 方向，再动手，避免做出"技术上对得上标准但课堂不缺"的东西。`docs/published-tools-coverage.md` 的覆盖矩阵就是找空白年级/科目的起点。
@@ -50,7 +53,7 @@
 - 许愿池提交需要登录（即使规格文件语焉不详，这条以用户重申的为准）
 - 不要给没真的核对过 DSKP 的工具编造 `standards`/`DSKP_INDEX` 记录
 - 新建 Vercel Team 底下的专案要检查并关掉默认的 SSO 保护，不然老师打开工具会看到登录墙
-- **`vercel deploy --prod` 不会自动把正式网址 `kongsi-idea.vercel.app` 指向新部署**：这个别名是当初用 `vercel alias set` 手动加的，只有 Vercel 项目预设的 `eduneo-hub.vercel.app` 会跟着每次 production 部署自动更新。每次 `vercel deploy --prod` 之后，如果要让 `kongsi-idea.vercel.app` 也看到最新内容，要再跑一次 `vercel alias set <这次部署的url> kongsi-idea.vercel.app`（部署完的输出会给这个url）。这次是先注意到 `kongsi-idea.vercel.app` 还在跑旧内容（`curl` 出来 `age` header 显示是几小时前的缓存），才发现要补这一步。
+- **`vercel deploy --prod` 不会自动把正式网址 `kongsi-idea.vercel.app` 指向新部署**：这个别名是手动用 `vercel alias set` 加的。每次 `vercel deploy --prod` 之后，如果要让 `kongsi-idea.vercel.app` 看到最新内容，要再跑一次 `vercel alias set <这次部署的url> kongsi-idea.vercel.app`（部署完的输出会给这个url）。**`eduneo-hub.vercel.app` 这个旧别名已经移除**（技术代号统一改成kongsi-idea的一部分），Vercel 项目默认的 git 关联域名现在也应该是 `kongsi-idea-*.vercel.app` 系列，不会再看到 eduneo-hub 字样。
 
 ## 📚 参考资料（按需查询，不要整批读进对话）
 - `docs/dskp/{tahun}/{subjek}.md`——DSKP散文摘要，覆盖数学/科学/马来文/英文全年级+华文5个年级；历史/道德/体育/美术/音乐/RBT等还没做
@@ -68,4 +71,4 @@
 
 ## 🕐 最后更新
 - 时间：2026-07-21
-- Git：已初始化，远端 `github.com/kongsi-idea/eduneo-hub`（public），这轮改动（磁铁工具上架+弹窗背景点击关闭+版本管理等）已 commit 并 push
+- Git：已初始化，远端 `github.com/kongsi-idea/kongsi-idea`（public，原名 `eduneo-hub` 已改名），这轮改动已 commit 并 push

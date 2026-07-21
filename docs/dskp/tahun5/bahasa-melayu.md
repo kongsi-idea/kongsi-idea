@@ -4,7 +4,7 @@
 > 出版年份：文件内页标注 **Terbitan 2019**（封面同时印有 Tahun 4 / Tahun 5 字样，属同一册合订本，但内文页首明确标示「KSSR BAHASA MELAYU SJK TAHUN 5」）。
 > 查证日期：2026-07-21
 > 版本确认：文件封面写明「Bahasa Melayu Sekolah Jenis Kebangsaan」，已确认为 **SJK 专属版本**（非国小 SK 版）。
-> 本档为精简摘要，供 EduNeo Hub 教师投稿新教学工具想法时快速对照内容标准/学习标准，**不是逐字照抄原文**，具体条文措辞请回头查证原始 PDF。
+> 本档为精简摘要，供 课堂点子铺 教师投稿新教学工具想法时快速对照内容标准/学习标准，**不是逐字照抄原文**，具体条文措辞请回头查证原始 PDF。
 
 ## 文件结构导览
 - 第 v–22 页：总论（Rukun Negara、Falsafah Pendidikan Kebangsaan、前言、宗旨 Matlamat、目标 Objektif、KSSR 课程架构、Fokus、21世纪技能、KBAT、教学策略、跨课程元素 EMK、校内评估 Pentaksiran Bilik Darjah）

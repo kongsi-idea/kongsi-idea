@@ -489,7 +489,7 @@ function resolveToolStandards(tool) {
   }).filter(Boolean);
 }
 
-const USES_KEY_PREFIX = "eduneo-hub-uses-";
+const USES_KEY_PREFIX = "kongsi-idea-uses-";
 function getUses(slug) {
   return Number(localStorage.getItem(USES_KEY_PREFIX + slug) || 0);
 }
@@ -499,8 +499,8 @@ function bumpUses(slug) {
 
 // 「喜欢」是任何人都能点的工具热度指标，不用登录（跟老师个人靠反馈/许愿累积的声望星星是两回事，
 // 后者要等账号系统上线才有意义，这里先不做）。一台浏览器只算一票，用 localStorage 记有没有点过。
-const LIKED_KEY_PREFIX = "eduneo-hub-liked-";
-const LIKE_DELTA_KEY_PREFIX = "eduneo-hub-like-delta-";
+const LIKED_KEY_PREFIX = "kongsi-idea-liked-";
+const LIKE_DELTA_KEY_PREFIX = "kongsi-idea-like-delta-";
 function hasLiked(slug) {
   return localStorage.getItem(LIKED_KEY_PREFIX + slug) === "1";
 }
@@ -525,7 +525,7 @@ let gradeFilter = "all";
 let subjekFilter = "all";
 
 // 「浏览全部工具」的年级/科目筛选记在本机，刷新页面不会跳回「全部」
-const BOARD_FILTER_KEY = "eduneo-hub-board-filter";
+const BOARD_FILTER_KEY = "kongsi-idea-board-filter";
 function saveBoardFilter() {
   localStorage.setItem(BOARD_FILTER_KEY, JSON.stringify({ grade: gradeFilter, subjek: subjekFilter }));
 }
@@ -1407,7 +1407,7 @@ if (typeof SJKC_SCHOOLS !== "undefined" && stateSelect) {
 // 「有多少学校真的在用这个平台」——那是完全不同的两件事，不能把名录大小当成使用数据展示，
 // 所以这里刻意不算这个数字，等以后账号系统上线、老师真的提交/注册了，才用那个真实数字。
 
-const VISITS_KEY = "eduneo-hub-visits";
+const VISITS_KEY = "kongsi-idea-visits";
 function bumpVisits() {
   const n = Number(localStorage.getItem(VISITS_KEY) || 0) + 1;
   localStorage.setItem(VISITS_KEY, String(n));
@@ -1470,7 +1470,7 @@ function animateCount(el) {
 }
 
 // ---------- 新访客欢迎侧边卡：只在这台浏览器第一次造访时出现，不是每次刷新都跳 ----------
-const WELCOMED_KEY = "eduneo-hub-welcomed";
+const WELCOMED_KEY = "kongsi-idea-welcomed";
 function closeWelcomeToast() {
   const el = document.getElementById("welcomeToast");
   if (!el) return;

@@ -3,7 +3,7 @@
 > 来源：《课程与评估标准 DSKP_Y2MT_SJKC.pdf》（马来西亚教育部课程发展司 BPK 官方出版，2016年出版，SJK(C) 二年级数学）。
 > 官方 PDF 网址：https://bpk.moe.gov.my/kurikulum/kssr/kssr-tahun-2/90-43-dskp-kssr-semakan-2017-matematik-tahun-2-sjkc/file
 > 查证日期：2026-07-21
-> 本档整理自 /Users/yquanloo/Documents/my-agent/二年级数学/DSKP-摘要.md（同一份官方文件的既有摘要），移至本专案统一保存。为全文摘要，供备课/教案/习题制作或投稿工具构想时快速对照标准，**不需要每次重新打开原始 PDF（78页）**。如需查证原文措辞、页码或图表，再回头翻 PDF。
+> 本档整理自 /Users/yquanloo/Documents/my-agent/teaching-tools/tahun2-mt-wang/DSKP-摘要.md（同一份官方文件的既有摘要），移至本专案统一保存。为全文摘要，供备课/教案/习题制作或投稿工具构想时快速对照标准，**不需要每次重新打开原始 PDF（78页）**。如需查证原文措辞、页码或图表，再回头翻 PDF。
 
 ## 文件结构导览
 - 第 1–29 页：总论（导言、宗旨目标、课程架构、课程焦点、数学思考力、教学策略、STEM教学法、跨课程元素、校内评估、课程内容结构）

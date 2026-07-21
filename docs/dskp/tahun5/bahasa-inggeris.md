@@ -4,7 +4,7 @@
 > 文件标题：*Bahasa Inggeris — Sekolah Jenis Kebangsaan — Tahun 5*，文件内页标注 **Terbitan 2020**（Bahagian Pembangunan Kurikulum，2020年11月）
 > 查证日期：2026-07-21
 > **SJK 版本确认**：文件封面与每页页首均清楚印有 "KSSR BAHASA INGGERIS SJK TAHUN 5" 字样，确认为 SJK（国民型华小/淡小）专属版本，非 SK 版本。
-> 本档为全文摘要，供 EduNeo 教师投稿新教学工具想法时快速查阅对照，**不是逐字照抄**，如需查证原文措辞/页码，请回头翻 PDF（全文共77页）。
+> 本档为全文摘要，供 课堂点子铺 教师投稿新教学工具想法时快速查阅对照，**不是逐字照抄**，如需查证原文措辞/页码，请回头翻 PDF（全文共77页）。
 
 ## 文件结构导览
 - 第 v–xi 页：Rukun Negara／国家教育哲学／国家课程定义／序言（例行开篇，无教学内容参考价值）
