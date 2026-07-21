@@ -41,6 +41,7 @@
 - 许愿池提交需要登录（即使规格文件语焉不详，这条以用户重申的为准）
 - 不要给没真的核对过 DSKP 的工具编造 `standards`/`DSKP_INDEX` 记录
 - 新建 Vercel Team 底下的专案要检查并关掉默认的 SSO 保护，不然老师打开工具会看到登录墙
+- **`vercel deploy --prod` 不会自动把正式网址 `kongsi-idea.vercel.app` 指向新部署**：这个别名是当初用 `vercel alias set` 手动加的，只有 Vercel 项目预设的 `eduneo-hub.vercel.app` 会跟着每次 production 部署自动更新。每次 `vercel deploy --prod` 之后，如果要让 `kongsi-idea.vercel.app` 也看到最新内容，要再跑一次 `vercel alias set <这次部署的url> kongsi-idea.vercel.app`（部署完的输出会给这个url）。这次是先注意到 `kongsi-idea.vercel.app` 还在跑旧内容（`curl` 出来 `age` header 显示是几小时前的缓存），才发现要补这一步。
 
 ## 📚 参考资料（按需查询，不要整批读进对话）
 - `docs/dskp/{tahun}/{subjek}.md`——DSKP散文摘要，覆盖数学/科学/马来文/英文全年级+华文5个年级；历史/道德/体育/美术/音乐/RBT等还没做
