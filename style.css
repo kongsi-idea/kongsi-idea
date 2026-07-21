@@ -11,9 +11,48 @@
   --font-display: "Arial Rounded MT Bold", "Segoe UI Rounded", "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-body: "PingFang SC", "Microsoft YaHei", "Segoe UI", Helvetica, Arial, sans-serif;
   --font-mono: "SF Mono", "Consolas", "Courier New", monospace;
+
+  /* 统一控件规格：所有「可填写/可选择」的输入框、下拉选单共用同一套尺寸，
+     跟「可点击的标签/按钮」（药丸形 .chip/.tag/.wish-chip）用形状区分开——
+     圆角矩形＝可填字段，药丸形＝可点动作，一致的形状语言比统一颜色更重要 */
+  --field-radius: 12px;
+  --field-border: 2px solid rgba(31,58,52,0.15);
+  --field-pad-y: 12px;
+  --field-pad-x: 16px;
+  --field-font: 0.92rem;
 }
 
 * { box-sizing: border-box; }
+
+/* ---------- 统一控件规格：搜索框/下拉选单/文字输入/文字区一律套用同一套尺寸 ---------- */
+.search input,
+.finder__row select,
+.finder__search input,
+.wish__field textarea,
+.wish__field select,
+.wish__field input[type="text"],
+.school-picker__row select,
+.school-picker__manual {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: var(--field-font);
+  padding: var(--field-pad-y) var(--field-pad-x);
+  border-radius: var(--field-radius);
+  border: var(--field-border);
+  background: #fff;
+  color: var(--ink);
+}
+.search input:focus,
+.finder__row select:focus,
+.finder__search input:focus,
+.wish__field textarea:focus,
+.wish__field select:focus,
+.wish__field input[type="text"]:focus,
+.school-picker__row select:focus,
+.school-picker__manual:focus {
+  outline: none;
+  border-color: var(--blue);
+}
 
 body {
   margin: 0;
@@ -80,20 +119,6 @@ body {
   padding: 18px clamp(16px, 5vw, 52px) 0;
 }
 .search { flex: 1; min-width: 220px; }
-.search input {
-  width: 100%;
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  padding: 11px 16px;
-  border-radius: 999px;
-  border: 2px solid rgba(31,58,52,0.15);
-  background: #fff;
-  color: var(--ink);
-}
-.search input:focus {
-  outline: none;
-  border-color: var(--blue);
-}
 /* ---------- Facets: 年级 / 科目 双条件筛选，可同时选 ---------- */
 .facets {
   padding: 18px clamp(16px, 5vw, 52px) 4px;
@@ -537,25 +562,10 @@ body {
 }
 .school-picker__row select {
   flex: 1;
-  min-width: 120px;
-  font-family: var(--font-body);
-  font-size: 0.88rem;
-  padding: 9px 10px;
-  border-radius: 8px;
-  border: 2px solid rgba(31,58,52,0.15);
-  background: #fff;
-  color: var(--ink);
+  min-width: 0; /* 学校名字可能很长，靠裁切而不是撑开容器/挤压旁边的州属县选单 */
 }
 .school-picker__row select:disabled { opacity: 0.5; cursor: not-allowed; }
-.school-picker__manual {
-  width: 100%;
-  margin-top: 8px;
-  font-family: var(--font-body);
-  font-size: 0.88rem;
-  padding: 9px 12px;
-  border-radius: 8px;
-  border: 2px solid var(--blue);
-}
+.school-picker__manual { margin-top: 8px; border-color: var(--blue); }
 .wish-submit {
   align-self: flex-end;
   background: var(--gold);
@@ -595,38 +605,20 @@ body {
 }
 .finder__sub { margin: 0 0 18px; color: rgba(31,58,52,0.55); font-size: 0.9rem; }
 
+/* grid 而不是 flex：两个 select 永远各占一半宽度，不会被选项文字长度撑开撑窄
+   （原本用 flex:1，年级选单选项短、科目选单选项长，浏览器会照各自内容撑宽度，
+   两者对不齐、长选项那个还会把整排撑出画面外——grid 直接锁死各半宽，多余文字自动裁切） */
 .finder__row {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-bottom: 14px;
 }
-.finder__row select {
-  flex: 1;
-  min-width: 160px;
-  font-family: var(--font-body);
-  font-size: 0.92rem;
-  padding: 11px 14px;
-  border-radius: 999px;
-  border: 2px solid rgba(31,58,52,0.15);
-  background: #fff;
-  color: var(--ink);
-}
+.finder__row select { min-width: 0; } /* 允许 grid 子项缩到比内容窄，靠裁切而不是撑开容器 */
 .finder__row select:disabled { opacity: 0.5; }
 
 .finder__search { position: relative; margin-bottom: 14px; }
 .finder__search-label { display: block; font-size: 0.8rem; color: rgba(31,58,52,0.55); margin-bottom: 6px; }
-.finder__search input {
-  width: 100%;
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  padding: 12px 16px;
-  border-radius: 12px;
-  border: 2px solid rgba(31,58,52,0.15);
-  background: #fff;
-  color: var(--ink);
-}
-.finder__search input:focus { outline: none; border-color: var(--blue); }
 .finder__suggestions {
   position: absolute;
   top: calc(100% + 4px);
@@ -770,18 +762,6 @@ body {
   margin-bottom: 6px;
 }
 .wish__field-hint { font-size: 0.78rem; color: rgba(31,58,52,0.5); margin: 0 0 6px; }
-.wish__field textarea,
-.wish__field select,
-.wish__field input[type="text"] {
-  width: 100%;
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 2px solid rgba(31,58,52,0.15);
-  background: #fff;
-  color: var(--ink);
-}
 .req { color: var(--red); }
 .wish__error { color: var(--red); font-size: 0.8rem; margin: 6px 0 0; }
 
@@ -829,4 +809,5 @@ body {
   .site-head { flex-wrap: wrap; }
   .wish-btn { margin-left: 0; }
   .finder-card__meta { grid-template-columns: 1fr; }
+  .finder__row { grid-template-columns: 1fr; }
 }

@@ -6,11 +6,15 @@
 // 其余科目/年级都还没有结构化索引——按 docs/dskp-learning-objective-search.md 阶段A的原则
 // 「先从真的做出来、真的核对过的工具开始」，不为了凑数据而编造其他单元。
 //
-// ⚠️ title_bm 是根据 docs/dskp/{tahun}/matematik.md（中文摘要）回译的工作翻译，
-// 不是逐字核对官方 PDF 原文的马来文——如果之后要在正式发布前用来对外展示马来文标题，
-// 需要回头核对 https://bpk.moe.gov.my 的官方 DSKP 原文用词。
-// 例外：Tahun 1 单元 1.8 的 title_bm/terms 已用 WebSearch 查证官方原文用词
-// 「Membundarkan nombor」「puluh terdekat」，不是回译猜测（查证日期 2026-07-21）。
+// ✅ title_bm 已核对官方 DSKP 原文用词（查证日期 2026-07-21，详细比对过程见
+// docs/dskp-bm-glossary-mt-sains.md）。核对时发现一个重要前提：Matematik/Sains 的
+// SJK(C) 版官方 PDF 全文本身是中文（无马来文单元/目标标题），所以本档 title_bm 的
+// 马来文措辞实际来源是「SK（国小）版」DSKP PDF——SK 版与 SJK(C) 版共用同一套单元代码
+// 结构（如 4.0/4.1/4.2），可以放心按代码对应抄录马来文原文用词。
+// Tahun 2 单元 4.0（Wang/Wang kertas dan duit syiling/Tambah wang/Tolak wang/
+// Simpanan dan pelaburan）核对结果：与原本的工作翻译逐字吻合，未做任何改字。
+// Tahun 1 单元 1.8 的 title_bm/terms 之前已用 WebSearch 查证「Membundarkan nombor」
+// 「puluh terdekat」，本次用完整 SK 版 PDF 再次确认一致。
 const DSKP_INDEX = [
   {
     curriculum: "KSSR Semakan 2017",
@@ -71,6 +75,32 @@ const DSKP_INDEX = [
             title_zh: "近似值：找出整数的十位近似值",
             title_bm: "Membundarkan nombor bulat kepada puluh terdekat",
             terms: ["近似值", "十位近似值", "取整", "membundarkan nombor", "pembundaran", "puluh terdekat", "bundar"],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    curriculum: "KSSR Semakan 2017",
+    tahun: 4,
+    subjek: "mt",
+    sourceUrl: "https://bpk.moe.gov.my/kurikulum/kssr/kssr-tahun-3-1/154-dskp-kssr-semakan-2017-matematik-tahun-4-sjkc/file",
+    sourceLabel: "DSKP Matematik Tahun 4 SJK(C)",
+    verifiedAt: "2026-07-21",
+    units: [
+      {
+        code: "1.0",
+        title_zh: "数与运算——整数与运算",
+        title_bm: "Nombor Bulat dan Operasi Asas",
+        objectives: [
+          {
+            // 官方原文 1.1.1 讲述数目 + 1.1.2 确定数值（数位/数值/比较/排序/数列）
+            // 两条学习标准合并成一笔，因为「数学知识大比拼」的读数/数位/数值/比大小/数列
+            // 五种题型正好对应这两条学习标准，没有拆分成更细的必要（用 WebSearch 查证官方原文用词）
+            code: "1.1",
+            title_zh: "数值：讲述100000以内数目、确定数位与数值、比较排序、完成数列",
+            title_bm: "Nilai Nombor",
+            terms: ["数值", "数位", "读数", "比大小", "数列", "nilai nombor", "menyatakan nombor", "menentukan nilai nombor"],
           },
         ],
       },

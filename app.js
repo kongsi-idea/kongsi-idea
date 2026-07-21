@@ -87,6 +87,34 @@ const TOOLS = [
     prep: "打开即用，不需要打印，不需要学生设备，开局前可现场调整组数与队名",
   },
 
+  {
+    slug: "tahun4-mt-nombor",
+    tahun: 4,
+    subjek: "mt",
+    status: "published",
+    title_zh: "数学知识大比拼",
+    title_bm: "Pertandingan Ilmu Matematik",
+    desc: "输入学生总人数后现场抽签，两位学生分屏对战：读数、数位、数值、比大小、数列五种题型随机出现，先答对指定题数获胜，赢家可留下继续守擂。",
+    keywords: ["数值", "数位", "读数", "比大小", "数列", "四年级", "数学", "nombor", "nilai nombor", "PK", "对战"],
+    url: "https://tahun4-mt-nombor.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    // 这 4 张是用 Playwright 实际操作 https://tahun4-mt-nombor.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun4-mt-nombor/1-setup.png", label: "开局设定：学生人数与获胜题数" },
+      { img: "assets/thumbs/tahun4-mt-nombor/2-ready.png", label: "抽签对战准备" },
+      { img: "assets/thumbs/tahun4-mt-nombor/3-playing.png", label: "分屏答题" },
+      { img: "assets/thumbs/tahun4-mt-nombor/4-winner.png", label: "获胜结算" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.1"] },
+    ],
+    practiceSummary: "100000以内数目的读法、数位与数值分析、比较大小、完成顺逆序数列",
+    teachingMode: ["投影互动", "双人对战"],
+    prep: "打开即用，不需要打印，不需要学生设备，开局前输入班上人数即可现场抽签",
+  },
+
   // 以下 10 个是「示例作品」，纯粹用来把版面填满做展示，不是真的做出来的工具——
   // 没有 status/url（点「开始使用」会显示「示例作品」提示，不会真的打开任何网址），也没有附课程标准
   // （避免假装查证过 DSKP）。缩略图是从 Wikimedia Commons 找的授权明确真实照片，左下角有
@@ -499,7 +527,7 @@ function fillFinderSubjekOptions() {
   finderSubjekEl.innerHTML = '<option value="">选科目 Subjek</option>' +
     SUBJECTS.map((s) => {
       const indexed = findDskpRecord(finderState.tahun, s.code);
-      return `<option value="${s.code}">${s.title_zh}${indexed ? "" : "（索引整理中）"}</option>`;
+      return `<option value="${s.code}">${s.title_zh}${indexed ? "" : "（整理中）"}</option>`;
     }).join("");
 }
 

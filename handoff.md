@@ -10,6 +10,7 @@
 5. **本机 Playwright 走原生 python (`webapp-testing` skill) 没有卡住**——用 `scripts/with_server.py` 或手动起 `vite preview`/`http.server` + 原生 `playwright.sync_api` 脚本，跟之前记忆里提到的「Playwright MCP 容易卡住」是不同路径，这次全程顺畅，以后同类任务可以优先试这条路。
 6. **待办**：目前没有 Tahun1+数学 的示例作品可以对应删掉（10个mock没有完全匹配的），所以这次是新增而非替换；示例作品清理这件事还是要看之后哪个真工具跟哪个mock年级科目重叠再动手，不要为了凑数硬删不相关的mock。
 7. **钱币乐园正式搬进 `kongsi-idea`**：原本仓库是个人账号下的 `yquan77/grade2-math`（Vercel 项目名 `grade2-math-tools`），跟新定的 slug 命名对不上。用 `gh api repos/.../transfer` 转移到 `kongsi-idea` 组织，再 `gh api ... -X PATCH -f name=` 改名成 `tahun2-mt-wang`，Vercel 项目也用 `vercel project rename` 改成同名，并用 `vercel alias set` 加了 `tahun2-mt-wang.vercel.app` 这个新网址——**旧网址 `grade2-math-tools.vercel.app` 仍保留能用**，没有断线。`app.js` 里的 `url` 字段已更新成新网址；仓库本身是 private，这次没有改动可见性。本地 `二年级数学/` 资料夹的 git remote 也同步指向新仓库位置了。这个项目是纯手动 `vercel deploy` 部署（没有接 GitHub 自动部署 webhook），所以搬仓库这件事不影响之后怎么发布新版本，流程不变。
+8. **第二件真实工具上架**：`tahun4-mt-nombor`「数学知识大比拼」——四年级数学 100000 以内数值双人对战抽签游戏，来源是用户 `yquan77/teaching-tools` 这个仓库里囤的 v1 小工具（原本用 CDN React + 浏览器内 Babel 即时转译，这次收进 Vite 打包成正式专案，不再依赖 unpkg）。对应 DSKP Tahun4 数学 1.0 单元「Nombor Bulat dan Operasi Asas」的 1.1「Nilai Nombor」，5种题型（读数/数位/数值/比大小/数列）全部对应到这一条标准的两条学习标准（1.1.1/1.1.2），官方马来文用词用 WebSearch 查证过。顺手修了3个bug：①学生人数没有下限校验，填0或1会让抽签的去重循环死掉卡住整个分页；②数值题型在个位数字时错误选项会算出小数（如0.7），改成合理整数距离；③数列题型的错误选项在间隔=10时会跟题目里已经显示的项撞号，改成按间隔比例算距离。**用户手上还有一整个 `yquan77/teaching-tools` 仓库囤着很多 v1 小工具**（华文部首PK、数位值教学、有规律的数列等），之后可以逐个用同样流程搬进来。
 
 ## ⏯️ 目前做到哪
 专案处于「阶段一」原型阶段，尚未接后端/账号系统。这轮（2026-07-21）做了两件大事：①把 Codex 提出的品牌改名+两份新规格审查过一遍，揪出两处跟既有决定冲突的地方，回头找用户确认；②确认后把「按学习目标找工具」主入口、修正搜索bug、点子许愿池三步表单，都实施完了。
@@ -66,6 +67,13 @@
 - 华小名录数据不要求绝对精确——UI层一定要留「手动输入校名」保底选项
 - 如果要改学校名录数据，改 `data/sjkc-schools.json`，然后重新产生 `data/sjkc-schools.js`，不要手动改 `.js` 那份
 - 改完 `app.js` 记得用 `node --check app.js` 快速验证语法；有条件的话开个本地 `http.server` 用 Playwright 实测一遍筛选/搜索/许愿池流程，这次就是这样抓到并验证修好了搜索bug
+
+## 📌 追加：DSKP 马来文官方标题核对（数学/科学，2026-07-21）
+- 新增 `docs/dskp-bm-glossary-mt-sains.md`：用 `pdf` skill 打开 BPK 官网 DSKP 原文，核对数学（Matematik）与科学（Sains）各年级单元/学习目标的马来文官方标题
+- **重大发现**：Matematik／Sains 的 **SJK(C) 版官方 PDF 正文本身全是中文**，没有马来文单元/目标标题可抄（只有封面/Rukun Negara等固定官方前言是马来文）——跟原本设想「SJK(C) 原文本来就是马来文，照抄即可」相反。因此本表全部改用 **SK（国小）版** DSKP 做马来文标题来源，已在文件里明确标注这个替代关系，不是偷懒省事
+- 覆盖情况：数学 Tahun 1、Tahun 2 完整核对到「学习目标」层级（8个单元全部）；数学 Tahun 3–6 只核对到「单元」层级；科学 Tahun 4–6 只核对到「单元」层级（外加 Tahun4 2.1 一条做示范）。逐条学习目标层级的 Tahun 3–6 数学、Tahun 4–6 科学**尚未核对**，如实列在该文件最后的待确认清单，不能直接拿来编 `dskp-index.js`
+- `data/dskp-index.js` 里唯一一笔结构化记录（Tahun2数学·4.0钱币）核对结果：原本的 `title_bm`（Wang / Wang kertas dan duit syiling / Tambah wang / Tolak wang / Simpanan dan pelaburan）**全部逐字正确**，没有改字，只是把文件开头「工作翻译未核对」的警语改写成「已核对，来源SK版PDF，日期2026-07-21」
+- 下一步如果要扩大 `DSKP_INDEX` 覆盖 Tahun3-6数学/Tahun4-6科学，要先把 `docs/dskp-bm-glossary-mt-sains.md` 待确认清单里的逐条学习目标标题核对完，不能拿单元层级的标题直接冒充学习目标标题
 
 ## 🕐 最后更新
 - 时间：2026-07-21
