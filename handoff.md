@@ -2,6 +2,14 @@
 
 > 任何 Agent、任何电脑接手前**必读**；收工时**必更新**。
 
+## 🆕 2026-07-21 更新（Claude）
+1. **工具上架管道正式跑通，第一件真实作品上架**：`tahun1-mt-bundar`「近似值特快车」——一年级数学十位近似值骰子棋盘游戏。流程：用户贴 React 组件代码 → 分析+抓bug+确认设计方向 → 补齐 Vite+React+Tailwind 骨架 → 本地 Playwright 测试 → git init + `gh repo create` 推到 **`kongsi-idea`**（新开的 GitHub Organization，专门放这些工具仓库）→ `vercel deploy --prod` → Playwright 截 4 张真实画面存 `assets/thumbs/tahun1-mt-bundar/` → 写进 `app.js` TOOLS + `data/dskp-index.js`（新增 Tahun1 数学 1.0/1.8 单元，Malay 官方用词「Membundarkan nombor」「puluh terdekat」用 WebSearch 查证过，不是回译猜的）。
+2. **`eduneo-hub` 本身也 `git init` 了**（之前一直没做），第一个 commit 已包含到这次上架为止的所有内容。
+3. **通用工具打磨原则已确立**（详见 `my-agent` 侧 memory `eduneo-hub-tool-flexibility-principle`）：凡是原作者写死给自己班用的设定（人数/名单/难度等），打磨时都要主动改成开局前可调整，不用每次跟用户确认要不要做这件事。这次做法：把写死的 7 组队伍改成 2-8 组可调、队名可编辑的开局设定画面。
+4. **GitHub Organization `kongsi-idea` 已建好**，yquan77 是 owner，Free 版够用（仓库数/协作者数都不限）。之后每个新工具都建在这个 org 底下，仓库名 = slug，Vercel 项目名也用同一个 slug（产地址 `{slug}.vercel.app`），方便对应。
+5. **本机 Playwright 走原生 python (`webapp-testing` skill) 没有卡住**——用 `scripts/with_server.py` 或手动起 `vite preview`/`http.server` + 原生 `playwright.sync_api` 脚本，跟之前记忆里提到的「Playwright MCP 容易卡住」是不同路径，这次全程顺畅，以后同类任务可以优先试这条路。
+6. **待办**：目前没有 Tahun1+数学 的示例作品可以对应删掉（10个mock没有完全匹配的），所以这次是新增而非替换；示例作品清理这件事还是要看之后哪个真工具跟哪个mock年级科目重叠再动手，不要为了凑数硬删不相关的mock。
+
 ## ⏯️ 目前做到哪
 专案处于「阶段一」原型阶段，尚未接后端/账号系统。这轮（2026-07-21）做了两件大事：①把 Codex 提出的品牌改名+两份新规格审查过一遍，揪出两处跟既有决定冲突的地方，回头找用户确认；②确认后把「按学习目标找工具」主入口、修正搜索bug、点子许愿池三步表单，都实施完了。
 
