@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>课堂点子铺 · 老师有点子，课堂有办法</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-head">
+    <div class="site-head__mark" aria-hidden="true"></div>
+    <div class="site-head__text">
+      <h1>课堂点子铺</h1>
+      <p class="tagline">老师有点子，课堂有办法 · Cikgu ada idea, kelas ada jalan</p>
+    </div>
+    <button class="wish-btn" id="openWish">点子许愿池 <span class="wish-btn__sub">Kedai Idea</span></button>
+  </header>
+
+  <!-- ============ 主入口：按学习目标找工具（阶段A） ============ -->
+  <section class="finder">
+    <div class="finder__intro">
+      <h2>今天要教什么？</h2>
+      <p class="finder__sub">按学习目标找工具，不用先知道工具叫什么名字</p>
+    </div>
+
+    <div class="finder__row">
+      <select id="finderTahun" aria-label="选年级">
+        <option value="">选年级 Tahun</option>
+      </select>
+      <select id="finderSubjek" aria-label="选科目" disabled>
+        <option value="">先选年级</option>
+      </select>
+    </div>
+
+    <div class="finder__search">
+      <label for="finderQuery" class="finder__search-label">搜索学习目标、代码或关键词</label>
+      <input type="text" id="finderQuery" autocomplete="off"
+        placeholder="例如：4.2、钱币加法、tambah wang、找零钱">
+      <div class="finder__suggestions" id="finderSuggestions" hidden role="listbox"></div>
+    </div>
+
+    <div class="finder__shortcuts">
+      <span class="finder__shortcuts-label">常用入口：</span>
+      <div class="finder__shortcuts-chips" id="finderShortcuts"></div>
+    </div>
+
+    <p class="finder__status" id="finderStatus" hidden></p>
+    <p class="finder__path" id="finderPath" hidden></p>
+    <div class="finder__units" id="finderUnits" hidden></div>
+    <div class="finder__results" id="finderResults"></div>
+  </section>
+
+  <!-- ============ 辅助路径：浏览全部工具 ============ -->
+  <section class="browse">
+    <h2 class="browse__title">浏览全部工具</h2>
+
+    <div class="controls">
+      <label class="search">
+        <input type="text" id="searchInput" placeholder="搜索工具，例如「钱币」「wang」「数学」……">
+      </label>
+    </div>
+
+    <div class="facets">
+      <div class="facet-row">
+        <span class="facet-row__label">年级</span>
+        <div class="facet-row__chips" id="gradeFacet"></div>
+      </div>
+      <div class="facet-row">
+        <span class="facet-row__label">科目</span>
+        <div class="facet-row__chips" id="subjekFacet"></div>
+      </div>
+    </div>
+
+    <main class="board" id="board">
+      <!-- cards injected by app.js -->
+    </main>
+
+    <p class="board__empty" id="boardEmpty" hidden>这个组合目前还没有工具，换个筛选试试，或者到上面的点子许愿池告诉我你需要什么。</p>
+  </section>
+
+  <section class="about">
+    <div class="about__card">
+      <h2>为什么会有这个地方</h2>
+      <p>
+        这里想做的事很简单：<strong>老师负责提想法、说说自己教室里缺什么，我负责把这些想法一点一点打磨成真正能直接搬进课堂用的工具</strong>。
+        不是什么素材都往上贴，每一个上架的工具都经过实际试用与调整，宁可数量少一点，也希望老师点开的每一个，都对得起大家腾出来的那几分钟。
+      </p>
+      <p>
+        这个平台的起点很简单——一开始只是想给自己班上做个小游戏，做着做着，发现这些东西值得让更多老师一起用。
+        以后会一个一个把工具慢慢做出来放上来，不会一次全部塞给大家，希望这里能陪着大家的课堂一起慢慢长大。
+      </p>
+      <p class="about__invite">
+        如果你也想一起开发、一起维护这个地方——欢迎找我聊聊。<br>
+        <span class="about__invite-sub">联络方式：待补</span>
+      </p>
+    </div>
+  </section>
+
+  <footer class="stats-bar" id="statsBar">
+    <!-- 统计数字由 app.js 填入，滑到这里才会跑动画 -->
+  </footer>
+
+  <div class="modal" id="detailModal">
+    <div class="modal__frame modal__frame--detail">
+      <button class="modal__close" id="closeDetail">✕</button>
+      <div class="detail__gallery" id="detailGallery"></div>
+      <div class="detail__body">
+        <h3 id="detailTitleZh"></h3>
+        <p class="detail__title-bm" id="detailTitleBm"></p>
+        <div class="creator" id="detailCreator"></div>
+        <p class="detail__desc" id="detailDesc"></p>
+        <div class="detail__standards" id="detailStandards"></div>
+        <div class="detail__meta">
+          <span class="card__slug" id="detailSlug"></span>
+          <span class="detail__uses" id="detailUses"></span>
+        </div>
+        <div class="detail__actions">
+          <a class="detail__open" id="detailOpenLink" href="#" target="_blank" rel="noopener">开始使用（另开全屏页面）</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox__close" id="lightboxClose">✕</button>
+    <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev">‹</button>
+    <div class="lightbox__stage" id="lightboxStage"></div>
+    <button class="lightbox__nav lightbox__nav--next" id="lightboxNext">›</button>
+  </div>
+
+  <!-- ============ 点子许愿池：三步结构化需求单 ============ -->
+  <div class="modal" id="wishModal">
+    <div class="modal__frame modal__frame--wish">
+      <button class="modal__close" id="closeWish">✕</button>
+
+      <div class="wish__head">
+        <h3>点子许愿池</h3>
+        <p class="modal__hint">你教室里卡住的地方，写下来。不用先想好要做什么工具；告诉我们学生要学什么、现在难在哪里，我们一起想办法。</p>
+      </div>
+
+      <p class="wish__progress" id="wishProgress" aria-live="polite">第 1／3 步：这堂课</p>
+
+      <form id="wishForm" novalidate>
+        <!-- 第 1 步 -->
+        <fieldset class="wish__step" id="wishStep1" data-step="1">
+          <div class="wish__field">
+            <label for="wishTahun">年级 <span class="req">*</span></label>
+            <select id="wishTahun" required></select>
+          </div>
+          <div class="wish__field">
+            <label for="wishSubjek">科目 <span class="req">*</span></label>
+            <select id="wishSubjek" required disabled><option value="">先选年级</option></select>
+          </div>
+          <div class="wish__field">
+            <label for="wishUnitObjective">单元／学习目标（选填，不知道可以跳过）</label>
+            <input type="text" id="wishUnitObjective" placeholder="例如 4.2 钱币加法，或直接留空">
+          </div>
+          <div class="wish__field">
+            <label for="wishLearningGoal">这堂课在教什么？<span class="req">*</span></label>
+            <p class="wish__field-hint">学生在这一课结束时，应该能做到什么？</p>
+            <textarea id="wishLearningGoal" rows="2" required minlength="8"></textarea>
+            <p class="wish__error" id="wishLearningGoalError" role="alert" hidden></p>
+          </div>
+          <div class="wish__field">
+            <label for="wishLessonMoment">上课场景（选填）</label>
+            <select id="wishLessonMoment">
+              <option value="">不指定</option>
+              <option value="introduction">新课引入</option>
+              <option value="explanation">讲解中</option>
+              <option value="practice">练习巩固</option>
+              <option value="review">复习</option>
+              <option value="assessment">评估前</option>
+              <option value="remedial">课后补救</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <!-- 第 2 步 -->
+        <fieldset class="wish__step" id="wishStep2" data-step="2" hidden>
+          <div class="wish__field">
+            <label for="wishProblem">现在最难的是什么？<span class="req">*</span></label>
+            <p class="wish__field-hint">学生做了什么、说了什么，或哪里一直做错？</p>
+            <textarea id="wishProblem" rows="3" required minlength="20"></textarea>
+            <p class="wish__error" id="wishProblemError" role="alert" hidden></p>
+          </div>
+          <div class="wish__field">
+            <label>常见困难（选填，可多选）</label>
+            <div class="wish__chips" id="wishDifficultyTags"></div>
+          </div>
+          <div class="wish__field">
+            <label for="wishTried">你已经试过什么？（选填）</label>
+            <textarea id="wishTried" rows="2"></textarea>
+          </div>
+          <div class="wish__field">
+            <label>有什么限制？（选填，可多选）</label>
+            <div class="wish__chips" id="wishConstraints"></div>
+          </div>
+        </fieldset>
+
+        <!-- 第 3 步 -->
+        <fieldset class="wish__step" id="wishStep3" data-step="3" hidden>
+          <div class="wish__field">
+            <label>最希望得到哪种帮助？<span class="req">*</span></label>
+            <div class="wish__radio" id="wishDesiredHelp"></div>
+          </div>
+          <div class="wish__field">
+            <label>希望怎样使用？（选填，可多选）</label>
+            <div class="wish__chips" id="wishUsageModes"></div>
+          </div>
+          <div class="wish__field">
+            <label for="wishMustHave">必须有／不要有（选填）</label>
+            <textarea id="wishMustHave" rows="2" placeholder="例如：要能在 10 分钟内完成；不要要求学生注册"></textarea>
+          </div>
+          <div class="wish__field">
+            <label for="wishContext">课堂情境补充（选填）</label>
+            <textarea id="wishContext" rows="2" placeholder="可以写一个真实但不含学生姓名的例子"></textarea>
+          </div>
+
+          <div class="wish__field school-picker">
+            <p class="school-picker__label">学校（选填，只用于汇总覆盖范围，不会公开显示）</p>
+            <div class="school-picker__row">
+              <select id="stateSelect"><option value="">选州属</option></select>
+              <select id="districtSelect" disabled><option value="">选县</option></select>
+              <select id="schoolSelect" disabled><option value="">选学校</option></select>
+            </div>
+            <input type="text" id="schoolManual" class="school-picker__manual" placeholder="找不到学校？直接打校名" hidden>
+          </div>
+
+          <div class="wish__field wish__consent">
+            <label><input type="checkbox" id="wishConsent" required> 我知道需求会由平台团队阅读与汇总，且我没有填写学生个人资料。</label>
+          </div>
+
+          <p class="wish__login-note">点子许愿池需要登录才能送出（换取声望星星，也顺手让我们知道是哪位老师提出的）。账号系统还没上线，所以下面的按钮目前还不能真的送出。</p>
+        </fieldset>
+
+        <div class="wish__nav">
+          <button type="button" class="wish__btn wish__btn--back" id="wishBack" hidden>上一步</button>
+          <button type="button" class="wish__btn wish__btn--next" id="wishNext">下一步</button>
+          <button type="submit" class="wish__btn wish__btn--submit" id="wishSubmit" hidden disabled>点子收集即将开放</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="wishDraftModal">
+    <div class="modal__frame modal__frame--note">
+      <h3>要接着写刚刚没写完的点子吗？</h3>
+      <p class="modal__hint" id="wishDraftHint"></p>
+      <div class="wish__nav">
+        <button type="button" class="wish__btn wish__btn--back" id="wishDraftDiscard">放弃内容</button>
+        <button type="button" class="wish__btn wish__btn--next" id="wishDraftRestore">继续写</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="data/sjkc-schools.js"></script>
+  <script src="data/dskp-index.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
