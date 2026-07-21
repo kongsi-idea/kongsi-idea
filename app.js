@@ -37,7 +37,7 @@ const TOOLS = [
     title_bm: "Taman Wang",
     desc: "确认币值、钱币组合拖拽、课堂抽签三合一的大荧幕互动工具，纸币/硬币大小都依真实马币比例换算。",
     keywords: ["钱币", "二年级", "数学", "拖拽", "抽签", "wang", "money", "找零钱"],
-    url: "https://grade2-math-tools.vercel.app",
+    url: "https://tahun2-mt-wang.vercel.app",
     type: "游戏",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },

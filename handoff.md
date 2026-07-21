@@ -9,6 +9,7 @@
 4. **GitHub Organization `kongsi-idea` 已建好**，yquan77 是 owner，Free 版够用（仓库数/协作者数都不限）。之后每个新工具都建在这个 org 底下，仓库名 = slug，Vercel 项目名也用同一个 slug（产地址 `{slug}.vercel.app`），方便对应。
 5. **本机 Playwright 走原生 python (`webapp-testing` skill) 没有卡住**——用 `scripts/with_server.py` 或手动起 `vite preview`/`http.server` + 原生 `playwright.sync_api` 脚本，跟之前记忆里提到的「Playwright MCP 容易卡住」是不同路径，这次全程顺畅，以后同类任务可以优先试这条路。
 6. **待办**：目前没有 Tahun1+数学 的示例作品可以对应删掉（10个mock没有完全匹配的），所以这次是新增而非替换；示例作品清理这件事还是要看之后哪个真工具跟哪个mock年级科目重叠再动手，不要为了凑数硬删不相关的mock。
+7. **钱币乐园正式搬进 `kongsi-idea`**：原本仓库是个人账号下的 `yquan77/grade2-math`（Vercel 项目名 `grade2-math-tools`），跟新定的 slug 命名对不上。用 `gh api repos/.../transfer` 转移到 `kongsi-idea` 组织，再 `gh api ... -X PATCH -f name=` 改名成 `tahun2-mt-wang`，Vercel 项目也用 `vercel project rename` 改成同名，并用 `vercel alias set` 加了 `tahun2-mt-wang.vercel.app` 这个新网址——**旧网址 `grade2-math-tools.vercel.app` 仍保留能用**，没有断线。`app.js` 里的 `url` 字段已更新成新网址；仓库本身是 private，这次没有改动可见性。本地 `二年级数学/` 资料夹的 git remote 也同步指向新仓库位置了。这个项目是纯手动 `vercel deploy` 部署（没有接 GitHub 自动部署 webhook），所以搬仓库这件事不影响之后怎么发布新版本，流程不变。
 
 ## ⏯️ 目前做到哪
 专案处于「阶段一」原型阶段，尚未接后端/账号系统。这轮（2026-07-21）做了两件大事：①把 Codex 提出的品牌改名+两份新规格审查过一遍，揪出两处跟既有决定冲突的地方，回头找用户确认；②确认后把「按学习目标找工具」主入口、修正搜索bug、点子许愿池三步表单，都实施完了。
