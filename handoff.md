@@ -70,6 +70,13 @@
 4. 长期：账号系统/登录/Supabase后端、点子许愿池真的能送出、老师声望星星、DSKP索引验证脚本
 5. 14个工具目前分散在个人Vercel账号（13个旧的）和`kongsi-idea` team（1个新的，磁铁大发现），要不要统一搬迁待讨论
 
+## ✅ 阶段结案记录（2026-07-21）
+本阶段的「平台整理与可交接基础」已完成：平台统一为**课堂点子铺**，本机 Hub 已由 `eduneo-hub/` 改名为 `kongsi-idea/`；14 个工具源码已迁至同级的 `../teaching-tools/{slug}/`，并维持一工具一独立 Git 仓库。`../teaching-tools/README.md` 是工具清单，`../teaching-tools/agents.md` 说明工具仓库与 Hub 的协作方式；两边已互相链接。
+
+本阶段也已完成 GitHub 同步：Hub、教学工具总目录，以及实际有改动的工具仓库都已 commit 并 push。**未在此阶段触发 Vercel 部署**；线上正式版本是否更新，须按上方的 `vercel deploy --prod` 与 `vercel alias set` 规则另行处理。
+
+下一阶段从「下一步」清单继续，优先处理 DSKP 结构化索引扩充；AI 自然语言理解、可提交的许愿池、账号／后端与发布前 UI 测试均属未来开发项目，尚未实施。
+
 ## 🕐 最后更新
 - 时间：2026-07-21
 - Git：已初始化，远端 `github.com/kongsi-idea/kongsi-idea`（public，原名 `eduneo-hub` 已改名），这轮改动已 commit 并 push
