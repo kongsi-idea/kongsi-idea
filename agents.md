@@ -13,7 +13,7 @@
 
 ## 与教学工具源码的关系
 
-- `eduneo-hub/` 只存平台入口代码、工具登记资料、缩略图和课程索引；**不存放各教学工具的源码**。
+- `kongsi-idea/` 只存平台入口代码、工具登记资料、缩略图和课程索引；**不存放各教学工具的源码**。
 - 所有独立工具源码统一在同级资料夹 [`../teaching-tools/`](../teaching-tools/)，每个 slug 子资料夹各自拥有 Git 仓库与 Vercel 项目。
 - 要开发、修复或部署工具，先读 [`../teaching-tools/agents.md`](../teaching-tools/agents.md)；要把工具上架、做 DSKP 对照、放截图或改平台展示，则回到本资料夹处理。
 - 两边唯一的登记桥梁是 `app.js` 的 `TOOLS`、`data/dskp-index.js`、`docs/published-tools-coverage.md` 与 `teaching-tools/README.md`；新增或移动工具时，这些资料必须同步更新。
@@ -56,7 +56,7 @@ Codex 提出品牌改名与两份新规格（`docs/idea-wish-pool-spec.md`、`do
 
 ## 资料夹结构（实际现状，跟最初规划有一处刻意简化，见下方说明）
 ```
-eduneo-hub/
+kongsi-idea/
 ├── agents.md
 ├── handoff.md
 ├── index.html / style.css / app.js   ← 首页（DSKP学习目标导航为主入口 + 年级科目双筛选浏览为辅助路径、
