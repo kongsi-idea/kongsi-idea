@@ -24,9 +24,8 @@ const SUBJECT_BY_CODE = Object.fromEntries(SUBJECTS.map((s) => [s.code, s]));
 //
 // status: "published" | "planned" | "archived" —— 只有 published 且有 url 的工具才计入
 // 「按学习目标找工具」结果与「个作品已上架」统计（docs/dskp-learning-objective-search.md 第2.7条）。
-// isDemo: true 的 10 个是示例作品，不是真产品，不参与上面这两处，但仍会出现在「浏览全部工具」
-// board 里做视觉展示——这是跟规格文件的刻意差异，因为示例作品是这个原型阶段才有的东西，
-// 规格文件写的时候没设想到，细节记在 handoff.md。
+// 2026-07-21：原本用来撑版面的 10 个示例作品（isDemo: true）已全部清掉，
+// 现在 TOOLS 里全部都是真实上架的工具，不再需要区分 isDemo。
 const TOOLS = [
   {
     slug: "tahun2-mt-wang",
@@ -381,93 +380,6 @@ const TOOLS = [
     teachingMode: ["投影互动", "教师带教"],
     prep: "打开即用，不需要打印，不需要学生设备",
   },
-
-  // 以下 10 个是「示例作品」，纯粹用来把版面填满做展示，不是真的做出来的工具——
-  // 没有 status/url（点「开始使用」会显示「示例作品」提示，不会真的打开任何网址），也没有附课程标准
-  // （避免假装查证过 DSKP）。缩略图是从 Wikimedia Commons 找的授权明确真实照片，左下角有
-  // 「示例图 · MOCK」浮水印，来源记在 assets/thumbs/mock/SOURCES.md。
-  // 之后有真的工具上架，直接删掉对应的示例条目换上真实资料，同时补上真实的 status/standards。
-  { slug: "tahun1-bm-abjad", tahun: 1, subjek: "bm", isDemo: true, title_zh: "字母农场", title_bm: "Ladang Abjad",
-    desc: "（示例作品）认读26个字母、拼读简单音节的农场主题游戏，适合一年级国语启蒙。",
-    keywords: ["字母", "拼音", "一年级", "abjad"], type: "游戏", stars: 12, url: null,
-    creator: { name: "陈老师", initial: "陈" },
-    thumbnails: [{ img: "assets/thumbs/mock/tahun1-bm-abjad/0.png", label: "字母农场封面" }] },
-
-  { slug: "tahun2-pjpk-jaman", tahun: 2, subjek: "pjpk", isDemo: true, title_zh: "运动打卡王", title_bm: "Raja Cop Sukan",
-    desc: "（示例作品）课堂晨操/体育课打卡计时器，累积连续出席天数换徽章。",
-    keywords: ["体育", "打卡", "二年级"], type: "工具", stars: 5, url: null,
-    creator: { name: "林老师", initial: "林" },
-    thumbnails: [
-      { img: "assets/thumbs/mock/tahun2-pjpk-jaman/0.png", label: "打卡介面" },
-      { img: "assets/thumbs/mock/tahun2-pjpk-jaman/1.png", label: "徽章墙" },
-    ] },
-
-  { slug: "tahun3-bc-chengyu", tahun: 3, subjek: "bc", isDemo: true, title_zh: "成语连连看", title_bm: "Padanan Simpulan Bahasa",
-    desc: "（示例作品）成语与释义配对小游戏，三年级华文词汇教学用。",
-    keywords: ["成语", "华文", "三年级", "词汇"], type: "游戏", stars: 34, url: null,
-    creator: { name: "黄老师", initial: "黄" },
-    thumbnails: [
-      { img: "assets/thumbs/mock/tahun3-bc-chengyu/0.png", label: "配对画面" },
-      { img: "assets/thumbs/mock/tahun3-bc-chengyu/1.png", label: "过关动画" },
-    ] },
-
-  { slug: "tahun3-sains-serangga", tahun: 3, subjek: "sains", isDemo: true, title_zh: "昆虫观察日记", title_bm: "Diari Pemerhatian Serangga",
-    desc: "（示例作品）记录昆虫生命周期的观察日志模板，配合科学课实作活动。",
-    keywords: ["昆虫", "科学", "三年级", "观察"], type: "工具", stars: 2, url: null,
-    creator: { name: "卢老师", initial: "卢" },
-    thumbnails: [{ img: "assets/thumbs/mock/tahun3-sains-serangga/0.png", label: "观察日志模板" }] },
-
-  { slug: "tahun4-sejarah-melaka", tahun: 4, subjek: "sejarah", isDemo: true, title_zh: "时光机：马六甲王朝", title_bm: "Mesin Masa Kesultanan Melaka",
-    desc: "（示例作品）马六甲王朝重大事件时间轴互动教具，四年级历史科启蒙单元用。",
-    keywords: ["历史", "马六甲", "四年级", "时间轴"], type: "工具", stars: 19, url: null,
-    creator: { name: "郑老师", initial: "郑" },
-    thumbnails: [
-      { img: "assets/thumbs/mock/tahun4-sejarah-melaka/0.png", label: "时间轴总览" },
-      { img: "assets/thumbs/mock/tahun4-sejarah-melaka/1.png", label: "事件卡" },
-      { img: "assets/thumbs/mock/tahun4-sejarah-melaka/2.png", label: "人物介绍" },
-      { img: "assets/thumbs/mock/tahun4-sejarah-melaka/3.png", label: "小测验" },
-    ] },
-
-  { slug: "tahun4-rbt-kraf", tahun: 4, subjek: "rbt", isDemo: true, title_zh: "纸模型工坊", title_bm: "Bengkel Model Kertas",
-    desc: "（示例作品）设计与工艺科纸类立体模型制作步骤图解，附材料清单。",
-    keywords: ["手工", "设计与工艺", "四年级"], type: "工具", stars: 7, url: null,
-    creator: { name: "林老师", initial: "林" },
-    thumbnails: [
-      { img: "assets/thumbs/mock/tahun4-rbt-kraf/0.png", label: "步骤图解" },
-      { img: "assets/thumbs/mock/tahun4-rbt-kraf/1.png", label: "成品展示" },
-    ] },
-
-  { slug: "tahun5-mt-pecahan", tahun: 5, subjek: "mt", isDemo: true, title_zh: "分数积木", title_bm: "Blok Pecahan",
-    desc: "（示例作品）用拖拽积木理解分数大小与加减法的互动教具，五年级数学用。",
-    keywords: ["分数", "数学", "五年级", "积木"], type: "游戏", stars: 41, url: null,
-    creator: { name: "卢老师", initial: "卢" },
-    thumbnails: [
-      { img: "assets/thumbs/mock/tahun5-mt-pecahan/0.png", label: "积木拼接" },
-      { img: "assets/thumbs/mock/tahun5-mt-pecahan/1.png", label: "比较大小" },
-      { img: "assets/thumbs/mock/tahun5-mt-pecahan/2.png", label: "分数加法" },
-      { img: "assets/thumbs/mock/tahun5-mt-pecahan/3.png", label: "闯关模式" },
-    ] },
-
-  { slug: "tahun5-bi-safari", tahun: 5, subjek: "bi", isDemo: true, title_zh: "Word Safari", title_bm: "Word Safari",
-    desc: "（示例作品）野生动物主题的英文单词认读与拼写游戏，五年级英文科词汇教学。",
-    keywords: ["英文", "单词", "五年级", "vocabulary"], type: "游戏", stars: 3, url: null,
-    creator: { name: "Tan Cikgu", initial: "T" },
-    thumbnails: [{ img: "assets/thumbs/mock/tahun5-bi-safari/0.png", label: "Safari 场景" }] },
-
-  { slug: "tahun6-moral-nilai", tahun: 6, subjek: "moral", isDemo: true, title_zh: "价值观情境卡", title_bm: "Kad Situasi Nilai Murni",
-    desc: "（示例作品）道德教育情境讨论卡牌组，附引导提问，适合分组讨论课。",
-    keywords: ["道德教育", "价值观", "六年级", "讨论"], type: "工具", stars: 9, url: null,
-    creator: { name: "黄老师", initial: "黄" },
-    thumbnails: [
-      { img: "assets/thumbs/mock/tahun6-moral-nilai/0.png", label: "情境卡正面" },
-      { img: "assets/thumbs/mock/tahun6-moral-nilai/1.png", label: "引导提问卡" },
-    ] },
-
-  { slug: "tahun6-seni-garisan", tahun: 6, subjek: "seni", isDemo: true, title_zh: "线条大师", title_bm: "Master Garisan",
-    desc: "（示例作品）临摹与自由创作并行的线条绘画练习工具，六年级视觉艺术科用。",
-    keywords: ["视觉艺术", "绘画", "六年级", "线条"], type: "游戏", stars: 15, url: null,
-    creator: { name: "郑老师", initial: "郑" },
-    thumbnails: [{ img: "assets/thumbs/mock/tahun6-seni-garisan/0.png", label: "临摹练习" }] },
 ];
 
 // ---------- DSKP 索引查询辅助（读 data/dskp-index.js 的 DSKP_INDEX） ----------
