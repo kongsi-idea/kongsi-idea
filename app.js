@@ -734,10 +734,15 @@ lightboxStageEl.addEventListener("touchend", (e) => {
   touchStartX = null;
 });
 
-document.getElementById("closeDetail").addEventListener("click", () => {
+function closeDetailModal() {
   document.getElementById("detailModal").classList.remove("open");
   renderBoard(); // 关闭详情后刷新卡片上的使用次数
   renderStats();
+}
+document.getElementById("closeDetail").addEventListener("click", closeDetailModal);
+// 点击框架外面的深色背景也要能关闭，不是非按打叉不可
+document.getElementById("detailModal").addEventListener("click", (e) => {
+  if (e.target.id === "detailModal") closeDetailModal();
 });
 
 searchInput.addEventListener("input", renderBoard);
@@ -1287,13 +1292,18 @@ document.getElementById("wishDraftDiscard").addEventListener("click", () => {
   resetWishForm();
   document.getElementById("wishModal").classList.add("open");
 });
-document.getElementById("closeWish").addEventListener("click", () => {
+function closeWishModal() {
   // 有内容未提交时要问，不能静默储存或静默丢弃（规格 3.2 / 第5节）
   if (hasDraftContent()) {
     const keep = confirm("要把目前写的内容暂存到这台设备吗？（取消＝放弃这次内容）");
     if (keep) saveDraft(); else clearDraft();
   }
   document.getElementById("wishModal").classList.remove("open");
+}
+document.getElementById("closeWish").addEventListener("click", closeWishModal);
+// 点击框架外面的深色背景也要能关闭，不是非按打叉不可（草稿确认逻辑一样会跑）
+document.getElementById("wishModal").addEventListener("click", (e) => {
+  if (e.target.id === "wishModal") closeWishModal();
 });
 
 // ---------- 选校：州属 → 县 → 学校，找不到可以手动输入兜底 ----------
