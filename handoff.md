@@ -28,6 +28,9 @@
 
 15. **新增 `version`/`changelog` 字段 + `creator` 具名规则**：用户提出以后老师给反馈、调整工具后要能追踪版本演进，且以后如果是别的老师提供的作品要挂真实姓名。已实施：①13 个工具全部加了 `version: "1.0"` + `changelog: [{version, date, note}]`（首次上架记一笔），`app.js` 新增 `renderChangelog()` 函数，详情页 meta 行新增版本徽章、`.detail__changelog` 区块倒序显示更新记录；`style.css` 加了对应样式（用现有 `--orange` 色系，没有借用 EduNeo 的 teal）。②在 `agents.md`「关键决定」新增第13/14条，明确规定往后老师反馈调整必须升版本号+追加changelog条目（不覆盖旧记录），以及`creator`字段以后遇到别的老师真实贡献的作品要换成对方姓名，不能偷懒都挂卢老师。**这两条是长期规则，以后每次处理工具更新/新工具来源不是卢老师本人时都要记得套用**。
 
+16. **弹窗背景点击关闭**：`detailModal`/`wishModal` 都加了「点击深色背景关闭」，不用非按右上角打叉不可（`closeDetailModal()`/`closeWishModal()` 抽成具名函数，背景点击跟打叉按钮共用同一个关闭逻辑，wishModal 的草稿暂存确认逻辑没有被绕过）。
+17. **`eduneo-hub` 本身正式上线**：GitHub repo `kongsi-idea/eduneo-hub` 已建立并推送；**新建了一个 Vercel Team「kongsi-idea」**（`vercel teams add --slug kongsi-idea`，跟 GitHub org 同名但是两个独立的东西，之前 GitHub org 建好的时候 Vercel 这边并不会自动生成对应 team），`eduneo-hub` 部署在这个新 team 底下，网址 **https://eduneo-hub.vercel.app**。**注意**：这次只是把 `eduneo-hub` 自己部署到新 team，**之前那 13 个工具还在 `mr007's projects`（个人账号）底下，没有一起搬过去**——如果以后想统一收到 `kongsi-idea` team 底下，需要另外讨论要不要搬（涉及重新部署+域名），这次没有默认去动它们。
+
 ## ⏯️ 目前做到哪
 专案处于「阶段一」原型阶段，尚未接后端/账号系统。这轮（2026-07-21）做了两件大事：①把 Codex 提出的品牌改名+两份新规格审查过一遍，揪出两处跟既有决定冲突的地方，回头找用户确认；②确认后把「按学习目标找工具」主入口、修正搜索bug、点子许愿池三步表单，都实施完了。
 
