@@ -256,6 +256,14 @@
     </div>
   </div>
 
+  <!-- 新访客欢迎侧边卡：只在这台浏览器第一次造访时延迟滑出，不会每次刷新都跳 -->
+  <div class="welcome-toast" id="welcomeToast" hidden>
+    <button class="welcome-toast__close" id="welcomeToastClose" aria-label="关闭">✕</button>
+    <p class="welcome-toast__title">欢迎来到课堂点子铺</p>
+    <p class="welcome-toast__body">老师有点子，课堂有办法。找不到想要的工具？到点子许愿池告诉我们这堂课卡在哪里，我们一起想办法。</p>
+    <button class="welcome-toast__cta" id="welcomeToastCta">去点子许愿池看看</button>
+  </div>
+
   <script src="data/sjkc-schools.js"></script>
   <script src="data/dskp-index.js"></script>
   <script src="app.js"></script>

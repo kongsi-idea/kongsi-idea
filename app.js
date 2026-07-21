@@ -1355,26 +1355,31 @@ if (typeof SJKC_SCHOOLS !== "undefined" && stateSelect) {
 }
 
 // ---------- 全局统计条：诚实展示目前真的有的数字，还没有的功能就写清楚「尚未上线」，不用假数字充场面 ----------
-function countDirectorySchools() {
-  if (typeof SJKC_SCHOOLS === "undefined") return 0;
-  let total = 0;
-  Object.values(SJKC_SCHOOLS).forEach((districts) => {
-    Object.values(districts).forEach((schools) => { total += schools.length; });
-  });
-  return total;
+// 注意：`data/sjkc-schools.js` 是我们自己查到的全国华小参考名录，大小（约1310间）不代表
+// 「有多少学校真的在用这个平台」——那是完全不同的两件事，不能把名录大小当成使用数据展示，
+// 所以这里刻意不算这个数字，等以后账号系统上线、老师真的提交/注册了，才用那个真实数字。
+
+const VISITS_KEY = "eduneo-hub-visits";
+function bumpVisits() {
+  const n = Number(localStorage.getItem(VISITS_KEY) || 0) + 1;
+  localStorage.setItem(VISITS_KEY, String(n));
+  return n;
+}
+function getVisits() {
+  return Number(localStorage.getItem(VISITS_KEY) || 0);
 }
 
 function renderStats() {
   const statsBarEl = document.getElementById("statsBar");
   if (!statsBarEl) return;
   const totalUses = TOOLS.reduce((sum, t) => sum + getUses(t.slug), 0);
-  // 「已上架」只算真的发布的工具，示例作品不计入——不然会假装平台有 11 个作品
+  // 「已上架」只算真的发布的工具，示例作品不计入——不然会假装平台有更多作品
   const toolCount = TOOLS.filter((t) => t.status === "published").length;
-  const schoolCount = countDirectorySchools();
+  const visits = getVisits();
   statsBarEl.innerHTML = `
-    <span class="stat"><span class="stat__num" data-target="${totalUses}">0</span><span class="stat__label">次总使用（本机累计）</span></span>
+    <span class="stat"><span class="stat__num" data-target="${visits}">0</span><span class="stat__label">次网页浏览（本机累计）</span></span>
+    <span class="stat"><span class="stat__num" data-target="${totalUses}">0</span><span class="stat__label">次工具使用（本机累计）</span></span>
     <span class="stat"><span class="stat__num" data-target="${toolCount}">0</span><span class="stat__label">个作品已上架</span></span>
-    <span class="stat"><span class="stat__num" data-target="${schoolCount}">0</span><span class="stat__label">间华小已收录在名录里</span></span>
     <span class="stat stat--pending"><span class="stat__num" data-target="0">0</span><span class="stat__label">位老师注册（账号系统尚未上线，先如实显示 0）</span></span>
   `;
   observeStats(statsBarEl);
@@ -1414,7 +1419,31 @@ function animateCount(el) {
   requestAnimationFrame(tick);
 }
 
+// ---------- 新访客欢迎侧边卡：只在这台浏览器第一次造访时出现，不是每次刷新都跳 ----------
+const WELCOMED_KEY = "eduneo-hub-welcomed";
+function closeWelcomeToast() {
+  const el = document.getElementById("welcomeToast");
+  if (!el) return;
+  el.classList.remove("show");
+  setTimeout(() => { el.hidden = true; }, 400);
+}
+function maybeShowWelcome() {
+  const el = document.getElementById("welcomeToast");
+  if (!el || localStorage.getItem(WELCOMED_KEY)) return;
+  localStorage.setItem(WELCOMED_KEY, "1");
+  setTimeout(() => {
+    el.hidden = false;
+    requestAnimationFrame(() => el.classList.add("show"));
+  }, 900);
+}
+document.getElementById("welcomeToastClose").addEventListener("click", closeWelcomeToast);
+document.getElementById("welcomeToastCta").addEventListener("click", () => {
+  closeWelcomeToast();
+  document.getElementById("openWish").click();
+});
+
 // ---------- 初始化 ----------
+bumpVisits();
 renderFacets();
 renderBoard();
 renderStats();
@@ -1422,3 +1451,4 @@ renderFinderShortcuts();
 resetWishForm();
 loadFinderFromUrl();
 renderFinder();
+maybeShowWelcome();
