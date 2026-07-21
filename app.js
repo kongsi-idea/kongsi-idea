@@ -524,6 +524,20 @@ const subjekFacetEl = document.getElementById("subjekFacet");
 let gradeFilter = "all";
 let subjekFilter = "all";
 
+// 「浏览全部工具」的年级/科目筛选记在本机，刷新页面不会跳回「全部」
+const BOARD_FILTER_KEY = "eduneo-hub-board-filter";
+function saveBoardFilter() {
+  localStorage.setItem(BOARD_FILTER_KEY, JSON.stringify({ grade: gradeFilter, subjek: subjekFilter }));
+}
+function loadBoardFilter() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(BOARD_FILTER_KEY) || "{}");
+    if (saved.grade !== undefined) gradeFilter = saved.grade;
+    if (saved.subjek !== undefined) subjekFilter = saved.subjek;
+  } catch (e) { /* 存的东西格式不对就当没存过，不影响正常使用 */ }
+}
+loadBoardFilter();
+
 function subjectBadge(code) {
   return (SUBJECT_BY_CODE[code] && SUBJECT_BY_CODE[code].badge) || code.slice(0, 2).toUpperCase();
 }
@@ -534,6 +548,7 @@ function starIcon() {
 function jumpToBrowse(tahun, subjek) {
   gradeFilter = tahun || "all";
   subjekFilter = subjek || "all";
+  saveBoardFilter();
   renderFacets();
   renderBoard();
   document.querySelector(".browse").scrollIntoView({ behavior: "smooth" });
@@ -547,6 +562,7 @@ function renderFacet(container, options, activeValue, onPick) {
     btn.textContent = opt.label;
     btn.addEventListener("click", () => {
       onPick(opt.value);
+      saveBoardFilter();
       renderFacets();
       renderBoard();
     });
