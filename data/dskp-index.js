@@ -291,4 +291,48 @@ const DSKP_INDEX = [
       },
     ],
   },
+  {
+    curriculum: "KSSR Semakan 2017",
+    tahun: 3,
+    subjek: "dst",
+    sourceUrl: "https://bpk.moe.gov.my/kurikulum/kssr/kssr-tahun-3/134-dskp-kssr-semakan-2017-sains-tahun-3-sjkc-v2/file",
+    sourceLabel: "DSKP Sains Tahun 3 SJK(C)",
+    verifiedAt: "2026-07-21",
+    units: [
+      {
+        code: "7.1",
+        title_zh: "密度比水大或比水小的物体或材料",
+        // 内容标准原文已核实：官方马来文 Standard Kandungan 就是这句 "Objek atau bahan yang lebih
+        // tumpat atau kurang tumpat daripada air"（透过网络查证到的官方引述，非本人推断）
+        title_bm: "Objek atau bahan yang lebih tumpat atau kurang tumpat daripada air",
+        objectives: [
+          {
+            // ⚠️ 以下 4 条学习标准的马来文是依中文摘要工作翻译，未逐字核对官方 PDF 原文页码措辞
+            code: "7.1.1",
+            title_zh: "推断物体或材料在水中的浮沉",
+            title_bm: "Membuat inferens tentang keterapungan objek atau bahan di dalam air",
+            terms: ["浮沉", "推断", "terapung", "tenggelam"],
+          },
+          {
+            code: "7.1.2",
+            title_zh: "联系物体或材料的浮沉与密度的关系",
+            title_bm: "Mengaitkan keterapungan objek atau bahan dengan ketumpatan",
+            terms: ["密度", "浮沉关系", "ketumpatan"],
+          },
+          {
+            code: "7.1.3",
+            title_zh: "确认增加水密度的方法（如加盐）",
+            title_bm: "Mengenal pasti cara meningkatkan ketumpatan air",
+            terms: ["加盐", "增加密度", "meningkatkan ketumpatan"],
+          },
+          {
+            code: "7.1.4",
+            title_zh: "应用密度知识解决课业或生活中的问题",
+            title_bm: "Mengaplikasikan pengetahuan tentang ketumpatan untuk menyelesaikan masalah",
+            terms: ["应用密度", "menyelesaikan masalah"],
+          },
+        ],
+      },
+    ],
+  },
 ];

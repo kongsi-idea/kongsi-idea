@@ -464,6 +464,37 @@ const TOOLS = [
     teachingMode: ["投影互动", "教师带教/演示"],
     prep: "打开即用，不需要打印，不需要真的磁铁教具",
   },
+
+  {
+    slug: "tahun3-dst-density",
+    tahun: 3,
+    subjek: "dst",
+    status: "published",
+    title_zh: "浮沉实验室：密度大发现",
+    title_bm: "Makmal Terapung-Tenggelam: Ketumpatan",
+    desc: "点选物体丢进水缸，猜猜看会浮起来还是沉下去，再看真实的密度数字对比来验证。特别设计「救救鸡蛋」挑战：新鲜鸡蛋在清水里会沉下去，靠加盐一步步提高液体密度，直到鸡蛋浮起来，具象化「加盐能增加水的密度」这个学习标准。浮沉核心比较逻辑参考自 PhET Density 模拟的教学设计，界面与程序为原创实现。",
+    keywords: ["密度", "浮沉", "三年级", "科学", "density", "ketumpatan", "terapung", "tenggelam"],
+    url: "https://tahun3-dst-density.vercel.app",
+    type: "工具",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-21", note: "首次上架" },
+    ],
+    // 这 3 张是用 Playwright 实际操作 https://tahun3-dst-density.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun3-dst-density/1-explore.png", label: "自由探索：物体架+水缸" },
+      { img: "assets/thumbs/tahun3-dst-density/2-float-result.png", label: "丢入物体后的浮沉结果+密度对比" },
+      { img: "assets/thumbs/tahun3-dst-density/3-challenge-egg-float.png", label: "救救鸡蛋挑战：加盐后鸡蛋浮起来" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "7.1", objectiveCodes: ["7.1.1", "7.1.2", "7.1.3", "7.1.4"] },
+    ],
+    practiceSummary: "推断物体材料浮沉、联系浮沉与密度、确认增加水密度的方法、应用密度知识解决问题",
+    teachingMode: ["投影互动", "教师带教/演示"],
+    prep: "打开即用，不需要打印，不需要真的水缸教具",
+  },
 ];
 
 // ---------- DSKP 索引查询辅助（读 data/dskp-index.js 的 DSKP_INDEX） ----------

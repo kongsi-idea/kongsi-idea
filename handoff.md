@@ -19,9 +19,11 @@
 - `tahun2-mt-shulie-explore`/`-boss`/`-duel` 有规律的数列三件套（同一DSKP单元的学习/练习/对战三种场景）
 - `tahun1-bc-shizi` 识字大对决、`tahun1-bc-bushou` 部首大对垒、`tahun1-bc-zaoju` 神奇句子小火车、`tahun3-bc-kewen` 语文课文大PK
 - `tahun1-bm-kvkv` KVKV音节打地鼠
-- **`tahun1-dst-magnet` 磁铁大发现**——本平台第一个不靠老师投稿、直接照 DSKP 内容标准自主设计的工具（科学 7.1 磁铁）。拖磁铁靠近11件物品，磁性物品飞向磁铁、非磁性掉落，另有磁极相吸相斥实验+磁铁形状图鉴。**这个工具部署在新的 `kongsi-idea` Vercel team 底下**（不是 `mr007's projects`），网址 `tahun1-dst-magnet.vercel.app`——以后新工具建议都跟着放这个team，逐步跟旧的13个（还在个人账号）拉开距离，是否回头统一搬迁未定
+- **`tahun1-dst-magnet` 磁铁大发现**——本平台第一个不靠老师投稿、直接照 DSKP 内容标准自主设计的工具（科学 7.1 磁铁）。拖磁铁靠近11件物品，磁性物品飞向磁铁、非磁性掉落，另有磁极相吸相斥实验+磁铁形状图鉴。部署在 `kongsi-idea` Vercel team 底下，网址 `tahun1-dst-magnet.vercel.app`
 
-所有工具仓库都在 GitHub org `kongsi-idea` 底下，仓库名＝slug；原本13个大部分部署在 `mr007's projects`（个人Vercel账号）底下，**还没有统一搬去 `kongsi-idea` Vercel team**——以后要不要统一搬需要另外讨论，涉及重新部署+域名，目前没有默认去动。新工具（如上面的磁铁）已经开始改放新team了。
+所有工具仓库都在 GitHub org `kongsi-idea` 底下，仓库名＝slug。**2026-07-21 已完成迁移**：原本13个还留在 `mr007's projects`（个人Vercel账号）的工具已全部重新部署到 `kongsi-idea` Vercel team，14个工具+Hub本体现在统一在同一个 team 底下，`{slug}.vercel.app` 域名维持不变（原alias从个人账号移除后重新指到新team下的部署）。旧的个人账号项目本身没有删除，只是不再是线上正式版本的来源。
+
+**迁移踩坑记录**：Vercel 的 `.vercel.app` 别名是全局唯一的，同一个域名如果还挂在旧team的项目上，新team没办法直接抢注——要先 `vercel alias rm {slug}.vercel.app --scope mr007s-projects-7bf9a180 --yes` 从旧账号移除，才能在新team `vercel alias set <新部署url> {slug}.vercel.app --scope kongsi-idea`。另外新部署完 `curl` 验证如果一开始是404不用慌，通常是几秒内的DNS/alias生效延迟，等一下重试就好。
 
 ## ⚠️ 安全提醒（未完成，需要用户本人操作）
 处理 `yquan77/teaching-tools` 仓库时发现 `y1-bc-火车造句.html` 第325行硬编码了一个**真实有效的 Gemini API key**，已经在做成 `tahun1-bc-zaoju` 时完全移除、改用浏览器内建语音。**但这个 key 本来就在公开仓库里暴露过**，即使这次没有沿用，**用户应该自己去 Google Cloud / AI Studio 控制台把这个 key 撤销或重新生成**，以防已经被盗刷或滥用。这件事这次没有做，需要用户手动处理。
@@ -68,7 +70,7 @@
 2. **`yquan77/teaching-tools` 已经处理完**，但用户手上如果还有别的素材来源，可以延续同一套流程（挑选→打磨→测试→上架GitHub org→Vercel部署→截图→写进`app.js`+`DSKP_INDEX`）
 3. **安全提醒里那个 Gemini API key 需要用户去后台撤销**（见上方专门段落）
 4. 长期：账号系统/登录/Supabase后端、点子许愿池真的能送出、老师声望星星、DSKP索引验证脚本
-5. 14个工具目前分散在个人Vercel账号（13个旧的）和`kongsi-idea` team（1个新的，磁铁大发现），要不要统一搬迁待讨论
+5. ~~14个工具目前分散在个人Vercel账号和`kongsi-idea` team，要不要统一搬迁待讨论~~ ✅ 2026-07-21 已完成，14个工具+Hub全部统一在 `kongsi-idea` team 底下
 
 ## ✅ 阶段结案记录（2026-07-21）
 本阶段的「平台整理与可交接基础」已完成：平台统一为**课堂点子铺**，本机 Hub 已由 `eduneo-hub/` 改名为 `kongsi-idea/`；14 个工具源码已迁至同级的 `../teaching-tools/{slug}/`，并维持一工具一独立 Git 仓库。`../teaching-tools/README.md` 是工具清单，`../teaching-tools/agents.md` 说明工具仓库与 Hub 的协作方式；两边已互相链接。
