@@ -106,4 +106,31 @@ const DSKP_INDEX = [
       },
     ],
   },
+  {
+    curriculum: "KSSR Semakan 2017",
+    tahun: 1,
+    subjek: "bc",
+    sourceUrl: "https://bpk.moe.gov.my/kurikulum/kssr/kssr-tahun-1/28-03-dskp-kssr-tahun-1-bahasa-cina-sjkc-08122016/file",
+    sourceLabel: "DSKP Bahasa Cina Tahun 1 SJK(C)",
+    verifiedAt: "2026-07-21",
+    units: [
+      {
+        code: "2.0",
+        title_zh: "阅读技能",
+        // ⚠️ 这个 title_bm 是工作翻译，没有核对过官方 PDF 原文马来文措辞（试过下载官方PDF核对，
+        // 连结重导向失败，没有强行用其他来源凑数）——跟 Tahun2数学/Tahun1数学/Tahun4数学
+        // 那几笔「已用WebSearch/PDF查证」的记录不是同一个可信度级别，如果之后要正式对外展示
+        // 这个马来文标题，要回头找到能打开的官方PDF或可靠转载源核对
+        title_bm: "Kemahiran Membaca",
+        objectives: [
+          {
+            code: "2.1",
+            title_zh: "阅读与理解教材：认识教材中汉字，掌握词语，理解句子段落篇章内容",
+            title_bm: "Membaca dan memahami bahan pengajaran",
+            terms: ["识字", "写字", "词语", "认读", "aksara", "mengecam aksara"],
+          },
+        ],
+      },
+    ],
+  },
 ];

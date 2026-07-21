@@ -115,6 +115,34 @@ const TOOLS = [
     prep: "打开即用，不需要打印，不需要学生设备，开局前输入班上人数即可现场抽签",
   },
 
+  {
+    slug: "tahun1-bc-shizi",
+    tahun: 1,
+    subjek: "bc",
+    status: "published",
+    title_zh: "识字大对决",
+    title_bm: "Pertarungan Mengecam Aksara",
+    desc: "覆盖一年级华文全年22个单元+5个识字复习单元的教材词汇（自动标注拼音）。两种模式：闪卡认读给学生自学巩固，PK进化赛让两班对抗、随机抽签点名，后段自动进入「进化」加速加倍得分阶段。",
+    keywords: ["识字", "写字", "拼音", "词语", "一年级", "华文", "PK", "对战", "闪卡"],
+    url: "https://tahun1-bc-shizi.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    // 这 4 张是用 Playwright 实际操作 https://tahun1-bc-shizi.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bc-shizi/1-landing.png", label: "首页：闪卡 / PK 两种模式" },
+      { img: "assets/thumbs/tahun1-bc-shizi/2-flashcard.png", label: "闪卡认读（自动标注拼音）" },
+      { img: "assets/thumbs/tahun1-bc-shizi/3-pk-battle.png", label: "PK 对战：抽签点名+倒计时" },
+      { img: "assets/thumbs/tahun1-bc-shizi/4-pk-score.png", label: "答对得分" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.1"] },
+    ],
+    practiceSummary: "认读教材中的汉字词语、掌握词义、正确认读拼音",
+    teachingMode: ["投影互动", "个人自学", "两班对战"],
+    prep: "打开即用，不需要打印，不需要学生设备；PK模式开局前输入两班人数即可现场抽签点名",
+  },
+
   // 以下 10 个是「示例作品」，纯粹用来把版面填满做展示，不是真的做出来的工具——
   // 没有 status/url（点「开始使用」会显示「示例作品」提示，不会真的打开任何网址），也没有附课程标准
   // （避免假装查证过 DSKP）。缩略图是从 Wikimedia Commons 找的授权明确真实照片，左下角有
