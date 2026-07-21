@@ -55,6 +55,41 @@ const DSKP_INDEX = [
           },
         ],
       },
+      {
+        code: "1.0",
+        title_zh: "数与运算——1000以内的整数",
+        title_bm: "Nombor Bulat hingga 1000",
+        objectives: [
+          {
+            // 官方原文 Menentukan nilai tempat bagi sebarang nombor，用 WebSearch 查证
+            code: "1.4",
+            title_zh: "数位：讲述数位与数值、依数位数值分析数目",
+            title_bm: "Menentukan nilai tempat bagi sebarang nombor",
+            terms: ["数位", "数值", "nilai tempat", "nilai digit"],
+          },
+          {
+            // 官方原文 Pola nombor，用 WebSearch 查证
+            code: "1.7",
+            title_zh: "有规律的数列：确认规律、完成简易规律数列",
+            title_bm: "Pola nombor",
+            terms: ["数列", "规律", "pola nombor", "turutan nombor"],
+          },
+        ],
+      },
+      {
+        code: "2.0",
+        title_zh: "数与运算——基本运算",
+        title_bm: "Operasi Asas",
+        objectives: [
+          {
+            // 官方原文 Darab dalam lingkungan 1000 / fakta asas pendaraban，用 WebSearch 查证
+            code: "2.3",
+            title_zh: "乘法：基本乘法（一位数×一位数）、一位数×10",
+            title_bm: "Darab dalam lingkungan 1000",
+            terms: ["乘法", "乘法表", "口诀", "darab", "pendaraban", "sifir"],
+          },
+        ],
+      },
     ],
   },
   {
@@ -128,6 +163,83 @@ const DSKP_INDEX = [
             title_zh: "阅读与理解教材：认识教材中汉字，掌握词语，理解句子段落篇章内容",
             title_bm: "Membaca dan memahami bahan pengajaran",
             terms: ["识字", "写字", "词语", "认读", "aksara", "mengecam aksara"],
+          },
+        ],
+      },
+      {
+        code: "5.0",
+        title_zh: "语文基础知识",
+        // ⚠️ 同上，工作翻译未核对官方原文
+        title_bm: "Pengetahuan Asas Bahasa",
+        objectives: [
+          {
+            code: "5.1",
+            title_zh: "掌握汉字基本知识：认识笔画/部首/偏旁和结构，掌握笔顺规则",
+            title_bm: "Menguasai pengetahuan asas aksara",
+            terms: ["部首", "偏旁", "笔画", "笔顺", "radikal"],
+          },
+        ],
+      },
+      {
+        code: "3.0",
+        title_zh: "书写技能",
+        // ⚠️ 同上，工作翻译未核对官方原文
+        title_bm: "Kemahiran Menulis",
+        objectives: [
+          {
+            code: "3.2",
+            title_zh: "培养书面表达能力：练习写话，初步尝试书面表达，不拘形式写自己想说的话",
+            title_bm: "Memupuk kemahiran penulisan berformat bebas",
+            terms: ["写话", "造句", "语序", "penulisan"],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    curriculum: "KSSR Semakan 2017",
+    tahun: 1,
+    subjek: "bm",
+    sourceUrl: "https://jpnpp.moe.gov.my/muat-turun/sektor/sektor-pembelajaran/bahasa/bahasa-melayu/sjk-1/256-dskp-bahasa-melayu-sjk-tahun-1/file",
+    sourceLabel: "DSKP Bahasa Melayu SJK Tahun 1",
+    verifiedAt: "2026-07-21",
+    units: [
+      {
+        code: "2.0",
+        title_zh: "阅读技能",
+        title_bm: "Kemahiran Membaca",
+        objectives: [
+          {
+            // 官方原文 2.1.1「以正确发音语调朗读音节/词语/句子」，用 WebSearch 查证
+            code: "2.1",
+            title_zh: "基础阅读与理解：以正确发音语调朗读音节/词语/句子",
+            title_bm: "Asas membaca dan memahami",
+            terms: ["音节", "拼音", "KVKV", "suku kata", "perkataan", "membaca"],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    curriculum: "KSSR Semakan 2017",
+    tahun: 3,
+    subjek: "bc",
+    sourceUrl: "https://bpk.moe.gov.my/kurikulum/kssr/kssr-tahun-3/105-003-dskp-kssr-semakan-2017-bahasa-cina-tahun-3/file",
+    sourceLabel: "DSKP Bahasa Cina Tahun 3 SJK(C)",
+    verifiedAt: "2026-07-21",
+    units: [
+      {
+        code: "2.0",
+        title_zh: "阅读技能",
+        // ⚠️ 工作翻译，未核对官方原文（沿用 Tahun1 同单元已知的标准写法，KSSR各年级同一单元代码
+        // 通常沿用相同的马来文名称，但没有逐一核对 Tahun3 官方 PDF）
+        title_bm: "Kemahiran Membaca",
+        objectives: [
+          {
+            code: "2.1",
+            title_zh: "阅读与理解教材：借助字典认识汉字，掌握词语，理解句段篇内容；阅读教材培养语感，体验情感，领会教育意义",
+            title_bm: "Membaca dan memahami bahan pengajaran",
+            terms: ["课文理解", "阅读", "语感", "membaca"],
           },
         ],
       },

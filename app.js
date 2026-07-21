@@ -143,6 +143,245 @@ const TOOLS = [
     prep: "打开即用，不需要打印，不需要学生设备；PK模式开局前输入两班人数即可现场抽签点名",
   },
 
+  {
+    slug: "tahun1-bm-kvkv",
+    tahun: 1,
+    subjek: "bm",
+    status: "published",
+    title_zh: "KVKV音节打地鼠",
+    title_bm: "Kebun Pintar KVKV",
+    desc: "两队同时打地鼠，听朗读念出的词汇后找出对应字卡的地鼠。18个辅音+元音重复两次（KV+KV）结构的马来文词汇，用浏览器内建语音朗读，不需要任何外部服务或网络API。",
+    keywords: ["KVKV", "音节", "拼音", "马来文", "一年级", "bahasa melayu", "suku kata", "打地鼠"],
+    url: "https://tahun1-bm-kvkv.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    // 这 2 张是用 Playwright 实际操作 https://tahun1-bm-kvkv.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bm-kvkv/1-cover.png", label: "开局：18个KVKV词汇总览" },
+      { img: "assets/thumbs/tahun1-bm-kvkv/2-playing.png", label: "两队同时打地鼠" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.1"] },
+    ],
+    practiceSummary: "正确发音朗读KV+KV结构的马来文音节与词汇",
+    teachingMode: ["投影互动", "两队对战"],
+    prep: "打开即用，不需要打印，不需要学生设备，不需要网络API key",
+  },
+
+  {
+    slug: "tahun1-bc-bushou",
+    tahun: 1,
+    subjek: "bc",
+    status: "published",
+    title_zh: "部首大对垒",
+    title_bm: "Pertarungan Radikal Aksara",
+    desc: "红蓝两组抽签点名，抢答找出跟给定汉字同部首的字。8组常见部首（扌木讠亻氵口辶⺮）共66个汉字，答错会被冷冻3秒。开局前可自订两组人数。",
+    keywords: ["部首", "识字", "偏旁", "一年级", "华文", "PK", "对战"],
+    url: "https://tahun1-bc-bushou.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    // 这 3 张是用 Playwright 实际操作 https://tahun1-bc-bushou.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bc-bushou/1-setup.png", label: "开局设定：两组人数可调" },
+      { img: "assets/thumbs/tahun1-bc-bushou/2-selection.png", label: "抽签点名" },
+      { img: "assets/thumbs/tahun1-bc-bushou/3-playing.png", label: "抢答找同部首字" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.1"] },
+    ],
+    practiceSummary: "认识部首/偏旁，辨识同部首汉字",
+    teachingMode: ["投影互动", "两组对战"],
+    prep: "打开即用，不需要打印，不需要学生设备，开局前可调整两组人数",
+  },
+
+  {
+    slug: "tahun1-bc-zaoju",
+    tahun: 1,
+    subjek: "bc",
+    status: "published",
+    title_zh: "神奇句子小火车",
+    title_bm: "Kereta Api Ayat Ajaib",
+    desc: "拖拽或点选「时间/谁什么/地点/动作」四类词语卡组装成完整句子，实时判断语序是否通顺并给出提示；拼好后一键朗读（浏览器内建语音），还能现场抽签点名上台。",
+    keywords: ["造句", "写话", "语序", "一年级", "华文", "拖拽", "词语"],
+    url: "https://tahun1-bc-zaoju.vercel.app",
+    type: "工具",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    // 这 3 张是用 Playwright 实际操作 https://tahun1-bc-zaoju.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bc-zaoju/1-empty.png", label: "四类词语卡" },
+      { img: "assets/thumbs/tahun1-bc-zaoju/2-filled.png", label: "组装成句+语序反馈" },
+      { img: "assets/thumbs/tahun1-bc-zaoju/3-draw.png", label: "抽签点名上台" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.2"] },
+    ],
+    practiceSummary: "练习写话，按时间/人物/地点/动作正确语序组装句子",
+    teachingMode: ["投影互动", "全班参与"],
+    prep: "打开即用，不需要打印，不需要学生设备，开局前可调整抽签人数",
+  },
+
+  {
+    slug: "tahun2-mt-shuzhi",
+    tahun: 2,
+    subjek: "mt",
+    status: "published",
+    title_zh: "苹果果园数学",
+    title_bm: "Matematik Kebun Epal",
+    desc: "1-999的数字用箱子（百）、篮子（十）、苹果（个）视觉化分组展示，点数字有语音气泡解说数位与数值。单人挑战随机出题（数位/数值混合），另有四人竞赛二选一抢答模式，答错淘汰、答对排名。",
+    keywords: ["数位", "数值", "二年级", "数学", "nilai tempat", "nilai digit"],
+    url: "https://tahun2-mt-shuzhi.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    // 这 3 张是用 Playwright 实际操作 https://tahun2-mt-shuzhi.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-mt-shuzhi/1-learn.png", label: "学习模式：果园视觉化分组" },
+      { img: "assets/thumbs/tahun2-mt-shuzhi/2-explain.png", label: "点数字看语音解说" },
+      { img: "assets/thumbs/tahun2-mt-shuzhi/3-competition.png", label: "四人竞赛二选一抢答" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.4"] },
+    ],
+    practiceSummary: "讲述1000以内数目的数位与数值、依数位数值分析数目",
+    teachingMode: ["投影互动", "单人挑战", "四人竞赛"],
+    prep: "打开即用，不需要打印，不需要学生设备",
+  },
+
+  {
+    slug: "tahun2-mt-shulie-explore",
+    tahun: 2,
+    subjek: "mt",
+    status: "published",
+    title_zh: "数序列小探险",
+    title_bm: "Pengembaraan Pola Nombor",
+    desc: "四个环节一站式：学习乐园（认识数列概念）→ 练习工坊（填一填）→ 数列小火车（趣味挑战）→ 终极挑战（测验），适合老师带全班从头教到尾建立概念。",
+    keywords: ["数列", "规律", "二年级", "数学", "pola nombor"],
+    url: "https://tahun2-mt-shulie-explore.vercel.app",
+    type: "工具",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    // 这 2 张是用 Playwright 实际操作 https://tahun2-mt-shulie-explore.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-mt-shulie-explore/1-menu.png", label: "四个环节总览" },
+      { img: "assets/thumbs/tahun2-mt-shulie-explore/2-learn.png", label: "学习乐园：认识数列概念" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.7"] },
+    ],
+    practiceSummary: "认识数列规律、确认规律、完成简易规律数列",
+    teachingMode: ["投影互动", "全班带教", "个人练习"],
+    prep: "打开即用，不需要打印，不需要学生设备",
+  },
+
+  {
+    slug: "tahun2-mt-shulie-boss",
+    tahun: 2,
+    subjek: "mt",
+    status: "published",
+    title_zh: "数字数列大对决",
+    title_bm: "Pertarungan Pola Nombor",
+    desc: "单人挑战「数学怪兽」，三个难度关卡（1和10／2和5／混合），找出数列缺项攻击对方，答错或超时会被反打，倒计时条增加临场压力感，适合个人或轮流上台挑战。",
+    keywords: ["数列", "规律", "二年级", "数学", "闯关", "RPG"],
+    url: "https://tahun2-mt-shulie-boss.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    // 这 2 张是用 Playwright 实际操作 https://tahun2-mt-shulie-boss.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-mt-shulie-boss/1-menu.png", label: "三个难度关卡" },
+      { img: "assets/thumbs/tahun2-mt-shulie-boss/2-battle.png", label: "对战数学怪兽" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.7"] },
+    ],
+    practiceSummary: "确认数列规律、找出数列缺项",
+    teachingMode: ["投影互动", "单人挑战"],
+    prep: "打开即用，不需要打印，不需要学生设备",
+  },
+
+  {
+    slug: "tahun2-mt-shulie-duel",
+    tahun: 2,
+    subjek: "mt",
+    status: "published",
+    title_zh: "双人数字对决",
+    title_bm: "Duel Pola Nombor Dua Pemain",
+    desc: "两位学生共用一台电脑同屏对战，玩家1用A/S/D键、玩家2用方向键抢答数列缺项，答对攻击对方血条、答错冻结2秒，先清空对方血条获胜。",
+    keywords: ["数列", "规律", "二年级", "数学", "双人", "对战"],
+    url: "https://tahun2-mt-shulie-duel.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    // 这 2 张是用 Playwright 实际操作 https://tahun2-mt-shulie-duel.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-mt-shulie-duel/1-menu.png", label: "三个难度关卡+按键说明" },
+      { img: "assets/thumbs/tahun2-mt-shulie-duel/2-battle.png", label: "同屏双人对战" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.7"] },
+    ],
+    practiceSummary: "确认数列规律、找出数列缺项",
+    teachingMode: ["投影互动", "两人对战"],
+    prep: "打开即用，不需要打印，两位学生共用一台电脑/键盘",
+  },
+
+  {
+    slug: "tahun3-bc-kewen",
+    tahun: 3,
+    subjek: "bc",
+    status: "published",
+    title_zh: "语文课文大PK",
+    title_bm: "Pertarungan Pemahaman Teks",
+    desc: "两位学生同屏对战，键盘A/S/D vs J/K/L（或方向键）抢答课文填空题，29道题涵盖多篇课文（李光前故事/象棋/古诗/蚊子等），擂台制赢家留下接受新挑战。",
+    keywords: ["课文理解", "阅读", "三年级", "华文", "填空", "PK", "对战"],
+    url: "https://tahun3-bc-kewen.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    // 这 3 张是用 Playwright 实际操作 https://tahun3-bc-kewen.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun3-bc-kewen/1-menu.png", label: "游戏规则说明" },
+      { img: "assets/thumbs/tahun3-bc-kewen/2-ready.png", label: "抽签对战准备" },
+      { img: "assets/thumbs/tahun3-bc-kewen/3-playing.png", label: "同屏抢答填空" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.1"] },
+    ],
+    practiceSummary: "阅读教材培养语感、体验情感、领会教育意义",
+    teachingMode: ["投影互动", "两人对战"],
+    prep: "打开即用，不需要打印，两位学生共用一台电脑/键盘",
+  },
+
+  {
+    slug: "tahun2-mt-baigetu",
+    tahun: 2,
+    subjek: "mt",
+    status: "published",
+    title_zh: "百格图乘法表动画",
+    title_bm: "Animasi Sifir dalam Carta Seratus",
+    desc: "1-100百格图逐格点亮某个乘数（2-10）的所有倍数，配合右侧同步高亮的乘法等式清单，可调速播放/暂停/直接展示，帮助建立乘法周期性斜线规律的数感。",
+    keywords: ["乘法", "乘法表", "口诀", "二年级", "数学", "sifir", "pendaraban"],
+    url: "https://tahun2-mt-baigetu.vercel.app",
+    type: "工具",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    // 这 3 张是用 Playwright 实际操作 https://tahun2-mt-baigetu.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-mt-baigetu/1-init.png", label: "选择乘数" },
+      { img: "assets/thumbs/tahun2-mt-baigetu/2-complete.png", label: "直接展示全部倍数" },
+      { img: "assets/thumbs/tahun2-mt-baigetu/3-animating.png", label: "逐格动画+等式同步高亮" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.3"] },
+    ],
+    practiceSummary: "基本乘法（一位数×一位数）、认识乘法的周期性规律",
+    teachingMode: ["投影互动", "教师带教"],
+    prep: "打开即用，不需要打印，不需要学生设备",
+  },
+
   // 以下 10 个是「示例作品」，纯粹用来把版面填满做展示，不是真的做出来的工具——
   // 没有 status/url（点「开始使用」会显示「示例作品」提示，不会真的打开任何网址），也没有附课程标准
   // （避免假装查证过 DSKP）。缩略图是从 Wikimedia Commons 找的授权明确真实照片，左下角有
