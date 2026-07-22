@@ -178,6 +178,15 @@ const DSKP_INDEX = [
             title_bm: "Menguasai pengetahuan asas aksara",
             terms: ["部首", "偏旁", "笔画", "笔顺", "radikal"],
           },
+          {
+            // 官方原文见 docs/dskp/tahun1/bahasa-cina.md：「5.3 认识各类词语｜5.3.1 认识量词和
+            // 近似字、多音字，辨析理解词义」。title_bm 是工作翻译（"penjodoh bilangan" 是马来文
+            // 语言学通用术语，量词/类别词的标准译法），未核对官方 PDF 逐字马来文措辞
+            code: "5.3",
+            title_zh: "认识各类词语：认识量词和近似字、多音字，辨析理解词义",
+            title_bm: "Mengenal pelbagai jenis perkataan (penjodoh bilangan, kata hampir sama, kata pelbagai bunyi)",
+            terms: ["量词", "认识量词", "近似字", "多音字", "penjodoh bilangan"],
+          },
         ],
       },
       {

@@ -495,6 +495,34 @@ const TOOLS = [
     teachingMode: ["投影互动", "教师带教/演示"],
     prep: "打开即用，不需要打印，不需要真的水缸教具",
   },
+
+  {
+    slug: "tahun1-bc-liangci",
+    tahun: 1,
+    subjek: "bc",
+    status: "published",
+    title_zh: "量词大冒险",
+    title_bm: "Pengembaraan Penjodoh Bilangan",
+    desc: "先看完 17 个常用量词的例子（如「一个苹果」「一只小鸟」），把每一个例子都点一下确认读过，才能进入 Phaser 像素闯关游戏答题。一轮固定 10 题，正确率达标可以选择再玩一次或换人；答错太多则强制回去重新点完全部例子才能再挑战，不能直接跳过学习。改编自作者自己开发的 Mario 像素闯关引擎，换上量词题库。",
+    keywords: ["量词", "一年级", "华文", "liangci", "penjodoh bilangan", "像素游戏", "答题闯关", "自主学习", "mario"],
+    url: "https://tahun1-bc-liangci.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-22", note: "首次上架" },
+    ],
+    // 缩略图待补——这次开发环境 Playwright 被别的会话卡住的浏览器进程占用，无法当场截真实画面，
+    // 之后要记得回来补 3-4 张真实截图，不能用 mock 图顶替
+    thumbnails: [],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.3", objectiveCodes: ["5.3.1"] },
+    ],
+    practiceSummary: "认识17个常用量词的正确用法、根据名词判断合适的量词、辨析理解词义",
+    teachingMode: ["个人自学", "投影互动"],
+    prep: "打开即用，不需要打印；键盘操作游戏（方向键+空格），一台电脑轮流玩或每人一台皆可",
+  },
 ];
 
 // ---------- DSKP 索引查询辅助（读 data/dskp-index.js 的 DSKP_INDEX） ----------
