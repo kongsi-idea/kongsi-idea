@@ -492,20 +492,30 @@ body {
 
 /* Detail modal (thumbnail + description, before opening tool full-screen) */
 .modal__frame--detail { display: flex; flex-direction: column; gap: 16px; max-height: 88vh; overflow-y: auto; }
-/* 缩略图画廊：1张整幅铺开／2张左右对分／4张 2x2 分割 */
+/* 缩略图画廊：1张整幅铺开／2张左右对分／3~4张多行分割。
+   每个格子自己定 aspect-ratio（不是整个容器定死 16:9 再让 1fr 去分），
+   容器高度让它自然撑开——之前整个容器锁 16:9、里面塞 2 行格子时，
+   格子实际内容高度撑不进那个被压扁的轨道，第二行几乎被裁到看不见
+   （踩坑记录：3~4 张缩略图的工具卡几乎都中招，不是量词大冒险单一个案）。 */
 .detail__gallery {
   width: 100%;
-  aspect-ratio: 16 / 9;
   border-radius: 10px;
   overflow: hidden;
   display: grid;
   gap: 4px;
+  flex-shrink: 0; /* 外层 modal 是纵向 flex + max-height:88vh，不设这个的话内容一多，
+                     flex 会把画廊压扁去凑高度，压扁的部分又被 overflow:hidden 裁掉，
+                     3~4 张缩略图时第二行几乎消失——该让 modal 自己滚动，不是压画廊 */
 }
 .detail__gallery--1 { grid-template-columns: 1fr; }
+.detail__gallery--1 .detail__shot { aspect-ratio: 16 / 9; }
 .detail__gallery--2 { grid-template-columns: 1fr 1fr; }
+.detail__gallery--2 .detail__shot { aspect-ratio: 16 / 9; }
 .detail__gallery--3 { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
-.detail__gallery--3 .detail__shot:first-child { grid-row: 1 / 3; }
+.detail__gallery--3 .detail__shot { aspect-ratio: 16 / 9; }
+.detail__gallery--3 .detail__shot:first-child { grid-row: 1 / 3; aspect-ratio: 8 / 9; }
 .detail__gallery--4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.detail__gallery--4 .detail__shot { aspect-ratio: 16 / 9; }
 .detail__shot {
   background:
     repeating-linear-gradient(45deg, rgba(232,135,62,0.18) 0 18px, rgba(214,91,74,0.16) 18px 36px),
