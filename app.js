@@ -514,9 +514,13 @@ const TOOLS = [
       { version: "1.1", date: "2026-07-22", note: "加开场主题页与访客模式；Slides 字体放大、卡片加大加多色；修复垫脚箱卡关与终点旗杆区没有地面的问题" },
       { version: "1.0", date: "2026-07-22", note: "首次上架" },
     ],
-    // 缩略图待补——这次开发环境 Playwright 被别的会话卡住的浏览器进程占用，无法当场截真实画面，
-    // 之后要记得回来补 3-4 张真实截图，不能用 mock 图顶替
-    thumbnails: [],
+    // 这 4 张是用 Playwright 实际操作 https://tahun1-bc-liangci.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bc-liangci/1-title.png", label: "像素风开场页" },
+      { img: "assets/thumbs/tahun1-bc-liangci/2-slide.png", label: "量词学习卡片（点例子确认）" },
+      { img: "assets/thumbs/tahun1-bc-liangci/3-game.png", label: "Phaser 像素闯关" },
+      { img: "assets/thumbs/tahun1-bc-liangci/4-quiz.png", label: "答题：四色选项+上下键选择" },
+    ],
     standards: [
       { curriculum: "KSSR Semakan 2017", unitCode: "5.3", objectiveCodes: ["5.3.1"] },
     ],
