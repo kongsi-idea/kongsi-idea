@@ -553,30 +553,79 @@ function resolveToolStandards(tool) {
   }).filter(Boolean);
 }
 
-const USES_KEY_PREFIX = "kongsi-idea-uses-";
-function getUses(slug) {
-  return Number(localStorage.getItem(USES_KEY_PREFIX + slug) || 0);
-}
-function bumpUses(slug) {
-  localStorage.setItem(USES_KEY_PREFIX + slug, String(getUses(slug) + 1));
+// 工具喜欢数／使用次数：全站真实聚合，存在 Supabase 的 tool_stats（见 supabase/schema.sql），
+// 不再是每台浏览器各自累计的 localStorage 数字。「喜欢」仍然不用登录，用一个存在本机的
+// 随机 voter key 判断这台浏览器有没有投过票、防止重复计数。
+const VOTER_KEY_STORAGE = "kongsi-idea-voter-key";
+function getVoterKey() {
+  let key = localStorage.getItem(VOTER_KEY_STORAGE);
+  if (!key) {
+    key = crypto.randomUUID();
+    localStorage.setItem(VOTER_KEY_STORAGE, key);
+  }
+  return key;
 }
 
-// 「喜欢」是任何人都能点的工具热度指标，不用登录（跟老师个人靠反馈/许愿累积的声望星星是两回事，
-// 后者要等账号系统上线才有意义，这里先不做）。一台浏览器只算一票，用 localStorage 记有没有点过。
-const LIKED_KEY_PREFIX = "kongsi-idea-liked-";
-const LIKE_DELTA_KEY_PREFIX = "kongsi-idea-like-delta-";
+const toolStatsCache = {}; // slug -> { likesCount, usesCount, liked }
+
+function getUses(slug) {
+  return (toolStatsCache[slug] && toolStatsCache[slug].usesCount) || 0;
+}
 function hasLiked(slug) {
-  return localStorage.getItem(LIKED_KEY_PREFIX + slug) === "1";
+  return !!(toolStatsCache[slug] && toolStatsCache[slug].liked);
 }
 function getLikes(tool) {
-  const delta = Number(localStorage.getItem(LIKE_DELTA_KEY_PREFIX + tool.slug) || 0);
-  return tool.stars + delta;
+  return (toolStatsCache[tool.slug] && toolStatsCache[tool.slug].likesCount) || 0;
 }
-function toggleLike(tool) {
-  const liked = hasLiked(tool.slug);
-  const delta = Number(localStorage.getItem(LIKE_DELTA_KEY_PREFIX + tool.slug) || 0);
-  localStorage.setItem(LIKE_DELTA_KEY_PREFIX + tool.slug, String(delta + (liked ? -1 : 1)));
-  localStorage.setItem(LIKED_KEY_PREFIX + tool.slug, liked ? "0" : "1");
+
+async function loadToolStats() {
+  const voterKey = getVoterKey();
+  const [{ data: stats, error: statsErr }, { data: votes, error: votesErr }] = await Promise.all([
+    supabaseClient.from("tool_stats").select("tool_slug, likes_count, uses_count"),
+    supabaseClient.from("tool_like_votes").select("tool_slug").eq("voter_key", voterKey),
+  ]);
+  if (statsErr) { console.error("载入工具统计失败", statsErr); return; }
+  if (votesErr) console.error("载入喜欢记录失败", votesErr);
+  const likedSlugs = new Set((votes || []).map((v) => v.tool_slug));
+  TOOLS.forEach((t) => {
+    const row = (stats || []).find((s) => s.tool_slug === t.slug);
+    toolStatsCache[t.slug] = {
+      likesCount: row ? row.likes_count : 0,
+      usesCount: row ? row.uses_count : 0,
+      liked: likedSlugs.has(t.slug),
+    };
+  });
+  renderBoard();
+  renderStats();
+}
+
+async function toggleLike(tool) {
+  const voterKey = getVoterKey();
+  const before = toolStatsCache[tool.slug] || { likesCount: 0, usesCount: 0, liked: false };
+  // 先在本机乐观更新一次画面，等服务器回应再用真正的数字校正，点起来才不会觉得卡
+  toolStatsCache[tool.slug] = { ...before, liked: !before.liked, likesCount: before.likesCount + (before.liked ? -1 : 1) };
+  renderBoard();
+  renderStats();
+
+  const { data, error } = await supabaseClient.rpc("toggle_tool_like", { p_slug: tool.slug, p_voter_key: voterKey });
+  if (error) {
+    console.error("喜欢失败", error);
+    toolStatsCache[tool.slug] = before; // 送不出去就还原
+    renderBoard();
+    renderStats();
+    return;
+  }
+  const row = Array.isArray(data) ? data[0] : data;
+  toolStatsCache[tool.slug] = { ...toolStatsCache[tool.slug], likesCount: row.likes_count, liked: row.liked };
+  renderBoard();
+  renderStats();
+}
+
+async function bumpUses(slug) {
+  const { data, error } = await supabaseClient.rpc("increment_tool_uses", { p_slug: slug });
+  if (error) { console.error("记录使用次数失败", error); return; }
+  toolStatsCache[slug] = { ...(toolStatsCache[slug] || { likesCount: 0, liked: false }), usesCount: data };
+  renderStats();
 }
 
 const boardEl = document.getElementById("board");
@@ -719,7 +768,7 @@ function renderBoard() {
     btn.addEventListener("click", (e) => {
       e.stopPropagation(); // 不要连带打开详情弹窗
       const tool = TOOLS.find((t) => t.slug === btn.dataset.likeSlug);
-      if (tool) { toggleLike(tool); renderBoard(); renderStats(); }
+      if (tool) toggleLike(tool);
     });
   });
 }
@@ -789,10 +838,7 @@ function openDetail(tool) {
     link.href = tool.url;
     link.classList.remove("detail__open--disabled");
     link.textContent = "开始使用";
-    link.onclick = () => {
-      bumpUses(tool.slug);
-      // 目前用 localStorage 记在这台电脑本地，之后接账号系统才会变成全体老师共用的真实次数
-    };
+    link.onclick = () => { bumpUses(tool.slug); };
   } else {
     link.removeAttribute("href");
     link.classList.add("detail__open--disabled");
@@ -1231,6 +1277,7 @@ function renderRadioOptions(container, options, stateRef) {
     btn.addEventListener("click", () => {
       stateRef.value = btn.dataset.id;
       container.querySelectorAll("button").forEach((b) => b.classList.toggle("active", b === btn));
+      wishSubmitBtn.disabled = !validateWishStep(3); // 选完「最希望得到哪种帮助」要立刻重新判断送出按钮能不能按
     });
   });
 }
@@ -1262,6 +1309,8 @@ function showWishStep(step) {
   wishBackBtn.hidden = step === 1;
   wishNextBtn.hidden = step === 3;
   wishSubmitBtn.hidden = step !== 3;
+  updateWishNextButton();
+  if (step === 3) wishSubmitBtn.disabled = !validateWishStep(3);
 }
 
 function validateWishStep(step) {
@@ -1290,13 +1339,271 @@ function validateWishStep(step) {
 document.getElementById("wishLearningGoal").addEventListener("blur", () => validateWishStep(1));
 document.getElementById("wishProblem").addEventListener("blur", () => validateWishStep(2));
 
-wishNextBtn.addEventListener("click", () => {
+wishNextBtn.addEventListener("click", async () => {
   if (!validateWishStep(wishCurrentStep)) return;
+  if (wishCurrentStep === 1 && !currentSession) {
+    await startGoogleLogin(2); // 第1步一填完就顺手带去登录，回来自动接着第2步，不用另外等到最后才登录
+    return;
+  }
   showWishStep(wishCurrentStep + 1);
 });
 wishBackBtn.addEventListener("click", () => showWishStep(wishCurrentStep - 1));
-document.getElementById("wishForm").addEventListener("submit", (e) => {
-  e.preventDefault(); // 阶段A没有后端，提交按钮本来就 disabled，这里只是保险不让表单真的提交跳转
+
+// ---------- 老师登录（Supabase Auth + Google 登录）----------
+// 设计原则：登录尽量提早、顺路发生，不要求老师先登录才能开始填表。
+// 第1步一填完，「下一步」按钮本身就是登录入口——没登录会先跳去 Google，
+// 授权完跳回来后自动恢复到第2步继续填，不会让已经填好的内容不见。
+let currentSession = null;
+
+const wishLoginStatusEl = document.getElementById("wishLoginStatus");
+document.getElementById("wishConsent").addEventListener("change", () => {
+  wishSubmitBtn.disabled = !validateWishStep(3);
+});
+
+const authLoginBtn = document.getElementById("authLoginBtn");
+const authSignedInEl = document.getElementById("authSignedIn");
+const authEmailEl = document.getElementById("authEmail");
+const authLogoutBtn = document.getElementById("authLogoutBtn");
+
+function updateAuthStatusUI() {
+  authLoginBtn.hidden = !!currentSession;
+  authSignedInEl.hidden = !currentSession;
+  if (currentSession) authEmailEl.textContent = currentSession.user.email || "已登录";
+}
+
+function updateWishNextButton() {
+  if (wishCurrentStep === 1 && !currentSession) {
+    wishNextBtn.innerHTML = `<svg class="auth-status__g" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84c-.21 1.13-.84 2.09-1.8 2.73v2.27h2.91c1.7-1.57 2.69-3.88 2.69-6.64z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.91-2.27c-.81.54-1.84.86-3.05.86-2.35 0-4.34-1.58-5.05-3.71H.96v2.33C2.44 15.98 5.48 18 9 18z"/><path fill="#FBBC05" d="M3.95 10.7A5.4 5.4 0 0 1 3.65 9c0-.59.1-1.17.28-1.7V4.97H.96A9 9 0 0 0 0 9c0 1.45.35 2.83.96 4.03l2.99-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.51.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.97l2.99 2.33C4.66 5.16 6.65 3.58 9 3.58z"/></svg>下一步 · 用 Google 登录`;
+  } else {
+    wishNextBtn.textContent = "下一步";
+  }
+}
+
+async function startGoogleLogin(resumeStep) {
+  saveWishResumeState(resumeStep);
+  wishNextBtn.disabled = true;
+  const { error } = await supabaseClient.auth.signInWithOAuth({
+    provider: "google",
+    options: { redirectTo: window.location.href },
+  });
+  if (error) {
+    clearWishResumeState();
+    wishNextBtn.disabled = false;
+    console.error("Google 登录失败", error);
+    showToast("Google 登录暂时无法使用，请稍后再试。", "error");
+  }
+  // 成功的话浏览器会直接跳转到 Google，不会执行到这里之后
+}
+
+authLoginBtn.addEventListener("click", async () => {
+  const { error } = await supabaseClient.auth.signInWithOAuth({
+    provider: "google",
+    options: { redirectTo: window.location.href },
+  });
+  if (error) { console.error("Google 登录失败", error); showToast("Google 登录暂时无法使用，请稍后再试。", "error"); }
+});
+authLogoutBtn.addEventListener("click", async () => { await supabaseClient.auth.signOut(); });
+
+// ---------- 第1步登录跳转的「回来后继续填」：存/取暂存的表单进度 ----------
+const WISH_RESUME_KEY = "kongsi-idea-wish-resume-v1";
+const WISH_RESUME_TTL = 60 * 60 * 1000; // 只需要撑过「跳到 Google 授权再跳回来」这段时间，1小时足够
+
+function collectWishResumeState(step) {
+  return {
+    step,
+    tahun: wishTahunEl.value || null,
+    subjek: wishSubjekEl.value || null,
+    unitObjective: document.getElementById("wishUnitObjective").value,
+    learningGoal: document.getElementById("wishLearningGoal").value,
+    lessonMoment: document.getElementById("wishLessonMoment").value,
+    problemDescription: document.getElementById("wishProblem").value,
+    difficultyTags: [...wishSelections.difficultyTags],
+    triedAlready: document.getElementById("wishTried").value,
+    constraints: [...wishSelections.constraints],
+    desiredHelp: wishSelections.desiredHelp.value,
+    usageModes: [...wishSelections.usageModes],
+    mustHaveOrAvoid: document.getElementById("wishMustHave").value,
+    classroomContext: document.getElementById("wishContext").value,
+  };
+}
+function saveWishResumeState(step) {
+  localStorage.setItem(WISH_RESUME_KEY, JSON.stringify({ state: collectWishResumeState(step), savedAt: Date.now() }));
+}
+function loadWishResumeState() {
+  try {
+    const raw = localStorage.getItem(WISH_RESUME_KEY);
+    if (!raw) return null;
+    const { state, savedAt } = JSON.parse(raw);
+    if (Date.now() - (savedAt || 0) > WISH_RESUME_TTL) { clearWishResumeState(); return null; }
+    return state;
+  } catch (e) { return null; }
+}
+function clearWishResumeState() { localStorage.removeItem(WISH_RESUME_KEY); }
+
+function applyWishResumeState(state) {
+  if (state.tahun) { wishTahunEl.value = state.tahun; fillWishSubjekOptions(); }
+  if (state.subjek) wishSubjekEl.value = state.subjek;
+  document.getElementById("wishUnitObjective").value = state.unitObjective || "";
+  document.getElementById("wishLearningGoal").value = state.learningGoal || "";
+  document.getElementById("wishLessonMoment").value = state.lessonMoment || "";
+  document.getElementById("wishProblem").value = state.problemDescription || "";
+  document.getElementById("wishTried").value = state.triedAlready || "";
+  (state.difficultyTags || []).forEach((id) => wishSelections.difficultyTags.add(id));
+  (state.constraints || []).forEach((id) => wishSelections.constraints.add(id));
+  wishSelections.desiredHelp.value = state.desiredHelp || null;
+  (state.usageModes || []).forEach((id) => wishSelections.usageModes.add(id));
+  document.getElementById("wishMustHave").value = state.mustHaveOrAvoid || "";
+  document.getElementById("wishContext").value = state.classroomContext || "";
+  renderMultiChips(document.getElementById("wishDifficultyTags"), DIFFICULTY_TAGS, wishSelections.difficultyTags);
+  renderMultiChips(document.getElementById("wishConstraints"), CONSTRAINTS, wishSelections.constraints);
+  renderMultiChips(document.getElementById("wishUsageModes"), USAGE_MODES, wishSelections.usageModes);
+  renderRadioOptions(document.getElementById("wishDesiredHelp"), DESIRED_HELP, wishSelections.desiredHelp);
+}
+
+async function tryResumeWishFlow() {
+  if (!currentSession) return;
+  const state = loadWishResumeState();
+  if (!state) return;
+  clearWishResumeState();
+  resetWishForm();
+  applyWishResumeState(state);
+  document.getElementById("wishModal").classList.add("open");
+  showWishStep(state.step);
+}
+
+// ---------- 第3步送出前万一还没登录的保险（正常情况下第1步就已经登录过）----------
+const WISH_PENDING_SUBMIT_KEY = "kongsi-idea-wish-pending-submit-v1";
+const PENDING_SUBMIT_TTL = 60 * 60 * 1000;
+
+function savePendingSubmit(payload) {
+  localStorage.setItem(WISH_PENDING_SUBMIT_KEY, JSON.stringify({ payload, savedAt: Date.now() }));
+}
+function loadPendingSubmit() {
+  try {
+    const raw = localStorage.getItem(WISH_PENDING_SUBMIT_KEY);
+    if (!raw) return null;
+    const { payload, savedAt } = JSON.parse(raw);
+    if (Date.now() - (savedAt || 0) > PENDING_SUBMIT_TTL) { clearPendingSubmit(); return null; }
+    return payload;
+  } catch (e) { return null; }
+}
+function clearPendingSubmit() { localStorage.removeItem(WISH_PENDING_SUBMIT_KEY); }
+
+async function tryAutoSubmitPending() {
+  if (!currentSession) return;
+  const pending = loadPendingSubmit();
+  if (!pending) return;
+  clearPendingSubmit();
+  const error = await submitWishPayload(pending);
+  if (error) {
+    console.error("自动送出失败", error);
+    showToast("欢迎回来！但刚才自动送出时出了点问题，麻烦重新打开点子许愿池再送一次。", "error");
+    return;
+  }
+  showToast("欢迎回来！你之前填的点子已经自动帮你送出了，谢谢分享。");
+}
+
+async function handleAuthChange() {
+  updateAuthStatusUI();
+  updateWishNextButton();
+  if (wishCurrentStep === 3) wishSubmitBtn.disabled = !validateWishStep(3);
+  await tryResumeWishFlow();
+  await tryAutoSubmitPending();
+}
+
+function initAuth() {
+  // 不用自己猜「什么时候该查一次 getSession()」，Google 登录用的 PKCE 流程回来时
+  // 网址里的 ?code=... 要靠 SDK 异步换成真正的登录状态，这段时机很容易抢跑。
+  // onAuthStateChange 保证的 INITIAL_SESSION 事件才是「SDK 真的处理完了」的信号，
+  // 每次新增监听都会收到一次，不管是刚登录完回来、还是单纯重新整理页面都适用。
+  supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+    currentSession = session;
+    await handleAuthChange();
+  });
+}
+
+// 从州属/县/学校三个 select + 手动输入栏读出学校资料，对应 docs/idea-wish-pool-spec.md 第6.1节
+function collectWishSchool() {
+  if (!stateSelect) return { state: null, district: null, name: null, source: null };
+  const state = stateSelect.value || null;
+  const district = districtSelect.value || null;
+  if (schoolSelect.value === "__manual__") {
+    const manual = schoolManual.value.trim();
+    return { state, district, name: manual || null, source: manual ? "manual" : null };
+  }
+  if (schoolSelect.value) return { state, district, name: schoolSelect.value, source: "directory" };
+  return { state, district, name: null, source: null };
+}
+
+function collectWishPayload() {
+  const school = collectWishSchool();
+  return {
+    tahun: wishTahunEl.value ? Number(wishTahunEl.value) : null,
+    subjek: wishSubjekEl.value || null,
+    unit_objective: document.getElementById("wishUnitObjective").value || null,
+    learning_goal: document.getElementById("wishLearningGoal").value.trim(),
+    lesson_moment: document.getElementById("wishLessonMoment").value || null,
+    problem_description: document.getElementById("wishProblem").value.trim(),
+    difficulty_tags: [...wishSelections.difficultyTags],
+    tried_already: document.getElementById("wishTried").value || null,
+    constraints: [...wishSelections.constraints],
+    desired_help: wishSelections.desiredHelp.value,
+    usage_modes: [...wishSelections.usageModes],
+    must_have_or_avoid: document.getElementById("wishMustHave").value || null,
+    classroom_context: document.getElementById("wishContext").value || null,
+    school_state: school.state,
+    school_district: school.district,
+    school_name: school.name,
+    school_source: school.source,
+  };
+}
+
+async function submitWishPayload(payload) {
+  const { error } = await supabaseClient.from("wishes").insert({ ...payload, teacher_id: currentSession.user.id });
+  return error;
+}
+
+document.getElementById("wishForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (!validateWishStep(3)) return; // 按钮本来就该是 disabled，这里保险再挡一次
+
+  const payload = collectWishPayload();
+
+  if (!currentSession) {
+    // 正常流程第1步就已登录，这里是万一（例如登录状态过期）的保险
+    wishSubmitBtn.disabled = true;
+    wishSubmitBtn.textContent = "正在跳转 Google 登录……";
+    savePendingSubmit(payload);
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.href },
+    });
+    if (error) {
+      clearPendingSubmit();
+      wishSubmitBtn.disabled = false;
+      wishSubmitBtn.textContent = "送出点子";
+      wishLoginStatusEl.textContent = "Google 登录暂时无法使用，请稍后再试。";
+    }
+    return;
+  }
+
+  wishSubmitBtn.disabled = true;
+  wishSubmitBtn.textContent = "正在送出……";
+  wishLoginStatusEl.textContent = "";
+
+  const error = await submitWishPayload(payload);
+  if (error) {
+    console.error("许愿单送出失败", error);
+    wishSubmitBtn.disabled = false;
+    wishSubmitBtn.textContent = "送出点子";
+    showToast("送出失败，请检查网络后再试一次。", "error");
+    return;
+  }
+
+  clearDraft();
+  document.getElementById("wishModal").classList.remove("open");
+  showToast("点子已经放进铺里。我们会先和相似需求放在一起看看，再评估最能帮到课堂的做法。");
+  resetWishForm();
 });
 
 const WISH_DRAFT_KEY = "classroom-idea-shop-wish-draft-v1";
@@ -1360,6 +1667,8 @@ function resetWishForm() {
   renderRadioOptions(document.getElementById("wishDesiredHelp"), DESIRED_HELP, wishSelections.desiredHelp);
   document.getElementById("wishLearningGoalError").hidden = true;
   document.getElementById("wishProblemError").hidden = true;
+  wishSubmitBtn.textContent = "送出点子";
+  wishLoginStatusEl.textContent = "";
   showWishStep(1);
 }
 
@@ -1495,7 +1804,7 @@ function renderStats() {
     <span class="stat stat--pending"><span class="stat__num" data-target="0">0</span><span class="stat__label">位老师注册</span><span class="stat__badge">即将上线</span></span>
   `;
   const footnoteEl = document.getElementById("statsFootnote");
-  if (footnoteEl) footnoteEl.textContent = "以上数字来自你这台设备的浏览记录，账号系统上线后会换成全站老师的真实数据。";
+  if (footnoteEl) footnoteEl.textContent = "工具使用次数与喜欢数已经是全站真实数据；网页浏览次数与老师注册数还是这台设备本地的记录，账号系统进一步上线后会换成全站真实数据。";
   observeStats(statsBarEl);
 }
 
@@ -1576,6 +1885,22 @@ function typewriterInto(el, text, opts) {
   })();
 }
 
+// ---------- 提示条：取代浏览器原生 alert()，跟网站视觉统一 ----------
+const TOAST_DURATION = 4500;
+function showToast(message, type = "success") {
+  const stack = document.getElementById("toastStack");
+  if (!stack) { console.log(message); return; }
+  const el = document.createElement("div");
+  el.className = "toast" + (type === "error" ? " toast--error" : "");
+  el.textContent = message;
+  stack.appendChild(el);
+  setTimeout(() => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(-10px)";
+    setTimeout(() => el.remove(), 200);
+  }, TOAST_DURATION);
+}
+
 // ---------- 初始化 ----------
 bumpVisits();
 // 「今天」两个字先出来，停顿 2 秒，再继续把后面的字打完，整体也放慢一点
@@ -1588,3 +1913,5 @@ resetWishForm();
 loadFinderFromUrl();
 renderFinder();
 maybeShowWelcome();
+loadToolStats();
+initAuth();

@@ -14,6 +14,16 @@
       <h1>课堂点子铺</h1>
       <p class="tagline">老师有点子，课堂有办法 · Cikgu ada idea, kelas ada jalan</p>
     </div>
+    <div class="auth-status" id="authStatus">
+      <button type="button" class="auth-status__login" id="authLoginBtn">
+        <svg class="auth-status__g" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84c-.21 1.13-.84 2.09-1.8 2.73v2.27h2.91c1.7-1.57 2.69-3.88 2.69-6.64z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.91-2.27c-.81.54-1.84.86-3.05.86-2.35 0-4.34-1.58-5.05-3.71H.96v2.33C2.44 15.98 5.48 18 9 18z"/><path fill="#FBBC05" d="M3.95 10.7A5.4 5.4 0 0 1 3.65 9c0-.59.1-1.17.28-1.7V4.97H.96A9 9 0 0 0 0 9c0 1.45.35 2.83.96 4.03l2.99-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.51.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.97l2.99 2.33C4.66 5.16 6.65 3.58 9 3.58z"/></svg>
+        用 Google 登录
+      </button>
+      <span class="auth-status__signed-in" id="authSignedIn" hidden>
+        <span class="auth-status__email" id="authEmail"></span>
+        <button type="button" class="auth-status__logout" id="authLogoutBtn">登出</button>
+      </span>
+    </div>
     <button class="wish-btn" id="openWish">点子许愿池 <span class="wish-btn__sub">Kedai Idea</span></button>
   </header>
 
@@ -236,13 +246,13 @@
             <label><input type="checkbox" id="wishConsent" required> 我知道需求会由平台团队阅读与汇总，且我没有填写学生个人资料。</label>
           </div>
 
-          <p class="wish__login-note">点子许愿池需要登录才能送出（换取声望星星，也顺手让我们知道是哪位老师提出的）。账号系统还没上线，所以下面的按钮目前还不能真的送出。</p>
+          <p class="wish__login-status" id="wishLoginStatus" aria-live="polite"></p>
         </fieldset>
 
         <div class="wish__nav">
           <button type="button" class="wish__btn wish__btn--back" id="wishBack" hidden>上一步</button>
           <button type="button" class="wish__btn wish__btn--next" id="wishNext">下一步</button>
-          <button type="submit" class="wish__btn wish__btn--submit" id="wishSubmit" hidden disabled>点子收集即将开放</button>
+          <button type="submit" class="wish__btn wish__btn--submit" id="wishSubmit" hidden disabled>送出点子</button>
         </div>
       </form>
     </div>
@@ -267,6 +277,10 @@
     <button class="welcome-toast__cta" id="welcomeToastCta">去点子许愿池看看</button>
   </div>
 
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data/supabase-client.js"></script>
   <script src="data/sjkc-schools.js"></script>
   <script src="data/dskp-index.js"></script>
   <script src="app.js"></script>

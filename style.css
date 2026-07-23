@@ -24,6 +24,44 @@
 
 * { box-sizing: border-box; }
 
+/* 保险规则：有些元素自己的 class 定了 display（比如 flex/inline-flex），
+   跟浏览器原生 [hidden] 的 display:none 同优先级时，后写的样式表会赢，
+   导致该隐藏的元素没真的消失——这条统一让 hidden 属性永远优先 */
+[hidden] { display: none !important; }
+
+.toast-stack {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(420px, calc(100vw - 32px));
+  pointer-events: none;
+}
+.toast {
+  background: var(--paper);
+  border: 2px solid rgba(31,58,52,0.15);
+  border-left: 6px solid var(--orange);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--ink);
+  box-shadow: 0 8px 24px rgba(31,58,52,0.2);
+  animation: toast-in 0.25s ease;
+  pointer-events: auto;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.toast--error { border-left-color: var(--red); }
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* ---------- 统一控件规格：搜索框/下拉选单/文字输入/文字区一律套用同一套尺寸 ---------- */
 .search input,
 .finder__row select,
@@ -111,8 +149,45 @@ body {
   font-size: 0.92rem;
   color: rgba(31,58,52,0.65);
 }
-.wish-btn {
+.auth-status {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+.auth-status__login {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  color: var(--ink);
+  border: 2px solid rgba(31,58,52,0.15);
+  border-radius: 999px;
+  padding: 9px 16px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.auth-status__g { width: 16px; height: 16px; flex-shrink: 0; }
+.auth-status__signed-in {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+  color: rgba(31,58,52,0.7);
+}
+.auth-status__email { font-family: var(--font-body); }
+.auth-status__logout {
+  background: none;
+  border: none;
+  color: var(--red);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.wish-btn {
   background: var(--orange);
   color: #fff8ef;
   border: none;
@@ -934,6 +1009,8 @@ body {
   padding: 10px 14px;
 }
 
+.wish__login-status { font-size: 0.8rem; color: rgba(31,58,52,0.6); margin: 8px 0 0; min-height: 1em; }
+
 .wish__nav { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
 .wish__btn {
   font-family: var(--font-display);
@@ -944,8 +1021,9 @@ body {
   min-height: 44px;
 }
 .wish__btn--back { background: rgba(31,58,52,0.08); color: var(--ink); margin-right: auto; }
-.wish__btn--next { background: var(--orange); color: #fff8ef; }
+.wish__btn--next { background: var(--orange); color: #fff8ef; display: inline-flex; align-items: center; gap: 8px; }
 .wish__btn--submit { background: rgba(31,58,52,0.15); color: rgba(31,58,52,0.5); cursor: not-allowed; }
+.wish__btn--submit:not(:disabled) { background: var(--orange); color: #fff8ef; cursor: pointer; }
 
 @media (max-width: 640px) {
   .site-head { flex-wrap: wrap; }

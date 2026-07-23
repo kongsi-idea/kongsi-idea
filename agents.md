@@ -42,7 +42,7 @@
 ## 品牌与规格审查结论（2026-07-21，用户已确认）
 Codex 提出品牌改名与两份新规格（`docs/idea-wish-pool-spec.md`、`docs/dskp-learning-objective-search.md`）后，Claude Code 逐条比对既有决定，发现两处冲突，回头跟用户确认：
 1. **品牌名字**：用户明确採纳「课堂点子铺」，取代原本坚持的 EduNeo（用户改变主意，不是 Claude 自作主张）——**这条覆盖上面第一次讨论时的「继续沿用 EduNeo」结论**，以本节为准
-2. **点子许愿池登录门槛**：新规格没提登录，但用户重申「维持原决定，提交许愿仍需要登录」——`docs/idea-wish-pool-spec.md` 本身对此语焉不详，**以「许愿池提交需要登录」为准**，前端已经用一句提示文字体现（账号系统还没做，所以现阶段送出按钮本来就是禁用的，这条决定会在真的接账号系统时生效）
+2. **点子许愿池登录门槛**：新规格没提登录，但用户重申「维持原决定，提交许愿仍需要登录」——`docs/idea-wish-pool-spec.md` 本身对此语焉不详，**以「许愿池提交需要登录」为准**。2026-07-23 起已真的接上 Google 登录 + Supabase，送出按钮不再是永久禁用，登录后能真的写进 `wishes` 表（见上方「账号系统与 Supabase」一节）
 3. `docs/dskp-learning-objective-search.md` 指出的「搜索词跳过年级/科目筛选」是真实存在的 bug，已确认修复
 
 三者之外的规格内容（结构化许愿表单、DSKP索引schema、结果卡字段等）审查后判断跟既有原则一致，用户拍板「现在就全部一起做」，已经实施完毕，见下方「已执行」。
@@ -66,17 +66,27 @@ kongsi-idea/
 │   ├── dskp/{tahun}/{subjek}.md       ← DSKP 散文摘要，按需查询用（部分完成，见 handoff.md 缺口清单）
 │   ├── dskp-learning-objective-search.md ← 按学习目标找工具的实施规格（已实施阶段A）
 │   └── idea-wish-pool-spec.md         ← 点子许愿池结构化需求单规格（已实施阶段A）
-└── data/
-    ├── sjkc-schools.json              ← 华小名录，{ 州属: { 县: [校名,...] } } 结构（已完成）
-    ├── sjkc-schools.js                ← 上面 json 转出的浏览器可读版本，供 index.html 直接 <script> 引用
-    └── dskp-index.js                  ← DSKP_INDEX 结构化索引，浏览器直接读取的权威来源（目前有
-                                          6 笔数学科记录，其余科目/年级还没建，见 handoff.md）
+├── data/
+│   ├── sjkc-schools.json              ← 华小名录，{ 州属: { 县: [校名,...] } } 结构（已完成）
+│   ├── sjkc-schools.js                ← 上面 json 转出的浏览器可读版本，供 index.html 直接 <script> 引用
+│   ├── dskp-index.js                  ← DSKP_INDEX 结构化索引，浏览器直接读取的权威来源（目前有
+│   │                                     6 笔数学科记录，其余科目/年级还没建，见 handoff.md）
+│   └── supabase-client.js             ← 前端 Supabase client 初始化（anon key，设计上就是公开用）
+└── supabase/
+    ├── schema.sql                     ← 建表 SQL（wishes / tool_stats / tool_like_votes + RPC函数）
+    └── .secrets.local.md              ← Client Secret/DB密码等，已 gitignore
 ```
 同级资料夹：`../teaching-tools/{slug}/` 存放每个独立工具源码；详见 `../teaching-tools/agents.md` 与 `README.md`。
 **跟最初规划的差异**：原本设想每个工具有自己的 `tools/{slug}/meta.json` 登记档案，实际做法是直接把所有工具（含中马双语字段）写成 `app.js` 里的 `TOOLS` 常量数组，省了一层文件拆分，工具一多再看要不要拆回独立档案。
 
+## 账号系统与 Supabase（2026-07-23 已实施第一阶段）
+- **技术选型拍板：Supabase**，独立开一个专属 kongsi-idea 的 project（project ref `gntnkhkkgonaehapcerr`），跟 EduNeo 的 Supabase project 完全分开，不共用（公开工具平台 vs 私人学生资料，风险不能混）
+- 已完成：`supabase/schema.sql`（`wishes` 许愿单表＋`tool_stats`/`tool_like_votes` 全站真实喜欢数/使用次数聚合，取代原本 localStorage 各自计数）、老师登录改用 **Google OAuth**（第1步填完点「下一步」顺手带登录，不强迫一开始就登录）、首页右上角常驻登录状态显示
+- 连接信息（Client Secret/DB 密码等敏感值）记在 `supabase/.secrets.local.md`（已 gitignore，不进公开仓库）
+- 详细踩坑记录（PKCE 时机、Google Client Secret、CSS `[hidden]` 覆盖等）见 Claude 的 memory（`kongsi-idea-supabase-integration`），跨 session/跨电脑都能查到
+
 ## 本次（阶段一）不做，明确延后
-- 账号系统、登录、星星实际累计、许愿池真的送出/投票——技术栈待定（可能上 Supabase），需另开一轮讨论
+- 声望星星（老师个人靠反馈/许愿累积）、许愿池审核后台——都要等更完整的账号体系与管理界面，另开一轮讨论
 - 未建结构化索引的科目/年级——要一笔一笔人工核对，不能为了凑数据编，见 handoff.md 当前覆盖范围
 - 缩略图自动生成流程——工具数量增加后再做；目前缩略图是手动 Playwright 截真实工具画面
 
