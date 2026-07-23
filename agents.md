@@ -17,6 +17,7 @@
 - 所有独立工具源码统一在同级资料夹 [`../teaching-tools/`](../teaching-tools/)，每个 slug 子资料夹各自拥有 Git 仓库与 Vercel 项目。
 - 要开发、修复或部署工具，先读 [`../teaching-tools/agents.md`](../teaching-tools/agents.md)；要把工具上架、做 DSKP 对照、放截图或改平台展示，则回到本资料夹处理。
 - 两边唯一的登记桥梁是 `app.js` 的 `TOOLS`、`data/dskp-index.js`、`docs/published-tools-coverage.md` 与 `teaching-tools/README.md`；新增或移动工具时，这些资料必须同步更新。
+- 查询“全部工具目前做到哪里、哪些开发中、哪些需要优化、某年级有什么”时，先读 [`../teaching-tools/PROGRESS.md`](../teaching-tools/PROGRESS.md)；本目录的 [`docs/tools-status.md`](docs/tools-status.md) 是由同一脚本生成的镜像，不应直接手改。
 
 ## 初心与定位
 一开始只是想给自己班上做个小游戏（`二年级数学`专案的钱币乐园），做着做着，发现这些东西值得分享给更多华小老师。这个平台不是要给老师们添一个要维护的系统，而是默默把好东西做出来、送到大家手上——老师只需要「用」和「给意见」，真正的制作与打磨由开发者本人扛。
@@ -97,4 +98,5 @@ kongsi-idea/
 ## 工作约定
 - 任何 Agent、任何电脑：**开工先读 `handoff.md`，收工必更新 `handoff.md`**
 - 修改共用档案前先读最新内容
+- 新建、修改、暂停、恢复、测试、部署或上架任何教学工具后，收工前在 `../teaching-tools/` 运行 `npm run status:sync`，同步 `PROGRESS.md`、工具 README 与本目录的 `docs/tools-status.md`。
 - 所有回应与文件使用简体中文
