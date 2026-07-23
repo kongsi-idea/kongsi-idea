@@ -41,4 +41,4 @@ Hub 已接入新的跨目录工具状态系统：
 
 - 时间：2026-07-24
 - 更新者：Codex @ mr007s-Macbook-Air.local
-- Git push：待推
+- Git push：✅ 已推（功能提交 `e88fb8d`）
