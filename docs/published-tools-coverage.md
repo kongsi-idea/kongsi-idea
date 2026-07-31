@@ -22,7 +22,8 @@
 | `tahun3-bc-kewen` | Tahun 3 | 华文 (bc) | 语文课文大PK | 2.0 阅读技能 — 2.1 阅读与理解教材 | https://tahun3-bc-kewen.vercel.app | `../teaching-tools/tahun3-bc-kewen/` | — |
 | `tahun1-dst-magnet` | Tahun 1 | 科学 (dst) | 磁铁大发现 | 7.1 磁铁 — 7.1.1/7.1.2/7.1.3/7.1.4 | https://tahun1-dst-magnet.vercel.app | `../teaching-tools/tahun1-dst-magnet/` | — |
 | `tahun3-dst-density` | Tahun 3 | 科学 (dst) | 浮沉实验室：密度大发现 | 7.1 密度 — 7.1.1/7.1.2/7.1.3/7.1.4 | https://tahun3-dst-density.vercel.app | `../teaching-tools/tahun3-dst-density/` | — |
-| `tahun1-bc-liangci` | Tahun 1 | 华文 (bc) | 量词大冒险 | 5.3 认识各类词语 — 5.3.1 | https://tahun1-bc-liangci.vercel.app | `../teaching-tools/tahun1-bc-liangci/` | — |
+| `tahun1-bc-liangci` | Tahun 1 | 华文 (bc) | 量词大冒险 | 5.0 语文基础知识 — 5.3.1 | https://tahun1-bc-liangci.vercel.app | `../teaching-tools/tahun1-bc-liangci/` | — |
+| `tahun1-bc-juxing` | Tahun 1 | 华文 (bc) | 句型跳跳队 | 5.4 认识不同类型的句子 — 5.4.1 | https://tahun1-bc-juxing.vercel.app | `../teaching-tools/tahun1-bc-juxing/` | 全平台首个摄像头体感工具，`data/dskp-index.js` 的马来文单元名还没核对官方 PDF，暂缓收录进 DSKP 搜索索引 |
 
 > 「优化备注」栏：`—` 表示目前没有已知待改事项；有想法时写一句话摘要（如「拖拽手感偏慢，考虑换动画」），细节多的话另开该工具的 `handoff.md` 再从这里链过去。
 
@@ -32,7 +33,7 @@
 
 | 年级 \ 科目 | bm | bi | bc | mt | dst/sains | sejarah | rbt | islam | moral | seni | muzik | pjpk |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Tahun 1 | ✅ 2.1音节 | — | ✅ 2.1/3.2/5.1/5.3 (4个) | ✅ 1.8近似值 | ✅ 7.1磁铁 | — | — | — | — | — | — | — |
+| Tahun 1 | ✅ 2.1音节 | — | ✅ 2.1/3.2/5.1/5.3.1 (4个) | ✅ 1.8近似值 | ✅ 7.1磁铁 | — | — | — | — | — | — | — |
 | Tahun 2 | — | — | — | ✅ 4.0钱币/1.4数位/1.7数列(3个)/2.3乘法 (共5个) | — | — | — | — | — | — | — | — |
 | Tahun 3 | — | — | ✅ 2.1课文理解 | — | ✅ 7.1密度 | — | — | — | — | — | — | — | — |
 | Tahun 4 | — | — | — | ✅ 1.1数值 | — | — | — | — | — | — | — | — |

@@ -511,8 +511,8 @@ const TOOLS = [
     creator: { name: "卢老师", initial: "卢" },
     version: "1.1",
     changelog: [
-      { version: "1.1", date: "2026-07-22", note: "加开场主题页与访客模式；Slides 字体放大、卡片加大加多色；修复垫脚箱卡关与终点旗杆区没有地面的问题" },
       { version: "1.0", date: "2026-07-22", note: "首次上架" },
+      { version: "1.1", date: "2026-07-22", note: "加开场主题页与访客模式；Slides 字体放大、卡片加大加多色；修复垫脚箱卡关与终点旗杆区没有地面的问题" },
     ],
     // 这 4 张是用 Playwright 实际操作 https://tahun1-bc-liangci.vercel.app 截的真实画面，不是 mock
     thumbnails: [
@@ -522,11 +522,42 @@ const TOOLS = [
       { img: "assets/thumbs/tahun1-bc-liangci/4-quiz.png", label: "答题：四色选项+上下键选择" },
     ],
     standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "5.3", objectiveCodes: ["5.3.1"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.3.1"] },
     ],
     practiceSummary: "认识17个常用量词的正确用法、根据名词判断合适的量词、辨析理解词义",
     teachingMode: ["个人自学", "投影互动"],
     prep: "打开即用，不需要打印；键盘操作游戏（方向键+空格），一台电脑轮流玩或每人一台皆可",
+  },
+
+  {
+    slug: "tahun1-bc-juxing",
+    tahun: 1,
+    subjek: "bc",
+    status: "published",
+    title_zh: "句型跳跳队",
+    title_bm: "Skuad Lompat Jenis Ayat",
+    desc: "全平台第一个摄像头体感游戏：点开先进教学导入，点卡片整页切换陈述句/疑问句/祈使句/感叹句的解释、课本例句与「读读比比」易混句型对照。分组上场（建议4-8人）后开镜头，输入组名，题目念完先有「回到中间站好」的缓冲，接着左右两侧出现句型选项，5秒倒数配合逼哔声与紧张背景音乐，全组一致跳到正确一侧才得分，答对区块亮青色。一轮固定10题，结算后可换组再战，排行榜用浏览器本机存档。摄像头画面全程只在学生电脑本机做姿态推理，不上传任何影像。",
+    keywords: ["句型", "句子功能", "陈述句", "疑问句", "祈使句", "感叹句", "一年级", "华文", "juxing", "jenis ayat", "摄像头", "体感游戏", "分组游戏", "AR"],
+    url: "https://tahun1-bc-juxing.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-07-31", note: "首次上架" },
+    ],
+    // 这 2 张是用 Playwright 实际操作 https://tahun1-bc-juxing.vercel.app 截的真实画面（教学导入部分）；
+    // 分组/答题画面需要真实摄像头，headless 浏览器没有镜头无法截到，先留空
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bc-juxing/1-intro-overview.png", label: "教学导入总览：四种句型卡片" },
+      { img: "assets/thumbs/tahun1-bc-juxing/2-intro-detail.png", label: "点开单一句型：课本例句+读读比比对照" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.4", objectiveCodes: ["5.4.1"] },
+    ],
+    practiceSummary: "辨别陈述句、疑问句、祈使句、感叹句的功能与语气，连结对应标点符号与朗读语气",
+    teachingMode: ["摄像头体感互动", "分组比赛"],
+    prep: "需要摄像头（画面只在本机处理，不上传）；建议 4-8 人一组上场，需要一定活动空间；光线要充足；用 Chrome/Edge 等现代浏览器打开",
   },
 ];
 
@@ -1019,6 +1050,7 @@ function toolMatchesFinder(tool) {
   if (tool.status !== "published") return false; // 示例作品不出现在「按学习目标找工具」结果里
   if (finderState.tahun && tool.tahun !== finderState.tahun) return false;
   if (finderState.subjek && tool.subjek !== finderState.subjek) return false;
+  let unitOrObjectiveSelected = false;
   if (finderState.unit) {
     const coversUnit = (tool.standards || []).some((s) => s.unitCode === finderState.unit);
     if (!coversUnit) return false;
@@ -1026,8 +1058,11 @@ function toolMatchesFinder(tool) {
       const coversObjective = (tool.standards || []).some((s) => s.unitCode === finderState.unit && s.objectiveCodes.includes(finderState.objective));
       if (!coversObjective) return false;
     }
+    unitOrObjectiveSelected = true;
   }
-  if (finderState.q) {
+  // 已经选定单元/学习目标时，查询词只是保留在输入框给使用者看（规格要求），不再拿它去比对工具
+  // 标题/关键词——它本来就是 DSKP 单元/目标的文字，不是工具名，用它过滤会把刚匹配到的工具筛掉。
+  if (finderState.q && !unitOrObjectiveSelected) {
     const q = finderState.q.toLowerCase();
     const hay = [tool.title_zh, tool.title_bm, ...(tool.keywords || [])].join(" ").toLowerCase();
     if (!hay.includes(q)) return false;
@@ -1493,13 +1528,13 @@ async function tryAutoSubmitPending() {
   if (!currentSession) return;
   const pending = loadPendingSubmit();
   if (!pending) return;
-  clearPendingSubmit();
   const error = await submitWishPayload(pending);
   if (error) {
     console.error("自动送出失败", error);
     showToast("欢迎回来！但刚才自动送出时出了点问题，麻烦重新打开点子许愿池再送一次。", "error");
     return;
   }
+  clearPendingSubmit();
   showToast("欢迎回来！你之前填的点子已经自动帮你送出了，谢谢分享。");
 }
 
@@ -1619,13 +1654,17 @@ function collectWishDraft() {
     difficultyTags: [...wishSelections.difficultyTags],
     triedAlready: document.getElementById("wishTried").value,
     constraints: [...wishSelections.constraints],
+    desiredHelp: wishSelections.desiredHelp.value,
+    usageModes: [...wishSelections.usageModes],
+    mustHaveOrAvoid: document.getElementById("wishMustHave").value,
+    classroomContext: document.getElementById("wishContext").value,
     savedAt: Date.now(),
   };
   // 按规格 3.2：不暂存学校资料和隐私确认
 }
 function hasDraftContent() {
   const d = collectWishDraft();
-  return !!(d.learningGoal || d.problemDescription || d.tahun || d.subjek || d.unitObjective || d.triedAlready || d.difficultyTags.length || d.constraints.length);
+  return !!(d.learningGoal || d.problemDescription || d.tahun || d.subjek || d.unitObjective || d.triedAlready || d.difficultyTags.length || d.constraints.length || d.desiredHelp || d.usageModes.length || d.mustHaveOrAvoid || d.classroomContext);
 }
 function saveDraft() { localStorage.setItem(WISH_DRAFT_KEY, JSON.stringify(collectWishDraft())); }
 function clearDraft() { localStorage.removeItem(WISH_DRAFT_KEY); }
@@ -1647,10 +1686,16 @@ function applyDraft(draft) {
   document.getElementById("wishLessonMoment").value = draft.lessonMoment || "";
   document.getElementById("wishProblem").value = draft.problemDescription || "";
   document.getElementById("wishTried").value = draft.triedAlready || "";
+  document.getElementById("wishMustHave").value = draft.mustHaveOrAvoid || "";
+  document.getElementById("wishContext").value = draft.classroomContext || "";
   (draft.difficultyTags || []).forEach((id) => wishSelections.difficultyTags.add(id));
   (draft.constraints || []).forEach((id) => wishSelections.constraints.add(id));
+  (draft.usageModes || []).forEach((id) => wishSelections.usageModes.add(id));
+  wishSelections.desiredHelp.value = draft.desiredHelp || null;
   renderMultiChips(document.getElementById("wishDifficultyTags"), DIFFICULTY_TAGS, wishSelections.difficultyTags);
   renderMultiChips(document.getElementById("wishConstraints"), CONSTRAINTS, wishSelections.constraints);
+  renderMultiChips(document.getElementById("wishUsageModes"), USAGE_MODES, wishSelections.usageModes);
+  renderRadioOptions(document.getElementById("wishDesiredHelp"), DESIRED_HELP, wishSelections.desiredHelp);
 }
 
 function resetWishForm() {
