@@ -509,10 +509,11 @@ const TOOLS = [
     type: "游戏",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
-    version: "1.1",
+    version: "1.2",
     changelog: [
       { version: "1.0", date: "2026-07-22", note: "首次上架" },
       { version: "1.1", date: "2026-07-22", note: "加开场主题页与访客模式；Slides 字体放大、卡片加大加多色；修复垫脚箱卡关与终点旗杆区没有地面的问题" },
+      { version: "1.2", date: "2026-08-05", note: "对照课本修正量词内容错误（群配老虎、枝配柳枝、串配露珠三处不对/别扭的例词与例句），并把偏书面的量词描述文字改成小朋友看得懂的口语说法" },
     ],
     // 这 4 张是用 Playwright 实际操作 https://tahun1-bc-liangci.vercel.app 截的真实画面，不是 mock
     thumbnails: [
