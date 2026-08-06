@@ -12,6 +12,29 @@ let pickedSchool = null; // {id, full_name, school_code}
 let parsedNames = [];
 let editingClassId = null;
 let editingStudents = [];
+let toolsRegistry = null;
+
+async function loadToolsRegistry() {
+  if (toolsRegistry) return toolsRegistry;
+  try {
+    const res = await fetch("app.js");
+    const text = await res.text();
+    const slugs = [...text.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1]);
+    const titles = [...text.matchAll(/title_zh:\s*"([^"]+)"/g)].map((m) => m[1]);
+    const urls = [...text.matchAll(/url:\s*"([^"]+)"/g)].map((m) => m[1]);
+    const statuses = [...text.matchAll(/status:\s*"([^"]+)"/g)].map((m) => m[1]);
+    const tools = [];
+    for (let i = 0; i < slugs.length; i++) {
+      if (statuses[i] === "published" && urls[i]) {
+        tools.push({ slug: slugs[i], title: titles[i] || slugs[i], url: urls[i] });
+      }
+    }
+    toolsRegistry = tools;
+  } catch (e) {
+    toolsRegistry = [];
+  }
+  return toolsRegistry;
+}
 
 // ---------- 小工具 ----------
 
@@ -114,10 +137,9 @@ function renderClassList() {
   const wrap = el("classCards");
   el("noClassesYet").hidden = myClasses.length > 0;
   wrap.innerHTML = "";
-  myClasses.forEach((c, i) => {
+  myClasses.forEach((c) => {
     const card = document.createElement("div");
     card.className = "kk-class-card";
-    card.style.setProperty("--tilt", (i % 2 === 0 ? -1 : 1) + "deg");
     card.innerHTML = `
       <div>
         <span class="kk-class-card__name">${c.class_name}</span>
@@ -363,7 +385,7 @@ el("deleteClassBtn").addEventListener("click", async () => {
 
 // ---------- 合班连结生成器 ----------
 
-function renderCombineSection() {
+async function renderCombineSection() {
   const section = el("combineSection");
   section.hidden = myClasses.length === 0;
   if (myClasses.length === 0) return;
@@ -377,6 +399,18 @@ function renderCombineSection() {
   });
   el("combineToolRow").hidden = true;
   el("combineResult").hidden = true;
+
+  const select = el("combineToolSelect");
+  if (!select.dataset.filled) {
+    const tools = await loadToolsRegistry();
+    tools.forEach((t) => {
+      const opt = document.createElement("option");
+      opt.value = t.url;
+      opt.textContent = t.title;
+      select.appendChild(opt);
+    });
+    select.dataset.filled = "1";
+  }
 }
 
 function getCheckedCodes() {
@@ -392,7 +426,7 @@ function updateCombineResult() {
 
 function buildCombineUrl() {
   const codes = getCheckedCodes();
-  const tool = el("combineToolInput").value.trim();
+  const tool = el("combineToolSelect").value;
   if (codes.length === 0 || !tool) { el("combineResult").hidden = true; return; }
   const shorthand = buildShorthand(codes);
   const sep = tool.includes("?") ? "&" : "?";
@@ -401,7 +435,7 @@ function buildCombineUrl() {
   el("combineResultUrl").textContent = url;
 }
 
-el("combineToolInput").addEventListener("input", buildCombineUrl);
+el("combineToolSelect").addEventListener("change", buildCombineUrl);
 
 el("combineCopyBtn").addEventListener("click", () => {
   navigator.clipboard.writeText(el("combineResultUrl").textContent);

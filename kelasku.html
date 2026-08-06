@@ -61,8 +61,10 @@
         <p class="kk-section-hint">勾选想合并的班级，生成给学生用的网址</p>
         <div class="kk-combine-checks" id="combineChecks"></div>
         <div class="kk-combine-tool" id="combineToolRow" hidden>
-          <label class="kk-field-label" for="combineToolInput">工具网址（例如 https://traincar.vercel.app）</label>
-          <input type="text" id="combineToolInput" placeholder="贴上工具网址">
+          <label class="kk-field-label" for="combineToolSelect">选工具</label>
+          <select id="combineToolSelect">
+            <option value="">选一个工具</option>
+          </select>
           <div class="kk-combine-result" id="combineResult" hidden>
             <code id="combineResultUrl"></code>
             <button type="button" class="kk-btn kk-btn--small" id="combineCopyBtn">复制</button>
