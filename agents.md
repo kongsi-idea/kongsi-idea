@@ -88,7 +88,7 @@ kongsi-idea/
 
 ## kelasku：老师班级/学生名单系统（2026-08-06 已实施第一阶段）
 - **目的**：各教学工具原本没有自己的数据库，老师每次都要重打学生名单。`kelasku.html` 是老师登录管理班级的独立页面，各工具靠网址参数 `?code=` 读取对应班级的学生名单，不用各自建后台
-- **代码格式**：`{学校代码}-{班级缩写}`（如 `JH0042-1I`）。学校代码由 `state_to_abbr(州属) + 4位流水号` 自动生成（触发器保证唯一，见 `schools_set_code()`），不是官方 Kod Sekolah（这份名录本来就没有官方码，见 `data/sjkc-schools-README.md`）
+- **代码格式**：`{学校代码}-{班级缩写}`（如 `JBC1037-1I`）。学校代码优先用**官方 Kod Sekolah**——2026-08-06 重新解析维基百科原始表格里本来就有、但当初收集 `sjkc-schools.json` 时漏抓的「Kod sekolah」栏位，按州属+中文校名比对回填，1310 间里 975 间（约74%）已核实为真代码（`code_official=true`）；比对不上的约335间暂用 `state_to_abbr(州属)+4位流水号` 的占位码顶着（`code_official=false`，触发器 `schools_set_code()` 生成），清单在 `supabase/kod-sekolah-unmatched-2026-08-06.json`，之后分批继续核对补齐
 - **`?code=` 支持逗号合并多班**，同校可省略学校代码只写班级缩写（如 `JH0042-1I,2A`），解析规则见 `data/class-code-client.js` 的 `expand()`
 - **两层数据、两种权限**：`schools`/`classes`/`students` 读取对所有人（含匿名）开放（工具要能查），但改/删只认 `owner_id = auth.uid()`（Google 登录）；这跟点子许愿池那种「全私有」的权限模式不同，因为 kelasku 的资料是设计上要被公开工具读取的
 - **`schools` 表已预建全国 1310 间华小**（从 `data/sjkc-schools.json` 灌入,2026-08-06 执行），老师登记时先搜索，找不到才手动补登记（`schools` 对 authenticated 开放 insert，不开放 update/delete）
