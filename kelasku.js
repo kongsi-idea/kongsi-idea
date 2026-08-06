@@ -12,32 +12,6 @@ let pickedSchool = null; // {id, full_name, school_code}
 let parsedNames = [];
 let editingClassId = null;
 let editingStudents = [];
-let toolsRegistry = null;
-
-async function loadToolsRegistry() {
-  if (toolsRegistry) return toolsRegistry;
-  try {
-    const res = await fetch("app.js");
-    const full = await res.text();
-    const start = full.indexOf("const TOOLS = [");
-    const end = full.indexOf("\n];", start);
-    const text = start >= 0 && end >= 0 ? full.slice(start, end) : "";
-    const slugs = [...text.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1]);
-    const titles = [...text.matchAll(/title_zh:\s*"([^"]+)"/g)].map((m) => m[1]);
-    const urls = [...text.matchAll(/url:\s*"([^"]+)"/g)].map((m) => m[1]);
-    const statuses = [...text.matchAll(/status:\s*"([^"]+)"/g)].map((m) => m[1]);
-    const tools = [];
-    for (let i = 0; i < slugs.length; i++) {
-      if (statuses[i] === "published" && urls[i]) {
-        tools.push({ slug: slugs[i], title: titles[i] || slugs[i], url: urls[i] });
-      }
-    }
-    toolsRegistry = tools;
-  } catch (e) {
-    toolsRegistry = [];
-  }
-  return toolsRegistry;
-}
 
 // ---------- 小工具 ----------
 
@@ -70,37 +44,6 @@ function parsePastedNames(raw) {
   return names;
 }
 
-function expandShorthand(rawParam) {
-  const tokens = rawParam.split(",").map((t) => t.trim()).filter(Boolean);
-  const codes = [];
-  let lastSchool = null;
-  for (const token of tokens) {
-    const upper = token.toUpperCase();
-    if (upper.includes("-")) {
-      lastSchool = upper.split("-")[0];
-      codes.push(upper);
-    } else if (lastSchool) {
-      codes.push(`${lastSchool}-${upper}`);
-    }
-  }
-  return codes;
-}
-
-function buildShorthand(fullCodes) {
-  const out = [];
-  let last = null;
-  for (const code of fullCodes) {
-    const [school, cls] = code.split("-");
-    if (school === last) {
-      out.push(cls);
-    } else {
-      out.push(code);
-      last = school;
-    }
-  }
-  return out.join(",");
-}
-
 // ---------- 视图切换 ----------
 
 function showState(id) {
@@ -116,8 +59,6 @@ function render() {
   }
   showState("stateClassList");
   renderClassList();
-  renderSavedLinksSection();
-  renderCombineSection();
 }
 
 // ---------- 班级列表 ----------
@@ -385,116 +326,6 @@ el("deleteClassBtn").addEventListener("click", async () => {
   showState("stateClassList");
   render();
 });
-
-// ---------- 合班连结生成器 ----------
-
-async function renderCombineSection() {
-  const section = el("combineSection");
-  section.hidden = myClasses.length === 0;
-  if (myClasses.length === 0) return;
-  const box = el("combineChecks");
-  box.innerHTML = "";
-  myClasses.forEach((c) => {
-    const label = document.createElement("label");
-    label.innerHTML = `<input type="checkbox" value="${c.play_code}"> ${c.class_name}（${c.play_code}）`;
-    label.querySelector("input").addEventListener("change", updateCombineResult);
-    box.appendChild(label);
-  });
-  el("combineToolRow").hidden = true;
-  el("combineResult").hidden = true;
-
-  const select = el("combineToolSelect");
-  if (!select.dataset.filled) {
-    const tools = await loadToolsRegistry();
-    tools.forEach((t) => {
-      const opt = document.createElement("option");
-      opt.value = t.url;
-      opt.textContent = t.title;
-      select.appendChild(opt);
-    });
-    select.dataset.filled = "1";
-  }
-}
-
-function getCheckedCodes() {
-  return Array.from(document.querySelectorAll("#combineChecks input:checked")).map((i) => i.value);
-}
-
-function updateCombineResult() {
-  const codes = getCheckedCodes();
-  el("combineToolRow").hidden = codes.length === 0;
-  if (codes.length === 0) return;
-  buildCombineUrl();
-}
-
-function buildCombineUrl() {
-  const codes = getCheckedCodes();
-  const tool = el("combineToolSelect").value;
-  if (codes.length === 0 || !tool) { el("combineResult").hidden = true; return; }
-  const shorthand = buildShorthand(codes);
-  const sep = tool.includes("?") ? "&" : "?";
-  const url = `${tool}${sep}code=${shorthand}`;
-  el("combineResult").hidden = false;
-  el("combineResultUrl").textContent = url;
-}
-
-el("combineToolSelect").addEventListener("change", buildCombineUrl);
-
-el("combineCopyBtn").addEventListener("click", () => {
-  navigator.clipboard.writeText(el("combineResultUrl").textContent);
-  showToast("连结已复制");
-});
-
-el("combineSaveBtn").addEventListener("click", async () => {
-  const label = el("combineLabelInput").value.trim();
-  const codes = buildShorthand(getCheckedCodes());
-  if (!label) { showToast("先给这个组合取个名字"); return; }
-  const { error } = await supabaseClient
-    .from("saved_links")
-    .insert({ owner_id: currentSession.user.id, label, codes });
-  if (error) { showToast("保存失败：" + error.message); return; }
-  el("combineLabelInput").value = "";
-  showToast("已存进常用连结");
-  await renderSavedLinksSection();
-});
-
-// ---------- 我的常用连结 ----------
-
-async function renderSavedLinksSection() {
-  const { data, error } = await supabaseClient
-    .from("saved_links")
-    .select("id, label, codes")
-    .eq("owner_id", currentSession.user.id)
-    .order("created_at", { ascending: true });
-  const section = el("savedLinksSection");
-  if (error || !data || data.length === 0) { section.hidden = true; return; }
-  section.hidden = false;
-  const list = el("savedLinksList");
-  list.innerHTML = "";
-  data.forEach((link) => {
-    const row = document.createElement("div");
-    row.className = "kk-saved-link";
-    row.innerHTML = `
-      <div>
-        <div class="kk-saved-link__label">${link.label}</div>
-        <div class="kk-saved-link__codes">code=${link.codes}</div>
-      </div>
-      <div class="kk-saved-link__actions">
-        <button type="button" class="kk-btn kk-btn--small" data-act="copy">复制代码段</button>
-        <button type="button" class="kk-btn kk-btn--small" data-act="del">删除</button>
-      </div>
-    `;
-    row.querySelector('[data-act="copy"]').addEventListener("click", () => {
-      navigator.clipboard.writeText(`code=${link.codes}`);
-      showToast("已复制");
-    });
-    row.querySelector('[data-act="del"]').addEventListener("click", async () => {
-      await supabaseClient.from("saved_links").delete().eq("id", link.id);
-      renderSavedLinksSection();
-    });
-    list.appendChild(row);
-  });
-}
 
 // ---------- 登录 ----------
 
