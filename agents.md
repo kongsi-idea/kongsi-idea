@@ -86,6 +86,17 @@ kongsi-idea/
 - 连接信息（Client Secret/DB 密码等敏感值）记在 `supabase/.secrets.local.md`（已 gitignore，不进公开仓库）
 - 详细踩坑记录（PKCE 时机、Google Client Secret、CSS `[hidden]` 覆盖等）见 Claude 的 memory（`kongsi-idea-supabase-integration`），跨 session/跨电脑都能查到
 
+## kelasku：老师班级/学生名单系统（2026-08-06 已实施第一阶段）
+- **目的**：各教学工具原本没有自己的数据库，老师每次都要重打学生名单。`kelasku.html` 是老师登录管理班级的独立页面，各工具靠网址参数 `?code=` 读取对应班级的学生名单，不用各自建后台
+- **代码格式**：`{学校代码}-{班级缩写}`（如 `JH0042-1I`）。学校代码由 `state_to_abbr(州属) + 4位流水号` 自动生成（触发器保证唯一，见 `schools_set_code()`），不是官方 Kod Sekolah（这份名录本来就没有官方码，见 `data/sjkc-schools-README.md`）
+- **`?code=` 支持逗号合并多班**，同校可省略学校代码只写班级缩写（如 `JH0042-1I,2A`），解析规则见 `data/class-code-client.js` 的 `expand()`
+- **两层数据、两种权限**：`schools`/`classes`/`students` 读取对所有人（含匿名）开放（工具要能查），但改/删只认 `owner_id = auth.uid()`（Google 登录）；这跟点子许愿池那种「全私有」的权限模式不同，因为 kelasku 的资料是设计上要被公开工具读取的
+- **`schools` 表已预建全国 1310 间华小**（从 `data/sjkc-schools.json` 灌入,2026-08-06 执行），老师登记时先搜索，找不到才手动补登记（`schools` 对 authenticated 开放 insert，不开放 update/delete）
+- **`saved_links` 表只是网址收藏夹，不是新的代码系统**——存的是老师勾选多班后生成的完整 `?code=` 字符串，方便下次一键复制，不会额外产生「组合代码」这种东西
+- **各工具怎么接**：依序引入 `supabase-client.js` → `class-code-client.js`，呼叫 `ClassCode.load()` 拿到合并后的学生名单（`[{name, className, schoolName}]`）；没有 `code` 参数或查无资料时回传空阵列，工具应该照旧走原本手动输入名字的模式，不能因此坏掉
+- 详细的设计取舍讨论（分数榜真实姓名隐私评估、路径式 vs 参数式网址、班级代码大小写正规化等）在 Claude memory `kongsi-idea-teaching-tools-shared-db-architecture` 里，这里只记结论
+- **本次未做**：还没有任何一个教学工具真的接上 `class-code-client.js`（新工具/既有工具要接的时候，照上面「各工具怎么接」那段做）；`kelasku.html` 还没做真机浏览器走查（Playwright 当时被另一个 session 占用），下次改动这个页面时记得先补测
+
 ## 本次（阶段一）不做，明确延后
 - 声望星星（老师个人靠反馈/许愿累积）、许愿池审核后台——都要等更完整的账号体系与管理界面，另开一轮讨论
 - 未建结构化索引的科目/年级——要一笔一笔人工核对，不能为了凑数据编，见 handoff.md 当前覆盖范围

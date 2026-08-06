@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>kelasku · 课堂点子铺</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="kelasku.css">
+</head>
+<body class="kelasku-body">
+
+  <header class="site-head">
+    <div class="site-head__mark" aria-hidden="true"></div>
+    <div class="site-head__text">
+      <h1><a href="index.html" class="kelasku-home-link">课堂点子铺</a> · kelasku</h1>
+      <p class="tagline">登记你的班级，之后每个工具都直接认得你的学生</p>
+    </div>
+    <div class="auth-status" id="authStatus">
+      <button type="button" class="auth-status__login" id="authLoginBtn">
+        <svg class="auth-status__g" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84c-.21 1.13-.84 2.09-1.8 2.73v2.27h2.91c1.7-1.57 2.69-3.88 2.69-6.64z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.91-2.27c-.81.54-1.84.86-3.05.86-2.35 0-4.34-1.58-5.05-3.71H.96v2.33C2.44 15.98 5.48 18 9 18z"/><path fill="#FBBC05" d="M3.95 10.7A5.4 5.4 0 0 1 3.65 9c0-.59.1-1.17.28-1.7V4.97H.96A9 9 0 0 0 0 9c0 1.45.35 2.83.96 4.03l2.99-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.51.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.97l2.99 2.33C4.66 5.16 6.65 3.58 9 3.58z"/></svg>
+        用 Google 登录
+      </button>
+      <span class="auth-status__signed-in" id="authSignedIn" hidden>
+        <span class="auth-status__email" id="authEmail"></span>
+        <button type="button" class="auth-status__logout" id="authLogoutBtn">登出</button>
+      </span>
+    </div>
+  </header>
+
+  <main class="kelasku-main">
+
+    <!-- 状态1：未登录 -->
+    <section class="kk-state" id="stateLoggedOut">
+      <div class="kk-empty">
+        <p class="kk-empty__title">先登录才能管理班级</p>
+        <p class="kk-empty__body">登录之后，你的班级名单只有你自己能改，学生完全不用登录就能用。</p>
+        <button type="button" class="kk-btn kk-btn--primary" id="loginPromptBtn">用 Google 登录</button>
+      </div>
+    </section>
+
+    <!-- 状态3：班级列表（含状态2的空状态引导） -->
+    <section class="kk-state" id="stateClassList" hidden>
+
+      <div class="kk-empty" id="noClassesYet" hidden>
+        <p class="kk-empty__title">你还没有班级</p>
+        <p class="kk-empty__body">建立第一个班级，之后每个工具都能直接读到这份名单，学生不用再手动输入名字。</p>
+      </div>
+
+      <div class="kk-list" id="classCards"></div>
+
+      <button type="button" class="kk-btn kk-btn--primary kk-add-class-btn" id="addClassBtn">+ 新增班级</button>
+
+      <div class="kk-saved" id="savedLinksSection" hidden>
+        <h2 class="kk-section-title">我的常用连结</h2>
+        <p class="kk-section-hint">把常用的班级组合存起来，下次一键打开，不用重新勾选</p>
+        <div class="kk-saved-list" id="savedLinksList"></div>
+      </div>
+
+      <div class="kk-combine" id="combineSection" hidden>
+        <h2 class="kk-section-title">合班连结生成器</h2>
+        <p class="kk-section-hint">勾选想合并的班级，生成给学生用的网址</p>
+        <div class="kk-combine-checks" id="combineChecks"></div>
+        <div class="kk-combine-tool" id="combineToolRow" hidden>
+          <label class="kk-field-label" for="combineToolInput">工具网址（例如 https://traincar.vercel.app）</label>
+          <input type="text" id="combineToolInput" placeholder="贴上工具网址">
+          <div class="kk-combine-result" id="combineResult" hidden>
+            <code id="combineResultUrl"></code>
+            <button type="button" class="kk-btn kk-btn--small" id="combineCopyBtn">复制</button>
+            <input type="text" id="combineLabelInput" placeholder="给这个组合取个名字（例如：代课-3B）">
+            <button type="button" class="kk-btn kk-btn--small" id="combineSaveBtn">存进常用连结</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 状态2：新增班级表单 -->
+    <section class="kk-state" id="stateAddClass" hidden>
+      <button type="button" class="kk-back-btn" id="backFromAddClass">← 返回班级列表</button>
+      <h2 class="kk-section-title">建立班级</h2>
+
+      <div class="kk-form-block">
+        <label class="kk-field-label" for="schoolSearchInput">你的学校</label>
+        <input type="text" id="schoolSearchInput" autocomplete="off" placeholder="打学校名字搜索，例如：国光">
+        <div class="kk-school-suggestions" id="schoolSuggestions" hidden></div>
+        <p class="kk-school-picked" id="schoolPicked" hidden></p>
+        <button type="button" class="kk-link-btn" id="schoolNotFoundBtn">找不到我的学校？</button>
+
+        <div class="kk-new-school-form" id="newSchoolForm" hidden>
+          <label class="kk-field-label" for="newSchoolName">学校全名</label>
+          <input type="text" id="newSchoolName" placeholder="例如：SJK(C) 某某华小">
+          <label class="kk-field-label" for="newSchoolState">州属</label>
+          <select id="newSchoolState">
+            <option value="">选州属</option>
+          </select>
+          <button type="button" class="kk-btn kk-btn--small" id="addNewSchoolBtn">加入并选用</button>
+        </div>
+      </div>
+
+      <div class="kk-form-block">
+        <label class="kk-field-label" for="classNameInput">班级缩写（只能英文字母/数字，不含空格）</label>
+        <input type="text" id="classNameInput" autocomplete="off" placeholder="例如：1I">
+        <p class="kk-field-hint" id="classNameHint"></p>
+      </div>
+
+      <div class="kk-form-block">
+        <label class="kk-field-label" for="studentPasteArea">学生名单（把 Excel 或备忘录里的名单整段贴上来，不用先整理）</label>
+        <textarea id="studentPasteArea" rows="8" placeholder="张三&#10;Ahmad bin Ali&#10;李四&#10;..."></textarea>
+        <button type="button" class="kk-btn kk-btn--small" id="parsePasteBtn">检查名单</button>
+      </div>
+
+      <div class="kk-preview" id="namePreviewSection" hidden>
+        <p class="kk-field-hint" id="namePreviewCount"></p>
+        <div class="kk-preview-list" id="namePreviewList"></div>
+      </div>
+
+      <button type="button" class="kk-btn kk-btn--primary" id="createClassBtn" disabled>建立班级</button>
+      <p class="kk-field-hint kk-error" id="addClassError" hidden></p>
+    </section>
+
+    <!-- 状态4：编辑班级 -->
+    <section class="kk-state" id="stateEditClass" hidden>
+      <button type="button" class="kk-back-btn" id="backFromEditClass">← 返回班级列表</button>
+      <h2 class="kk-section-title" id="editClassTitle"></h2>
+
+      <div class="kk-code-box">
+        <span class="kk-code-box__label">班级代码</span>
+        <code id="editClassCode"></code>
+        <button type="button" class="kk-btn kk-btn--small" id="copyEditCodeBtn">复制</button>
+      </div>
+
+      <h3 class="kk-section-title kk-section-title--small">学生名单（<span id="editStudentCount"></span>）</h3>
+      <div class="kk-preview-list" id="editStudentList"></div>
+
+      <div class="kk-form-block">
+        <label class="kk-field-label" for="addMoreStudentsArea">追加学生（贴上要新增的名字）</label>
+        <textarea id="addMoreStudentsArea" rows="4" placeholder="新学生名字，一行一个"></textarea>
+        <button type="button" class="kk-btn kk-btn--small" id="addMoreStudentsBtn">加入名单</button>
+      </div>
+
+      <button type="button" class="kk-link-btn kk-danger" id="deleteClassBtn">删除这个班级</button>
+    </section>
+
+  </main>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="data/supabase-client.js"></script>
+  <script src="kelasku.js"></script>
+</body>
+</html>
