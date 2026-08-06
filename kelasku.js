@@ -18,7 +18,10 @@ async function loadToolsRegistry() {
   if (toolsRegistry) return toolsRegistry;
   try {
     const res = await fetch("app.js");
-    const text = await res.text();
+    const full = await res.text();
+    const start = full.indexOf("const TOOLS = [");
+    const end = full.indexOf("\n];", start);
+    const text = start >= 0 && end >= 0 ? full.slice(start, end) : "";
     const slugs = [...text.matchAll(/slug:\s*"([^"]+)"/g)].map((m) => m[1]);
     const titles = [...text.matchAll(/title_zh:\s*"([^"]+)"/g)].map((m) => m[1]);
     const urls = [...text.matchAll(/url:\s*"([^"]+)"/g)].map((m) => m[1]);
