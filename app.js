@@ -1545,6 +1545,8 @@ async function handleAuthChange() {
   if (wishCurrentStep === 3) wishSubmitBtn.disabled = !validateWishStep(3);
   await tryResumeWishFlow();
   await tryAutoSubmitPending();
+  await ensureProfileRow();
+  await refreshTeacherCount();
 }
 
 function initAuth() {
@@ -1836,6 +1838,23 @@ function getVisits() {
   return Number(localStorage.getItem(VISITS_KEY) || 0);
 }
 
+// 账号系统（点子许愿池 + kelasku）上线后，「位老师注册」换成全站真实数字：
+// 每个老师登录后在 profiles 表写一笔自己的 id（RLS 只准写自己那笔），
+// 首页只透过 get_teacher_count() 这个 SECURITY DEFINER 函数拿总数，不读任何一笔个人资料
+let teacherCount = null;
+async function refreshTeacherCount() {
+  const { data, error } = await supabaseClient.rpc("get_teacher_count");
+  if (!error && typeof data === "number") {
+    teacherCount = data;
+    renderStats();
+  }
+}
+
+async function ensureProfileRow() {
+  if (!currentSession) return;
+  await supabaseClient.from("profiles").upsert({ id: currentSession.user.id }, { onConflict: "id", ignoreDuplicates: true });
+}
+
 function renderStats() {
   const statsBarEl = document.getElementById("statsBar");
   if (!statsBarEl) return;
@@ -1843,14 +1862,21 @@ function renderStats() {
   // 「已上架」只算真的发布的工具，示例作品不计入——不然会假装平台有更多作品
   const toolCount = TOOLS.filter((t) => t.status === "published").length;
   const visits = getVisits();
+  const teacherStatHtml = teacherCount === null
+    ? `<span class="stat stat--pending"><span class="stat__num" data-target="0">0</span><span class="stat__label">位老师注册</span><span class="stat__badge">即将上线</span></span>`
+    : `<span class="stat"><span class="stat__num" data-target="${teacherCount}">0</span><span class="stat__label">位老师注册</span></span>`;
   statsBarEl.innerHTML = `
     <span class="stat"><span class="stat__num" data-target="${visits}">0</span><span class="stat__label">次网页浏览</span></span>
     <span class="stat"><span class="stat__num" data-target="${totalUses}">0</span><span class="stat__label">次工具使用</span></span>
     <span class="stat"><span class="stat__num" data-target="${toolCount}">0</span><span class="stat__label">个作品已上架</span></span>
-    <span class="stat stat--pending"><span class="stat__num" data-target="0">0</span><span class="stat__label">位老师注册</span><span class="stat__badge">即将上线</span></span>
+    ${teacherStatHtml}
   `;
   const footnoteEl = document.getElementById("statsFootnote");
-  if (footnoteEl) footnoteEl.textContent = "工具使用次数与喜欢数已经是全站真实数据；网页浏览次数与老师注册数还是这台设备本地的记录，账号系统进一步上线后会换成全站真实数据。";
+  if (footnoteEl) {
+    footnoteEl.textContent = teacherCount === null
+      ? "工具使用次数与喜欢数已经是全站真实数据；网页浏览次数与老师注册数还是这台设备本地的记录，账号系统进一步上线后会换成全站真实数据。"
+      : "工具使用次数、喜欢数与老师注册数都是全站真实数据；网页浏览次数还是这台设备本地的记录。";
+  }
   observeStats(statsBarEl);
 }
 

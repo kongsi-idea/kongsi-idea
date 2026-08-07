@@ -351,6 +351,8 @@ supabaseClient.auth.onAuthStateChange(async (_event, session) => {
   currentSession = session;
   updateAuthUi();
   if (currentSession) {
+    // 首页统计条「位老师注册」靠这张表算全站真实人数，跟点子许愿池共用同一份登记逻辑
+    await supabaseClient.from("profiles").upsert({ id: currentSession.user.id }, { onConflict: "id", ignoreDuplicates: true });
     await loadMyClasses();
   } else {
     myClasses = [];
