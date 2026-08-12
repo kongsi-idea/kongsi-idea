@@ -261,3 +261,74 @@
   color: var(--ink);
   flex: 1;
 }
+
+.kk-file-btn {
+  display: inline-block;
+  color: var(--blue);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.kk-preview-table {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 10px 0;
+}
+.kk-preview-row {
+  display: grid;
+  grid-template-columns: 56px 1fr 1fr 32px;
+  gap: 6px;
+  align-items: center;
+  background: var(--paper-deep);
+  border-radius: 8px;
+  padding: 6px 8px;
+}
+.kk-preview-row input {
+  border: 1px solid rgba(31,58,52,0.15);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+  background: #fff;
+  color: var(--ink);
+  width: 100%;
+  box-sizing: border-box;
+}
+.kk-preview-row button {
+  background: rgba(214,91,74,0.15);
+  color: var(--red);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  line-height: 1;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.kk-existing-class-prompt {
+  margin-top: 14px;
+  padding: 14px;
+  background: var(--paper-deep);
+  border-radius: 10px;
+}
+.kk-existing-class-prompt p { margin: 0 0 10px; color: var(--ink); font-size: 0.9rem; }
+
+.kk-snapshots {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(31,58,52,0.2);
+}
+.kk-snapshot-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+.kk-snapshot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: var(--field-border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  color: var(--ink);
+}

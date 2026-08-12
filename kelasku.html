@@ -81,18 +81,24 @@
       </div>
 
       <div class="kk-form-block">
-        <label class="kk-field-label" for="studentPasteArea">学生名单（把 Excel 或备忘录里的名单整段贴上来，不用先整理）</label>
+        <label class="kk-field-label" for="studentPasteArea">学生名单（把备忘录里的中文名单整段贴上来，不用先整理）</label>
         <textarea id="studentPasteArea" rows="8" placeholder="张三&#10;Ahmad bin Ali&#10;李四&#10;..."></textarea>
         <button type="button" class="kk-btn kk-btn--small" id="parsePasteBtn">检查名单</button>
+        <p class="kk-field-hint">或者<label class="kk-file-btn" for="excelUploadInput">上传 Excel 档案</label>（自动侦测座号/中文名/英文名栏位，不限固定格式）</p>
+        <input type="file" id="excelUploadInput" accept=".xlsx,.xls,.csv" hidden>
       </div>
 
       <div class="kk-preview" id="namePreviewSection" hidden>
         <p class="kk-field-hint" id="namePreviewCount"></p>
-        <div class="kk-preview-list" id="namePreviewList"></div>
+        <div class="kk-preview-table" id="namePreviewList"></div>
       </div>
 
       <button type="button" class="kk-btn kk-btn--primary" id="createClassBtn" disabled>建立班级</button>
       <p class="kk-field-hint kk-error" id="addClassError" hidden></p>
+      <div class="kk-existing-class-prompt" id="existingClassPrompt" hidden>
+        <p id="existingClassPromptText"></p>
+        <button type="button" class="kk-btn kk-btn--primary" id="joinExistingClassBtn">加入这个班，一起管理</button>
+      </div>
     </section>
 
     <!-- 状态4：编辑班级 -->
@@ -106,13 +112,25 @@
         <button type="button" class="kk-btn kk-btn--small" id="copyEditCodeBtn">复制</button>
       </div>
 
+      <p class="kk-section-hint" id="classTeachersHint"></p>
+
       <h3 class="kk-section-title kk-section-title--small">学生名单（<span id="editStudentCount"></span>）</h3>
-      <div class="kk-preview-list" id="editStudentList"></div>
+      <p class="kk-section-hint">座号 / 中文名 / 英文名都能直接点了改，改完自动存</p>
+      <div class="kk-preview-table" id="editStudentList"></div>
 
       <div class="kk-form-block">
-        <label class="kk-field-label" for="addMoreStudentsArea">追加学生（贴上要新增的名字）</label>
+        <label class="kk-field-label" for="addMoreStudentsArea">追加学生（贴上中文名，一行一个）</label>
         <textarea id="addMoreStudentsArea" rows="4" placeholder="新学生名字，一行一个"></textarea>
         <button type="button" class="kk-btn kk-btn--small" id="addMoreStudentsBtn">加入名单</button>
+        <p class="kk-field-hint">或者<label class="kk-file-btn" for="editExcelUploadInput">上传 Excel 补英文名/座号</label>（同名会自动配对更新，不会重复新增）</p>
+        <input type="file" id="editExcelUploadInput" accept=".xlsx,.xls,.csv" hidden>
+      </div>
+
+      <div class="kk-snapshots" id="snapshotsSection">
+        <h3 class="kk-section-title kk-section-title--small">还原名单</h3>
+        <p class="kk-section-hint">每次改动前系统会自动存档，改坏了可以退回之前的版本</p>
+        <button type="button" class="kk-link-btn" id="loadSnapshotsBtn">查看历史版本</button>
+        <div class="kk-snapshot-list" id="snapshotList" hidden></div>
       </div>
 
       <button type="button" class="kk-link-btn kk-danger" id="deleteClassBtn">删除这个班级</button>
@@ -123,6 +141,7 @@
   <div class="toast-stack" id="toastStack" aria-live="polite"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="data/supabase-client.js"></script>
   <script src="kelasku.js"></script>
 </body>

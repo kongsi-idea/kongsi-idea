@@ -34,15 +34,19 @@ const ClassCode = (() => {
     return expand(params.get("code"));
   }
 
-  // 回传合并后的学生名单：[{ name, className, schoolName, playCode }, ...]
-  // 多个班级会依 codes 出现顺序合并，同代码/同名字不去重（同班不该重复输入，交给老师自己管理）
+  // 回传合并后的学生名单：
+  //   [{ name, nameZh, nameEn, seatNo, className, schoolName, playCode }, ...]
+  // name 是给旧工具用的显示名 fallback（优先中文名，没有就用英文名）；
+  // 新工具想分语言显示，直接用 nameZh / nameEn。
+  // 多个班级会依 codes 出现顺序合并，同代码/同名字不去重（同班不该重复输入，交给老师自己管理）。
+  // 每班内部按座号排序（没座号的排最后）。
   async function load(rawParam) {
     const codes = rawParam !== undefined ? expand(rawParam) : codesFromUrl();
     if (codes.length === 0) return [];
 
     const { data: classes, error } = await supabaseClient
       .from("classes")
-      .select("id, class_name, play_code, schools(full_name), students(name)")
+      .select("id, class_name, play_code, schools(full_name), students(name, name_zh, name_en, seat_no)")
       .in("play_code", codes);
 
     if (error || !classes) {
@@ -52,9 +56,20 @@ const ClassCode = (() => {
 
     const roster = [];
     for (const cls of classes) {
-      for (const student of cls.students || []) {
+      const students = (cls.students || []).slice().sort((a, b) => {
+        if (a.seat_no == null && b.seat_no == null) return 0;
+        if (a.seat_no == null) return 1;
+        if (b.seat_no == null) return -1;
+        return a.seat_no - b.seat_no;
+      });
+      for (const student of students) {
+        const nameZh = student.name_zh || null;
+        const nameEn = student.name_en || null;
         roster.push({
-          name: student.name,
+          name: nameZh || nameEn || student.name,
+          nameZh,
+          nameEn,
+          seatNo: student.seat_no,
           className: cls.class_name,
           schoolName: cls.schools ? cls.schools.full_name : "",
           playCode: cls.play_code,

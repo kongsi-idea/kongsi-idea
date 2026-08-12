@@ -9,9 +9,68 @@ const STATES = [
 let currentSession = null;
 let myClasses = []; // [{id, class_name, play_code, school_id, schools:{full_name}}]
 let pickedSchool = null; // {id, full_name, school_code}
-let parsedNames = [];
+let parsedStudents = []; // [{seatNo, nameZh, nameEn}]
 let editingClassId = null;
 let editingStudents = [];
+let pendingDuplicateClassId = null; // 建班时侦测到学校+班级已存在，先记下来等老师按「加入」
+
+// ---------- Excel 栏位侦测（跟 3g-assessment 的 lib/result-parser.ts 同一套做法：
+// 别人的表头写法千百种，用别名字典 + 找分数最高的那一行当表头，不假设固定格式）
+
+const HEADER_ALIASES = {
+  seatNo: ["座号", "学号", "编号", "NO", "NO.", "BIL", "BIL."],
+  nameZh: ["中文姓名", "华文姓名", "中文名", "华文名", "姓名"],
+  nameEn: ["英文姓名", "马来文姓名", "英文名", "马来文名", "NAME", "NAMA", "NAMAPENUH", "FULLNAME"],
+};
+
+function normalizeHeaderCell(value) {
+  return String(value || "").normalize("NFKC").toLocaleUpperCase().replace(/[\s._()（）/\\\-:：]+/g, "");
+}
+
+function mapHeaderCell(value) {
+  const normalized = normalizeHeaderCell(value);
+  if (!normalized) return null;
+  for (const field of Object.keys(HEADER_ALIASES)) {
+    if (HEADER_ALIASES[field].some((alias) => normalized === normalizeHeaderCell(alias))) return field;
+  }
+  return null;
+}
+
+// 表头不一定在第一行（有些档案上面还有标题/说明行），扫前 15 行找匹配栏位最多的那一行当表头
+function chooseHeaderRow(table) {
+  let best = { rowIndex: -1, columns: {}, score: -1 };
+  for (let r = 0; r < Math.min(table.length, 15); r++) {
+    const columns = {};
+    (table[r] || []).forEach((cell, c) => {
+      const field = mapHeaderCell(cell);
+      if (field && columns[field] === undefined) columns[field] = c;
+    });
+    const hasName = columns.nameZh !== undefined || columns.nameEn !== undefined;
+    const score = Object.keys(columns).length * 10 + (hasName ? 8 : 0);
+    if (score > best.score) best = { rowIndex: r, columns, score };
+  }
+  return best;
+}
+
+function parseExcelWorkbookToStudents(workbook) {
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const table = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
+  const header = chooseHeaderRow(table);
+  if (header.rowIndex < 0 || (header.columns.nameZh === undefined && header.columns.nameEn === undefined)) {
+    throw new Error("找不到看得懂的表头，档案至少要有一栏中文姓名或英文姓名");
+  }
+  const students = [];
+  for (let r = header.rowIndex + 1; r < table.length; r++) {
+    const row = table[r] || [];
+    const nameZh = header.columns.nameZh !== undefined ? String(row[header.columns.nameZh] || "").trim() : "";
+    const nameEn = header.columns.nameEn !== undefined ? String(row[header.columns.nameEn] || "").trim() : "";
+    if (!nameZh && !nameEn) continue;
+    const seatRaw = header.columns.seatNo !== undefined ? String(row[header.columns.seatNo] || "").trim() : "";
+    const seatNo = seatRaw && /^\d+$/.test(seatRaw) ? Number(seatRaw) : null;
+    students.push({ seatNo, nameZh: nameZh || null, nameEn: nameEn || null });
+  }
+  return students;
+}
 
 // ---------- 小工具 ----------
 
@@ -65,16 +124,16 @@ function render() {
 
 async function loadMyClasses() {
   const { data, error } = await supabaseClient
-    .from("classes")
-    .select("id, class_name, play_code, school_id, schools(full_name)")
-    .eq("owner_id", currentSession.user.id)
-    .order("created_at", { ascending: true });
+    .from("class_teachers")
+    .select("classes(id, class_name, play_code, school_id, schools(full_name))")
+    .eq("teacher_id", currentSession.user.id)
+    .order("joined_at", { ascending: true });
   if (error) {
     showToast("读取班级列表失败：" + error.message);
     myClasses = [];
     return;
   }
-  myClasses = data || [];
+  myClasses = (data || []).map((row) => row.classes).filter(Boolean);
 }
 
 function renderClassList() {
@@ -100,7 +159,8 @@ function renderClassList() {
 
 function resetAddClassForm() {
   pickedSchool = null;
-  parsedNames = [];
+  parsedStudents = [];
+  pendingDuplicateClassId = null;
   el("schoolSearchInput").value = "";
   el("schoolSuggestions").hidden = true;
   el("schoolPicked").hidden = true;
@@ -108,8 +168,11 @@ function resetAddClassForm() {
   el("classNameInput").value = "";
   el("classNameHint").textContent = "";
   el("studentPasteArea").value = "";
+  el("excelUploadInput").value = "";
   el("namePreviewSection").hidden = true;
   el("addClassError").hidden = true;
+  el("existingClassPrompt").hidden = true;
+  el("createClassBtn").hidden = false;
   el("createClassBtn").disabled = true;
   if (!el("newSchoolState").dataset.filled) {
     STATES.forEach((s) => {
@@ -193,34 +256,60 @@ el("classNameInput").addEventListener("input", () => {
 });
 
 el("parsePasteBtn").addEventListener("click", () => {
-  parsedNames = parsePastedNames(el("studentPasteArea").value);
+  parsedStudents = parsePastedNames(el("studentPasteArea").value).map((name) => ({ seatNo: null, nameZh: name, nameEn: null }));
   renderNamePreview();
   updateCreateBtnState();
+});
+
+el("excelUploadInput").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  try {
+    const buf = await file.arrayBuffer();
+    const wb = XLSX.read(buf, { type: "array" });
+    parsedStudents = parseExcelWorkbookToStudents(wb);
+    renderNamePreview();
+    updateCreateBtnState();
+    showToast(`从 Excel 抓到 ${parsedStudents.length} 位学生`);
+  } catch (err) {
+    showToast("Excel 读取失败：" + err.message);
+  }
 });
 
 function renderNamePreview() {
   const section = el("namePreviewSection");
   const list = el("namePreviewList");
   list.innerHTML = "";
-  if (parsedNames.length === 0) { section.hidden = true; return; }
+  if (parsedStudents.length === 0) { section.hidden = true; return; }
   section.hidden = false;
-  el("namePreviewCount").textContent = `侦测到 ${parsedNames.length} 个名字，检查一下对不对：`;
-  parsedNames.forEach((name, i) => {
-    const chip = document.createElement("span");
-    chip.className = "kk-preview-chip";
-    chip.innerHTML = `${name} <button type="button" aria-label="删除">✕</button>`;
-    chip.querySelector("button").addEventListener("click", () => {
-      parsedNames.splice(i, 1);
+  el("namePreviewCount").textContent = `侦测到 ${parsedStudents.length} 位学生，检查一下对不对：`;
+  parsedStudents.forEach((s, i) => {
+    const row = document.createElement("div");
+    row.className = "kk-preview-row";
+    row.innerHTML = `
+      <input type="text" placeholder="座号" value="${s.seatNo ?? ""}" data-field="seatNo">
+      <input type="text" placeholder="中文名" value="${s.nameZh ?? ""}" data-field="nameZh">
+      <input type="text" placeholder="英文名" value="${s.nameEn ?? ""}" data-field="nameEn">
+      <button type="button" aria-label="删除">✕</button>
+    `;
+    row.querySelectorAll("input").forEach((input) => {
+      input.addEventListener("input", () => {
+        const field = input.dataset.field;
+        s[field] = field === "seatNo" ? (input.value ? Number(input.value) : null) : (input.value || null);
+      });
+    });
+    row.querySelector("button").addEventListener("click", () => {
+      parsedStudents.splice(i, 1);
       renderNamePreview();
       updateCreateBtnState();
     });
-    list.appendChild(chip);
+    list.appendChild(row);
   });
 }
 
 function updateCreateBtnState() {
   const classNameOk = /^[A-Za-z0-9]+$/.test(el("classNameInput").value);
-  el("createClassBtn").disabled = !(pickedSchool && classNameOk && parsedNames.length > 0);
+  el("createClassBtn").disabled = !(pickedSchool && classNameOk && parsedStudents.length > 0);
 }
 
 el("addClassBtn").addEventListener("click", () => {
@@ -231,20 +320,35 @@ el("backFromAddClass").addEventListener("click", () => { showState("stateClassLi
 
 el("createClassBtn").addEventListener("click", async () => {
   el("addClassError").hidden = true;
+  el("existingClassPrompt").hidden = true;
   const className = el("classNameInput").value.trim();
   const { data: cls, error: classErr } = await supabaseClient
     .from("classes")
-    .insert({ school_id: pickedSchool.id, class_name: className, owner_id: currentSession.user.id })
+    .insert({ school_id: pickedSchool.id, class_name: className, created_by: currentSession.user.id })
     .select("id, class_name, play_code")
     .single();
   if (classErr) {
+    if (classErr.message.includes("duplicate")) {
+      // 这间学校已经有人建过这个班了——找出是哪一个，让老师选择加入而不是卡在错误讯息
+      const { data: existing } = await supabaseClient
+        .from("classes")
+        .select("id, play_code")
+        .eq("school_id", pickedSchool.id)
+        .ilike("class_name", className)
+        .maybeSingle();
+      if (existing) {
+        pendingDuplicateClassId = existing.id;
+        el("existingClassPromptText").textContent = `${pickedSchool.full_name} 的 ${className} 班已经有老师建过了（代码 ${existing.play_code}），要加入一起管理这个班吗？`;
+        el("existingClassPrompt").hidden = false;
+        el("createClassBtn").hidden = true;
+        return;
+      }
+    }
     el("addClassError").hidden = false;
-    el("addClassError").textContent = classErr.message.includes("duplicate")
-      ? "这间学校已经有同样的班级缩写了"
-      : "建立班级失败：" + classErr.message;
+    el("addClassError").textContent = "建立班级失败：" + classErr.message;
     return;
   }
-  const rows = parsedNames.map((name) => ({ class_id: cls.id, name }));
+  const rows = parsedStudents.map((s) => ({ class_id: cls.id, name_zh: s.nameZh, name_en: s.nameEn, seat_no: s.seatNo }));
   const { error: studentsErr } = await supabaseClient.from("students").insert(rows);
   if (studentsErr) {
     showToast("班级建好了，但学生名单写入失败：" + studentsErr.message);
@@ -256,6 +360,22 @@ el("createClassBtn").addEventListener("click", async () => {
   render();
 });
 
+el("joinExistingClassBtn").addEventListener("click", async () => {
+  if (!pendingDuplicateClassId) return;
+  const { error } = await supabaseClient
+    .from("class_teachers")
+    .insert({ class_id: pendingDuplicateClassId, teacher_id: currentSession.user.id });
+  if (error && !error.message.includes("duplicate")) {
+    showToast("加入失败：" + error.message);
+    return;
+  }
+  showToast("已加入这个班");
+  await loadMyClasses();
+  showState("stateClassList");
+  render();
+  openEditClass(pendingDuplicateClassId);
+});
+
 // ---------- 编辑班级 ----------
 
 async function openEditClass(classId) {
@@ -263,15 +383,32 @@ async function openEditClass(classId) {
   const cls = myClasses.find((c) => c.id === classId);
   el("editClassTitle").textContent = `${cls.class_name} · ${cls.schools ? cls.schools.full_name : ""}`;
   el("editClassCode").textContent = cls.play_code;
+  el("snapshotList").hidden = true;
+  el("snapshotList").innerHTML = "";
   await loadEditingStudents();
+  await loadClassTeachersHint();
   showState("stateEditClass");
+}
+
+async function loadClassTeachersHint() {
+  const { count } = await supabaseClient
+    .from("class_teachers")
+    .select("teacher_id", { count: "exact", head: true })
+    .eq("class_id", editingClassId);
+  const n = count || 1;
+  el("classTeachersHint").textContent = n > 1 ? `目前有 ${n} 位老师共同管理这个班` : "目前只有你在管理这个班，其他老师搜到同一个学校+班级就能加入";
+}
+
+async function snapshotBeforeChange() {
+  await supabaseClient.rpc("snapshot_class_students", { p_class_id: editingClassId });
 }
 
 async function loadEditingStudents() {
   const { data, error } = await supabaseClient
     .from("students")
-    .select("id, name")
+    .select("id, name_zh, name_en, seat_no")
     .eq("class_id", editingClassId)
+    .order("seat_no", { ascending: true, nullsFirst: false })
     .order("created_at", { ascending: true });
   if (error) { showToast("读取学生名单失败：" + error.message); return; }
   editingStudents = data || [];
@@ -283,15 +420,31 @@ function renderEditingStudents() {
   const list = el("editStudentList");
   list.innerHTML = "";
   editingStudents.forEach((s) => {
-    const chip = document.createElement("span");
-    chip.className = "kk-preview-chip";
-    chip.innerHTML = `${s.name} <button type="button" aria-label="删除">✕</button>`;
-    chip.querySelector("button").addEventListener("click", async () => {
+    const row = document.createElement("div");
+    row.className = "kk-preview-row";
+    row.innerHTML = `
+      <input type="text" placeholder="座号" value="${s.seat_no ?? ""}" data-field="seat_no">
+      <input type="text" placeholder="中文名" value="${s.name_zh ?? ""}" data-field="name_zh">
+      <input type="text" placeholder="英文名" value="${s.name_en ?? ""}" data-field="name_en">
+      <button type="button" aria-label="删除">✕</button>
+    `;
+    row.querySelectorAll("input").forEach((input) => {
+      input.addEventListener("change", async () => {
+        const field = input.dataset.field;
+        const value = field === "seat_no" ? (input.value ? Number(input.value) : null) : (input.value || null);
+        await snapshotBeforeChange();
+        const { error } = await supabaseClient.from("students").update({ [field]: value }).eq("id", s.id);
+        if (error) { showToast("更新失败：" + error.message); return; }
+        s[field] = value;
+      });
+    });
+    row.querySelector("button").addEventListener("click", async () => {
+      await snapshotBeforeChange();
       const { error } = await supabaseClient.from("students").delete().eq("id", s.id);
       if (error) { showToast("删除失败：" + error.message); return; }
       await loadEditingStudents();
     });
-    list.appendChild(chip);
+    list.appendChild(row);
   });
 }
 
@@ -304,12 +457,85 @@ el("backFromEditClass").addEventListener("click", async () => {
 el("addMoreStudentsBtn").addEventListener("click", async () => {
   const names = parsePastedNames(el("addMoreStudentsArea").value);
   if (names.length === 0) return;
-  const rows = names.map((name) => ({ class_id: editingClassId, name }));
+  await snapshotBeforeChange();
+  const rows = names.map((name) => ({ class_id: editingClassId, name_zh: name }));
   const { error } = await supabaseClient.from("students").insert(rows);
   if (error) { showToast("加入失败：" + error.message); return; }
   el("addMoreStudentsArea").value = "";
   showToast(`加入了 ${names.length} 位学生`);
   await loadEditingStudents();
+});
+
+el("editExcelUploadInput").addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  try {
+    const buf = await file.arrayBuffer();
+    const wb = XLSX.read(buf, { type: "array" });
+    const incoming = parseExcelWorkbookToStudents(wb);
+    await snapshotBeforeChange();
+    let updated = 0, inserted = 0;
+    for (const s of incoming) {
+      const match = s.nameZh && editingStudents.find((x) => x.name_zh === s.nameZh);
+      if (match) {
+        const patch = {};
+        if (s.nameEn) patch.name_en = s.nameEn;
+        if (s.seatNo !== null) patch.seat_no = s.seatNo;
+        if (Object.keys(patch).length > 0) {
+          await supabaseClient.from("students").update(patch).eq("id", match.id);
+          updated++;
+        }
+      } else {
+        await supabaseClient.from("students").insert({ class_id: editingClassId, name_zh: s.nameZh, name_en: s.nameEn, seat_no: s.seatNo });
+        inserted++;
+      }
+    }
+    showToast(`更新了 ${updated} 位、新增了 ${inserted} 位学生`);
+    await loadEditingStudents();
+  } catch (err) {
+    showToast("Excel 读取失败：" + err.message);
+  }
+  el("editExcelUploadInput").value = "";
+});
+
+// ---------- 还原名单 ----------
+
+el("loadSnapshotsBtn").addEventListener("click", async () => {
+  const box = el("snapshotList");
+  if (!box.hidden) { box.hidden = true; return; }
+  const { data, error } = await supabaseClient
+    .from("class_snapshots")
+    .select("id, students_json, created_at")
+    .eq("class_id", editingClassId)
+    .order("created_at", { ascending: false });
+  if (error) { showToast("读取历史版本失败：" + error.message); return; }
+  box.innerHTML = "";
+  if (!data || data.length === 0) {
+    box.innerHTML = `<p class="kk-field-hint">还没有历史版本（第一次改动之后才会开始存档）</p>`;
+  } else {
+    data.forEach((snap) => {
+      const row = document.createElement("div");
+      row.className = "kk-snapshot-row";
+      const time = new Date(snap.created_at).toLocaleString("zh-CN", { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
+      const count = Array.isArray(snap.students_json) ? snap.students_json.length : 0;
+      row.innerHTML = `<span>${time}（${count} 人）</span>`;
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "kk-btn kk-btn--small";
+      btn.textContent = "还原到这里";
+      btn.addEventListener("click", async () => {
+        if (!confirm(`确定要把名单还原成 ${time} 的样子吗？现在的名单会先自动存一份档，不会真的丢掉。`)) return;
+        const { error: restoreErr } = await supabaseClient.rpc("restore_class_snapshot", { p_snapshot_id: snap.id });
+        if (restoreErr) { showToast("还原失败：" + restoreErr.message); return; }
+        showToast("已还原");
+        box.hidden = true;
+        await loadEditingStudents();
+      });
+      row.appendChild(btn);
+      box.appendChild(row);
+    });
+  }
+  box.hidden = false;
 });
 
 el("copyEditCodeBtn").addEventListener("click", () => {
