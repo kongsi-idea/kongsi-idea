@@ -79,5 +79,65 @@ const ClassCode = (() => {
     return roster;
   }
 
-  return { expand, codesFromUrl, load };
+  // ---------- 输入代码（不用背网址）----------
+  // 网址带 ?code= 常常被打错（尤其"?code="这段），改成弹一个输入框让学生/老师
+  // 直接打代码，打过一次会记在这台设备的浏览器里，下次开同一个网址不用再打
+
+  const REMEMBER_KEY = "kelasku_class_code";
+
+  function rememberCode(raw) {
+    if (raw) localStorage.setItem(REMEMBER_KEY, raw);
+  }
+
+  function promptForCode() {
+    return new Promise((resolve) => {
+      const overlay = document.createElement("div");
+      overlay.style.cssText = "position:fixed;inset:0;background:rgba(11,30,45,0.6);display:flex;align-items:center;justify-content:center;z-index:99999;font-family:'PingFang SC','Microsoft YaHei',sans-serif;padding:16px;box-sizing:border-box;";
+      overlay.innerHTML = `
+        <div style="background:#fff;border-radius:16px;padding:26px 22px;max-width:320px;width:100%;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,0.35);">
+          <div style="font-weight:900;font-size:1.1rem;margin-bottom:6px;color:#1F3A34;">输入班级代码</div>
+          <div style="font-size:0.85rem;color:#667;margin-bottom:16px;">老师给的那组代码，例如 JBC1037-1I</div>
+          <input type="text" placeholder="班级代码" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:2px solid #ddd;font-size:1.05rem;text-align:center;margin-bottom:12px;">
+          <div style="display:flex;gap:8px;">
+            <button type="button" data-act="skip" style="flex:1;padding:11px;border-radius:10px;border:none;background:#eee;color:#556;font-weight:700;cursor:pointer;font-size:0.9rem;">跳过</button>
+            <button type="button" data-act="go" style="flex:1;padding:11px;border-radius:10px;border:none;background:#0EA5B7;color:#fff;font-weight:700;cursor:pointer;font-size:0.9rem;">开始</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+      const input = overlay.querySelector("input");
+      input.focus();
+      const finish = (value) => { overlay.remove(); resolve(value); };
+      overlay.querySelector('[data-act="go"]').addEventListener("click", () => {
+        const v = input.value.trim();
+        finish(v || null);
+      });
+      overlay.querySelector('[data-act="skip"]').addEventListener("click", () => finish(null));
+      input.addEventListener("keydown", (e) => { if (e.key === "Enter") overlay.querySelector('[data-act="go"]').click(); });
+    });
+  }
+
+  // 拿名单的完整流程：网址有代码就直接用；没有的话，先试试这台设备之前记住的代码；
+  // 都没有，弹框让学生/老师自己打（打了会记住，跳过就照旧走手动输入名字的模式）
+  async function loadOrPrompt() {
+    const urlCodes = codesFromUrl();
+    if (urlCodes.length > 0) {
+      rememberCode(new URLSearchParams(window.location.search).get("code"));
+      return load();
+    }
+
+    const remembered = localStorage.getItem(REMEMBER_KEY);
+    if (remembered) {
+      const roster = await load(remembered);
+      if (roster.length > 0) return roster;
+    }
+
+    const typed = await promptForCode();
+    if (!typed) return [];
+    const roster = await load(typed);
+    if (roster.length > 0) rememberCode(typed);
+    return roster;
+  }
+
+  return { expand, codesFromUrl, load, loadOrPrompt, promptForCode };
 })();
