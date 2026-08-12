@@ -61,7 +61,9 @@ kongsi-idea/
 ├── agents.md
 ├── handoff.md
 ├── index.html / style.css / app.js   ← 首页（DSKP学习目标导航为主入口 + 年级科目双筛选浏览为辅助路径、
-│                                        搜索、详情弹窗、灯箱、统计条、点子许愿池三步表单）
+│                                        搜索、详情弹窗、灯箱、统计条、点子许愿池三步表单、有排行榜的
+│                                        工具卡片右上角带🏆图示）
+├── kelasku.html / kelasku.js / kelasku.css  ← 老师登录管理班级/学生名单的独立页面（详见下方 kelasku 一节）
 ├── docs/
 │   ├── subjek-tahun.md                ← 科目普查+命名代码表（已完成）
 │   ├── dskp/{tahun}/{subjek}.md       ← DSKP 散文摘要，按需查询用（部分完成，见 handoff.md 缺口清单）
@@ -72,9 +74,11 @@ kongsi-idea/
 │   ├── sjkc-schools.js                ← 上面 json 转出的浏览器可读版本，供 index.html 直接 <script> 引用
 │   ├── dskp-index.js                  ← DSKP_INDEX 结构化索引，浏览器直接读取的权威来源（目前有
 │   │                                     6 笔数学科记录，其余科目/年级还没建，见 handoff.md）
-│   └── supabase-client.js             ← 前端 Supabase client 初始化（anon key，设计上就是公开用）
+│   ├── supabase-client.js             ← 前端 Supabase client 初始化（anon key，设计上就是公开用）
+│   └── class-code-client.js           ← 各教学工具接 kelasku 用的共用 snippet（ClassCode.load()/loadOrPrompt()）
 └── supabase/
     ├── schema.sql                     ← 建表 SQL（wishes / tool_stats / tool_like_votes + RPC函数）
+    ├── migration-2026-08-*.sql        ← kelasku 相关的历次 migration，照日期序执行即可看出演变
     └── .secrets.local.md              ← Client Secret/DB密码等，已 gitignore
 ```
 同级资料夹：`../teaching-tools/{slug}/` 存放每个独立工具源码；详见 `../teaching-tools/agents.md` 与 `README.md`。
@@ -86,17 +90,24 @@ kongsi-idea/
 - 连接信息（Client Secret/DB 密码等敏感值）记在 `supabase/.secrets.local.md`（已 gitignore，不进公开仓库）
 - 详细踩坑记录（PKCE 时机、Google Client Secret、CSS `[hidden]` 覆盖等）见 Claude 的 memory（`kongsi-idea-supabase-integration`），跨 session/跨电脑都能查到
 
-## kelasku：老师班级/学生名单系统（2026-08-06 已实施第一阶段）
+## kelasku：老师班级/学生名单系统（2026-08-06 上线，2026-08-12 完成第二阶段）
 - **目的**：各教学工具原本没有自己的数据库，老师每次都要重打学生名单。`kelasku.html` 是老师登录管理班级的独立页面，各工具靠网址参数 `?code=` 读取对应班级的学生名单，不用各自建后台
+- **第二阶段新增（2026-08-12）**：
+  - **多老师共编**：`class_teachers` 成员制取代单一 `owner_id`（该栏位已改名 `created_by`，只作纪录不判权限）。老师建班时若「学校+班级」已存在，会提示「加入这个班」，加入**即时生效不卡审批**——防破坏靠的是下面的自动快照，不是卡准入门槛
+  - **改动前自动存快照**：`class_snapshots` 表 + `snapshot_class_students()`/`restore_class_snapshot()` 两个 RPC，编辑页任何改动前都会先存档，可以「查看历史版本 → 还原到这里」一键退回（同一班最多留 20 份，超过自动清最旧的）
+  - **学生资料拆栏位**：`students.name` 拆成 `name_zh`/`name_en`/`seat_no`，旧 `name` 栏位保留当 fallback 但已弃用
+  - **支持上传 Excel**：跟 `../3g-assessment/lib/result-parser.ts` 同一套做法（别名字典 + 扫前15行找栏位匹配最多的当表头，不假设固定格式），`kelasku.js` 的 `HEADER_ALIASES`/`chooseHeaderRow`/`parseExcelWorkbookToStudents` 是这套逻辑
+  - RLS 全部改用 `is_class_teacher(class_id)` 这个 SECURITY DEFINER 函数判断权限，不要在 `class_teachers` 自己的 policy 里直接 `exists(select ... from class_teachers ...)`——会触发 infinite recursion（2026-08-12 上线当天就踩到这个坑，已修好）
 - **代码格式**：`{学校代码}-{班级缩写}`（如 `JBC1037-1I`）。学校代码优先用**官方 Kod Sekolah**——2026-08-06 重新解析维基百科原始表格里本来就有、但当初收集 `sjkc-schools.json` 时漏抓的「Kod sekolah」栏位，按州属+中文校名比对回填；2026-08-12 又修掉一个解析漏洞（`|- bgcolor="#ECECEC"` 这种带属性的行分隔符，标记的是维基条目自己排除的已关闭/已迁移历史记录，之前误判成表格栏位导致整行错位；另外允许 Kod 栏位带「曾用旧代码」註记时仍抓得到），累计到 1310 间里 **1028 间（约78%）已核实为真代码**（`code_official=true`）；比对不上的暂用 `state_to_abbr(州属)+4位流水号` 的占位码顶着（`code_official=false`，触发器 `schools_set_code()` 生成），最新清单在 `supabase/kod-sekolah-unmatched-2026-08-12.json`（剩下的大多是本来就同名重复、需要靠地址辅助人工核对的），之后可以继续分批补齐
 - **`?code=` 支持逗号合并多班**，同校可省略学校代码只写班级缩写（如 `JH0042-1I,2A`），解析规则见 `data/class-code-client.js` 的 `expand()`
-- **两层数据、两种权限**：`schools`/`classes`/`students` 读取对所有人（含匿名）开放（工具要能查），但改/删只认 `owner_id = auth.uid()`（Google 登录）；这跟点子许愿池那种「全私有」的权限模式不同，因为 kelasku 的资料是设计上要被公开工具读取的
+- **两层数据、两种权限**：`schools`/`classes`/`students` 读取对所有人（含匿名）开放（工具要能查），但改/删只认这个班的 `class_teachers` 成员（Google 登录）；这跟点子许愿池那种「全私有」的权限模式不同，因为 kelasku 的资料是设计上要被公开工具读取的
 - **`schools` 表已预建全国 1310 间华小**（从 `data/sjkc-schools.json` 灌入,2026-08-06 执行），老师登记时先搜索，找不到才手动补登记（`schools` 对 authenticated 开放 insert，不开放 update/delete）
 - **各工具怎么接**：依序引入 `supabase-client.js` → `class-code-client.js`，呼叫 `ClassCode.load()` 拿到合并后的学生名单（`[{name, nameZh, nameEn, seatNo, className, schoolName, playCode}]`，按座号排序）；没有 `code` 参数或查无资料时回传空阵列，工具应该照旧走原本手动输入名字的模式，不能因此坏掉。网址不带 `?code=` 时可以改叫 `ClassCode.loadOrPrompt()`，会弹框让学生直接打代码（打过会记住），不用手动改网址
 - **工具专属表（分数榜等）命名规则：一定要用完整 slug 当前缀，不能只取关键词**——2026-08-12 犯过一次：`liangci_scores` 只取了「liangci」没带年级，用户发现如果以后出现 `tahun2-bc-liangci` 会跟现有的 `tahun1-bc-liangci` 抢同一张表，已经改名成 `tahun1_bc_liangci_scores`（连字号在 SQL 表名里换成底线）保留了当时已经存在的 42 笔真实学生成绩没有丢；以后新工具要建专属表，直接照 `{完整slug用底线连接}_{用途}` 命名，不要偷懒只取一段关键词
 - **没有做「合班连结生成器」/「常用连结收藏夹」这类 UI**（2026-08-07 用户明确要求拆掉已实现的版本）：多班合并本质就是把几个 `play_code` 用逗号接在一起，老师自己知道这个规则就够用，包一层「选工具/存连结」的 UI 反而是多余的操作步骤，没有减少负担。`saved_links` 这张表还留在数据库里但已经没有任何代码引用，是已知的废弃表，不是漏做
 - 详细的设计取舍讨论（分数榜真实姓名隐私评估、路径式 vs 参数式网址、班级代码大小写正规化等）在 Claude memory `kongsi-idea-teaching-tools-shared-db-architecture` 里，这里只记结论
-- **本次未做**：还没有任何一个教学工具真的接上 `class-code-client.js`（新工具/既有工具要接的时候，照上面「各工具怎么接」那段做）
+- **已接上 `class-code-client.js` 的工具（2/17）**：`tahun1-bc-liangci`（量词大冒险，roster + 排行榜都接了）、`tahun2-mt-shulie-duel`（数字数列大对决，只接 roster，没有排行榜）。其余 15 个还没接——大部分是团队/左右对战式玩法，本来就没有"个人名单"这个概念，接不接看该工具玩法是否真的用得到，不是每个都要硬套
+- **排行榜入口**：有排行榜的工具在游戏内用右上角常驻的圆形图示按钮（不是藏在小字连结里），首页卡片缩图右上角也会出现同款图示（`tool.hasLeaderboard = true` 才显示），点了带 `?board=1` 直接开新分页跳排行榜；工具要支持这个深链，自己在 JS 里判断网址带 `board=1` 就直接跳排行榜画面
 - **部署提醒**：这个 project **不是 GitHub 自动部署**，git push 之后一定要手动跑 `vercel --prod`，而且 `kongsi-idea.vercel.app` 这个正式域名不会自动跟着新部署走，还要再手动 `vercel alias set <新部署url> kongsi-idea.vercel.app`——漏了任何一步，线上都还是旧版本，2026-08-06 因为漏了这两步排查了很久
 
 ## 本次（阶段一）不做，明确延后
