@@ -25,7 +25,10 @@ create table public.wishes (
   school_district text,
   school_name text,
   school_source text,
-  status text not null default 'new',
+  status text not null default 'new'
+    check (status in ('new', 'triaged', 'researching', 'planned', 'building', 'shipped', 'declined')),
+  review_note text, -- 人工审核/合并备注，跟老师不公开
+  linked_tool_slug text, -- planned/building/shipped 时关联到 teaching-tools 的 slug，串起许愿单跟实际工具
   created_at timestamptz not null default now()
 );
 

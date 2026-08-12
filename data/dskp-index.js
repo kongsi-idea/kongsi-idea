@@ -180,10 +180,12 @@ const DSKP_INDEX = [
           },
           {
             // 官方原文见 docs/dskp/tahun1/bahasa-cina.md：「5.3 认识各类词语｜5.3.1 认识量词和
-            // 近似字、多音字，辨析理解词义」。title_bm 是工作翻译（"penjodoh bilangan" 是马来文
-            // 语言学通用术语，量词/类别词的标准译法），未核对官方 PDF 逐字马来文措辞
-            code: "5.3",
-            title_zh: "认识各类词语：认识量词和近似字、多音字，辨析理解词义",
+            // 近似字、多音字，辨析理解词义」。5.3 是内容标准，5.3.1 才是真正的学习标准，code 必须
+            // 用 5.3.1，不能用内容标准代替，否则工具的 standards.objectiveCodes 对不上这里。
+            // title_bm 是工作翻译（"penjodoh bilangan" 是马来文语言学通用术语，量词/类别词的标准
+            // 译法），未核对官方 PDF 逐字马来文措辞
+            code: "5.3.1",
+            title_zh: "认识量词和近似字、多音字，辨析理解词义",
             title_bm: "Mengenal pelbagai jenis perkataan (penjodoh bilangan, kata hampir sama, kata pelbagai bunyi)",
             terms: ["量词", "认识量词", "近似字", "多音字", "penjodoh bilangan"],
           },
