@@ -46,10 +46,10 @@
 
 - Google OAuth 使用 PKCE；登录状态继续依赖 `onAuthStateChange` 的 `INITIAL_SESSION`，不要改回抢跑的 `getSession()`
 - Supabase Client Secret、数据库密码等只留在已忽略的 `supabase/.secrets.local.md`，不可提交
-- `data/dskp-index.js`、`supabase/schema.sql` 目前有本机未提交的小改动（改动量很小，来自更早之前的 session），本次没有动它们也没有一并提交，下次开工先看一下这两处 diff 是不是还要处理
+- 收工前补交了上次（07-24）遗留的两处未提交改动（DSKP 量词学习标准修正、许愿单流转栏位 SQL 文件），已进 git；但 `migration-2026-07-24-wish-pipeline-columns.sql` 本身**还没有在 Supabase 执行**，仍是「待人工执行」清单里那一项
 
 ## 🕐 最后更新
 
 - 时间：2026-08-12
 - 更新者：Claude Code @ (本机)
-- Git push：✅ 已推（待回填最后一次 commit hash）
+- Git push：✅ 已推（`28f59a0` kelasku 进度纪录、`68e4d43` 补交 07-24 遗留改动）
