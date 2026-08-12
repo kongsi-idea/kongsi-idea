@@ -507,6 +507,7 @@ const TOOLS = [
     keywords: ["量词", "一年级", "华文", "liangci", "penjodoh bilangan", "像素游戏", "答题闯关", "自主学习", "mario"],
     url: "https://tahun1-bc-liangci.vercel.app",
     type: "游戏",
+    hasLeaderboard: true,
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
     version: "1.2",
@@ -749,7 +750,9 @@ function cardHtml(tool) {
     <div class="card" data-slug="${tool.slug}">
       <div class="card__thumb">${cover
         ? (cover.img ? `<img src="${cover.img}" alt="${cover.label || ""}">` : `<span>${cover.label}</span>`)
-        : `<span>${subjectBadge(tool.subjek)}</span>`}</div>
+        : `<span>${subjectBadge(tool.subjek)}</span>`}${tool.hasLeaderboard
+        ? `<a class="card__board" href="${tool.url}?board=1" target="_blank" rel="noopener" title="查看排行榜" onclick="event.stopPropagation()">🏆</a>`
+        : ""}</div>
       <h3 class="card__title-zh">${tool.title_zh}</h3>
       <p class="card__title-bm">${tool.title_bm}</p>
       ${creatorHtml(tool)}

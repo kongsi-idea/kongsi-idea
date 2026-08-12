@@ -96,7 +96,7 @@ const ClassCode = (() => {
       overlay.innerHTML = `
         <div style="background:#fff;border-radius:16px;padding:26px 22px;max-width:320px;width:100%;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,0.35);">
           <div style="font-weight:900;font-size:1.1rem;margin-bottom:6px;color:#1F3A34;">输入班级代码</div>
-          <div style="font-size:0.85rem;color:#667;margin-bottom:16px;">老师给的那组代码，例如 JBC1037-1I</div>
+          <div style="font-size:0.85rem;color:#667;margin-bottom:16px;">老师给的那组代码，例如 JAA1234-1A</div>
           <input type="text" placeholder="班级代码" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:2px solid #ddd;font-size:1.05rem;text-align:center;margin-bottom:12px;">
           <div style="display:flex;gap:8px;">
             <button type="button" data-act="skip" style="flex:1;padding:11px;border-radius:10px;border:none;background:#eee;color:#556;font-weight:700;cursor:pointer;font-size:0.9rem;">跳过</button>
