@@ -34,7 +34,7 @@ const ClassCode = (() => {
     return expand(params.get("code"));
   }
 
-  // 回传合并后的学生名单：[{ name, className, schoolName }, ...]
+  // 回传合并后的学生名单：[{ name, className, schoolName, playCode }, ...]
   // 多个班级会依 codes 出现顺序合并，同代码/同名字不去重（同班不该重复输入，交给老师自己管理）
   async function load(rawParam) {
     const codes = rawParam !== undefined ? expand(rawParam) : codesFromUrl();
@@ -57,6 +57,7 @@ const ClassCode = (() => {
           name: student.name,
           className: cls.class_name,
           schoolName: cls.schools ? cls.schools.full_name : "",
+          playCode: cls.play_code,
         });
       }
     }
