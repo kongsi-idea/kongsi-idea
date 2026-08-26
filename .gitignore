@@ -1,3 +1,8 @@
 .DS_Store
 .vercel
 supabase/.secrets.local.md
+
+# MCP 本地设定：现在只有公开的 project_ref，没有金钥。
+# 但 Supabase MCP 的设定档很常在之后被补上 sbp_ 开头的 access token，
+# 档案一旦被追踪，那次就会静静地跟着 commit 出去——先不追踪，堵死这条路。
+.mcp.json
