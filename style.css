@@ -740,6 +740,41 @@ body {
   margin: 18px 0 0;
 }
 
+/* ---------- 工具详情 modal 的小屏断点 ---------- */
+/* 手机直放：外距 20 ＋ 左右内距 22×2 ＝ 84px，在 360px 宽的机器上
+   等于内容只剩 276px。收窄后拿回 30px，一行多放两三个字。 */
+@media (max-width: 480px) {
+  .modal { padding: 10px; }
+  .modal__frame { padding: 16px; border-radius: 12px; }
+  .modal__frame--detail { gap: 12px; }
+  .detail__open { font-size: 1rem; padding: 14px 16px; }
+  .detail__rule { margin-top: 14px; }
+}
+
+/* 矮视口＝手机／平板横放，学生玩游戏最常见的握法。
+   88vh 在这里只有 ~343px，而缩略图画廊本身就 337px——按钮被挤到
+   第一屏下面 188px，17 个工具无一幸免（2026-08-26 实测 844×390）。
+   这里把画廊改成单行缩略条：所有格子并排、各自 16:9，高度立刻降到 ~80px。
+   放大看的功能没少，点下去还是开灯箱。 */
+@media (max-height: 560px) {
+  .modal { padding: 10px; }
+  .modal__frame { padding: 16px; }
+  .modal__frame--detail { gap: 10px; max-height: 94vh; }
+  .detail__gallery--2,
+  .detail__gallery--3,
+  .detail__gallery--4 { grid-template-rows: none; }
+  .detail__gallery--3 { grid-template-columns: repeat(3, 1fr); }
+  .detail__gallery--4 { grid-template-columns: repeat(4, 1fr); }
+  /* 3 张图那个跨两行的主图要一起解除，否则它还是会去撑高度 */
+  .detail__gallery--3 .detail__shot:first-child {
+    grid-row: auto;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+  .detail__open { padding: 12px 16px; font-size: 0.98rem; }
+  .detail__rule { margin-top: 12px; }
+}
+
 /* ---------- 缩略图灯箱：放大查阅 + 左右切换 ---------- */
 /* 缩略图挂了一个放大镜角标：它是这个 modal 里最大、最像游戏画面、
    而且真的可以点的东西，学生本来就会先按它（2026-08-26 1I 班实测全班都按图）。
