@@ -125,6 +125,9 @@ kongsi-idea/
 
 ## 工作约定
 - 任何 Agent、任何电脑：**开工先读 `handoff.md`，收工必更新 `handoff.md`**
+- **Obsidian 详细纪录**：`創作庫/開發專案/kongsi-idea/專案工作流程.md`（vault 在 `~/Documents/my-agent/2ndbrain-Obsidian/`）。决策原因、踩坑细节、验证数据写那里；`handoff.md` 只留交接必需的，两边不重复。
+  - ⚠️ 这条路径 2026-08-26 才补登记。在那之前 `agents.md` 没登记 Obsidian 路径，`shutdown` skill 的 L3 判定条件不成立，所以这个专案的详细纪录一直没被写过——本次已补建。
+- **收工前一定要跑部署三步并验线上**（见上方「部署提醒」），`git push` 成功不算完成
 - 修改共用档案前先读最新内容
 - 新建、修改、暂停、恢复、测试、部署或上架任何教学工具后，收工前在 `../teaching-tools/` 运行 `npm run status:sync`，同步 `PROGRESS.md`、工具 README 与本目录的 `docs/tools-status.md`。
 - 所有回应与文件使用简体中文
