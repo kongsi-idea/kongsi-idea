@@ -122,6 +122,14 @@
       <div class="detail__body">
         <h3 id="detailTitleZh"></h3>
         <p class="detail__title-bm" id="detailTitleBm"></p>
+        <!-- 「开始使用」提到第一屏：课堂上真正点开这个 modal 的是学生，
+             不是老师。按钮原本排在 DSKP／版本／更新记录之后，学生要滚很久才看得到，
+             结果全班都去点最大、最像游戏的那张缩略图（2026-08-26 1I 班实测）。
+             说明／标准／版本这些给老师读的内容一律下移到分隔线以下。 -->
+        <div class="detail__actions">
+          <a class="detail__open" id="detailOpenLink" href="#" target="_blank" rel="noopener">开始使用</a>
+        </div>
+        <hr class="detail__rule">
         <div class="creator" id="detailCreator"></div>
         <p class="detail__desc" id="detailDesc"></p>
         <div class="detail__standards" id="detailStandards"></div>
@@ -131,9 +139,6 @@
           <span class="detail__uses" id="detailUses"></span>
         </div>
         <div class="detail__changelog" id="detailChangelog" hidden></div>
-        <div class="detail__actions">
-          <a class="detail__open" id="detailOpenLink" href="#" target="_blank" rel="noopener">开始使用</a>
-        </div>
       </div>
     </div>
   </div>

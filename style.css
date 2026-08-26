@@ -606,7 +606,11 @@ body {
 .detail__gallery--2 .detail__shot { aspect-ratio: 16 / 9; }
 .detail__gallery--3 { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
 .detail__gallery--3 .detail__shot { aspect-ratio: 16 / 9; }
-.detail__gallery--3 .detail__shot:first-child { grid-row: 1 / 3; aspect-ratio: 8 / 9; }
+/* 跨两行的主图不再自己定 aspect-ratio（原本是 8/9），改成撑满右边两格叠起来的高度。
+   8/9 是竖版比例，套在这个宽格子上会把整个画廊拉到 ~440px 高——比 4 张图的版面
+   还高 100px，正好把「开始使用」挤出第一屏（700px 高的浏览器窗口差 22px）。
+   工具截图本来就是横的，让它跟右栏对齐反而不会被 object-fit 裁掉上下。 */
+.detail__gallery--3 .detail__shot:first-child { grid-row: 1 / 3; aspect-ratio: auto; height: 100%; }
 .detail__gallery--4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
 .detail__gallery--4 .detail__shot { aspect-ratio: 16 / 9; }
 .detail__shot {
@@ -694,28 +698,69 @@ body {
 }
 .detail__changelog-list { margin: 0; padding-left: 18px; font-size: 0.8rem; line-height: 1.7; color: rgba(31,58,52,0.6); }
 .detail__changelog-version { font-family: var(--font-mono); font-weight: 600; color: rgba(31,58,52,0.75); }
-.detail__actions { margin-top: 6px; }
+/* 「开始使用」已移到标题正下方（见 index.html 的 .detail__body 注释）。
+   这颗按钮是整个 modal 里唯一给学生按的东西——一年级学生扫画面找的是
+   「最大最亮的那一块」，所以它要比缩略图以外的所有内容都抢眼，
+   而不是跟正文一样的字级躲在角落。 */
+.detail__actions { margin: 12px 0 0; }
 .detail__open {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
   background: var(--orange);
   color: #fff8ef;
   text-decoration: none;
   font-family: var(--font-display);
-  padding: 12px 22px;
+  font-size: 1.05rem;
+  padding: 15px 22px;
   border-radius: 999px;
   box-shadow: 0 4px 0 rgba(31,58,52,0.25);
 }
+/* ▶ 用 ::before 而不是写进 app.js 的 textContent——
+   「没有网址」的示例作品会换掉整串文字，图示跟着消失才是对的 */
+.detail__open::before { content: "▶"; font-size: 0.85em; }
 .detail__open:hover { filter: brightness(1.05); }
 .detail__open--disabled {
   background: rgba(31,58,52,0.12);
   color: rgba(31,58,52,0.45);
   cursor: not-allowed;
   box-shadow: none;
+  font-size: 0.9rem;
 }
+.detail__open--disabled::before { content: none; }
 .detail__open--disabled:hover { filter: none; }
 
+/* 按钮以下＝给老师读的资料（说明、DSKP、版本、更新记录），
+   用一条分隔线把「学生的动作」跟「老师的资料」切开 */
+.detail__rule {
+  border: none;
+  border-top: 2px dashed rgba(31,58,52,0.12);
+  margin: 18px 0 0;
+}
+
 /* ---------- 缩略图灯箱：放大查阅 + 左右切换 ---------- */
-.detail__shot { cursor: zoom-in; }
+/* 缩略图挂了一个放大镜角标：它是这个 modal 里最大、最像游戏画面、
+   而且真的可以点的东西，学生本来就会先按它（2026-08-26 1I 班实测全班都按图）。
+   与其挡住这个直觉，不如让它先讲清楚「按下去是放大看，不是开始玩」，
+   真正的入口是上面那颗橙色按钮。 */
+.detail__shot { cursor: zoom-in; position: relative; }
+.detail__shot:has(img)::after {
+  content: "🔍";
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  border-radius: 50%;
+  background: rgba(31,58,52,0.55);
+  pointer-events: none;
+}
 .lightbox {
   display: none;
   position: fixed;
