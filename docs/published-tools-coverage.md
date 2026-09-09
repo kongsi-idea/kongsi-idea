@@ -24,6 +24,7 @@
 | `tahun3-dst-density` | Tahun 3 | 科学 (dst) | 浮沉实验室：密度大发现 | 7.1 密度 — 7.1.1/7.1.2/7.1.3/7.1.4 | https://tahun3-dst-density.vercel.app | `../teaching-tools/tahun3-dst-density/` | — |
 | `tahun1-bc-liangci` | Tahun 1 | 华文 (bc) | 量词大冒险 | 5.0 语文基础知识 — 5.3.1 | https://tahun1-bc-liangci.vercel.app | `../teaching-tools/tahun1-bc-liangci/` | — |
 | `tahun1-bc-juxing` | Tahun 1 | 华文 (bc) | 句型跳跳队 | 5.4 认识不同类型的句子 — 5.4.1 | https://tahun1-bc-juxing.vercel.app | `../teaching-tools/tahun1-bc-juxing/` | 全平台首个摄像头体感工具，`data/dskp-index.js` 的马来文单元名还没核对官方 PDF，暂缓收录进 DSKP 搜索索引 |
+| `tahun1-bc-bishun` | Tahun 1 | 华文 (bc) | 一起写好字 | 3.0 书写技能 — 3.1 应用铅笔写字（笔画笔顺）＋ 5.0 语文基础知识 — 5.1 汉字基本知识 | https://tahun1-bc-bishun.vercel.app | `../teaching-tools/tahun1-bc-bishun/` | 全平台首个个人进度工具：接 kelasku 名单、进度同步到 Supabase（`tahun1_bc_bishun_progress`），换电脑接续。只有中文课本核对过（习写生字表），马来文 DSKP 官方用词未查证 → 暂不进 `data/dskp-index.js`。老师看全班进度的入口未做（数据已可读）。 |
 
 > 「优化备注」栏：`—` 表示目前没有已知待改事项；有想法时写一句话摘要（如「拖拽手感偏慢，考虑换动画」），细节多的话另开该工具的 `handoff.md` 再从这里链过去。
 
@@ -33,7 +34,7 @@
 
 | 年级 \ 科目 | bm | bi | bc | mt | dst/sains | sejarah | rbt | islam | moral | seni | muzik | pjpk |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Tahun 1 | ✅ 2.1音节 | — | ✅ 2.1/3.2/5.1/5.3.1 (4个) | ✅ 1.8近似值 | ✅ 7.1磁铁 | — | — | — | — | — | — | — |
+| Tahun 1 | ✅ 2.1音节 | — | ✅ 2.1/3.1笔顺/3.2/5.1/5.3.1/5.4.1 (6个) | ✅ 1.8近似值 | ✅ 7.1磁铁 | — | — | — | — | — | — | — |
 | Tahun 2 | — | — | — | ✅ 4.1钱币(部分)/1.4数位/1.7数列(3个)/2.3乘法 (共5个) | — | — | — | — | — | — | — | — |
 | Tahun 3 | — | — | ✅ 2.1课文理解 | — | ✅ 7.1密度 | — | — | — | — | — | — | — | — |
 | Tahun 4 | — | — | — | ✅ 1.1数值 | — | — | — | — | — | — | — | — |
