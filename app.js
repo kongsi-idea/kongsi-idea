@@ -238,8 +238,9 @@ const TOOLS = [
     type: "练习",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
+    version: "1.1",
     changelog: [
+      { version: "1.1", date: "2026-09-10", note: "金星「棒」章移到田字格角外，写好的字完整露出；背景加厚（更多垂吊星星 + 云 + 星点）" },
       { version: "1.0", date: "2026-09-10", note: "首次上架" },
     ],
     // 这 4 张是用 Playwright 实际操作 http://localhost 上的 tahun3-bc-bishun 截的真实画面（选名字页用示范名单，非真实学生；写一写那张是脚本真实描完整个字触发盖章）
