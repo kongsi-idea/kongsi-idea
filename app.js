@@ -226,6 +226,39 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun3-bc-bishun",
+    tahun: 3,
+    subjek: "bc",
+    status: "published",
+    title_zh: "三年级写字",
+    title_bm: "Menulis Aksara Tahun 3",
+    desc: "三年级华文 165 个习写生字，按 20 个单元分类。每个字三步：看笔顺动画（演示完自动读出字音，也能按「听读音」重听）→ 沿淡线描 → 盖住凭记忆写，写对得一颗星，整个单元写完盖金星「棒」印章；每单元另有随机抽字的小考。笔画数据离线打包，学校网络慢也能用。视觉走「We are Twinkle Twinkle」暖调梦幻绘本风（蜂蜜金晨光 + 垂吊金星 + 华丽金画框），跟一年级（水墨文房）、二年级（马力欧）分开。网址带班级代码时读班级名单让学生选自己的名字、记录个人进度并可跨电脑接续。",
+    keywords: ["写字", "笔顺", "笔画", "习写生字", "田字格", "描红", "读音", "三年级", "华文", "个人练习", "电脑室"],
+    url: "https://tahun3-bc-bishun.vercel.app",
+    type: "练习",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-09-10", note: "首次上架" },
+    ],
+    // 这 4 张是用 Playwright 实际操作 http://localhost 上的 tahun3-bc-bishun 截的真实画面（选名字页用示范名单，非真实学生；写一写那张是脚本真实描完整个字触发盖章）
+    thumbnails: [
+      { img: "assets/thumbs/tahun3-bc-bishun/1-names.png", label: "选名字：接班级名单，学生点自己的名字" },
+      { img: "assets/thumbs/tahun3-bc-bishun/2-units.png", label: "选单元：20 个单元，进度看得见" },
+      { img: "assets/thumbs/tahun3-bc-bishun/3-watch.png", label: "看一看：笔顺动画一笔一笔演示" },
+      { img: "assets/thumbs/tahun3-bc-bishun/4-done.png", label: "写一写：凭记忆写对，盖金星「棒」印章" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.1"] },
+    ],
+    practiceSummary: "在田字格上按正确笔画笔顺书写正楷，练习三年级更复杂的字形与结构",
+    teachingMode: ["电脑室个人练习", "个人自学"],
+    prep: "电脑室个人练习工具，一人一台或两人轮流，用滑鼠描字，不需打印。网址加班级代码（例如 ?code=JBC1037-3I，需老师先在 kelasku 建三年级班级）→ 读班级名单让学生选名字、记录个人进度、换电脑登入同名字可接回；不加代码则手动输入名字、进度只存本机。",
+  },
+
+  {
     slug: "tahun1-bm-kvkv",
     tahun: 1,
     subjek: "bm",
