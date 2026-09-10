@@ -238,17 +238,18 @@ const TOOLS = [
     type: "练习",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
-    version: "1.1",
+    version: "1.2",
     changelog: [
+      { version: "1.2", date: "2026-09-10", note: "加原创星星娃娃角色：写对时从格子角落蹦出来举星欢呼（不挡字），首页/练习页有坐云看书、云后探头的静态布景" },
       { version: "1.1", date: "2026-09-10", note: "金星「棒」章移到田字格角外，写好的字完整露出；背景加厚（更多垂吊星星 + 云 + 星点）" },
       { version: "1.0", date: "2026-09-10", note: "首次上架" },
     ],
-    // 这 4 张是用 Playwright 实际操作 http://localhost 上的 tahun3-bc-bishun 截的真实画面（选名字页用示范名单，非真实学生；写一写那张是脚本真实描完整个字触发盖章）
+    // 这 4 张是用 Playwright 实际操作 https://tahun3-bc-bishun.vercel.app 截的真实画面（选名字页用示范名单，非真实学生；写一写那张是脚本真实描完整个字触发盖章 + 星星娃娃弹入）
     thumbnails: [
       { img: "assets/thumbs/tahun3-bc-bishun/1-names.png", label: "选名字：接班级名单，学生点自己的名字" },
       { img: "assets/thumbs/tahun3-bc-bishun/2-units.png", label: "选单元：20 个单元，进度看得见" },
       { img: "assets/thumbs/tahun3-bc-bishun/3-watch.png", label: "看一看：笔顺动画一笔一笔演示" },
-      { img: "assets/thumbs/tahun3-bc-bishun/4-done.png", label: "写一写：凭记忆写对，盖金星「棒」印章" },
+      { img: "assets/thumbs/tahun3-bc-bishun/4-done.png", label: "写一写：写对了星星娃娃举星欢呼，盖金星「棒」印章" },
     ],
     standards: [
       { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1"] },
