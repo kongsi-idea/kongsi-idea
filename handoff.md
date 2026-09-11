@@ -4,48 +4,43 @@
 
 ## ⏯️ 目前做到哪
 
-本次（2026-08-26）修好了**学生在课堂上找不到「开始使用」**的问题。
+本次（2026-09-11）从「首页浏览数为什么一直是 8」这个问题出发，查到三层问题并都处理了：
 
-**起因是真实课堂观察，不是设计上的洁癖**：卢老师这天让 1I 班学生实际使用点子铺，发现学生点开工具详情后一直点缩略图、以为那就是游戏——因为「开始使用」被排在说明／DSKP／版本／更新记录之后，要往下滚很久才看得到。这是这次改动的唯一依据。
+1. **「次网页浏览」换成全站真实数据**：旧版 `localStorage` 本地计数从没回传过，历史数据确认无法补回，**用户一度要求「帮我判断放一个合理数值」，已拒绝**（估算值当真实数据展示，跟编数字性质一样，违反本档「关键决定」第 10 条）；改成照抄 `get_teacher_count()` 模式的 `page_view_counter` 单行计数器 + 两个 RPC（`supabase/migration-2026-09-11-page-views.sql`），从 0 诚实重新计数，footnote 加了说明文字。commit `fa9bc45`。**「0 浏览 vs 226 工具使用」这种落差期用户已知情，决定先不处理（「先不动」），没有隐藏统计卡**——如果之后又被问起，解法是暂时藏卡等真实数据长上来，不是补数字。
+2. **查到 `kongsi-idea.vercel.app` 曾经完全从专案的 Domains 列表消失**（不是常见的「没 alias 到新部署」，是域名压根不在这个专案名下，边缘缓存顶着旧内容让它看起来像活的）。用 API 直接把域名加回 `kongsi-idea` 专案（`prj_Oyf637d4j8ODuilHIY7eZ2OoZswQ`）解决，`verified:true`。见 `agents.md` 关键决定 16。
+3. **Vercel 专案归属大整理**（跟老师逐项确认过范围，不是自己扩大范围做的）：13 个 `tahunN-科目-单元` 教学工具专案原本分裂在 `kongsi-idea` 团队（乱码域名分身）和 `mr007's projects` 团队（干净域名正版）两边，已把正版全部转移进 `kongsi-idea` 团队、删掉分身，域名不变（逐一 curl 验证过标题）。`3g-assessment` 反向操作：老师说它不该在 `kongsi-idea` 团队，已转移回 `mr007's projects`（老师口中的「yquan77」）。**Git 自动部署会跟着团队转移断线**（`tahun2-mt-wang` 断了，需要老师自己去 Dashboard 重连；`3g-assessment` 刚好没断，因为目标团队已经有同一个 GitHub 凭证）。**团队转移后域名会先变 `DEPLOYMENT_NOT_FOUND`，要手动 `POST /v2/deployments/{id}/aliases` 重新指一次才会活**，这条也写进 `agents.md`。
 
-诊断出来的根因是**这个弹窗一份给两种人看**：DSKP 标准框、版本号、更新记录、作者署名全是给老师的，内容顺序也是老师的阅读顺序；但课堂上真正打开它的是学生。不是「按钮不够显眼」，是信息架构指错了受众。
-
-两笔 commit：
-
-- **`8a0be5c`** 按钮上提到工具名正下方，改成整行宽 + `▶` 图示；老师要读的资料全部移到虚线分隔线以下；缩略图加 🔍 角标（讲清楚点下去是放大看不是开始玩）。顺手修了真凶：3 张缩略图的版面里，跨两行的主图被写死 `aspect-ratio: 8/9`（竖版比例套横格子），把画廊拉到约 440px、比 4 张图的版面还高 100px，正好把按钮挤出第一屏。
-- **`abd3f75`** 补小屏断点。**真正的破口是手机／平板横放**（844×390，学生玩游戏最常见的握法）：88vh 只剩 343px，光画廊就占 337px，17 个工具全部失败、按钮掉在第一屏下 188px。`@media (max-height: 560px)` 把画廊压成单行缩略条；`@media (max-width: 480px)` 收窄外距内距，360px 宽的机器上内容宽度 276→338px。
-
-验证方式是**逐个工具量按钮底边有没有掉出 modal 底边**（17 个工具 × 4 个视口全过），不是肉眼看。完整数据与决策取舍见 Obsidian。
-
-上次（2026-08-14）用游戏化教学理论库试点审查 5 个已上架工具，修正钱币乐园的 DSKP 登记、记录产线的结构性缺口，详见 `docs/published-tools-coverage.md`。
-更早（2026-08-06～08-12）从零做出 kelasku 并接上 2 个工具，关键决定与踩坑在 `agents.md`「kelasku」一节。
+上次（2026-08-26）修好学生找不到「开始使用」按钮的问题，两笔 commit `8a0be5c`/`abd3f75`，完整数据见 Obsidian。
+更早（08-14 DSKP 试点审查、08-06～08-12 kelasku 从零上线）见 `agents.md` 对应章节，不重复。
 
 ## 🚦 目前状态
 
-- Hub 正式网址：https://kongsi-idea.vercel.app
-- **本次已完整上线并验证**：`vercel --prod` → `vercel alias set` → `curl` 线上 `style.css`／`index.html` 确认新内容真的在（`max-height:560px`、`max-width:480px`、`detail__rule`、放大镜角标皆抓得到，按钮排序在说明之前）
-- 部署 URL：`kongsi-idea-2cksurttn-kongsi-idea.vercel.app`
-- 工作目录干净；`.mcp.json` 本次改为不追踪（见下方注意事项）
+- Hub 正式网址：https://kongsi-idea.vercel.app（域名已修复，本次验证过 `app.js` 里的新 footnote 文字线上确实是新的）
+- 部署 URL：`kongsi-idea-abouc4qp9-kongsi-idea.vercel.app`
+- 工作目录干净，`fa9bc45` 已推
+- `page_view_counter` 目前是真实的小数字（会随真实访问自然成长，没有人为设定初始值）
 
 ## ➡️ 下一步
 
-1. **其余 12 个工具的 DSKP 校准还没做**（承接 08-14 的试点），可交 codex 批量跑
-2. 想让钱币乐园真正覆盖 4.2/4.3/4.6，得另外加「找零／加减法／储蓄」题型，不是改登记能解决
-3. 总结／复习型工具需要单独立项设计新形状（跨单元题库、开放式产出），不能延用「一个工具对一个 DSKP 代码」的产线去凑
+1. **看「网页浏览」数字自然长了几天之后，回头看还要不要处理跟「工具使用」的落差感**——老师这次选择先不处理，之后有需要再藏卡
+2. 老师提到 `tahun2-mt-wang` 的 GitHub 自动部署断线了，如果他之后改这个工具发现 push 没生效，提醒他去 Vercel Dashboard → Settings → Git 重新连线（这步需要他本人在浏览器走 OAuth，agent 做不了）
+3. **其余 12 个工具的 DSKP 校准还没做**（承接 08-14 的试点），可交 codex 批量跑
+4. 想让钱币乐园真正覆盖 4.2/4.3/4.6，得另外加「找零／加减法／储蓄」题型，不是改登记能解决
 
 ## ⚠️ 注意事项
 
-- **`git push` 成功 ≠ 上线**。这个专案没有 GitHub 自动部署，2026-08-26 已经是第二次栽在这里（第一次 2026-08-06）。固定收尾三步：`vercel --prod --yes` → `vercel alias set <新部署url> kongsi-idea.vercel.app` → **`curl` 线上档案确认新内容在**。没跑完第三步不要说「已上线」。详见 `agents.md`「部署提醒」。
-- **本地验证 CSS 改动会踩浏览器快取**：改完 `style.css` 后即使重新导航，浏览器仍可能用旧的那份，量出来会像是「改了没效果」，差点误判成断点写错。要换掉 `<link>` 的 href（加 `?bust=`）强制重拉再量。
-- **详情弹窗的第一屏属于学生**：以后往里面加任何东西，先问「这一屏给谁看」，老师要读的资料放分隔线以下。见 `agents.md` 关键决定 7。
-- `.mcp.json` 已加进 `.gitignore`（本次）。里面目前只有公开的 `project_ref`（跟 `data/supabase-client.js` 里的 `SUPABASE_URL` 同一个，本来就公开），**没有金钥**；不追踪的理由是 Supabase MCP 设定档很常在之后被补上 `sbp_` 开头的 access token，档案一旦被追踪那次就会静静跟着 commit 出去。
-- Google OAuth 使用 PKCE；登录状态继续依赖 `onAuthStateChange` 的 `INITIAL_SESSION`，不要改回抢跑的 `getSession()`
+- **`kongsi-idea.vercel.app` 域名本身也可能再消失**（本次才发现这个失败模式，原因未知）。以后遇到「部署三步都跑了，线上还是旧的」，先查域名还在不在专案 Domains 列表，不要只重复部署。
+- **Vercel 专案分布在两个团队**：`kongsi-idea`（教学工具 + hub 本体）与 `mr007's projects`（老师口中「yquan77」，放 hks-hub/EduNeo/kk2-selamat/bliayad 等主力产品，以及非 tahun 命名的班务小工具）。新建 `tahunN-科目-单元` 工具时确认部署到 `kongsi-idea` 团队，不要又散到 `mr007's projects` 去。
+- **`git push` 成功 ≠ 上线**。这个专案没有 GitHub 自动部署。固定收尾三步：`vercel --prod --yes` → 确认域名还在专案 Domains 列表（新增的检查点）→ `curl` 线上档案确认新内容在。详见 `agents.md`「部署提醒」。
+- **详情弹窗的第一屏属于学生**：见 `agents.md` 关键决定 7。
+- `.mcp.json` 已加进 `.gitignore`。`data/supabase-client.js` 里的 anon key 是设计上公开的。
+- Google OAuth 使用 PKCE；登录状态依赖 `onAuthStateChange` 的 `INITIAL_SESSION`，不要改回 `getSession()`
 - Supabase Client Secret、数据库密码只留在已忽略的 `supabase/.secrets.local.md`，不可提交
 - 许愿池状态流转栏位 `supabase/migration-2026-07-24-wish-pipeline-columns.sql` 写好了但仍未在 Supabase 执行，继承自更早的交接，本次没有再碰
 
 ## 🕐 最后更新
 
-- 时间：2026-08-26
-- 更新者：Claude Opus 5 @ MacBook Air M3
-- Git push：✅ 已推（`abd3f75`）
-- 线上部署：✅ 已上线并验证
+- 时间：2026-09-11
+- 更新者：Claude Sonnet 5 @ MacBook Air M3
+- Git push：✅ 已推（`fa9bc45`）
+- 线上部署：✅ 已上线并验证（`kongsi-idea.vercel.app` 本体；Vercel 团队整理属于云端专案设定变更，不产生 git commit）
