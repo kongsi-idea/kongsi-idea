@@ -171,8 +171,10 @@ const TOOLS = [
     type: "练习",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
-    version: "1.1",
+    version: "1.3",
     changelog: [
+      { version: "1.3", date: "2026-09-11", note: "修多音字读音错误：田字格上方标注拼音，听读音/自动读音改读「字，词」而非孤字，逼出正确读音" },
+      { version: "1.2", date: "2026-09-09", note: "修「输班级代码后要 refresh 才出名单」" },
       { version: "1.1", date: "2026-09-09", note: "字体换成全字库覆盖（生僻姓名不再缺字）；名称改为「一年级写字」；笔顺演示完自动读字音 + 「听读音」按钮" },
       { version: "1.0", date: "2026-09-09", note: "首次上架" },
     ],
@@ -205,8 +207,9 @@ const TOOLS = [
     type: "练习",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
+    version: "1.1",
     changelog: [
+      { version: "1.1", date: "2026-09-11", note: "修多音字读音错误：田字格上方标注拼音，听读音/自动读音改读「字，词」而非孤字，逼出正确读音" },
       { version: "1.0", date: "2026-09-10", note: "首次上架" },
     ],
     // 这 4 张是用 Playwright 实际操作 http://localhost 上的 tahun2-bc-bishun 截的真实画面（选名字页用示范名单，非真实学生；写一写那张是脚本真实描完整个字触发盖章）
@@ -238,8 +241,9 @@ const TOOLS = [
     type: "练习",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
-    version: "1.2",
+    version: "1.3",
     changelog: [
+      { version: "1.3", date: "2026-09-11", note: "修多音字读音错误：田字格上方标注拼音，听读音/自动读音改读「字，词」而非孤字，逼出正确读音" },
       { version: "1.2", date: "2026-09-10", note: "加原创星星娃娃角色：写对时从格子角落蹦出来举星欢呼（不挡字），首页/练习页有坐云看书、云后探头的静态布景" },
       { version: "1.1", date: "2026-09-10", note: "金星「棒」章移到田字格角外，写好的字完整露出；背景加厚（更多垂吊星星 + 云 + 星点）" },
       { version: "1.0", date: "2026-09-10", note: "首次上架" },
