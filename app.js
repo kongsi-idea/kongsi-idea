@@ -1937,14 +1937,16 @@ if (typeof SJKC_SCHOOLS !== "undefined" && stateSelect) {
 // 「有多少学校真的在用这个平台」——那是完全不同的两件事，不能把名录大小当成使用数据展示，
 // 所以这里刻意不算这个数字，等以后账号系统上线、老师真的提交/注册了，才用那个真实数字。
 
-const VISITS_KEY = "kongsi-idea-visits";
-function bumpVisits() {
-  const n = Number(localStorage.getItem(VISITS_KEY) || 0) + 1;
-  localStorage.setItem(VISITS_KEY, String(n));
-  return n;
-}
-function getVisits() {
-  return Number(localStorage.getItem(VISITS_KEY) || 0);
+// 之前这里是 localStorage 本地计数（VISITS_KEY），每台设备各自计数、从没回传服务器，
+// 历史浏览数据从一开始就没被记录下来，2026-09-11 换成真实的全站计数（migration-2026-09-11-page-views.sql），
+// 旧数据补不回来，诚实地从 0 重新开始
+let pageViews = null;
+async function bumpPageViews() {
+  const { data, error } = await supabaseClient.rpc("increment_page_views");
+  if (!error && typeof data === "number") {
+    pageViews = data;
+    renderStats();
+  }
 }
 
 // 账号系统（点子许愿池 + kelasku）上线后，「位老师注册」换成全站真实数字：
@@ -1970,21 +1972,21 @@ function renderStats() {
   const totalUses = TOOLS.reduce((sum, t) => sum + getUses(t.slug), 0);
   // 「已上架」只算真的发布的工具，示例作品不计入——不然会假装平台有更多作品
   const toolCount = TOOLS.filter((t) => t.status === "published").length;
-  const visits = getVisits();
   const teacherStatHtml = teacherCount === null
     ? `<span class="stat stat--pending"><span class="stat__num" data-target="0">0</span><span class="stat__label">位老师注册</span><span class="stat__badge">即将上线</span></span>`
     : `<span class="stat"><span class="stat__num" data-target="${teacherCount}">0</span><span class="stat__label">位老师注册</span></span>`;
+  const visitsStatHtml = pageViews === null
+    ? `<span class="stat stat--pending"><span class="stat__num" data-target="0">0</span><span class="stat__label">次网页浏览</span><span class="stat__badge">即将上线</span></span>`
+    : `<span class="stat"><span class="stat__num" data-target="${pageViews}">0</span><span class="stat__label">次网页浏览</span></span>`;
   statsBarEl.innerHTML = `
-    <span class="stat"><span class="stat__num" data-target="${visits}">0</span><span class="stat__label">次网页浏览</span></span>
+    ${visitsStatHtml}
     <span class="stat"><span class="stat__num" data-target="${totalUses}">0</span><span class="stat__label">次工具使用</span></span>
     <span class="stat"><span class="stat__num" data-target="${toolCount}">0</span><span class="stat__label">个作品已上架</span></span>
     ${teacherStatHtml}
   `;
   const footnoteEl = document.getElementById("statsFootnote");
   if (footnoteEl) {
-    footnoteEl.textContent = teacherCount === null
-      ? "工具使用次数与喜欢数已经是全站真实数据；网页浏览次数与老师注册数还是这台设备本地的记录，账号系统进一步上线后会换成全站真实数据。"
-      : "工具使用次数、喜欢数与老师注册数都是全站真实数据；网页浏览次数还是这台设备本地的记录。";
+    footnoteEl.textContent = "以上都是全站真实数据。网页浏览次数从 2026/9/11 起重新统计（之前只存在各自设备本地，没有回传），所以会比累积到现在的工具使用次数低一段时间，不代表实际访问量。";
   }
   observeStats(statsBarEl);
 }
@@ -2083,7 +2085,7 @@ function showToast(message, type = "success") {
 }
 
 // ---------- 初始化 ----------
-bumpVisits();
+bumpPageViews();
 // 「今天」两个字先出来，停顿 2 秒，再继续把后面的字打完，整体也放慢一点
 typewriterInto(document.getElementById("finderTitleText"), "今天要教什么？", { speed: 140, pauseAfterChar: 2, pauseMs: 2000 });
 renderFacets();
