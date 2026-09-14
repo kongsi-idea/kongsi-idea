@@ -28,6 +28,24 @@ const SUBJECT_BY_CODE = Object.fromEntries(SUBJECTS.map((s) => [s.code, s]));
 // 现在 TOOLS 里全部都是真实上架的工具，不再需要区分 isDemo。
 const TOOLS = [
   {
+    slug: "tahun1to6-drone", tahun: 1, subjek: "mt", status: "published",
+    coverage: [
+      { tahun: 1, subjects: ["mt", "dst", "bm", "bi", "bc"] },
+      { tahun: 2, subjects: ["mt", "dst", "bm", "bi", "bc"] },
+      { tahun: 3, subjects: ["mt", "dst", "bm", "bi", "bc"] },
+      { tahun: 4, subjects: ["mt", "sains", "bm", "bi", "bc", "sejarah"] },
+      { tahun: 5, subjects: ["mt", "sains", "bm", "bi", "bc", "sejarah"] },
+      { tahun: 6, subjects: ["mt", "sains", "bm", "bi", "bc", "sejarah"] },
+    ],
+    title_zh: "飞学竞场", title_bm: "Arena Terbang Ilmu",
+    desc: "一至六年级的无人机飞行答题游戏。先试飞，再选择年级与学科；思考后跟着选项箭头飞进答案环。当前为试用题库。",
+    keywords: ["drone", "ilmu", "无人机", "飞行", "跨学科", "综合", "答题", "科学", "数学", "国文", "英文", "华文", "历史"],
+    url: "https://tahun1to6-drone.vercel.app", type: "游戏", stars: 0, creator: { name: "卢老师", initial: "卢" },
+    version: "0.3", changelog: [{version:"0.3",date:"2026-09-14",note:"飞行试炼、跨学科选择与答案方向箭头；首次部署上线"}],
+    thumbnails: [{ img: "assets/thumbs/tahun1to6-drone/trial.png", label: "五段飞行试炼" }], standards: [],
+    practiceSummary: "飞行操控与跨学科选择题", teachingMode: ["个人练习"], prep: "手机横屏或电脑；需要网络；题库为待审起始包，正式课堂使用前建议教师先核对内容",
+  },
+  {
     slug: "tahun2-mt-wang",
     tahun: 2,
     subjek: "mt",
@@ -838,7 +856,7 @@ function renderFacets() {
 }
 
 function tagChips(tool) {
-  const chips = [tool.type, `${tool.tahun}年级`, SUBJECT_BY_CODE[tool.subjek].title_zh];
+  const chips = tool.coverage ? [tool.type, "1–6年级", "综合学科"] : [tool.type, `${tool.tahun}年级`, SUBJECT_BY_CODE[tool.subjek].title_zh];
   return chips.map((c) => `<span class="tag">${c}</span>`).join("");
 }
 
@@ -880,15 +898,19 @@ function matchesQuery(tool, query) {
   return haystack.includes(query);
 }
 
+function matchesToolCoverage(tool, tahun, subjek) {
+  const rows = tool.coverage || [{tahun:tool.tahun,subjects:[tool.subjek]}];
+  return rows.some(row => (!tahun || tahun === "all" || row.tahun === Number(tahun)) && (!subjek || subjek === "all" || row.subjects.includes(subjek)));
+}
 function renderBoard() {
   const query = searchInput.value.trim().toLowerCase();
   // 年级 AND 科目 AND（没有查询词 OR 查询词匹配）—— 之前这里有 bug：一输入查询词就整个无视年级/科目筛选，
   // 已修正（见 docs/dskp-learning-objective-search.md 第7.1节／验收条件第2条）
   let list = TOOLS.filter((tool) => {
-    const gradeOk = gradeFilter === "all" || tool.tahun === gradeFilter;
-    const subjekOk = subjekFilter === "all" || tool.subjek === subjekFilter;
+    const gradeOk = matchesToolCoverage(tool, gradeFilter, subjekFilter);
+    const subjekOk = true;
     const queryOk = !query || matchesQuery(tool, query);
-    return gradeOk && subjekOk && queryOk;
+    return tool.status === "published" && !!tool.url && gradeOk && subjekOk && queryOk;
   });
 
   // 喜欢数最多的排前面，是老师最先看到的
@@ -963,6 +985,9 @@ function renderChangelog(tool) {
 }
 
 function openDetail(tool) {
+  const detailUrl = new URL(window.location.href);
+  detailUrl.searchParams.set("tool",tool.slug);
+  window.history.replaceState(null,"",detailUrl);
   renderGallery(tool.thumbnails);
   document.getElementById("detailCreator").innerHTML = creatorHtml(tool);
   document.getElementById("detailTitleZh").textContent = tool.title_zh;
@@ -983,7 +1008,7 @@ function openDetail(tool) {
   } else {
     link.removeAttribute("href");
     link.classList.add("detail__open--disabled");
-    link.textContent = "示例作品（还没有真的网址）";
+    link.textContent = "准备上线中";
     link.onclick = (e) => e.preventDefault();
   }
 
@@ -1034,6 +1059,8 @@ lightboxStageEl.addEventListener("touchend", (e) => {
 });
 
 function closeDetailModal() {
+  const url = new URL(window.location.href); url.searchParams.delete("tool");
+  window.history.replaceState(null,"",url);
   document.getElementById("detailModal").classList.remove("open");
   renderBoard(); // 关闭详情后刷新卡片上的使用次数
   renderStats();
@@ -1158,8 +1185,7 @@ function renderFinderUnits() {
 
 function toolMatchesFinder(tool) {
   if (tool.status !== "published") return false; // 示例作品不出现在「按学习目标找工具」结果里
-  if (finderState.tahun && tool.tahun !== finderState.tahun) return false;
-  if (finderState.subjek && tool.subjek !== finderState.subjek) return false;
+  if (!matchesToolCoverage(tool, finderState.tahun, finderState.subjek)) return false;
   let unitOrObjectiveSelected = false;
   if (finderState.unit) {
     const coversUnit = (tool.standards || []).some((s) => s.unitCode === finderState.unit);
@@ -1289,6 +1315,8 @@ function renderFinderSuggestions() {
 
 function updateFinderUrl() {
   const params = new URLSearchParams();
+  const activeTool = new URLSearchParams(window.location.search).get("tool");
+  if (activeTool) params.set("tool",activeTool);
   if (finderState.tahun) params.set("tahun", finderState.tahun);
   if (finderState.subjek) params.set("subjek", finderState.subjek);
   if (finderState.unit) params.set("unit", finderState.unit);
@@ -2098,3 +2126,17 @@ renderFinder();
 maybeShowWelcome();
 loadToolStats();
 initAuth();
+const requestedToolSlug = new URLSearchParams(window.location.search).get("tool");
+if (requestedToolSlug) {
+  const requestedTool = TOOLS.find(tool=>tool.slug === requestedToolSlug);
+  if (requestedTool) openDetail(requestedTool);
+  else showToast("找不到这个工具，请从目录重新选择。","error");
+}
+document.getElementById("detailShareLink").addEventListener("click",async()=> {
+  const slug=new URLSearchParams(window.location.search).get("tool");
+  if (!slug) return;
+  const url=new URL(window.location.pathname,window.location.origin);
+  url.searchParams.set("tool",slug);
+  try { await navigator.clipboard.writeText(url.href); showToast("已复制课堂点子铺的工具链接"); }
+  catch { const field=document.getElementById("detailShareUrl"); field.hidden=false; field.value=url.href; field.focus(); field.select(); showToast("请复制已选中的链接"); }
+});

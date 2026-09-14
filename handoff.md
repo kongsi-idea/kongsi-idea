@@ -1,5 +1,13 @@
 # 课堂点子铺交接档
 
+## 2026-09-14 飞学竞场已发布上架
+
+老师本机试玩确认无误后授权发布。源码独立成 GitHub 仓库 `kongsi-idea/tahun1to6-drone`（源码物理位置仍是 `../drone-soccer`，不在 `teaching-tools/` 下——这是全平台首个跨年级跨学科、非 1I 专用课堂工具，agents.md 明确写了不套用 teaching-tools 惯例目录结构），部署到 Vercel `kongsi-idea` 团队，生产网址 `https://tahun1to6-drone.vercel.app`（首次部署自动获得该别名，未额外手动 alias）。`vercel link` 时 GitHub 自动部署连接失败（"Failed to connect...Make sure there aren't any typos and that you have access"），当前靠 `vercel deploy --prod` 手动部署；以后改代码要记得手动重新部署，不会因为 push 到 GitHub 自动触发。
+
+`app.js` 的 `tahun1to6-drone` 已从 `status: "planned"` 改为 `"published"`，补上生产 url、马来文名改用最新决定 `Arena Terbang Ilmu`（取代旧的 `Arena Drone Ilmu`）、缩略图换成用 Playwright 在生产网址实拍的试炼画面（`assets/thumbs/tahun1to6-drone/trial.png`）。`prep` 栏加了「题库为待审起始包，正式课堂使用前建议教师先核对内容」——题库本身仍是分层起始包、未逐条核对课本与官方 DSKP 马来文用词，所以不进 `data/dskp-index.js`，`published-tools-coverage.md` 也照实标注。`?tool=<slug>` 深链接与复制分享按钮是先前会话已做好的本地功能，这次一并提交上线。
+
+`status:sync` 跑过，如预期报「Hub 有登记但本机没有目录：tahun1to6-drone」——这是正常噪音，源码本来就故意不放 teaching-tools/，不用管。
+
 > 开工先读本档；查询全部教学工具状态时，直接读 `../teaching-tools/PROGRESS.md`。
 
 ## ⏯️ 目前做到哪
