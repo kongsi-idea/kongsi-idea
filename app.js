@@ -41,9 +41,12 @@ const TOOLS = [
     desc: "一至六年级的无人机飞行答题游戏。先试飞，再选择年级与学科；思考后跟着选项箭头飞进答案环。当前为试用题库。",
     keywords: ["drone", "ilmu", "无人机", "飞行", "跨学科", "综合", "答题", "科学", "数学", "国文", "英文", "华文", "历史"],
     url: "https://tahun1to6-drone.vercel.app", type: "游戏", stars: 0, creator: { name: "卢老师", initial: "卢" },
-    version: "0.3", changelog: [{version:"0.3",date:"2026-09-14",note:"飞行试炼、跨学科选择与答案方向箭头；首次部署上线"}],
+    version: "0.4", changelog: [
+      {version:"0.4",date:"2026-09-14",note:"新增班级排行榜（网址带班级代码才会启用，选完名字后主画面出现「班级排行榜」按钮，穿环竞速/答题竞速分开两张榜）"},
+      {version:"0.3",date:"2026-09-14",note:"飞行试炼、跨学科选择与答案方向箭头；首次部署上线"},
+    ],
     thumbnails: [{ img: "assets/thumbs/tahun1to6-drone/trial.png", label: "五段飞行试炼" }], standards: [],
-    practiceSummary: "飞行操控与跨学科选择题", teachingMode: ["个人练习"], prep: "手机横屏或电脑；需要网络；题库为待审起始包，正式课堂使用前建议教师先核对内容",
+    practiceSummary: "飞行操控与跨学科选择题", teachingMode: ["个人练习"], prep: "手机横屏或电脑；需要网络；题库为待审起始包，正式课堂使用前建议教师先核对内容；班级排行榜需要网址带 kelasku 班级代码才会出现",
   },
   {
     slug: "tahun2-mt-wang",
