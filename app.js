@@ -28,6 +28,30 @@ const SUBJECT_BY_CODE = Object.fromEntries(SUBJECTS.map((s) => [s.code, s]));
 // 现在 TOOLS 里全部都是真实上架的工具，不再需要区分 isDemo。
 const TOOLS = [
   {
+    slug: "tahun4-bi-writing",
+    tahun: 4,
+    subjek: "bi",
+    status: "published",
+    title_zh: "故事任务：句子工坊",
+    title_bm: "Story Quest · Sentence Workshop",
+    desc: "四年级英文引导写作闯关：从看图找要求、选择故事点子、配对理由与细节，到组合五句并排列成段落；完成后可参考范例，再手写自己的 40–50 词故事，拍照交给老师批改。",
+    keywords: ["Story Quest", "Sentence Workshop", "guided writing", "writing", "paragraph", "story", "英文写作", "句子", "段落", "四年级", "Bahasa Inggeris"],
+    url: "https://tahun4-bi-writing.vercel.app",
+    type: "写作闯关",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "0.3.0",
+    changelog: [
+      { version: "0.3.0", date: "2026-09-15", note: "正式上架：独立 Vercel 部署 + 纸本作业拍照投稿（私有审核，老师批准前不公开）" },
+      { version: "0.3.0", date: "2026-09-15", note: "完成本机验收；等待独立 Vercel 最终网址后上架" },
+    ],
+    thumbnails: [{ img: "assets/thumbs/tahun4-bi-writing/home.png", label: "Story Quest 首页" }],
+    standards: [], // DSKP 搜索索引尚未收录 Tahun 4 BI，确认索引资料后再启用。
+    practiceSummary: "由图像与提示发展故事点子，配对理由与细节，组装五句并排列成一段约 40–50 词的英文短文",
+    teachingMode: ["个人练习", "教师引导", "纸笔写作"],
+    prep: "建议一人一台设备完成前七关，最后在纸上手写；拍照上传的作业默认不公开，老师批准后才算完成审核。",
+  },
+  {
     slug: "tahun1to6-drone", tahun: 1, subjek: "mt", status: "published",
     coverage: [
       { tahun: 1, subjects: ["mt", "dst", "bm", "bi", "bc"] },
