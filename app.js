@@ -2039,10 +2039,6 @@ function renderStats() {
     <span class="stat"><span class="stat__num" data-target="${toolCount}">0</span><span class="stat__label">个作品已上架</span></span>
     ${teacherStatHtml}
   `;
-  const footnoteEl = document.getElementById("statsFootnote");
-  if (footnoteEl) {
-    footnoteEl.textContent = "以上都是全站真实数据。网页浏览次数从 2026/9/11 起重新统计（之前只存在各自设备本地，没有回传），所以会比累积到现在的工具使用次数低一段时间，不代表实际访问量。";
-  }
   observeStats(statsBarEl);
 }
 

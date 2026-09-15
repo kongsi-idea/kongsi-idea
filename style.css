@@ -417,14 +417,6 @@ body {
   justify-items: center;
   gap: 36px clamp(16px, 4vw, 48px);
 }
-.stats-footnote {
-  margin: 28px 0 0;
-  padding-top: 20px;
-  border-top: 1px solid rgba(251,246,234,0.12);
-  text-align: center;
-  font-size: 0.76rem;
-  color: rgba(251,246,234,0.4);
-}
 .stat__badge {
   margin-top: 4px;
   font-size: 0.68rem;
