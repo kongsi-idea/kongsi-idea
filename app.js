@@ -327,7 +327,9 @@ const TOOLS = [
       { version: "2.0", date: "2026-09-15", note: "重做为「课本档案室／写字实验台」：课次索引、字表索引与练习路线重新编排" },
       { version: "1.0", date: "2026-09-15", note: "首次完成四年级习写生字练习工具" },
     ],
-    thumbnails: [],
+    thumbnails: [
+      { img: "assets/thumbs/tahun4-bc-bishun/home.png", label: "写字实验室：课本档案室与写字工作台设计预览" },
+    ],
     standards: [
       { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1"] },
       { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.1"] },
