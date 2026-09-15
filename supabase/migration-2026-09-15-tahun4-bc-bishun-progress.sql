@@ -1,5 +1,5 @@
 -- 四年级写字（tahun4-bc-bishun）——学生习写生字进度
--- 本文件只准备 migration，2026-09-15 尚未执行线上数据库变更。
+-- 本文件是已审核的 migration；2026-09-15 执行尝试因当前环境无法解析 Supabase 数据库主机而未完成，不能视为已上线。
 
 create table if not exists public.tahun4_bc_bishun_progress (
   id uuid primary key default gen_random_uuid(),

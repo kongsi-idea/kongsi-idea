@@ -4,22 +4,29 @@
 
 ## ⏯️ 目前做到哪
 
-Story Quest（`tahun4-bi-writing`）v0.3.0 已正式上线并上架 Hub：独立 Vercel 项目部署成功、Supabase 投稿审核管线（private bucket + pending 状态）已在 project `gntnkhkkgonaehapcerr` 执行并真实验证过，`app.js` 已改 `published` 并填入正式网址，线上 Hub 搜索/筛选/详情页/「开始使用」全部走过一遍真实浏览器验证。
+**kelasku 全校名单批量导入 + 1I/1G 补英文名**（2026-09-15）：国光二小全校名单直连 Supabase 批量建了 67 个新班、2581 名学生（权威来源、排除项、ownership 模式等决定见 `agents.md`「全校名单批量导入」条，这里不重复）。接着把原本只有中文名的 1I/1G 用同一份名单按姓名比对，回填 `name_en`/`seat_no`：1G 36 人全部补齐；1I 35 人补了 34 人，剩「王菱敏」这一笔因为跟名单里唯一没配对的「王凌敏」（英文名 LOVELLE HENG LYNN MIN，学号 26311）一字之差、英文姓氏又对不上，没把握是同一人，**没有硬猜，留空**。全部改动都已用直连 SQL 核对过（班级/学生数总和、`play_code`、`class_teachers` 自动加入、name_en/seat_no 填充率）。
+
+- 2026-09-15 更早：Story Quest（`tahun4-bi-writing`）v0.3.0 正式上线并上架 Hub，完整细节见 Obsidian。
+- 2026-09-15：`tahun4-bc-bishun`「四年级写字实验室」已登记为 `published` 并加入 Hub 清单；正式工具网址为 `https://tahun4-bc-bishun.vercel.app`，Hub 最新 production deployment 为 `dpl_5faPcBQVRPjA5aGzyxPVVXCe5Xfk`。登记包含 Tahun 4／华文、3.1／5.1 对照、20 课／109 字、2.0 改版记录、使用说明及原创写字实验台设计预览缩图。Supabase migration `migration-2026-09-15-tahun4-bc-bishun-progress.sql` 已准备但本机执行时无法解析数据库主机，尚未完成。
 
 ## 🚦 目前状态
 
-- Hub 正式网址：https://kongsi-idea.vercel.app（本次已验证线上 `app.js` 确实是 `tahun4-bi-writing` 的 `published` + 真实网址）
-- Story Quest 正式网址：https://tahun4-bi-writing.vercel.app（独立 GitHub repo `kongsi-idea/tahun4-bi-writing`，独立 Vercel 项目，同在 `kongsi-idea` team）
-- 排行榜表未建之前，`tahun1to6-drone` 的排行榜按钮/面板能正常显示，读写会因表不存在静默失败——不影响游戏本身（沿用上一轮记录，本次未处理）
+- Hub 正式网址：https://kongsi-idea.vercel.app
+- Story Quest 正式网址：https://tahun4-bi-writing.vercel.app（独立 GitHub repo，独立 Vercel 项目，同在 `kongsi-idea` team）
+- 四年级写字实验室已登记并部署：`https://tahun4-bc-bishun.vercel.app`；Hub 缩图已补并随最新 production deployment 发布。当前 Hub 线上取回仍待普通网络复验，本机 DNS 无法解析 Vercel／Supabase 域名。
+- 排行榜表未建之前，`tahun1to6-drone` 的排行榜按钮/面板能正常显示，读写会因表不存在静默失败——不影响游戏本身（本次未处理）
 
 ## ➡️ 下一步
 
-1. Story Quest 目前没有给老师审核投稿的介面——`pending` → `approved`/`rejected` 只能直接在 Supabase Dashboard 改 `tahun4_bi_writing_submissions` 表；等有真实投稿量再评估要不要做一个简单的审核页面
-2. 其余 12 个工具的 DSKP 校准还没做（承接 08-14 的试点），可交 codex 批量跑
-3. `tahun2-mt-wang` 的 GitHub 自动部署此前断线过，如果老师改这个工具发现 push 没生效，提醒他去 Vercel Dashboard → Settings → Git 重新连线（需他本人走 OAuth，agent 做不了）
-4. 想让钱币乐园真正覆盖 4.2/4.3/4.6，得另外加「找零／加减法／储蓄」题型，不是改登记能解决
-5. 网页浏览数字（page_view_counter）目前仍偏低，老师已知情决定先不处理；数字自然长了几天后可回头看要不要藏卡
-6. 「个作品已上架」等全站统计条读数仍是 0（本次未查根因，跟这次上架无关，之前就是这样）——之后若要查，从 `get_teacher_count()` 那套 RPC 的姐妹函数查起
+1. **确认「王菱敏」是不是「王凌敏」（LOVELLE HENG LYNN MIN，学号 26311）**——老师核对后一句话，agent 就能补上 1I 最后一笔的 name_en/seat_no
+2. 全校名单里 `Kelas 2026` 分页没有 4F/5F/5I/5L 这几个班代号（另外两份候选名单里有）——如果这几班其实是真实固定班，需要回头单独补建
+3. 其余老师目前还是要「自己知道」去登录 `kelasku.html` 才会看到自己班已经建好、可以加入共管——没有通知机制，如果校方要全面推广，可能需要一份说明或提醒
+4. Story Quest 目前没有给老师审核投稿的介面——`pending` → `approved`/`rejected` 只能直接在 Supabase Dashboard 改 `tahun4_bi_writing_submissions` 表；等有真实投稿量再评估要不要做一个简单的审核页面
+5. 其余 12 个工具的 DSKP 校准还没做（承接 08-14 的试点），可交 codex 批量跑
+6. `tahun2-mt-wang` 的 GitHub 自动部署此前断线过，如果老师改这个工具发现 push 没生效，提醒他去 Vercel Dashboard → Settings → Git 重新连线（需他本人走 OAuth，agent 做不了）
+7. 想让钱币乐园真正覆盖 4.2/4.3/4.6，得另外加「找零／加减法／储蓄」题型，不是改登记能解决
+8. 网页浏览数字（page_view_counter）目前仍偏低，老师已知情决定先不处理；数字自然长了几天后可回头看要不要藏卡
+9. 「个作品已上架」等全站统计条读数仍是 0（跟这次上架无关，之前就是这样）——之后若要查，从 `get_teacher_count()` 那套 RPC 的姐妹函数查起
 
 ## ⚠️ 注意事项
 
@@ -38,13 +45,13 @@ Story Quest（`tahun4-bi-writing`）v0.3.0 已正式上线并上架 Hub：独立
 
 - 时间：2026-09-15
 - 更新者：Claude Sonnet 5 @ 这台 Mac
-- Git push：✅ 已推（`kongsi-idea`、`tahun4-bi-writing`、`teaching-tools` 三个仓库都已推且 `kongsi-idea`／`tahun4-bi-writing` 已生产部署并验证）
+- Git push：待推
 
 ---
 
 ## 历史摘要
 
-- 2026-09-15：Story Quest（`tahun4-bi-writing`）v0.3.0 独立部署上线，接上 Supabase 投稿审核（private bucket + pending 状态），Hub 正式上架并完成端到端浏览器验证。完整细节见 Obsidian。
+- 2026-09-15：全校名单批量导入 kelasku（67 班/2581 人）+ 1I/1G 补英文名（1I 剩 1 人待老师核对姓名）。Story Quest（`tahun4-bi-writing`）v0.3.0 独立部署上线，接上 Supabase 投稿审核，Hub 正式上架并完成端到端浏览器验证。完整细节见 Obsidian。
 - 2026-09-14：「飞学竞场」加班级排行榜，代码与 Hub changelog（v0.4）已部署；排行榜 Supabase 表当时尚待建立。
 - 2026-09-11：网页浏览数改真实计数（不用估算值填充）、修复 `kongsi-idea.vercel.app` 域名从专案消失的问题、13 个教学工具 Vercel 团队归属大整理。完整细节见 Obsidian。
 - 2026-08-26 及更早：学生找不到「开始使用」按钮修复、08-14 DSKP 试点审查、08-06～08-12 kelasku 从零上线，见 `agents.md` 对应章节与 Git 历史。
