@@ -27,6 +27,7 @@
 | `tahun1-bc-bishun` | Tahun 1 | 华文 (bc) | 一起写好字 | 3.0 书写技能 — 3.1 应用铅笔写字（笔画笔顺）＋ 5.0 语文基础知识 — 5.1 汉字基本知识 | https://tahun1-bc-bishun.vercel.app | `../teaching-tools/tahun1-bc-bishun/` | 全平台首个个人进度工具：接 kelasku 名单、进度同步到 Supabase（`tahun1_bc_bishun_progress`），换电脑接续。只有中文课本核对过（习写生字表），马来文 DSKP 官方用词未查证 → 暂不进 `data/dskp-index.js`。老师看全班进度的入口未做（数据已可读）。v1.3 加 `js/pinyin-data.js`：田字格标拼音，朗读改读「字，词」修多音字读错音（详见工具 `handoff.md`）。 |
 | `tahun2-bc-bishun` | Tahun 2 | 华文 (bc) | 二年级写字 | 3.0 书写技能 — 3.1 应用铅笔写字（笔画笔顺）＋ 5.0 语文基础知识 — 5.1 汉字基本知识 | https://tahun2-bc-bishun.vercel.app | `../teaching-tools/tahun2-bc-bishun/` | 照 `tahun1-bc-bishun` 架构，换二年级习写生字（234 格）+ 马力欧视觉皮肤。Supabase 表 `tahun2_bc_bishun_progress` 的 migration **还没跑**（`../supabase/migration-2026-09-10-...sql`）；跑之前进度同步静默降级到 localStorage、工具照常用。kelasku 里 2I/2G 班级也还没建。生字表有 ~6 格待老师对课本核（见工具目录 `核对清单.md`）。马来文 DSKP 用词未查证 → 暂不进 `data/dskp-index.js`。v1.1 加 `js/pinyin-data.js`：田字格标拼音，朗读改读「字，词」修多音字读错音（详见工具 `handoff.md`）。 |
 | `tahun3-bc-bishun` | Tahun 3 | 华文 (bc) | 三年级写字 | 3.0 书写技能 — 3.1 应用铅笔写字（笔画笔顺）＋ 5.0 语文基础知识 — 5.1 汉字基本知识 | https://tahun3-bc-bishun.vercel.app | `../teaching-tools/tahun3-bc-bishun/` | 照 bishun 架构第三个：换三年级习写生字（165 格 / 20 单元）+「We are Twinkle Twinkle」暖调梦幻绘本皮肤（金画框 + 垂吊金星）。v1.2 加了原创星星娃娃角色（Codex 自己的 OpenAI 生图能力）。Supabase 表 `tahun3_bc_bishun_progress` 的 migration **还没跑**（`../supabase/migration-2026-09-10-tahun3-...sql`）；跑前进度只存 localStorage、工具照常用。kelasku 里 3I/3G 班级也还没建。生字表 3 个跨课复现字待核（见工具目录 `核对清单.md`）。马来文 DSKP 用词未查证 → 暂不进 `data/dskp-index.js`。v1.3 加 `js/pinyin-data.js`：田字格标拼音，朗读改读「字，词」修多音字读错音（详见工具 `handoff.md`）。 |
+| `tahun4-bc-bishun` | Tahun 4 | 华文 (bc) | 四年级写字实验室 | 3.0 书写技能 — 3.1 应用铅笔写字（笔画笔顺）＋ 5.0 语文基础知识 — 5.1 汉字基本知识 | https://tahun4-bc-bishun.vercel.app | `../teaching-tools/tahun4-bc-bishun/` | 20 课、109 个习写生字；v2.0 重做为「课本档案室／写字实验台」，采用课次索引、字表索引与左路线右工作台。Supabase 表 `tahun4_bc_bishun_progress` 的 migration **还没跑**；真实滑鼠描写与学校电脑室手感待教师验收；拼音多音字定音词见工具 `handoff.md`。马来文 DSKP 用词未查证 → 暂不进 `data/dskp-index.js`。 |
 | `tahun1to6-drone` | Tahun 1–6 | 跨学科（综合/数学/科学/国文/英文/华文/历史） | 飞学竞场 | 无单点 DSKP 代码——飞行答题游戏跨全部年级与学科出题，`app.js` 用 `coverage` 字段列举各年级可选学科，不套用单一 `standards` 映射 | https://tahun1to6-drone.vercel.app | `../drone-soccer/` | 全平台首个跨年级跨学科工具，也是首个 Three.js 3D 工具。题库是按年段分层的**起始包**，非逐条核过课本/官方 DSKP 的正式题库，正式课堂使用前需教师审核内容（已在 Hub `prep` 栏标注）。马来文 DSKP 用词未查证 → 不进 `data/dskp-index.js`。真实 iOS Safari／「添加到主屏幕」图标表现未验证。v0.4 加班级排行榜（接 kelasku，`?code=` 才启用），表 `tahun1to6_drone_scores` 的 migration **还没跑**（`supabase/migration-2026-09-14-tahun1to6-drone-scores.sql`）；跑之前排行榜按钮正常出现，读写会静默失败，不影响游戏本身。 |
 
 > 「优化备注」栏：`—` 表示目前没有已知待改事项；有想法时写一句话摘要（如「拖拽手感偏慢，考虑换动画」），细节多的话另开该工具的 `handoff.md` 再从这里链过去。
@@ -40,7 +41,7 @@
 | Tahun 1 | ✅ 2.1音节 | — | ✅ 2.1/3.1笔顺/3.2/5.1/5.3.1/5.4.1 (6个) | ✅ 1.8近似值 | ✅ 7.1磁铁 | — | — | — | — | — | — | — |
 | Tahun 2 | — | — | ✅ 3.1笔顺/5.1 (写字) | ✅ 4.1钱币(部分)/1.4数位/1.7数列(3个)/2.3乘法 (共5个) | — | — | — | — | — | — | — | — |
 | Tahun 3 | — | — | ✅ 2.1课文理解 / 3.1笔顺+5.1(写字) | — | ✅ 7.1密度 | — | — | — | — | — | — | — |
-| Tahun 4 | — | — | — | ✅ 1.1数值 | — | — | — | — | — | — | — | — |
+| Tahun 4 | — | — | ✅ 3.1笔顺/5.1汉字基本知识 | ✅ 1.1数值 | — | — | — | — | — | — | — | — |
 | Tahun 5 | — | — | — | — | — | — | — | — | — | — | — | — |
 | Tahun 6 | — | — | — | — | — | — | — | — | — | — | — | — |
 

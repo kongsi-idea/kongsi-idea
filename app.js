@@ -310,6 +310,34 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun4-bc-bishun",
+    tahun: 4,
+    subjek: "bc",
+    status: "published",
+    title_zh: "四年级写字实验室",
+    title_bm: "Makmal Tulisan Cina Tahun 4",
+    desc: "四年级华文课本 20 课、109 个习写生字的个人练习工具。学生从课本字表索引选择课次，在「看结构 → 跟着写 → 自己写」路线中观察笔顺、描红和凭记忆临写；每个字有拼音、定音词朗读、笔画提示与完成印记。工具使用课本第 193–194 页习写生字表，笔画资料离线打包，适合电脑室个人练习。",
+    keywords: ["写字", "笔顺", "笔画", "习写生字", "田字格", "描红", "拼音", "四年级", "华文", "个人练习", "电脑室", "结构"],
+    url: "https://tahun4-bc-bishun.vercel.app",
+    type: "练习",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "2.0",
+    changelog: [
+      { version: "2.0", date: "2026-09-15", note: "重做为「课本档案室／写字实验台」：课次索引、字表索引与练习路线重新编排" },
+      { version: "1.0", date: "2026-09-15", note: "首次完成四年级习写生字练习工具" },
+    ],
+    thumbnails: [],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.1"] },
+    ],
+    practiceSummary: "根据四年级华文课本习写生字表，在田字格上按正确笔画笔顺书写正楷，并通过观察结构、描红和临写逐步写稳。",
+    teachingMode: ["电脑室个人练习", "个人自学"],
+    prep: "电脑室个人练习工具，一人一台或两人轮流，用滑鼠描字，不需打印。网址加班级代码（例如 ?code=JBC1037-4I，需老师先在 kelasku 建四年级班级）→ 读班级名单让学生选名字、记录个人进度、换电脑登入同名字可接回；不加代码则手动输入名字、进度只存本机。",
+  },
+
+  {
     slug: "tahun1-bm-kvkv",
     tahun: 1,
     subjek: "bm",
