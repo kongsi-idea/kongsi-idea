@@ -7,13 +7,13 @@
 **kelasku 全校名单批量导入 + 1I/1G 补英文名**（2026-09-15）：国光二小全校名单直连 Supabase 批量建了 67 个新班、2581 名学生（权威来源、排除项、ownership 模式等决定见 `agents.md`「全校名单批量导入」条，这里不重复）。接着把原本只有中文名的 1I/1G 用同一份名单按姓名比对，回填 `name_en`/`seat_no`：1G 36 人全部补齐；1I 35 人补了 34 人，剩「王菱敏」这一笔因为跟名单里唯一没配对的「王凌敏」（英文名 LOVELLE HENG LYNN MIN，学号 26311）一字之差、英文姓氏又对不上，没把握是同一人，**没有硬猜，留空**。全部改动都已用直连 SQL 核对过（班级/学生数总和、`play_code`、`class_teachers` 自动加入、name_en/seat_no 填充率）。
 
 - 2026-09-15 更早：Story Quest（`tahun4-bi-writing`）v0.3.0 正式上线并上架 Hub，完整细节见 Obsidian。
-- 2026-09-15：`tahun4-bc-bishun`「四年级写字实验室」已登记为 `published` 并加入 Hub 清单；正式工具网址为 `https://tahun4-bc-bishun.vercel.app`，Hub 最新 production deployment 为 `dpl_5faPcBQVRPjA5aGzyxPVVXCe5Xfk`。登记包含 Tahun 4／华文、3.1／5.1 对照、20 课／109 字、2.0 改版记录、使用说明及原创写字实验台设计预览缩图。Supabase migration `migration-2026-09-15-tahun4-bc-bishun-progress.sql` 已准备但本机执行时无法解析数据库主机，尚未完成。
+- 2026-09-15：`tahun4-bc-bishun`「四年级写字」已登记为 `published` 并加入 Hub 清单；正式工具网址为 `https://tahun4-bc-bishun.vercel.app`，Hub 上一版 production deployment 为 `dpl_5faPcBQVRPjA5aGzyxPVVXCe5Xfk`。本地 v2.1 已统一为 `Menulis Aksara Tahun 4`／「四年级写字」，改成蓝天草地毛绒写字会，并换上 `writing-picnic.png` 正方形缩图；本轮 Vercel CLI 因 `fetch failed` 尚未发布新版。Supabase migration `migration-2026-09-15-tahun4-bc-bishun-progress.sql` 已准备但本机执行时无法解析数据库主机，尚未完成。
 
 ## 🚦 目前状态
 
 - Hub 正式网址：https://kongsi-idea.vercel.app
 - Story Quest 正式网址：https://tahun4-bi-writing.vercel.app（独立 GitHub repo，独立 Vercel 项目，同在 `kongsi-idea` team）
-- 四年级写字实验室已登记并部署：`https://tahun4-bc-bishun.vercel.app`；Hub 缩图已补并随最新 production deployment 发布。当前 Hub 线上取回仍待普通网络复验，本机 DNS 无法解析 Vercel／Supabase 域名。
+- 四年级写字上一版已登记并部署：`https://tahun4-bc-bishun.vercel.app`；v2.1 新视觉和 Hub 新缩图已在本地 commit，待网络恢复后发布。当前 Hub 线上取回仍待普通网络复验，本机 DNS 无法解析 Vercel／Supabase 域名。
 - 排行榜表未建之前，`tahun1to6-drone` 的排行榜按钮/面板能正常显示，读写会因表不存在静默失败——不影响游戏本身（本次未处理）
 
 ## ➡️ 下一步
