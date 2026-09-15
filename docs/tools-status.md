@@ -28,7 +28,7 @@
 | `tahun1-mt-masa` | 开发中 | 未完成 | 尚未部署、未上架 Hub：等老师在真实设备实测确认后才走部署流程（newtool skill 第7条硬性规定）；马来文 DSKP 官方用词未查证，暂不收进 kongsi-idea/data/dskp-index.js；本机没有一年级数学课本原文可对照，「4时／4时半／4时一刻／4时15分」用词照 DSKP 摘要＋老师口述，待老师对课本；真实触屏（尤其课室一体机）的拖拽手感、音效音量还没实测，只在 headless 模拟过 | 老师本机/真实设备实测确认玩法、手感与音效 → git init/gh repo create → Vercel 部署 → 截图 → Hub TOOLS 登记(含 hasLeaderboard) + published-tools-coverage.md 加一行 |
 | `tahun2-bc-bishun` | 已上架 | 待评估 | — | 补充状态与下一步 |
 | `tahun3-bc-bishun` | 已上架 | 待评估 | — | 补充状态与下一步 |
-| `tahun4-bc-bishun` | 已上架 | 待评估 | 真实滑鼠描写与学校电脑室手感尚未由教师验收；Supabase migration 尚未执行；本机 DNS 无法完成线上 curl 复验 | 老师先打开 https://tahun4-bc-bishun.vercel.app 对照课本第193–194页并实写一字；确认后再决定是否执行 migration 与补真实缩图 |
+| `tahun4-bc-bishun` | 已上架 | 待评估 | 真实滑鼠描写与学校电脑室手感尚未由教师验收；Supabase migration 尚未执行（本机无法解析数据库主机）；Hub 原创设计预览缩图已补 | 老师先打开 https://tahun4-bc-bishun.vercel.app 对照课本第193–194页并实写一字；网络可连接 Supabase 后执行 migration |
 | `tahun4-bi-writing` | 已上架 | 待评估 | 纸本作业投稿仅测过一次性测试图片，尚无真实学生投稿；教师审核端（把 pending 改 approved/rejected）还没有介面，只能直接在 Supabase Dashboard 操作 | 等课堂真实使用反馈；视需要补一个给老师审核投稿的简单介面 |
 
 ## 全部工具主表
@@ -56,7 +56,7 @@
 | `tahun3-bc-bishun` | 三年级写字 | Tahun 3 | 华文 | ⚠️ 引用异常：3.0 — 3.1 | 已上架 | 待评估 | 1.3 | 资料异常 | 有 | — | 补充状态与下一步 | 2026-09-11 |
 | `tahun3-bc-kewen` | 语文课文大PK | Tahun 3 | 华文 | 2.0 阅读技能 — 2.1 | 已上架 | 待评估 | 1.0 | 已同步 | 无 | — | 等待课堂反馈；有不满意之处时在这里登记 | 2026-07-21 |
 | `tahun3-dst-density` | 浮沉实验室：密度大发现 | Tahun 3 | 科学与科技世界 | 7.1 密度比水大或比水小的物体或材料 — 7.1.1/7.1.2/7.1.3/7.1.4 | 已上架 | 待评估 | 1.0 | 已同步 | 无 | — | 等待课堂反馈；有不满意之处时在这里登记 | 2026-07-21 |
-| `tahun4-bc-bishun` | 四年级写字 | Tahun 4 | 华文 | ⚠️ 引用异常：3.0 — 3.1 | 已上架 | 待评估 | 2.0 | 资料异常 | 有 | 真实滑鼠描写与学校电脑室手感尚未由教师验收；Supabase migration 尚未执行；本机 DNS 无法完成线上 curl 复验 | 老师先打开 https://tahun4-bc-bishun.vercel.app 对照课本第193–194页并实写一字；确认后再决定是否执行 migration 与补真实缩图 | 2026-09-15 |
+| `tahun4-bc-bishun` | 四年级写字 | Tahun 4 | 华文 | ⚠️ 引用异常：3.0 — 3.1 | 已上架 | 待评估 | 2.0 | 资料异常 | 有 | 真实滑鼠描写与学校电脑室手感尚未由教师验收；Supabase migration 尚未执行（本机无法解析数据库主机）；Hub 原创设计预览缩图已补 | 老师先打开 https://tahun4-bc-bishun.vercel.app 对照课本第193–194页并实写一字；网络可连接 Supabase 后执行 migration | 2026-09-15 |
 | `tahun4-bi-writing` | Story Quest · Sentence Workshop | Tahun 4 | 英文 | 待核对 | 已上架 | 待评估 | 0.3.0 | 资料异常 | 有 | 纸本作业投稿仅测过一次性测试图片，尚无真实学生投稿；教师审核端（把 pending 改 approved/rejected）还没有介面，只能直接在 Supabase Dashboard 操作 | 等课堂真实使用反馈；视需要补一个给老师审核投稿的简单介面 | 2026-09-15 |
 | `tahun4-mt-nombor` | 数学知识大比拼 | Tahun 4 | 数学 | 1.0 数与运算——整数与运算 — 1.1 | 已上架 | 待评估 | 1.0 | 已同步 | 无 | — | 等待课堂反馈；有不满意之处时在这里登记 | 2026-07-21 |
 
@@ -105,5 +105,5 @@
 
 ## 最后同步
 
-- 时间：2026-09-15, 15:45
+- 时间：2026-09-15, 15:55
 - Hub 覆盖文件可读取：是
