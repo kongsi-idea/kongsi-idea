@@ -28,7 +28,7 @@
 12. 点子许愿池须结构化表单（规格 `docs/idea-wish-pool-spec.md`），需登录，不收集学生个资
 13. 每工具需 `version`+`changelog`（数组追加不覆盖）
 14. `creator` 须真实作者姓名，不能全挂卢老师
-15. 「网页浏览量」2026-09-11起用真实计数（`page_view_counter`+RPC，见 `supabase/migration-2026-09-11-page-views.sql`），历史无法补回，**不可用估算值填**，数字落差宁可暂藏统计卡不编数字
+15. 「网页浏览量」2026-09-11起用真实计数（`page_view_counter`+RPC，见 `supabase/migration-2026-09-11-page-views.sql`），历史无法补回，**不可用估算值填**，数字落差宁可暂藏统计卡不编数字。2026-09-17改名「次到访」并加30分钟session去重（`localStorage` key `kongsi-idea-last-visit-ts`）——单纯刷新会灌水，不反映真实到访意图；窗口内改打 `get_page_views()` 只读不加，超过窗口才打 `increment_page_views()`。这也是客户端估计值（清cache/换设备会重算），不是真独立访客数，但比纯page view更接近
 16. `kongsi-idea.vercel.app` 域名可能从专案（`prj_Oyf637d4j8ODuilHIY7eZ2OoZswQ`）Domains列表消失（边缘缓存顶旧内容仍200）——线上无反应先查 Domains 列表，`POST /v10/projects/{id}/domains` 加回
 17. **只开放anon INSERT不开放SELECT的表，insert 绝不能带 `.select()`／`Prefer: return=representation`**（RETURNING读回要过SELECT检查，会撞 `42501`）。一律 `Prefer: return=minimal`
 18. 不需要 `supabase` CLI/`psql`：`supabase/.secrets.local.md` 存DB密码，Python `psycopg2` 直连 `db.{project_ref}.supabase.co:5432` 跑 migration，比手贴 Dashboard 快；Dashboard 降级为备案

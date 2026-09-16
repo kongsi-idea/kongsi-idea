@@ -4,28 +4,27 @@
 
 ## ⏯️ 目前做到哪
 
-**kelasku 全校名单批量导入 + 1I/1G 补英文名**（2026-09-15）：国光二小全校名单直连 Supabase 批量建了 67 个新班、2581 名学生（权威来源、排除项、ownership 模式等决定见 `agents.md`「全校名单批量导入」条，这里不重复）。接着把原本只有中文名的 1I/1G 用同一份名单按姓名比对，回填 `name_en`/`seat_no`：1G 36 人全部补齐；1I 35 人补了 34 人，剩「王菱敏」这一笔因为跟名单里唯一没配对的「王凌敏」（英文名 LOVELLE HENG LYNN MIN，学号 26311）一字之差、英文姓氏又对不上，没把握是同一人，**没有硬猜，留空**。全部改动都已用直连 SQL 核对过（班级/学生数总和、`play_code`、`class_teachers` 自动加入、name_en/seat_no 填充率）。
+**首页统计条「网页浏览量」改名「次到访」+ 30 分钟 session 去重**（2026-09-17）：老师发现纯刷新会一直让数字涨，讨论后确认要「到访次数」语意——短时间内重复进站不算，隔一段时间再来才代表使用意图不同。改法：`app.js` 的 `bumpPageViews()` 用 `localStorage`（key `kongsi-idea-last-visit-ts`）记上次计数时间，30 分钟内重复进站改打 `get_page_views()`（只读不加），超过窗口才打 `increment_page_views()`（+1 并更新时间戳）；两个 RPC 都已存在于线上库，没改 schema。标签同步从「次网页浏览」改成「次到访」。已用 `verify` 子代理跑 Playwright headless 验证：标签正确、首次加载真的打了 `increment_page_views`（线上真实值从 160 起算）、同 context 刷新改打 `get_page_views` 没有重复计数、localStorage 时间戳正确写入。已 commit + push（`1e6a650`），**生产部署尚未做**——当时是凌晨 01:05，撞到 guard 的深夜时段限制（`kongsi-idea` 本身在授权名单内，纯粹是时段问题），已记进 BOARD.md，白天窗口直接跑部署三步骤即可。
 
-- 2026-09-15 更早：Story Quest（`tahun4-bi-writing`）v0.3.0 正式上线并上架 Hub，完整细节见 Obsidian。
-- 2026-09-15：`tahun4-bc-bishun`「四年级写字」已登记为 `published` 并加入 Hub 清单；正式工具网址为 `https://tahun4-bc-bishun.vercel.app`，Hub 上一版 production deployment 为 `dpl_5faPcBQVRPjA5aGzyxPVVXCe5Xfk`。本地 v2.1 已统一为 `Menulis Aksara Tahun 4`／「四年级写字」，改成蓝天草地毛绒写字会，并换上 `writing-picnic.png` 正方形缩图；本轮 Vercel CLI 因 `fetch failed` 尚未发布新版。Supabase migration `migration-2026-09-15-tahun4-bc-bishun-progress.sql` 已准备但本机执行时无法解析数据库主机，尚未完成。
+- 2026-09-15：kelasku 全校名单批量导入（67 班/2581 人）+ 1I/1G 补英文名（1I 剩「王菱敏」1 人因跟候选「王凌敏」一字之差没把握，留空待老师核对）；Story Quest（`tahun4-bi-writing`）v0.3.0 上线上架；`tahun4-bc-bishun` 登记 published，本地 v2.1 视觉改版待部署。
 
 ## 🚦 目前状态
 
-- Hub 正式网址：https://kongsi-idea.vercel.app
+- Hub 正式网址：https://kongsi-idea.vercel.app（**本次「次到访」改动代码已 push，线上仍是改动前版本，待白天部署**）
 - Story Quest 正式网址：https://tahun4-bi-writing.vercel.app（独立 GitHub repo，独立 Vercel 项目，同在 `kongsi-idea` team）
-- 四年级写字上一版已登记并部署：`https://tahun4-bc-bishun.vercel.app`；v2.1 新视觉和 Hub 新缩图已在本地 commit，待网络恢复后发布。当前 Hub 线上取回仍待普通网络复验，本机 DNS 无法解析 Vercel／Supabase 域名。
+- 四年级写字上一版已登记并部署：`https://tahun4-bc-bishun.vercel.app`；v2.1 新视觉和 Hub 新缩图已在本地 commit，待部署（跟本次改动是同一个「待部署」状态，可以一起处理）
 - 排行榜表未建之前，`tahun1to6-drone` 的排行榜按钮/面板能正常显示，读写会因表不存在静默失败——不影响游戏本身（本次未处理）
 
 ## ➡️ 下一步
 
-1. **确认「王菱敏」是不是「王凌敏」（LOVELLE HENG LYNN MIN，学号 26311）**——老师核对后一句话，agent 就能补上 1I 最后一笔的 name_en/seat_no
-2. 全校名单里 `Kelas 2026` 分页没有 4F/5F/5I/5L 这几个班代号（另外两份候选名单里有）——如果这几班其实是真实固定班，需要回头单独补建
-3. 其余老师目前还是要「自己知道」去登录 `kelasku.html` 才会看到自己班已经建好、可以加入共管——没有通知机制，如果校方要全面推广，可能需要一份说明或提醒
-4. Story Quest 目前没有给老师审核投稿的介面——`pending` → `approved`/`rejected` 只能直接在 Supabase Dashboard 改 `tahun4_bi_writing_submissions` 表；等有真实投稿量再评估要不要做一个简单的审核页面
-5. 其余 12 个工具的 DSKP 校准还没做（承接 08-14 的试点），可交 codex 批量跑
-6. `tahun2-mt-wang` 的 GitHub 自动部署此前断线过，如果老师改这个工具发现 push 没生效，提醒他去 Vercel Dashboard → Settings → Git 重新连线（需他本人走 OAuth，agent 做不了）
-7. 想让钱币乐园真正覆盖 4.2/4.3/4.6，得另外加「找零／加减法／储蓄」题型，不是改登记能解决
-8. 网页浏览数字（page_view_counter）目前仍偏低，老师已知情决定先不处理；数字自然长了几天后可回头看要不要藏卡
+1. **白天窗口部署「次到访」改动**：`vercel --prod --yes` → `vercel alias set <url> kongsi-idea.vercel.app` → `curl` 确认线上文案是「次到访」——可以跟下面第 2 项的 `tahun4-bc-bishun` v2.1 部署一起做
+2. **确认「王菱敏」是不是「王凌敏」（LOVELLE HENG LYNN MIN，学号 26311）**——老师核对后一句话，agent 就能补上 1I 最后一笔的 name_en/seat_no
+3. 全校名单里 `Kelas 2026` 分页没有 4F/5F/5I/5L 这几个班代号（另外两份候选名单里有）——如果这几班其实是真实固定班，需要回头单独补建
+4. 其余老师目前还是要「自己知道」去登录 `kelasku.html` 才会看到自己班已经建好、可以加入共管——没有通知机制，如果校方要全面推广，可能需要一份说明或提醒
+5. Story Quest 目前没有给老师审核投稿的介面——`pending` → `approved`/`rejected` 只能直接在 Supabase Dashboard 改 `tahun4_bi_writing_submissions` 表；等有真实投稿量再评估要不要做一个简单的审核页面
+6. 其余 12 个工具的 DSKP 校准还没做（承接 08-14 的试点），可交 codex 批量跑
+7. `tahun2-mt-wang` 的 GitHub 自动部署此前断线过，如果老师改这个工具发现 push 没生效，提醒他去 Vercel Dashboard → Settings → Git 重新连线（需他本人走 OAuth，agent 做不了）
+8. 想让钱币乐园真正覆盖 4.2/4.3/4.6，得另外加「找零／加减法／储蓄」题型，不是改登记能解决
 9. 「个作品已上架」等全站统计条读数仍是 0（跟这次上架无关，之前就是这样）——之后若要查，从 `get_teacher_count()` 那套 RPC 的姐妹函数查起
 
 ## ⚠️ 注意事项
@@ -40,18 +39,19 @@
 - Supabase Client Secret、数据库密码只留在已忽略的 `supabase/.secrets.local.md`，不可提交
 - **这台机器现在其实有办法跑 migration，不用再手贴 Dashboard**：`npx supabase db push --db-url` 需要额外 login token 走不通，但直接用 `.secrets.local.md` 里的数据库密码，透过 `psycopg2`（Python 已内建，`pip` 有装）直连 `db.gntnkhkkgonaehapcerr.supabase.co:5432` 执行 SQL 完全可行——本次 `tahun4_bi_writing_submissions` migration 就是这样跑的，比手贴 Dashboard SQL Editor 快也更可重复。以后新 migration 优先用这个方式。
 - 许愿池状态流转栏位 `supabase/migration-2026-07-24-wish-pipeline-columns.sql` 写好了但仍未在 Supabase 执行，继承自更早的交接，长期没跑
+- **深夜（23:00-09:00）guard 会挡生产部署／push／DB 动作**，即使专案在授权名单内也一样，这是时段限制不是权限问题；2026-09-17 凌晨撞过一次，已记 BOARD 等白天补跑，没有绕过 guard
 
 ## 🕐 最后更新
 
-- 时间：2026-09-15
+- 时间：2026-09-17
 - 更新者：Claude Sonnet 5 @ 这台 Mac
-- Git push：待推
+- Git push：✅ 已推（`1e6a650`）；生产部署待白天窗口
 
 ---
 
 ## 历史摘要
 
-- 2026-09-15：全校名单批量导入 kelasku（67 班/2581 人）+ 1I/1G 补英文名（1I 剩 1 人待老师核对姓名）。Story Quest（`tahun4-bi-writing`）v0.3.0 独立部署上线，接上 Supabase 投稿审核，Hub 正式上架并完成端到端浏览器验证。完整细节见 Obsidian。
+- 2026-09-15：全校名单批量导入 kelasku（67 班/2581 人）+ 1I/1G 补英文名（1I 剩 1 人待老师核对姓名）。Story Quest（`tahun4-bi-writing`）v0.3.0 独立部署上线，接上 Supabase 投稿审核，Hub 正式上架并完成端到端浏览器验证。`tahun4-bc-bishun` 登记 published，本地 v2.1 视觉改版待部署。完整细节见 Obsidian。
 - 2026-09-14：「飞学竞场」加班级排行榜，代码与 Hub changelog（v0.4）已部署；排行榜 Supabase 表当时尚待建立。
 - 2026-09-11：网页浏览数改真实计数（不用估算值填充）、修复 `kongsi-idea.vercel.app` 域名从专案消失的问题、13 个教学工具 Vercel 团队归属大整理。完整细节见 Obsidian。
 - 2026-08-26 及更早：学生找不到「开始使用」按钮修复、08-14 DSKP 试点审查、08-06～08-12 kelasku 从零上线，见 `agents.md` 对应章节与 Git 历史。
