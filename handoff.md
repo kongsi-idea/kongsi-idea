@@ -4,22 +4,24 @@
 
 ## ⏯️ 目前做到哪
 
-**磁力创造实验室 v2 Hub 登记已更新（2026-09-17）**：`tahun1-dst-magnet` 已从「磁铁大发现」改名为「磁力创造实验室／Makmal Cipta Magnet」，版本升到 2.0；说明、关键词、教学模式、准备事项与 changelog 已改成四个开放工作区＋学生自创挑战；DSKP 索引补齐 7.1.5／7.1.6；旧版四张截图已撤下，待新版工具部署及线上复验后补真实缩图。本次只本地 commit，尚未 push／部署。
+**磁力创造实验室 v2 Hub 登记已更新（2026-09-17）**：`tahun1-dst-magnet` 已从「磁铁大发现」改名为「磁力创造实验室／Makmal Cipta Magnet」，版本升到 2.0；说明、关键词、教学模式、准备事项与 changelog 已改成四个开放工作区＋学生自创挑战；DSKP 索引补齐 7.1.5／7.1.6；旧版四张截图已撤下，待新版工具部署及线上复验后补真实缩图。**这笔登记（`56a19f7`）已随本轮收工一起 push**，但 `tahun1-dst-magnet` 本身的工具部署／线上复验还没做（跟下面这条是两回事，别搞混）。
 
-**首页统计条「网页浏览量」改名「次到访」+ 30 分钟 session 去重**（2026-09-17）：老师发现纯刷新会一直让数字涨，讨论后确认要「到访次数」语意——短时间内重复进站不算，隔一段时间再来才代表使用意图不同。改法：`app.js` 的 `bumpPageViews()` 用 `localStorage`（key `kongsi-idea-last-visit-ts`）记上次计数时间，30 分钟内重复进站改打 `get_page_views()`（只读不加），超过窗口才打 `increment_page_views()`（+1 并更新时间戳）；两个 RPC 都已存在于线上库，没改 schema。标签同步从「次网页浏览」改成「次到访」。已用 `verify` 子代理跑 Playwright headless 验证：标签正确、首次加载真的打了 `increment_page_views`（线上真实值从 160 起算）、同 context 刷新改打 `get_page_views` 没有重复计数、localStorage 时间戳正确写入。已 commit + push（`1e6a650`），**生产部署尚未做**——当时是凌晨 01:05，撞到 guard 的深夜时段限制（`kongsi-idea` 本身在授权名单内，纯粹是时段问题），已记进 BOARD.md，白天窗口直接跑部署三步骤即可。
+**首页统计条「网页浏览量」改名「次到访」+ 30 分钟 session 去重**（2026-09-17）：老师发现纯刷新会一直让数字涨，讨论后确认要「到访次数」语意——短时间内重复进站不算，隔一段时间再来才代表使用意图不同。改法：`app.js` 的 `bumpPageViews()` 用 `localStorage`（key `kongsi-idea-last-visit-ts`）记上次计数时间，30 分钟内重复进站改打 `get_page_views()`（只读不加），超过窗口才打 `increment_page_views()`（+1 并更新时间戳）；两个 RPC 都已存在于线上库，没改 schema。标签同步从「次网页浏览」改成「次到访」。已用 `verify` 子代理跑 Playwright headless 验证：标签正确、首次加载真的打了 `increment_page_views`（线上真实值从 160 起算）、同 context 刷新改打 `get_page_views` 没有重复计数、localStorage 时间戳正确写入。**已 commit + push（`1e6a650`）并部署上线**：`vercel --prod` 后自动别名又指错到 `eduneo-hub.vercel.app`（老毛病），手动 `vercel alias set` 切回 `kongsi-idea.vercel.app`，curl 复验线上 `app.js` 含「次到访」与 `kongsi-idea-last-visit-ts`，确认生效。
+
+**guard 深夜限制顺带调整（2026-09-17 凌晨）**：老师原话「深夜要开通部署，我可以接受了，因为不开通我比较麻烦，有问题我们再滚回」——`~/Documents/my-agent/.ops/guard-policy.json` 的 `quiet_hours.extra_deny` 拿掉了 `vercel`／`git push` 两条盘查，现在**任何时段、任何专案 `git push` 都不挡**，`vercel --prod`／alias 深夜仍限「授权名单内专案」或亲口提到部署；DB migration 深夜依旧挡（回滚成本不同，没一并开）。决定已回填 `AGENTS.md` 第 7 条，这不是 kongsi-idea 专属的事，其他专案 session 也会吃到这个新规则。
 
 - 2026-09-15：kelasku 全校名单批量导入（67 班/2581 人）+ 1I/1G 补英文名（1I 剩「王菱敏」1 人因跟候选「王凌敏」一字之差没把握，留空待老师核对）；Story Quest（`tahun4-bi-writing`）v0.3.0 上线上架；`tahun4-bc-bishun` 登记 published，本地 v2.1 视觉改版待部署。
 
 ## 🚦 目前状态
 
-- Hub 正式网址：https://kongsi-idea.vercel.app（**本次「次到访」改动代码已 push，线上仍是改动前版本，待白天部署**）
+- Hub 正式网址：https://kongsi-idea.vercel.app（**本次「次到访」改动已上线并 curl 复验**；`56a19f7` 那笔磁力创造实验室登记也已推上 GitHub，但对应工具部署还没做）
 - Story Quest 正式网址：https://tahun4-bi-writing.vercel.app（独立 GitHub repo，独立 Vercel 项目，同在 `kongsi-idea` team）
 - 四年级写字上一版已登记并部署：`https://tahun4-bc-bishun.vercel.app`；v2.1 新视觉和 Hub 新缩图已在本地 commit，待部署（跟本次改动是同一个「待部署」状态，可以一起处理）
 - 排行榜表未建之前，`tahun1to6-drone` 的排行榜按钮/面板能正常显示，读写会因表不存在静默失败——不影响游戏本身（本次未处理）
 
 ## ➡️ 下一步
 
-1. **白天窗口部署「次到访」改动**：`vercel --prod --yes` → `vercel alias set <url> kongsi-idea.vercel.app` → `curl` 确认线上文案是「次到访」——可以跟下面第 2 项的 `tahun4-bc-bishun` v2.1 部署一起做
+1. `tahun1-dst-magnet`（磁力创造实验室 v2）与 `tahun4-bc-bishun` v2.1 两个工具本身的部署／线上复验还没做——登记资料已推上 GitHub，工具部署是各自独立 repo 的事，接手时先看对应工具的 handoff
 2. **确认「王菱敏」是不是「王凌敏」（LOVELLE HENG LYNN MIN，学号 26311）**——老师核对后一句话，agent 就能补上 1I 最后一笔的 name_en/seat_no
 3. 全校名单里 `Kelas 2026` 分页没有 4F/5F/5I/5L 这几个班代号（另外两份候选名单里有）——如果这几班其实是真实固定班，需要回头单独补建
 4. 其余老师目前还是要「自己知道」去登录 `kelasku.html` 才会看到自己班已经建好、可以加入共管——没有通知机制，如果校方要全面推广，可能需要一份说明或提醒
@@ -41,13 +43,13 @@
 - Supabase Client Secret、数据库密码只留在已忽略的 `supabase/.secrets.local.md`，不可提交
 - **这台机器现在其实有办法跑 migration，不用再手贴 Dashboard**：`npx supabase db push --db-url` 需要额外 login token 走不通，但直接用 `.secrets.local.md` 里的数据库密码，透过 `psycopg2`（Python 已内建，`pip` 有装）直连 `db.gntnkhkkgonaehapcerr.supabase.co:5432` 执行 SQL 完全可行——本次 `tahun4_bi_writing_submissions` migration 就是这样跑的，比手贴 Dashboard SQL Editor 快也更可重复。以后新 migration 优先用这个方式。
 - 许愿池状态流转栏位 `supabase/migration-2026-07-24-wish-pipeline-columns.sql` 写好了但仍未在 Supabase 执行，继承自更早的交接，长期没跑
-- **深夜（23:00-09:00）guard 会挡生产部署／push／DB 动作**，即使专案在授权名单内也一样，这是时段限制不是权限问题；2026-09-17 凌晨撞过一次，已记 BOARD 等白天补跑，没有绕过 guard
+- **深夜（23:00-09:00）guard 规则 2026-09-17 凌晨已调整**：`git push` 现在任何时段都不挡；`vercel --prod`／alias 深夜仍限「授权名单内专案」或亲口提到部署；DB migration 深夜依旧挡。旧版「深夜一律挡部署/push/DB」的说法已过期，规则本体在 `~/Documents/my-agent/.ops/guard-policy.json` 与 `AGENTS.md` 第 7 条
 
 ## 🕐 最后更新
 
-- 时间：2026-09-17
+- 时间：2026-09-17（凌晨）
 - 更新者：Claude Sonnet 5 @ 这台 Mac
-- Git push：✅ 已推（`1e6a650`）；生产部署待白天窗口
+- Git push：✅ 全部已推（`1e6a650`／`606d124`／`56a19f7`）；Hub 生产部署 ✅ 已完成并 curl 复验
 
 ---
 
