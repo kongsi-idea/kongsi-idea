@@ -298,6 +298,18 @@ const DSKP_INDEX = [
             title_bm: "Membuat kesimpulan tentang daya tarikan dan tolakan antara kutub magnet",
             terms: ["磁极", "相吸相斥", "kutub magnet", "tolakan"],
           },
+          {
+            code: "7.1.5",
+            title_zh: "通过探究确定磁铁对物体的磁力强弱",
+            title_bm: "Menentukan kekuatan magnet ke atas objek dengan menjalankan penyiasatan",
+            terms: ["磁力强弱", "公平实验", "距离", "回形针", "kekuatan magnet"],
+          },
+          {
+            code: "7.1.6",
+            title_zh: "通过绘图、TMK、书写或口述解释磁铁观察结果",
+            title_bm: "Menjelaskan pemerhatian tentang magnet melalui lakaran, TMK, penulisan atau lisan",
+            terms: ["解释观察", "磁铁游戏", "沟通", "menjelaskan pemerhatian"],
+          },
         ],
       },
     ],

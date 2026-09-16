@@ -620,31 +620,27 @@ const TOOLS = [
     tahun: 1,
     subjek: "dst",
     status: "published",
-    title_zh: "磁铁大发现",
-    title_bm: "Penemuan Magnet",
-    desc: "拖动磁铁靠近11件生活物品：会被磁铁吸引的东西会飞向磁铁，不会的就掉下去，具象化呈现磁力效果（含铝罐这个常见迷思概念道具，破除「金属都会被磁铁吸」的误解）。另附磁极相吸相斥实验、6种磁铁形状图鉴。",
-    keywords: ["磁铁", "磁力", "磁极", "一年级", "科学", "magnet", "tarikan", "tolakan"],
+    title_zh: "磁力创造实验室",
+    title_bm: "Makmal Cipta Magnet",
+    desc: "面向一年级的开放式磁力创造工具。学生可在磁力探索桌比较铁、钢、铝、铜、木与塑料等材料，在磁极谜题场观察相吸相斥，在公平实验室只改变距离并记录回形针数量，最后摆放磁铁、钢珠、障碍与终点，创造并亲自验证一项能给别人试玩的磁力挑战。课堂投影与家庭探索双模式；老师可暂停、隐藏结果、显示磁力线、记录预测票数、生成讨论问题及打印实验单。",
+    keywords: ["磁铁", "磁力", "磁极", "公平实验", "创造挑战", "一年级", "科学", "magnet", "tarikan", "tolakan", "eksperimen adil"],
     url: "https://tahun1-dst-magnet.vercel.app",
     type: "工具",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
+    version: "2.0",
     changelog: [
+      { version: "2.0", date: "2026-09-17", note: "重建为磁力创造实验室：四个开放工作区、课堂／家庭双模式、老师控制台，以及可试玩验证与导出的学生自创挑战" },
       { version: "1.0", date: "2026-07-21", note: "首次上架" },
     ],
-    // 这 4 张是用 Playwright 实际操作 https://tahun1-dst-magnet.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-dst-magnet/1-test.png", label: "拖磁铁测试11件物品" },
-      { img: "assets/thumbs/tahun1-dst-magnet/2-summary.png", label: "测试结果+小结论" },
-      { img: "assets/thumbs/tahun1-dst-magnet/3-pole.png", label: "磁极相吸相斥实验" },
-      { img: "assets/thumbs/tahun1-dst-magnet/4-shapes.png", label: "磁铁形状图鉴" },
-    ],
+    // 新版线上复验后再补真实截图；暂不展示已被取代的 v1 画面。
+    thumbnails: [{ label: "磁力创造实验室 v2 · 新版画面待线上截图" }],
     standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "7.1", objectiveCodes: ["7.1.1", "7.1.2", "7.1.3", "7.1.4"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "7.1", objectiveCodes: ["7.1.1", "7.1.2", "7.1.3", "7.1.4", "7.1.5", "7.1.6"] },
     ],
-    practiceSummary: "举例磁铁用途、确认磁铁形状、概括物体对磁铁的反应、研究磁极相吸相斥",
-    teachingMode: ["投影互动", "教师带教/演示"],
-    prep: "打开即用，不需要打印，不需要真的磁铁教具",
+    practiceSummary: "比较不同材料、探究磁极相吸相斥、进行距离与磁力的公平实验、解释观察并创造磁铁挑战",
+    teachingMode: ["课堂投影", "家庭探索", "学生创造"],
+    prep: "家庭打开即用；课堂建议配合真实磁铁示范，数字模拟不替代实体实验",
   },
 
   {

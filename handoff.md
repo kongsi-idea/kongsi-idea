@@ -4,6 +4,8 @@
 
 ## ⏯️ 目前做到哪
 
+**磁力创造实验室 v2 Hub 登记已更新（2026-09-17）**：`tahun1-dst-magnet` 已从「磁铁大发现」改名为「磁力创造实验室／Makmal Cipta Magnet」，版本升到 2.0；说明、关键词、教学模式、准备事项与 changelog 已改成四个开放工作区＋学生自创挑战；DSKP 索引补齐 7.1.5／7.1.6；旧版四张截图已撤下，待新版工具部署及线上复验后补真实缩图。本次只本地 commit，尚未 push／部署。
+
 **首页统计条「网页浏览量」改名「次到访」+ 30 分钟 session 去重**（2026-09-17）：老师发现纯刷新会一直让数字涨，讨论后确认要「到访次数」语意——短时间内重复进站不算，隔一段时间再来才代表使用意图不同。改法：`app.js` 的 `bumpPageViews()` 用 `localStorage`（key `kongsi-idea-last-visit-ts`）记上次计数时间，30 分钟内重复进站改打 `get_page_views()`（只读不加），超过窗口才打 `increment_page_views()`（+1 并更新时间戳）；两个 RPC 都已存在于线上库，没改 schema。标签同步从「次网页浏览」改成「次到访」。已用 `verify` 子代理跑 Playwright headless 验证：标签正确、首次加载真的打了 `increment_page_views`（线上真实值从 160 起算）、同 context 刷新改打 `get_page_views` 没有重复计数、localStorage 时间戳正确写入。已 commit + push（`1e6a650`），**生产部署尚未做**——当时是凌晨 01:05，撞到 guard 的深夜时段限制（`kongsi-idea` 本身在授权名单内，纯粹是时段问题），已记进 BOARD.md，白天窗口直接跑部署三步骤即可。
 
 - 2026-09-15：kelasku 全校名单批量导入（67 班/2581 人）+ 1I/1G 补英文名（1I 剩「王菱敏」1 人因跟候选「王凌敏」一字之差没把握，留空待老师核对）；Story Quest（`tahun4-bi-writing`）v0.3.0 上线上架；`tahun4-bc-bishun` 登记 published，本地 v2.1 视觉改版待部署。
