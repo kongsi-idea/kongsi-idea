@@ -2028,12 +2028,20 @@ if (typeof SJKC_SCHOOLS !== "undefined" && stateSelect) {
 // 之前这里是 localStorage 本地计数（VISITS_KEY），每台设备各自计数、从没回传服务器，
 // 历史浏览数据从一开始就没被记录下来，2026-09-11 换成真实的全站计数（migration-2026-09-11-page-views.sql），
 // 旧数据补不回来，诚实地从 0 重新开始
+// 2026-09-17：纯页面浏览次数会被刷新灌水，换成「到访次数」——30 分钟内重复进站视为同一次到访不再 +1，
+// 隔了一段时间才回来代表使用意图不同，才算新的一次；窗口内只读现有数字（get_page_views），不调用 increment
+const LAST_VISIT_KEY = "kongsi-idea-last-visit-ts";
+const VISIT_SESSION_WINDOW_MS = 30 * 60 * 1000;
 let pageViews = null;
 async function bumpPageViews() {
-  const { data, error } = await supabaseClient.rpc("increment_page_views");
+  const lastVisit = Number(localStorage.getItem(LAST_VISIT_KEY) || 0);
+  const now = Date.now();
+  const isNewVisit = !lastVisit || (now - lastVisit) > VISIT_SESSION_WINDOW_MS;
+  const { data, error } = await supabaseClient.rpc(isNewVisit ? "increment_page_views" : "get_page_views");
   if (!error && typeof data === "number") {
     pageViews = data;
     renderStats();
+    if (isNewVisit) localStorage.setItem(LAST_VISIT_KEY, String(now));
   }
 }
 
@@ -2064,8 +2072,8 @@ function renderStats() {
     ? `<span class="stat stat--pending"><span class="stat__num" data-target="0">0</span><span class="stat__label">位老师注册</span><span class="stat__badge">即将上线</span></span>`
     : `<span class="stat"><span class="stat__num" data-target="${teacherCount}">0</span><span class="stat__label">位老师注册</span></span>`;
   const visitsStatHtml = pageViews === null
-    ? `<span class="stat stat--pending"><span class="stat__num" data-target="0">0</span><span class="stat__label">次网页浏览</span><span class="stat__badge">即将上线</span></span>`
-    : `<span class="stat"><span class="stat__num" data-target="${pageViews}">0</span><span class="stat__label">次网页浏览</span></span>`;
+    ? `<span class="stat stat--pending"><span class="stat__num" data-target="0">0</span><span class="stat__label">次到访</span><span class="stat__badge">即将上线</span></span>`
+    : `<span class="stat"><span class="stat__num" data-target="${pageViews}">0</span><span class="stat__label">次到访</span></span>`;
   statsBarEl.innerHTML = `
     ${visitsStatHtml}
     <span class="stat"><span class="stat__num" data-target="${totalUses}">0</span><span class="stat__label">次工具使用</span></span>
