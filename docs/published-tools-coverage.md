@@ -21,7 +21,7 @@
 | `tahun2-mt-baigetu` | Tahun 2 | 数学 (mt) | 百格图乘法表动画 | 2.0 基本运算 — 2.3 乘法 | https://tahun2-mt-baigetu.vercel.app | `../teaching-tools/tahun2-mt-baigetu/` | — |
 | `tahun3-bc-kewen` | Tahun 3 | 华文 (bc) | 语文课文大PK | 2.0 阅读技能 — 2.1 阅读与理解教材 | https://tahun3-bc-kewen.vercel.app | `../teaching-tools/tahun3-bc-kewen/` | — |
 | `tahun1-dst-magnet` | Tahun 1 | 科学 (dst) | 磁铁大发现 | 7.1 磁铁 — 7.1.1/7.1.2/7.1.3/7.1.4 | https://tahun1-dst-magnet.vercel.app | `../teaching-tools/tahun1-dst-magnet/` | — |
-| `tahun3-dst-density` | Tahun 3 | 科学 (dst) | 浮沉实验室：密度大发现 | 7.1 密度 — 7.1.1/7.1.2/7.1.3/7.1.4 | https://tahun3-dst-density.vercel.app | `../teaching-tools/tahun3-dst-density/` | — |
+| `tahun3-dst-density` | Tahun 3 | 科学 (dst) | 浮沉实验室：密度大发现 | 7.1 密度 — 7.1.1/7.1.2/7.1.3/7.1.4 | https://tahun3-dst-density.vercel.app | `../teaching-tools/tahun3-dst-density/` | v2.0（2026-09-17）已重做；待改：站④神秘方块排序区方块图示过小；课本 Unit Ketumpatan 未核对（液体分层／加糖未做） |
 | `tahun1-bc-liangci` | Tahun 1 | 华文 (bc) | 量词大冒险 | 5.0 语文基础知识 — 5.3.1 | https://tahun1-bc-liangci.vercel.app | `../teaching-tools/tahun1-bc-liangci/` | — |
 | `tahun1-bc-juxing` | Tahun 1 | 华文 (bc) | 句型跳跳队 | 5.4 认识不同类型的句子 — 5.4.1 | https://tahun1-bc-juxing.vercel.app | `../teaching-tools/tahun1-bc-juxing/` | 全平台首个摄像头体感工具，`data/dskp-index.js` 的马来文单元名还没核对官方 PDF，暂缓收录进 DSKP 搜索索引 |
 | `tahun1-bc-bishun` | Tahun 1 | 华文 (bc) | 一起写好字 | 3.0 书写技能 — 3.1 应用铅笔写字（笔画笔顺）＋ 5.0 语文基础知识 — 5.1 汉字基本知识 | https://tahun1-bc-bishun.vercel.app | `../teaching-tools/tahun1-bc-bishun/` | 全平台首个个人进度工具：接 kelasku 名单、进度同步到 Supabase（`tahun1_bc_bishun_progress`），换电脑接续。只有中文课本核对过（习写生字表），马来文 DSKP 官方用词未查证 → 暂不进 `data/dskp-index.js`。老师看全班进度的入口未做（数据已可读）。v1.3 加 `js/pinyin-data.js`：田字格标拼音，朗读改读「字，词」修多音字读错音（详见工具 `handoff.md`）。 |

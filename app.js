@@ -654,28 +654,30 @@ const TOOLS = [
     status: "published",
     title_zh: "浮沉实验室：密度大发现",
     title_bm: "Makmal Terapung-Tenggelam: Ketumpatan",
-    desc: "点选物体丢进水缸，猜猜看会浮起来还是沉下去，再看真实的密度数字对比来验证。特别设计「救救鸡蛋」挑战：新鲜鸡蛋在清水里会沉下去，靠加盐一步步提高液体密度，直到鸡蛋浮起来，具象化「加盐能增加水的密度」这个学习标准。浮沉核心比较逻辑参考自 PhET Density 模拟的教学设计，界面与程序为原创实现。",
-    keywords: ["密度", "浮沉", "三年级", "科学", "density", "ketumpatan", "terapung", "tenggelam"],
+    desc: "专业科学模拟风格的密度实验室，四个实验站对应 DSKP 7.1.1–7.1.4：① 先预测再放入烧杯水槽，结果自动记进实验记录表并分类浮／沉；② 用电子天平称重，发现「大木块比小铁钉重却会浮」，破除「重的会沉」误解；③ 一勺一勺加盐，看鸡蛋慢慢浮起，理解加盐增加水的密度；④ 生活难题：神秘方块排序、做木筏、救生衣、海水与河水。最后生成学习报告。自学／老师（投影）双模式，数值密度默认隐藏。浮沉机制概念参考 PhET Density，界面与程序为原创实现。",
+    keywords: ["密度", "浮沉", "三年级", "科学", "density", "ketumpatan", "terapung", "tenggelam", "加盐", "鸡蛋", "预测", "实验记录"],
     url: "https://tahun3-dst-density.vercel.app",
     type: "工具",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
+    version: "2.0",
     changelog: [
+      { version: "2.0", date: "2026-09-17", note: "全面重做为专业科学模拟：四个实验站对应 7.1.1–7.1.4＋学习报告；自学／老师投影双模式；SVG 烧杯水槽与半物理浮力（浸水比例＝密度比）；电子天平破除「重的会沉」误解；12 张写实物体素材取代图标；移除「轻/重」误导用语，数值密度默认隐藏" },
       { version: "1.0", date: "2026-07-21", note: "首次上架" },
     ],
-    // 这 3 张是用 Playwright 实际操作 https://tahun3-dst-density.vercel.app 截的真实画面，不是 mock
+    // v2.0 缩图：2026-09-17 用 Playwright 实际操作正式网址 https://tahun3-dst-density.vercel.app 截的真实画面，不是 mock
     thumbnails: [
-      { img: "assets/thumbs/tahun3-dst-density/1-explore.png", label: "自由探索：物体架+水缸" },
-      { img: "assets/thumbs/tahun3-dst-density/2-float-result.png", label: "丢入物体后的浮沉结果+密度对比" },
-      { img: "assets/thumbs/tahun3-dst-density/3-challenge-egg-float.png", label: "救救鸡蛋挑战：加盐后鸡蛋浮起来" },
+      { img: "assets/thumbs/tahun3-dst-density/v2-1-predict.png", label: "站①预测与分类：先预测再放入，实验记录表自动登记浮沉结果" },
+      { img: "assets/thumbs/tahun3-dst-density/v2-2-weight-density.png", label: "站②重量还是密度：电子天平称重，大木块浮、小铁钉沉" },
+      { img: "assets/thumbs/tahun3-dst-density/v2-3-salt-egg.png", label: "站③改变液体：逐勺加盐，鸡蛋从沉底到浮上水面" },
+      { img: "assets/thumbs/tahun3-dst-density/v2-4-teacher.png", label: "老师投影模式：全班先预测再揭晓" },
     ],
     standards: [
       { curriculum: "KSSR Semakan 2017", unitCode: "7.1", objectiveCodes: ["7.1.1", "7.1.2", "7.1.3", "7.1.4"] },
     ],
     practiceSummary: "推断物体材料浮沉、联系浮沉与密度、确认增加水密度的方法、应用密度知识解决问题",
-    teachingMode: ["投影互动", "教师带教/演示"],
-    prep: "打开即用，不需要打印，不需要真的水缸教具",
+    teachingMode: ["投影互动", "教师带教/演示", "学生自学"],
+    prep: "打开即用，不需要打印，不需要真的水缸教具；投影请切「老师」模式（字更大、全班先预测再揭晓），电脑室个人练习用「自学」模式（进度存在该浏览器）",
   },
 
   {
