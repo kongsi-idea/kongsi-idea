@@ -1,0 +1,139 @@
+# 课堂点子铺（专案蓝图）
+
+> 本档为跨 Agent 通用的专案蓝图（AGENTS.md 开放标准）。任何 Agent 的每个 session 都应先读本档＋`handoff.md`。
+
+## 专案简介
+全马华小老师共享教学工具的平台。老师负责提想法、说说自己教室里缺什么，开发者负责把想法打磨成真正好用的工具后才发布——不是什么素材都能直接上传，宁可数量少一点，也要每一个都真的对课堂有帮助。
+
+## 品牌决定
+
+- **对外品牌名称：课堂点子铺**（Kedai Idea）。GitHub 组织、Vercel Team、本机资料夹一律用 `kongsi-idea` 这个技术代号，跟对外品牌名对齐，不再使用旧的技术代号。
+- 核心文案：**老师有点子，课堂有办法。**
+- 补充说明：按学习目标找工具，也把你教室里需要的点子告诉我们。
+
+## 与教学工具源码的关系
+
+- `kongsi-idea/` 只存平台入口代码、工具登记资料、缩略图和课程索引；**不存放各教学工具的源码**。
+- 所有独立工具源码统一在同级资料夹 [`../teaching-tools/`](../teaching-tools/)，每个 slug 子资料夹各自拥有 Git 仓库与 Vercel 项目。
+- 要开发、修复或部署工具，先读 [`../teaching-tools/agents.md`](../teaching-tools/agents.md)；要把工具上架、做 DSKP 对照、放截图或改平台展示，则回到本资料夹处理。
+- 两边唯一的登记桥梁是 `app.js` 的 `TOOLS`、`data/dskp-index.js`、`docs/published-tools-coverage.md` 与 `teaching-tools/README.md`；新增或移动工具时，这些资料必须同步更新。
+- 查询“全部工具目前做到哪里、哪些开发中、哪些需要优化、某年级有什么”时，先读 [`../teaching-tools/PROGRESS.md`](../teaching-tools/PROGRESS.md)；本目录的 [`docs/tools-status.md`](docs/tools-status.md) 是由同一脚本生成的镜像，不应直接手改。
+
+## 初心与定位
+一开始只是想给自己班上做个小游戏（`二年级数学`专案的钱币乐园），做着做着，发现这些东西值得分享给更多华小老师。这个平台不是要给老师们添一个要维护的系统，而是默默把好东西做出来、送到大家手上——老师只需要「用」和「给意见」，真正的制作与打磨由开发者本人扛。
+
+欢迎想一起开发、一起维护这个专案的老师主动联络（联络方式待补），一起把这个平台做起来，不只是单向的「开发者打磨、老师被动提意见」。
+
+## 关键决定（不要在没有充分理由的情况下推翻）
+1. **独立专案**：与 `二年级数学`、EduNeo（class_system-1，课堂管理平台）都保持解耦，各自独立维护
+2. **登录分层**：浏览/使用工具全程免登录；反馈、许愿、投稿才需要登录（换星星、顺手收集学校信息）
+3. **架构：hub 只做平台，工具各自独立开发部署**——每个教学工具延续独立静态网页开发习惯，各自单独部署；hub 用 iframe/新分页链接外部工具网址，反馈/星星/使用统计等社群功能都是 hub 自己的 UI，工具本身不需要知道账号/反馈逻辑。好处：改一个工具不牵动 hub 或其他工具
+4. **命名机制**：`tahun{年级}-{科目缩写}-{单元关键词}`，全部用马来西亚老师惯用的马来文简称（如 `tahun2-mt-wang`）
+5. **中文马来文双语可搜索**：slug 只是发布用的档名/唯一 ID；每个工具的登记资料都要同时带中文标题/关键词栏位，搜索不偏废任何一边
+6. **分类靠「年级」+「科目」双筛选条同时选（交集），不是靠卡片数量固定**——因为同一年级同科目底下以后会有很多个工具，不能用「一个格子一张卡」的结构
+7. **点开卡片先看缩略图+介绍，确认要用才点「开始使用」用新分页全屏打开**——不是直接塞进 iframe 内嵌
+   - **但详情弹窗的第一屏属于学生，不属于老师**（2026-08-26 1I 班实测修订）：真正在课堂上点开这个弹窗的是学生，「开始使用」必须在第一眼看得到的位置；作者、说明、DSKP 标准、版本号、更新记录这些**给老师读的资料一律排在分隔线以下**。以后往详情弹窗加任何东西，先问「这一屏是给谁看的」，别再按老师的阅读顺序排。
+   - 配套：缩略图带放大镜角标（它是画面上最大、最像游戏又真的可点的东西，学生会先按它，要先讲清楚点下去是放大不是开始玩）；小屏断点见 `style.css` 的 `@media (max-height: 560px)`（手机横放才是真正的破口，不是宽度）。
+8. **两套「星星」分开算，不要混为一谈**：①工具的「喜欢数」——任何人都能点，不用登录，一台浏览器算一票；②老师个人的「声望星星」——靠反馈/许愿累积，需要登录才有意义，要等账号系统才能做。卡片排序按①喜欢数由高到低
+9. **使用次数**：记录每个工具被打开的次数；阶段一先用 localStorage 做本地展示，真正的全体老师共用统计要等账号系统/后端上线
+10. **全局统计条公开给所有人看**（不是只有开发者能看的后台），放在页面最底部，滑到才触发数字动画；没有真实数据来源的项目（如老师注册数）就如实显示 0，不编造好看的假数字
+11. **工具详情页可以附「对应课程标准」**（对照 `docs/dskp/`），但**只有真的查证过 DSKP 的工具才能加这个字段**，不要为了好看给示例/未查证的工具编造课程标准
+12. **点子许愿池必须是结构化需求收集，不是单句留言**：收集年级／科目、学生学习目标、实际困难、既有尝试、课堂限制与希望得到的帮助；详细实施规格见 `docs/idea-wish-pool-spec.md`。学校资料可跳过，不能收集学生个人资料；审核后才考虑公开或投票。
+13. **每个工具都要有 `version` + `changelog`**：`version` 是当前版本号（如 `"1.0"`），`changelog` 是数组 `[{version, date, note}]`，按时间顺序累积，不覆盖旧记录。老师用过给了反馈、回头调整代码之后，**不是直接改掉旧版本资料**，而是：①升版本号（小调整 1.0→1.1，大改版 1.0→2.0，自行判断幅度）②在 `changelog` 最后追加一笔 `{version, date, note}`，`note` 简短写这次改了什么（例如「根据XX老师反馈，把倒计时从10秒延长到15秒」）③详情页「更新记录」会自动把 changelog 倒序显示给老师看，让老师知道这个工具是持续在长大的，不是发布了就不管
+14. **`creator` 字段要放真正的作者名字，不能全部默认卢老师**：目前 13 个工具都是卢老师自己 vibe coding 做的，`creator: {name:"卢老师", initial:"卢"}` 是对的；**但以后如果有别的老师提供的是真的可运行的作品/代码**（不只是一句点子构想），打磨上架时 `creator` 一定要换成那位老师的真实姓名+对应的姓氏首字，不能偷懒全部挂卢老师的名字——这是对贡献者的基本尊重，也是「老师们互相看见彼此」这个平台精神的一部分
+15. **「次网页浏览」2026-09-11 起改成全站真实数据**：旧版是 `localStorage` 本地计数（`VISITS_KEY`），每台设备各自累计、从没回传服务器，历史浏览数据从一开始就没被记录下来，**发现问题当下已确认无法补回**，不用估算值（如「工具使用次数÷平均每次用几个工具」）去填补——即使标注是估算，展示出来的仍是编造数字，违反本档第 10 条「没有真实数据来源就如实显示 0，不编造好看的假数字」。已照 `get_teacher_count()` 的模式建 `page_view_counter` 单行计数器 +`increment_page_views()`/`get_page_views()` 两个 RPC（`supabase/migration-2026-09-11-page-views.sql`），从 0 诚实重新计数。**如果启用后短期内「0 次浏览、226 次工具使用」这种数字落差看起来可疑，解法是暂时把这张统计卡藏起来等真实数据自然长上来，不是编一个数字垫上去**。
+16. **`kongsi-idea.vercel.app` 曾经整个从专案的 Domains 列表里消失过（不是「没 alias 到最新部署」那么简单）**：2026-09-11 排查「首页更新为什么学生端看不到」时发现，这个域名当时完全不在 `kongsi-idea` 专案（`prj_Oyf637d4j8ODuilHIY7eZ2OoZswQ`）的 domains API 回传结果里，但浏览器打开还是 200——那是边缘缓存在顶着一份旧内容，不是真的在服务。**用 `POST /v10/projects/{id}/domains` 重新把域名加回这个专案解决**（当时是空的，没有被别的专案占用，所以直接加回去就成功了）。以后如果再发生「push/部署都成功，但 `kongsi-idea.vercel.app` 就是没反应」，第一件事是查这个域名还在不在专案的 Domains 列表里，不要只重复跑部署三步。
+
+17. **「只开放 anon INSERT、不开放 SELECT」的表，前端插入时绝对不能带 `.select()`／`Prefer: return=representation`**：2026-09-15 做 `tahun4-bi-writing` 的投稿表时真实踩到——RLS 只有一条 INSERT policy（`WITH CHECK (status = 'pending')`）时，用 `return=representation` 插入会直接报 `42501 new row violates row-level security policy`，即使 WITH CHECK 条件完全满足也一样。原因是 `INSERT ... RETURNING` 需要把新写入的那行"读回"给调用方，而这个读回动作本身要过 SELECT 检查——没有 SELECT policy，读回失败，Postgres 把这个失败一并算成 INSERT 的 RLS violation，两种失败共用同一句错误文案，非常容易误判成 WITH CHECK 写错了。**解法：insert 一律用 `Prefer: return=minimal`（supabase-js 就是 `.insert(payload)` 不接 `.select()`）**。以后任何工具要做「匿名只能新增、不能读」的投稿/日志类表，直接照抄这条，不要重新踩一次。
+18. **这台机器其实可以不手贴 Supabase Dashboard SQL Editor 执行 migration**：早期交接一直写「没有 `supabase` CLI 也没有 `psql`，只能手贴 Dashboard」，但 `supabase/.secrets.local.md` 里本来就存着数据库密码，Python 自带（已装）的 `psycopg2` 可以直连 `db.{project_ref}.supabase.co:5432` 执行任意 SQL，不需要 CLI 登录 token、不需要 `psql` 二进制。2026-09-15 起新 migration 一律优先用这条路（写一个几行的 python 脚本读 SQL 文件、`cur.execute()`、`conn.commit()`），比手贴 Dashboard 更快、更可重复、也更容易在验证失败时立刻改 SQL 重跑；手贴 Dashboard 降级为这条路走不通时的备案。
+
+## 品牌与规格审查结论（2026-07-21，用户已确认）
+Codex 提出品牌改名与两份新规格（`docs/idea-wish-pool-spec.md`、`docs/dskp-learning-objective-search.md`）后，Claude Code 逐条比对既有决定，发现两处冲突，回头跟用户确认：
+1. **品牌名字**：用户明确採纳「课堂点子铺」，取代原本坚持的 EduNeo（用户改变主意，不是 Claude 自作主张）——**这条覆盖上面第一次讨论时的「继续沿用 EduNeo」结论**，以本节为准
+2. **点子许愿池登录门槛**：新规格没提登录，但用户重申「维持原决定，提交许愿仍需要登录」——`docs/idea-wish-pool-spec.md` 本身对此语焉不详，**以「许愿池提交需要登录」为准**。2026-07-23 起已真的接上 Google 登录 + Supabase，送出按钮不再是永久禁用，登录后能真的写进 `wishes` 表（见上方「账号系统与 Supabase」一节）
+3. `docs/dskp-learning-objective-search.md` 指出的「搜索词跳过年级/科目筛选」是真实存在的 bug，已确认修复
+
+三者之外的规格内容（结构化许愿表单、DSKP索引schema、结果卡字段等）审查后判断跟既有原则一致，用户拍板「现在就全部一起做」，已经实施完毕，见下方「已执行」。
+
+## 视觉设计方向
+- 意象：班级布告栏/软木板——工具卡片像被图钉钉上去的便条，许愿池像板子上不断新增的小纸条
+- 签名元素：老师平常给学生贴星星贴纸鼓励，这个平台反过来让老师们互相贴星星
+- 不用 emoji，图钉/星星等图形一律用 CSS/SVG 绘制；科目图示用缩写字母徽章（MT/BM/BI/BC/SA）
+- 配色（刻意跟 EduNeo 课堂管理平台的深蓝黑+科技青区分）：暖纸白 `#FBF6EC` 底、黑板深绿 `#1F3A34` 主墨色、橙黄 `#E8873E` 主色、天空蓝 `#4FA8D8`（配马来文内容）、珊瑚红 `#D65B4A`（配中文内容/星星强调）、暖金 `#F0B429`（星星色）
+- 卡片带极轻微随机倾斜（±1-2°）避免死板网格
+
+## 资料夹结构（实际现状，跟最初规划有一处刻意简化，见下方说明）
+```
+kongsi-idea/
+├── agents.md
+├── handoff.md
+├── index.html / style.css / app.js   ← 首页（DSKP学习目标导航为主入口 + 年级科目双筛选浏览为辅助路径、
+│                                        搜索、详情弹窗、灯箱、统计条、点子许愿池三步表单、有排行榜的
+│                                        工具卡片右上角带🏆图示）
+├── kelasku.html / kelasku.js / kelasku.css  ← 老师登录管理班级/学生名单的独立页面（详见下方 kelasku 一节）
+├── docs/
+│   ├── subjek-tahun.md                ← 科目普查+命名代码表（已完成）
+│   ├── dskp/{tahun}/{subjek}.md       ← DSKP 散文摘要，按需查询用（部分完成，见 handoff.md 缺口清单）
+│   ├── dskp-learning-objective-search.md ← 按学习目标找工具的实施规格（已实施阶段A）
+│   └── idea-wish-pool-spec.md         ← 点子许愿池结构化需求单规格（已实施阶段A）
+├── data/
+│   ├── sjkc-schools.json              ← 华小名录，{ 州属: { 县: [校名,...] } } 结构（已完成）
+│   ├── sjkc-schools.js                ← 上面 json 转出的浏览器可读版本，供 index.html 直接 <script> 引用
+│   ├── dskp-index.js                  ← DSKP_INDEX 结构化索引，浏览器直接读取的权威来源（目前有
+│   │                                     6 笔数学科记录，其余科目/年级还没建，见 handoff.md）
+│   ├── supabase-client.js             ← 前端 Supabase client 初始化（anon key，设计上就是公开用）
+│   └── class-code-client.js           ← 各教学工具接 kelasku 用的共用 snippet（ClassCode.load()/loadOrPrompt()）
+└── supabase/
+    ├── schema.sql                     ← 建表 SQL（wishes / tool_stats / tool_like_votes + RPC函数）
+    ├── migration-2026-08-*.sql        ← kelasku 相关的历次 migration，照日期序执行即可看出演变
+    └── .secrets.local.md              ← Client Secret/DB密码等，已 gitignore
+```
+同级资料夹：`../teaching-tools/{slug}/` 存放每个独立工具源码；详见 `../teaching-tools/agents.md` 与 `README.md`。
+**跟最初规划的差异**：原本设想每个工具有自己的 `tools/{slug}/meta.json` 登记档案，实际做法是直接把所有工具（含中马双语字段）写成 `app.js` 里的 `TOOLS` 常量数组，省了一层文件拆分，工具一多再看要不要拆回独立档案。
+
+## 账号系统与 Supabase（2026-07-23 已实施第一阶段）
+- **技术选型拍板：Supabase**，独立开一个专属 kongsi-idea 的 project（project ref `gntnkhkkgonaehapcerr`），跟 EduNeo 的 Supabase project 完全分开，不共用（公开工具平台 vs 私人学生资料，风险不能混）
+- 已完成：`supabase/schema.sql`（`wishes` 许愿单表＋`tool_stats`/`tool_like_votes` 全站真实喜欢数/使用次数聚合，取代原本 localStorage 各自计数）、老师登录改用 **Google OAuth**（第1步填完点「下一步」顺手带登录，不强迫一开始就登录）、首页右上角常驻登录状态显示
+- 连接信息（Client Secret/DB 密码等敏感值）记在 `supabase/.secrets.local.md`（已 gitignore，不进公开仓库）
+- 详细踩坑记录（PKCE 时机、Google Client Secret、CSS `[hidden]` 覆盖等）见 Claude 的 memory（`kongsi-idea-supabase-integration`），跨 session/跨电脑都能查到
+
+## kelasku：老师班级/学生名单系统（2026-08-06 上线，2026-08-12 完成第二阶段）
+- **目的**：各教学工具原本没有自己的数据库，老师每次都要重打学生名单。`kelasku.html` 是老师登录管理班级的独立页面，各工具靠网址参数 `?code=` 读取对应班级的学生名单，不用各自建后台
+- **第二阶段新增（2026-08-12）**：
+  - **多老师共编**：`class_teachers` 成员制取代单一 `owner_id`（该栏位已改名 `created_by`，只作纪录不判权限）。老师建班时若「学校+班级」已存在，会提示「加入这个班」，加入**即时生效不卡审批**——防破坏靠的是下面的自动快照，不是卡准入门槛
+  - **改动前自动存快照**：`class_snapshots` 表 + `snapshot_class_students()`/`restore_class_snapshot()` 两个 RPC，编辑页任何改动前都会先存档，可以「查看历史版本 → 还原到这里」一键退回（同一班最多留 20 份，超过自动清最旧的）
+  - **学生资料拆栏位**：`students.name` 拆成 `name_zh`/`name_en`/`seat_no`，旧 `name` 栏位保留当 fallback 但已弃用
+  - **支持上传 Excel**：跟 `../3g-assessment/lib/result-parser.ts` 同一套做法（别名字典 + 扫前15行找栏位匹配最多的当表头，不假设固定格式），`kelasku.js` 的 `HEADER_ALIASES`/`chooseHeaderRow`/`parseExcelWorkbookToStudents` 是这套逻辑
+  - RLS 全部改用 `is_class_teacher(class_id)` 这个 SECURITY DEFINER 函数判断权限，不要在 `class_teachers` 自己的 policy 里直接 `exists(select ... from class_teachers ...)`——会触发 infinite recursion（2026-08-12 上线当天就踩到这个坑，已修好）
+- **代码格式**：`{学校代码}-{班级缩写}`（如 `JBC1037-1I`）。学校代码优先用**官方 Kod Sekolah**——2026-08-06 重新解析维基百科原始表格里本来就有、但当初收集 `sjkc-schools.json` 时漏抓的「Kod sekolah」栏位，按州属+中文校名比对回填；2026-08-12 又修掉一个解析漏洞（`|- bgcolor="#ECECEC"` 这种带属性的行分隔符，标记的是维基条目自己排除的已关闭/已迁移历史记录，之前误判成表格栏位导致整行错位；另外允许 Kod 栏位带「曾用旧代码」註记时仍抓得到），累计到 1310 间里 **1028 间（约78%）已核实为真代码**（`code_official=true`）；比对不上的暂用 `state_to_abbr(州属)+4位流水号` 的占位码顶着（`code_official=false`，触发器 `schools_set_code()` 生成），最新清单在 `supabase/kod-sekolah-unmatched-2026-08-12.json`（剩下的大多是本来就同名重复、需要靠地址辅助人工核对的），之后可以继续分批补齐
+- **`?code=` 支持逗号合并多班**，同校可省略学校代码只写班级缩写（如 `JH0042-1I,2A`），解析规则见 `data/class-code-client.js` 的 `expand()`
+- **两层数据、两种权限**：`schools`/`classes`/`students` 读取对所有人（含匿名）开放（工具要能查），但改/删只认这个班的 `class_teachers` 成员（Google 登录）；这跟点子许愿池那种「全私有」的权限模式不同，因为 kelasku 的资料是设计上要被公开工具读取的
+- **`schools` 表已预建全国 1310 间华小**（从 `data/sjkc-schools.json` 灌入,2026-08-06 执行），老师登记时先搜索，找不到才手动补登记（`schools` 对 authenticated 开放 insert，不开放 update/delete）
+- **各工具怎么接**：依序引入 `supabase-client.js` → `class-code-client.js`，呼叫 `ClassCode.load()` 拿到合并后的学生名单（`[{name, nameZh, nameEn, seatNo, className, schoolName, playCode}]`，按座号排序）；没有 `code` 参数或查无资料时回传空阵列，工具应该照旧走原本手动输入名字的模式，不能因此坏掉。网址不带 `?code=` 时可以改叫 `ClassCode.loadOrPrompt()`，会弹框让学生直接打代码（打过会记住），不用手动改网址
+- **工具专属表（分数榜等）命名规则：一定要用完整 slug 当前缀，不能只取关键词**——2026-08-12 犯过一次：`liangci_scores` 只取了「liangci」没带年级，用户发现如果以后出现 `tahun2-bc-liangci` 会跟现有的 `tahun1-bc-liangci` 抢同一张表，已经改名成 `tahun1_bc_liangci_scores`（连字号在 SQL 表名里换成底线）保留了当时已经存在的 42 笔真实学生成绩没有丢；以后新工具要建专属表，直接照 `{完整slug用底线连接}_{用途}` 命名，不要偷懒只取一段关键词
+- **没有做「合班连结生成器」/「常用连结收藏夹」这类 UI**（2026-08-07 用户明确要求拆掉已实现的版本）：多班合并本质就是把几个 `play_code` 用逗号接在一起，老师自己知道这个规则就够用，包一层「选工具/存连结」的 UI 反而是多余的操作步骤，没有减少负担。`saved_links` 这张表还留在数据库里但已经没有任何代码引用，是已知的废弃表，不是漏做
+- 详细的设计取舍讨论（分数榜真实姓名隐私评估、路径式 vs 参数式网址、班级代码大小写正规化等）在 Claude memory `kongsi-idea-teaching-tools-shared-db-architecture` 里，这里只记结论
+- **已接上 `class-code-client.js` 的工具（2/17）**：`tahun1-bc-liangci`（量词大冒险，roster + 排行榜都接了）、`tahun2-mt-shulie-duel`（数字数列大对决，只接 roster，没有排行榜）。其余 15 个还没接——大部分是团队/左右对战式玩法，本来就没有"个人名单"这个概念，接不接看该工具玩法是否真的用得到，不是每个都要硬套
+- **排行榜入口**：有排行榜的工具在游戏内用右上角常驻的圆形图示按钮（不是藏在小字连结里），首页卡片缩图右上角也会出现同款图示（`tool.hasLeaderboard = true` 才显示），点了带 `?board=1` 直接开新分页跳排行榜；工具要支持这个深链，自己在 JS 里判断网址带 `board=1` 就直接跳排行榜画面
+- **全校名单批量导入（2026-09-15）**：老师给了国光二小全校 Excel（多个分页互有出入：`Kelas 2026`/`0307 Kelas 2026`/`Copy of Kelas 2026 0130` 人数班级数三份都不同，另有「更正」「Pindah Masuk/Kelas/Keluar」调整表、以及「Apung 3K & 4F...」走班/复式编组分页），老师拍板：**以未标日期的 `Kelas 2026` 分页为唯一权威来源**，不合并更正/转班调整表，**不建 Apung 分页**（那是临时编组不是固定班主任班）。已建 67 班／2581 名学生，`created_by`/`class_teachers` 技术上先挂老师自己账号（`classes.created_by` 设计上 not null，只能这样），其余老师登录 `kelasku.html` 自行「加入」即可共管，不需老师手动转交。**IC 号码完全没有导入**——`students` 表本身就没这个栏位，不是漏做。`学号` 映射进 `seat_no`，沿用既有 Excel 上传的 `HEADER_ALIASES.seatNo` 规则（本来就含「学号」这个别名）。已存在的 1I/1G/2J 完全没碰，避免覆盖真人编辑过的资料；随后把 1I/1G 原本只有 `name_zh`（当初是用「贴名字」功能建的，没有英文名/座号）用同一份 `Kelas 2026` 按中文姓名比对补上 `name_en`/`seat_no`，**遇到无法安全比对的名字一律跳过，不猜**——1I 有一笔「王菱敏」（DB）vs「王凌敏」（xlsx，英文名 LOVELLE HENG LYNN MIN，学号 26311）一字之差且英文姓氏对不上中文姓，没有把握是同一人，留空未处理，等老师确认。**已知缺口**：`Kelas 2026` 分页没有 4F/5F/5I/5L 这几个班代号（其他两份名单有），如果这几班其实是真实固定班而不是命名调整前的旧代码，需要回头补建。
+- **部署提醒**：这个 project **不是 GitHub 自动部署**，git push 之后一定要手动跑 `vercel --prod`，而且 `kongsi-idea.vercel.app` 这个正式域名不会自动跟着新部署走，还要再手动 `vercel alias set <新部署url> kongsi-idea.vercel.app`——漏了任何一步，线上都还是旧版本，2026-08-06 因为漏了这两步排查了很久
+  - ⚠️ **2026-08-26 又栽了一次（第二次）**：commit + push 都成功，就直接对用户宣称「已上线，学生下堂课就看得到」，实际上线上还是旧版。**`git push` 成功不等于上线**，这个专案没有任何东西会因为 push 而自动发生。
+  - **固定收尾三步，缺一不可**：① `vercel --prod --yes` ② `vercel alias set <新部署url> kongsi-idea.vercel.app` ③ **`curl` 线上档案确认新内容真的在**（例如 `curl -s https://kongsi-idea.vercel.app/style.css | grep <这次新加的选择器>`）。没跑完第③步，就不要说「已上线」。
+
+## 本次（阶段一）不做，明确延后
+- 声望星星（老师个人靠反馈/许愿累积）、许愿池审核后台——都要等更完整的账号体系与管理界面，另开一轮讨论
+- 未建结构化索引的科目/年级——要一笔一笔人工核对，不能为了凑数据编，见 handoff.md 当前覆盖范围
+- 缩略图自动生成流程——工具数量增加后再做；目前缩略图是手动 Playwright 截真实工具画面
+
+## 参考资料使用原则
+- `docs/dskp/` 是给「以后设计投稿模板」用的参考库，**按需查询，不要预先整批读进对话**，避免浪费 token
+- 找不到的科目/年级 DSKP 缺口要如实记录，不要用既有知识杜撰内容顶替
+
+## 工作约定
+- 任何 Agent、任何电脑：**开工先读 `handoff.md`，收工必更新 `handoff.md`**
+- **Obsidian 详细纪录**：`創作庫/開發專案/kongsi-idea/專案工作流程.md`（vault 在 `~/Documents/my-agent/2ndbrain-Obsidian/`）。决策原因、踩坑细节、验证数据写那里；`handoff.md` 只留交接必需的，两边不重复。
+  - ⚠️ 这条路径 2026-08-26 才补登记。在那之前 `agents.md` 没登记 Obsidian 路径，`shutdown` skill 的 L3 判定条件不成立，所以这个专案的详细纪录一直没被写过——本次已补建。
+- **收工前一定要跑部署三步并验线上**（见上方「部署提醒」），`git push` 成功不算完成
+- 修改共用档案前先读最新内容
+- 新建、修改、暂停、恢复、测试、部署或上架任何教学工具后，收工前在 `../teaching-tools/` 运行 `npm run status:sync`，同步 `PROGRESS.md`、工具 README 与本目录的 `docs/tools-status.md`。
+- 所有回应与文件使用简体中文
