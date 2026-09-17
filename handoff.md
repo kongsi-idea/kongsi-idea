@@ -4,6 +4,8 @@
 
 ## ⏯️ 目前做到哪
 
+**磁力创造实验室 v2 全链路发布完成（2026-09-17）**：接续上面那条「登记已更新」，这次把 `tahun1-dst-magnet` 工具本身也发完了。磁铁 repo 发布前验收（Playwright，1440/375px，四工作区×课堂/家庭模式）发现一个小瑕疵（老师控制台「暂停全班」按钮文字点遮罩恢复后不同步，误导老师误操作）并修复，commit `a777f82`。老师本人在对话里用 `!` 前缀跑 `vercel --prod --yes`（生产部署被 guard 的 `deploy_allowlist` 挡下，`tahun1-dst-magnet` 不在名单内，Claude 没有绕过，请老师本人执行）——本次自动别名直接指对了 `tahun1-dst-magnet.vercel.app`，不用像 Hub 自己这样手动 `alias set`。部署后用 Playwright 实际操作正式网址拍了 4 张 v2 真实截图（首页/磁极谜题场/挑战创造工坊/老师控制台），替换进本仓库 `app.js` 的 `thumbnails`，旧版 4 张截图搬去 `~/Documents/待删除/kongsi-idea-thumbs-tahun1-dst-magnet-v1-20260917/`（未删除）。`docs/published-tools-coverage.md` 同步更新为「已部署、已线上复验」。**Hub 本体也重新部署生产**（`vercel --prod --yes` 又把自动别名指去了 `eduneo-hub.vercel.app`，老毛病，手动 `vercel alias set` 切回 `kongsi-idea.vercel.app`）。端到端复验：curl 确认两个正式网址的 v2 特征（工具四工作区、Hub app.js 里的 2.0/新缩图路径/次到访），Playwright 确认 Hub 卡片标题「磁力创造实验室」、缩图非破图（1440×900 真实加载）、详情页版本 2.0/changelog/DSKP 7.1.1–7.1.6 齐全、「开始使用」外链能打开工具本身，两站点 console 均无报错。全部 commit 已 push（磁铁 repo `a777f82`＋`45d2cb3`；本仓库 `35c87e2`）。**顺带发现一个非本次引入的既有问题**：Hub 首页「浏览全部工具」的年级/科目筛选状态存 `localStorage`，若访客之前筛过别的年级/科目，下次进站会沿用旧筛选、可能把新工具挡在列表外，且没有明显的「已筛选」提示或一键清除入口——不影响这次发布，但值得之后找时间处理。
+
 **磁力创造实验室 v2 Hub 登记已更新（2026-09-17）**：`tahun1-dst-magnet` 已从「磁铁大发现」改名为「磁力创造实验室／Makmal Cipta Magnet」，版本升到 2.0；说明、关键词、教学模式、准备事项与 changelog 已改成四个开放工作区＋学生自创挑战；DSKP 索引补齐 7.1.5／7.1.6；旧版四张截图已撤下，待新版工具部署及线上复验后补真实缩图。**这笔登记（`56a19f7`）已随本轮收工一起 push**，但 `tahun1-dst-magnet` 本身的工具部署／线上复验还没做（跟下面这条是两回事，别搞混）。
 
 **首页统计条「网页浏览量」改名「次到访」+ 30 分钟 session 去重**（2026-09-17）：老师发现纯刷新会一直让数字涨，讨论后确认要「到访次数」语意——短时间内重复进站不算，隔一段时间再来才代表使用意图不同。改法：`app.js` 的 `bumpPageViews()` 用 `localStorage`（key `kongsi-idea-last-visit-ts`）记上次计数时间，30 分钟内重复进站改打 `get_page_views()`（只读不加），超过窗口才打 `increment_page_views()`（+1 并更新时间戳）；两个 RPC 都已存在于线上库，没改 schema。标签同步从「次网页浏览」改成「次到访」。已用 `verify` 子代理跑 Playwright headless 验证：标签正确、首次加载真的打了 `increment_page_views`（线上真实值从 160 起算）、同 context 刷新改打 `get_page_views` 没有重复计数、localStorage 时间戳正确写入。**已 commit + push（`1e6a650`）并部署上线**：`vercel --prod` 后自动别名又指错到 `eduneo-hub.vercel.app`（老毛病），手动 `vercel alias set` 切回 `kongsi-idea.vercel.app`，curl 复验线上 `app.js` 含「次到访」与 `kongsi-idea-last-visit-ts`，确认生效。
@@ -14,14 +16,15 @@
 
 ## 🚦 目前状态
 
-- Hub 正式网址：https://kongsi-idea.vercel.app（**本次「次到访」改动已上线并 curl 复验**；`56a19f7` 那笔磁力创造实验室登记也已推上 GitHub，但对应工具部署还没做）
+- Hub 正式网址：https://kongsi-idea.vercel.app（本次重新部署生产并 `alias set` 复核，curl+Playwright 双重复验；「次到访」改动与磁力创造实验室 v2 缩图/登记均已上线）
+- 磁力创造实验室正式网址：https://tahun1-dst-magnet.vercel.app（v2 已部署生产、alias 已复核、curl+Playwright 双重复验，Hub 缩图已同步为真实新版画面）
 - Story Quest 正式网址：https://tahun4-bi-writing.vercel.app（独立 GitHub repo，独立 Vercel 项目，同在 `kongsi-idea` team）
 - 四年级写字上一版已登记并部署：`https://tahun4-bc-bishun.vercel.app`；v2.1 新视觉和 Hub 新缩图已在本地 commit，待部署（跟本次改动是同一个「待部署」状态，可以一起处理）
 - 排行榜表未建之前，`tahun1to6-drone` 的排行榜按钮/面板能正常显示，读写会因表不存在静默失败——不影响游戏本身（本次未处理）
 
 ## ➡️ 下一步
 
-1. `tahun1-dst-magnet`（磁力创造实验室 v2）与 `tahun4-bc-bishun` v2.1 两个工具本身的部署／线上复验还没做——登记资料已推上 GitHub，工具部署是各自独立 repo 的事，接手时先看对应工具的 handoff
+1. `tahun4-bc-bishun` v2.1 本地已 commit 的视觉改版仍待部署（`tahun1-dst-magnet` 这条已在本次完成，见上）——接手时先看该工具自己的 handoff
 2. **确认「王菱敏」是不是「王凌敏」（LOVELLE HENG LYNN MIN，学号 26311）**——老师核对后一句话，agent 就能补上 1I 最后一笔的 name_en/seat_no
 3. 全校名单里 `Kelas 2026` 分页没有 4F/5F/5I/5L 这几个班代号（另外两份候选名单里有）——如果这几班其实是真实固定班，需要回头单独补建
 4. 其余老师目前还是要「自己知道」去登录 `kelasku.html` 才会看到自己班已经建好、可以加入共管——没有通知机制，如果校方要全面推广，可能需要一份说明或提醒
@@ -47,9 +50,9 @@
 
 ## 🕐 最后更新
 
-- 时间：2026-09-17（凌晨）
+- 时间：2026-09-17（上午，续凌晨那轮）
 - 更新者：Claude Sonnet 5 @ 这台 Mac
-- Git push：✅ 全部已推（`1e6a650`／`606d124`／`56a19f7`）；Hub 生产部署 ✅ 已完成并 curl 复验
+- Git push：✅ 全部已推（本仓库 `1e6a650`／`606d124`／`56a19f7`／`8fe66c4`／`35c87e2`；磁铁 repo `a777f82`／`45d2cb3`；teaching-tools 索引 `782bb36`）；Hub 与磁力创造实验室两个正式网址均 ✅ 已部署生产并 curl+Playwright 双重复验
 
 ---
 
