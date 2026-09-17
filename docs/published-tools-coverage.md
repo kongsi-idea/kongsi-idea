@@ -20,7 +20,7 @@
 | `tahun2-mt-shulie-duel` | Tahun 2 | 数学 (mt) | 双人数字对决 | 1.0 数与运算 — 1.7 有规律的数列 | https://tahun2-mt-shulie-duel.vercel.app | `../teaching-tools/tahun2-mt-shulie-duel/` | — |
 | `tahun2-mt-baigetu` | Tahun 2 | 数学 (mt) | 百格图乘法表动画 | 2.0 基本运算 — 2.3 乘法 | https://tahun2-mt-baigetu.vercel.app | `../teaching-tools/tahun2-mt-baigetu/` | — |
 | `tahun3-bc-kewen` | Tahun 3 | 华文 (bc) | 语文课文大PK | 2.0 阅读技能 — 2.1 阅读与理解教材 | https://tahun3-bc-kewen.vercel.app | `../teaching-tools/tahun3-bc-kewen/` | — |
-| `tahun1-dst-magnet` | Tahun 1 | 科学 (dst) | 磁力创造实验室 | 7.1 磁铁 — 7.1.1–7.1.6 | https://tahun1-dst-magnet.vercel.app | `../teaching-tools/tahun1-dst-magnet/` | v2.0（2026-09-17）重建为四个开放工作区＋课堂／家庭双模式＋学生自创挑战；待部署、线上复验与新版缩图 |
+| `tahun1-dst-magnet` | Tahun 1 | 科学 (dst) | 磁力创造实验室 | 7.1 磁铁 — 7.1.1–7.1.6 | https://tahun1-dst-magnet.vercel.app | `../teaching-tools/tahun1-dst-magnet/` | v2.0（2026-09-17）重建为四个开放工作区＋课堂／家庭双模式＋学生自创挑战；已部署生产并线上复验，Hub 新版缩图（真实截图）已补 |
 | `tahun3-dst-density` | Tahun 3 | 科学 (dst) | 浮沉实验室：密度大发现 | 7.1 密度 — 7.1.1/7.1.2/7.1.3/7.1.4 | https://tahun3-dst-density.vercel.app | `../teaching-tools/tahun3-dst-density/` | v2.0（2026-09-17）已重做；待改：站④神秘方块排序区方块图示过小；课本 Unit Ketumpatan 未核对（液体分层／加糖未做） |
 | `tahun1-bc-liangci` | Tahun 1 | 华文 (bc) | 量词大冒险 | 5.0 语文基础知识 — 5.3.1 | https://tahun1-bc-liangci.vercel.app | `../teaching-tools/tahun1-bc-liangci/` | — |
 | `tahun1-bc-juxing` | Tahun 1 | 华文 (bc) | 句型跳跳队 | 5.4 认识不同类型的句子 — 5.4.1 | https://tahun1-bc-juxing.vercel.app | `../teaching-tools/tahun1-bc-juxing/` | 全平台首个摄像头体感工具，`data/dskp-index.js` 的马来文单元名还没核对官方 PDF，暂缓收录进 DSKP 搜索索引 |

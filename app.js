@@ -633,8 +633,13 @@ const TOOLS = [
       { version: "2.0", date: "2026-09-17", note: "重建为磁力创造实验室：四个开放工作区、课堂／家庭双模式、老师控制台，以及可试玩验证与导出的学生自创挑战" },
       { version: "1.0", date: "2026-07-21", note: "首次上架" },
     ],
-    // 新版线上复验后再补真实截图；暂不展示已被取代的 v1 画面。
-    thumbnails: [{ label: "磁力创造实验室 v2 · 新版画面待线上截图" }],
+    // 这 4 张是用 Playwright 实际操作 https://tahun1-dst-magnet.vercel.app v2 正式版截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-dst-magnet/1-home-v2.png", label: "首页：选择课堂投影或家庭探索" },
+      { img: "assets/thumbs/tahun1-dst-magnet/2-poles-v2.png", label: "磁极谜题场：旋转磁铁破解相吸相斥任务" },
+      { img: "assets/thumbs/tahun1-dst-magnet/3-create-v2.png", label: "挑战创造工坊：摆放磁铁与障碍，试玩验证自创关卡" },
+      { img: "assets/thumbs/tahun1-dst-magnet/4-teacher-v2.png", label: "老师控制台：预测投票与课堂控制" },
+    ],
     standards: [
       { curriculum: "KSSR Semakan 2017", unitCode: "7.1", objectiveCodes: ["7.1.1", "7.1.2", "7.1.3", "7.1.4", "7.1.5", "7.1.6"] },
     ],
