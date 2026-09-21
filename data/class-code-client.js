@@ -1,15 +1,25 @@
 // class-code-client.js —— 各教学工具用来读取 kelasku 班级名单的共用小工具
 // 使用方式：工具页面依序引入 supabase-client.js（先，负责连线）→ 这份档案，
-// 再用 ClassCode.load() 拿名单，不用自己重新写 Supabase 查询逻辑。
+// 再用 ClassCode.loadOrPrompt() 拿名单。不用各工具重新写 Supabase 查询与班级切换逻辑。
 //
 // 网址参数一律用 ?code=，可以放一个或多个（逗号分隔），例如：
 //   ?code=JH0042-1I                  单一班级
 //   ?code=JH0042-1I,JH0042-2A        多班合并（完整代码）
 //   ?code=JH0042-1I,2A               同校简写：没有 "-" 的那段自动沿用前一段的学校代码
 //
-// 没有 code 参数、或代码查无资料时，load() 回传空阵列，工具应该照旧走「手动输入名字」模式。
+// 标准流程（新工具也必须沿用）：
+//   const roster = await ClassCode.loadOrPrompt();
+//
+// loadOrPrompt() 会处理：网址代码 → 已记住的代码 → 可重复尝试的输入框。
+// 读到班级后会自动显示「换班级」按钮；换班成功会保留其他网址参数、更新 code，
+// 再重新载入当前工具，避免上一班的学生、成绩或进度残留。若工具只需要名单，
+// 不要自己再做一套班级代码输入／记忆／换班 UI。
 
 const ClassCode = (() => {
+  const REMEMBER_KEY = "kelasku_class_code";
+  const SWITCHER_ID = "kelasku-class-switcher";
+  let activePrompt = null;
+
   function expand(rawParam) {
     if (!rawParam) return [];
     const tokens = rawParam.split(",").map((t) => t.trim()).filter(Boolean);
@@ -29,9 +39,16 @@ const ClassCode = (() => {
     return codes;
   }
 
+  function rawUrlCode() {
+    try {
+      return (new URLSearchParams(window.location.search).get("code") || "").trim();
+    } catch (e) {
+      return "";
+    }
+  }
+
   function codesFromUrl() {
-    const params = new URLSearchParams(window.location.search);
-    return expand(params.get("code"));
+    return expand(rawUrlCode());
   }
 
   // 回传合并后的学生名单：
@@ -76,68 +93,262 @@ const ClassCode = (() => {
         });
       }
     }
+    if (roster.length > 0) {
+      rememberCode(rawParam || rawUrlCode());
+      mountSwitcher();
+    }
     return roster;
   }
-
-  // ---------- 输入代码（不用背网址）----------
-  // 网址带 ?code= 常常被打错（尤其"?code="这段），改成弹一个输入框让学生/老师
-  // 直接打代码，打过一次会记在这台设备的浏览器里，下次开同一个网址不用再打
-
-  const REMEMBER_KEY = "kelasku_class_code";
 
   function rememberCode(raw) {
-    if (raw) localStorage.setItem(REMEMBER_KEY, raw);
+    if (!raw) return;
+    try { localStorage.setItem(REMEMBER_KEY, raw.trim()); } catch (e) {}
   }
 
-  function promptForCode() {
-    return new Promise((resolve) => {
+  function rememberedCode() {
+    try { return localStorage.getItem(REMEMBER_KEY) || ""; }
+    catch (e) { return ""; }
+  }
+
+  function clearRememberedCode() {
+    try { localStorage.removeItem(REMEMBER_KEY); } catch (e) {}
+  }
+
+  function replaceUrlCode(raw) {
+    try {
+      const url = new URL(window.location.href);
+      if (raw) url.searchParams.set("code", raw.trim());
+      else url.searchParams.delete("code");
+      window.history.replaceState(null, "", url.href);
+    } catch (e) {}
+  }
+
+  function ensureStyles() {
+    if (document.getElementById("kelasku-class-code-styles")) return;
+    const style = document.createElement("style");
+    style.id = "kelasku-class-code-styles";
+    style.textContent = `
+      .kcc-switcher {
+        position: fixed; top: max(12px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right));
+        z-index: 2147483000; display: inline-flex; align-items: center; gap: 7px;
+        min-height: 38px; padding: 8px 13px; border: 1px solid rgba(31,58,52,.24);
+        border-radius: 999px; background: rgba(251,246,236,.96); color: #1F3A34;
+        box-shadow: 0 4px 16px rgba(31,58,52,.16); cursor: pointer;
+        font: 700 14px/1.2 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+        transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
+      }
+      .kcc-switcher::before {
+        content: ""; width: 8px; height: 8px; border-radius: 50%; background: #E8873E;
+        box-shadow: 0 0 0 3px rgba(232,135,62,.16);
+      }
+      .kcc-switcher:hover { transform: translateY(-1px); background: #fff; box-shadow: 0 6px 20px rgba(31,58,52,.2); }
+      .kcc-switcher:focus-visible { outline: 3px solid rgba(79,168,216,.55); outline-offset: 3px; }
+      .kcc-overlay {
+        position: fixed; inset: 0; z-index: 2147483001; display: flex; align-items: center; justify-content: center;
+        padding: 18px; box-sizing: border-box; background: rgba(20,36,33,.62);
+        font-family: -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+      }
+      .kcc-dialog {
+        width: min(100%, 370px); box-sizing: border-box; padding: 26px 23px 22px;
+        border: 1px solid rgba(31,58,52,.15); border-radius: 20px; background: #FBF6EC;
+        box-shadow: 0 18px 52px rgba(0,0,0,.3); color: #1F3A34;
+      }
+      .kcc-kicker { margin-bottom: 7px; color: #E8873E; font-size: 12px; font-weight: 800; letter-spacing: .08em; }
+      .kcc-title { margin: 0; font-size: 22px; line-height: 1.3; letter-spacing: -.02em; }
+      .kcc-hint { margin: 8px 0 18px; color: #5A6963; font-size: 14px; line-height: 1.6; }
+      .kcc-label { display: block; color: #31554C; font-size: 13px; font-weight: 800; }
+      .kcc-input {
+        display: block; width: 100%; box-sizing: border-box; margin-top: 7px; padding: 12px 13px;
+        border: 2px solid #C8D3CD; border-radius: 11px; background: #fff; color: #1F3A34;
+        font: 700 17px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing: .03em; text-align: center;
+      }
+      .kcc-input:focus { border-color: #4FA8D8; outline: 3px solid rgba(79,168,216,.2); }
+      .kcc-error { min-height: 21px; margin: 8px 0 0; color: #B4483C; font-size: 13px; line-height: 1.5; }
+      .kcc-actions { display: flex; gap: 9px; margin-top: 14px; }
+      .kcc-actions button {
+        flex: 1; min-height: 43px; border: 0; border-radius: 11px; cursor: pointer;
+        font: 800 14px/1.2 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+      }
+      .kcc-cancel { background: #E6EAE5; color: #486057; }
+      .kcc-submit { background: #1F3A34; color: #fff; }
+      .kcc-actions button:focus-visible { outline: 3px solid rgba(79,168,216,.55); outline-offset: 2px; }
+      @media (max-width: 520px) {
+        .kcc-switcher { top: max(9px, env(safe-area-inset-top)); right: max(9px, env(safe-area-inset-right)); min-height: 35px; padding: 7px 11px; font-size: 13px; }
+        .kcc-dialog { padding: 23px 18px 18px; border-radius: 17px; }
+      }
+      @media (prefers-reduced-motion: reduce) { .kcc-switcher { transition: none; } }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // 让所有引用共用客户端的工具自动拥有同一个入口，不要求各工具重复画按钮。
+  function mountSwitcher() {
+    if (!document.body || document.getElementById(SWITCHER_ID)) return;
+    ensureStyles();
+    const button = document.createElement("button");
+    button.id = SWITCHER_ID;
+    button.type = "button";
+    button.className = "kcc-switcher";
+    button.textContent = "换班级";
+    button.setAttribute("aria-label", "换班级");
+    button.title = "输入另一个班级代码";
+    button.addEventListener("click", switchClass);
+    document.body.appendChild(button);
+  }
+
+  function scheduleSwitcher() {
+    if (rawUrlCode() || rememberedCode()) {
+      if (document.body) mountSwitcher();
+      else document.addEventListener("DOMContentLoaded", mountSwitcher, { once: true });
+    }
+  }
+
+  function promptForCode(options = {}) {
+    if (activePrompt) return activePrompt;
+    const {
+      initial = "",
+      message = "",
+      title = "输入班级代码",
+      skipLabel = "暂不选班",
+    } = options;
+
+    activePrompt = new Promise((resolve) => {
+      ensureStyles();
       const overlay = document.createElement("div");
-      overlay.style.cssText = "position:fixed;inset:0;background:rgba(11,30,45,0.6);display:flex;align-items:center;justify-content:center;z-index:99999;font-family:'PingFang SC','Microsoft YaHei',sans-serif;padding:16px;box-sizing:border-box;";
+      overlay.className = "kcc-overlay";
+      overlay.setAttribute("role", "dialog");
+      overlay.setAttribute("aria-modal", "true");
+      overlay.setAttribute("aria-labelledby", "kcc-dialog-title");
       overlay.innerHTML = `
-        <div style="background:#fff;border-radius:16px;padding:26px 22px;max-width:320px;width:100%;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,0.35);">
-          <div style="font-weight:900;font-size:1.1rem;margin-bottom:6px;color:#1F3A34;">输入班级代码</div>
-          <div style="font-size:0.85rem;color:#667;margin-bottom:16px;">老师给的那组代码，例如 JAA1234-1A</div>
-          <input type="text" placeholder="班级代码" style="width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:2px solid #ddd;font-size:1.05rem;text-align:center;margin-bottom:12px;">
-          <div style="display:flex;gap:8px;">
-            <button type="button" data-act="skip" style="flex:1;padding:11px;border-radius:10px;border:none;background:#eee;color:#556;font-weight:700;cursor:pointer;font-size:0.9rem;">跳过</button>
-            <button type="button" data-act="go" style="flex:1;padding:11px;border-radius:10px;border:none;background:#0EA5B7;color:#fff;font-weight:700;cursor:pointer;font-size:0.9rem;">开始</button>
+        <section class="kcc-dialog">
+          <div class="kcc-kicker">课堂点子铺 · KELASKU</div>
+          <h2 class="kcc-title" id="kcc-dialog-title"></h2>
+          <p class="kcc-hint">输入老师给的班级代码，例如 JBC1037-1A。输入正确后会显示这班同学的名单。</p>
+          <label class="kcc-label">班级代码
+            <input class="kcc-input" type="text" placeholder="JBC1037-1A" maxlength="120" autocomplete="off" autocapitalize="characters" spellcheck="false">
+          </label>
+          <p class="kcc-error" aria-live="polite"></p>
+          <div class="kcc-actions">
+            <button type="button" class="kcc-cancel" data-act="cancel"></button>
+            <button type="button" class="kcc-submit" data-act="submit">载入班级</button>
           </div>
-        </div>
+        </section>
       `;
       document.body.appendChild(overlay);
-      const input = overlay.querySelector("input");
+      const titleEl = overlay.querySelector(".kcc-title");
+      const input = overlay.querySelector(".kcc-input");
+      const errorEl = overlay.querySelector(".kcc-error");
+      const cancelButton = overlay.querySelector('[data-act="cancel"]');
+      const submitButton = overlay.querySelector('[data-act="submit"]');
+      titleEl.textContent = title;
+      input.value = initial;
+      errorEl.textContent = message;
+      cancelButton.textContent = skipLabel;
+
+      const finish = (value) => {
+        document.removeEventListener("keydown", onKeyDown);
+        overlay.remove();
+        activePrompt = null;
+        resolve(value);
+      };
+      const submit = () => finish(input.value.trim());
+      const onKeyDown = (event) => {
+        if (event.key === "Escape") finish(null);
+        if (event.key === "Enter") submit();
+      };
+      cancelButton.addEventListener("click", () => finish(null));
+      submitButton.addEventListener("click", submit);
+      input.addEventListener("input", () => { errorEl.textContent = ""; });
+      document.addEventListener("keydown", onKeyDown);
       input.focus();
-      const finish = (value) => { overlay.remove(); resolve(value); };
-      overlay.querySelector('[data-act="go"]').addEventListener("click", () => {
-        const v = input.value.trim();
-        finish(v || null);
-      });
-      overlay.querySelector('[data-act="skip"]').addEventListener("click", () => finish(null));
-      input.addEventListener("keydown", (e) => { if (e.key === "Enter") overlay.querySelector('[data-act="go"]').click(); });
+      input.select();
     });
+    return activePrompt;
   }
 
-  // 拿名单的完整流程：网址有代码就直接用；没有的话，先试试这台设备之前记住的代码；
-  // 都没有，弹框让学生/老师自己打（打了会记住，跳过就照旧走手动输入名字的模式）
+  async function loadWithFallback(options = {}) {
+    let initial = options.initial || "";
+    let message = options.message || "";
+    while (true) {
+      const typed = await promptForCode({
+        initial,
+        message,
+        title: options.title || "输入班级代码",
+        skipLabel: options.skipLabel || "暂不选班",
+      });
+      if (!typed) return { roster: [], raw: "" };
+
+      let roster = [];
+      try { roster = await load(typed); } catch (error) { console.error("ClassCode.load failed:", error); }
+      if (roster.length > 0) return { roster, raw: typed };
+
+      initial = typed;
+      message = `找不到「${typed}」这个班级，请检查代码后再试。`;
+    }
+  }
+
+  // 完整流程：网址代码有效就直接使用；失败则留在输入框，可持续重试。
+  // 没有网址代码时，先试这台设备记住的代码；跳过后才退回工具自己的手动输入。
   async function loadOrPrompt() {
-    const urlCodes = codesFromUrl();
-    if (urlCodes.length > 0) {
-      rememberCode(new URLSearchParams(window.location.search).get("code"));
-      return load();
+    const urlRaw = rawUrlCode();
+    if (urlRaw) {
+      let roster = [];
+      try { roster = await load(urlRaw); } catch (error) { console.error("ClassCode.load failed:", error); }
+      if (roster.length > 0) {
+        rememberCode(urlRaw);
+        mountSwitcher();
+        return roster;
+      }
+    } else {
+      const remembered = rememberedCode();
+      if (remembered) {
+        let roster = [];
+        try { roster = await load(remembered); } catch (error) { console.error("ClassCode.load failed:", error); }
+        if (roster.length > 0) {
+          mountSwitcher();
+          return roster;
+        }
+      }
     }
 
-    const remembered = localStorage.getItem(REMEMBER_KEY);
-    if (remembered) {
-      const roster = await load(remembered);
-      if (roster.length > 0) return roster;
+    const result = await loadWithFallback({
+      initial: urlRaw || rememberedCode(),
+      message: urlRaw ? `找不到「${urlRaw}」这个班级，请检查代码后再试。` : "",
+    });
+    if (result.roster.length === 0) {
+      clearRememberedCode();
+      return [];
     }
-
-    const typed = await promptForCode();
-    if (!typed) return [];
-    const roster = await load(typed);
-    if (roster.length > 0) rememberCode(typed);
-    return roster;
+    rememberCode(result.raw);
+    replaceUrlCode(result.raw);
+    mountSwitcher();
+    return result.roster;
   }
 
-  return { expand, codesFromUrl, load, loadOrPrompt, promptForCode };
+  async function switchClass() {
+    const result = await loadWithFallback({
+      initial: rawUrlCode() || rememberedCode(),
+      title: "换班级",
+      skipLabel: "先不换",
+    });
+    if (result.roster.length === 0) return;
+
+    rememberCode(result.raw);
+    replaceUrlCode(result.raw);
+    // 各工具的学生、题目、成绩与 React/原生状态不同；重新载入是统一且安全的清理边界。
+    window.location.reload();
+  }
+
+  scheduleSwitcher();
+
+  return {
+    expand,
+    codesFromUrl,
+    load,
+    loadOrPrompt,
+    promptForCode,
+    mountSwitcher,
+    switchClass,
+    getRememberedCode: rememberedCode,
+  };
 })();

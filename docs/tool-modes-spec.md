@@ -79,6 +79,33 @@
 
 ---
 
+## 班级代码接入标准（全部工具共用）
+
+只要工具需要 kelasku 班级名单，就依序引入 Hub 的共用档案：
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://kongsi-idea.vercel.app/data/supabase-client.js"></script>
+<script src="https://kongsi-idea.vercel.app/data/class-code-client.js"></script>
+```
+
+然后使用：
+
+```js
+const roster = await ClassCode.loadOrPrompt();
+```
+
+不要在工具内重复实现班级代码的输入框、记忆 key 或「换班」按钮。共用客户端已经规定：
+
+1. `?code=`、本机记忆代码或学生刚输入的错误代码，都能回到同一个输入框继续重试；错误时不能只显示空名单后结束。
+2. 成功读到名单后自动显示「换班级」入口。学生或老师输入新代码并验证成功后，客户端会保留其他网址参数、更新 `?code=`，再重新载入当前工具。
+3. 换班采用重新载入，是为了统一清理不同工具各自的学生、题目、成绩与进度状态；工具不需要另写跨工具的状态同步。
+4. 学生选择暂不选班时，工具才退回手动输入名字；没有班级代码时仍要能使用工具允许的访客／手动模式。
+
+如果工具需要在换班后不重新载入而即时更新名单，必须先说明状态清理边界，并继续以 `class-code-client.js` 为唯一班级码来源。
+
+---
+
 ## 命名与登记
 
 - 分数表命名照既有约定：`{完整slug用底线连接}_scores`（例如 `tahun1_mt_masa_scores`）。

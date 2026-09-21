@@ -52,7 +52,9 @@
 - **工具专属表命名须用完整 slug 前缀**（如 `tahun1_bc_liangci_scores`），不能只取关键词，否则会撞表名
 - 没有「合班连结生成器」——刻意拆掉；`saved_links` 表已废弃仍留数据库
 - 设计取舍见 Claude memory `kongsi-idea-teaching-tools-shared-db-architecture`
-- 已接 `class-code-client.js` 的工具 2/17，其余按需接入
+- 已接 `class-code-client.js` 的工具统一继承「输错可重试」与「换班级」入口；新工具接入时必须沿用共用客户端，不得另写一套班级代码弹窗或 localStorage 机制
+- 班级码标准流程：依序引入 `supabase-client.js`、`class-code-client.js`，再调用 `await ClassCode.loadOrPrompt()`；成功后共用客户端会显示「换班级」，换班会保留其他网址参数、更新 `?code=` 并重新载入工具，清掉上一班的学生／成绩／进度状态
+- `loadOrPrompt()` 遇到网址代码、记忆代码或学生刚输入的错误代码，都必须把学生留在同一个输入流程继续重试；只有学生选择「暂不选班」才回退工具自己的手动输入。详细约定见 `docs/tool-modes-spec.md` 的「班级代码接入标准」
 - `students` 表**没有 IC 号码栏位**（非漏做）；批量导入重名无法安全比对时留空待确认，不猜
 
 ## 部署（收工前必做，缺一不可）
