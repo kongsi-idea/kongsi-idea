@@ -6,12 +6,12 @@
 
 ## 一眼看懂目前状态
 
-- 本机工具目录：**24**
+- 本机工具目录：**25**
 - 已上架：**22**
-- 开发中：**1**
+- 开发中：**2**
 - 暂停：**1**
 - 已明确需要优化：**0**
-- 尚待逐项评估满意度：**22**
+- 尚待逐项评估满意度：**23**
 - 缺少工具级 `handoff.md`：**14**
 - 已上架但 Hub/DSKP 登记异常：**6**
 - Hub 已上架覆盖表登记：**21/22**
@@ -27,6 +27,7 @@
 | `tahun1-bc-juxing` | 已上架 | 待评估 | — | 补充状态与下一步 |
 | `tahun1-mt-masa` | 开发中 | 未完成 | 尚未部署、未上架 Hub：等老师在真实设备实测确认后才走部署流程（newtool skill 第7条硬性规定）；马来文 DSKP 官方用词未查证，暂不收进 kongsi-idea/data/dskp-index.js；本机没有一年级数学课本原文可对照，「4时／4时半／4时一刻／4时15分」用词照 DSKP 摘要＋老师口述，待老师对课本；真实触屏（尤其课室一体机）的拖拽手感、音效音量还没实测，只在 headless 模拟过 | 老师本机/真实设备实测确认玩法、手感与音效 → git init/gh repo create → Vercel 部署 → 截图 → Hub TOOLS 登记(含 hasLeaderboard) + published-tools-coverage.md 加一行 |
 | `tahun2-bc-bishun` | 已上架 | 待评估 | — | 补充状态与下一步 |
+| `tahun2-bc-zonghe` | 开发中 | 待评估 | Supabase migration 尚未获授权执行，线上排行榜表与 RPC 目前不存在；新项目尚未正式安装依赖、初始化独立 Git 或部署 preview；朋友提供的生成插画公开发布授权仍需确认 | 授权 npm install 与 Supabase migration → 正式 build／真实成绩验证 → 建独立仓库与 preview → 老师验收后上架 Hub |
 | `tahun3-bc-bishun` | 已上架 | 待评估 | — | 补充状态与下一步 |
 | `tahun4-bc-bishun` | 已上架 | 待评估 | 真实滑鼠描写与学校电脑室手感尚未由教师验收；Supabase migration 尚未执行（本机无法解析数据库主机）；Hub 已更新为蓝天草地毛绒场景缩图 | 网络恢复后部署本地 v2.1 并更新 Hub；之后老师打开 https://tahun4-bc-bishun.vercel.app 对照课本第193–194页并实写一字；网络可连接 Supabase 后执行 migration |
 | `tahun4-bi-writing` | 已上架 | 待评估 | 纸本作业投稿仅测过一次性测试图片，尚无真实学生投稿；教师审核端（把 pending 改 approved/rejected）还没有介面，只能直接在 Supabase Dashboard 操作 | 等课堂真实使用反馈；视需要补一个给老师审核投稿的简单介面 |
@@ -36,6 +37,7 @@
 | slug | 名称 | 年级 | 科目 | DSKP 涵盖 | 开发状态 | 品质状态 | 版本 | Hub 同步 | handoff | 已知问题／不满意 | 下一步 | 最后更新 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | `tahun1-mt-masa` | 时刻大对决 | Tahun 1 | 数学 | 待核对 | 开发中 | 未完成 | — | 未上架，不需同步 | 有 | 尚未部署、未上架 Hub：等老师在真实设备实测确认后才走部署流程（newtool skill 第7条硬性规定）；马来文 DSKP 官方用词未查证，暂不收进 kongsi-idea/data/dskp-index.js；本机没有一年级数学课本原文可对照，「4时／4时半／4时一刻／4时15分」用词照 DSKP 摘要＋老师口述，待老师对课本；真实触屏（尤其课室一体机）的拖拽手感、音效音量还没实测，只在 headless 模拟过 | 老师本机/真实设备实测确认玩法、手感与音效 → git init/gh repo create → Vercel 部署 → 截图 → Hub TOOLS 登记(含 hasLeaderboard) + published-tools-coverage.md 加一行 | 2026-08-14 |
+| `tahun2-bc-zonghe` | 华文勇者大冒险 | Tahun 2 | 华文 | 待核对 | 开发中 | 待评估 | — | 未上架，不需同步 | 有 | Supabase migration 尚未获授权执行，线上排行榜表与 RPC 目前不存在；新项目尚未正式安装依赖、初始化独立 Git 或部署 preview；朋友提供的生成插画公开发布授权仍需确认 | 授权 npm install 与 Supabase migration → 正式 build／真实成绩验证 → 建独立仓库与 preview → 老师验收后上架 Hub | 2026-09-21 |
 | `tahun1-bc-chongzu` | 词句拼拼乐 | Tahun 1 | 华文 | 待核对 | 暂停 | 未完成 | — | 未上架，不需同步 | 无 | 单文件 React 原型，尚无独立 Git、handoff、DSKP 核对、Vercel 部署和 Hub 登记 | 已确认搁置（2026-07-24），暂不继续；之后想重启再补 handoff.md 走完整流程 | 2026-07-24 |
 | `tahun1-bc-bishun` | 一年级写字 | Tahun 1 | 华文 | ⚠️ 引用异常：3.0 书写技能 — 3.1 | 已上架 | 待评估 | 1.3 | 资料异常 | 有 | — | 老师本机+电脑室实测确认笔顺判定松紧、三步流程节奏、音效音量；等课堂反馈 | 2026-09-11 |
 | `tahun1-bc-bushou` | 部首大对垒 | Tahun 1 | 华文 | 5.0 语文基础知识 — 5.1 | 已上架 | 待评估 | 1.0 | 已同步 | 无 | — | 等待课堂反馈；有不满意之处时在这里登记 | 2026-07-21 |
@@ -105,5 +107,5 @@
 
 ## 最后同步
 
-- 时间：2026-09-17, 01:14
+- 时间：2026-09-21, 22:43
 - Hub 覆盖文件可读取：是
