@@ -7,3 +7,4 @@ supabase/.secrets.local.md
 # 档案一旦被追踪，那次就会静静地跟着 commit 出去——先不追踪，堵死这条路。
 .mcp.json
 supabase/.temp
+.env*

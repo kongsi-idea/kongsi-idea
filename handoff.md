@@ -2,6 +2,8 @@
 
 > 开工先读本档；查询全部教学工具状态时，直接读 `../teaching-tools/PROGRESS.md`。
 
+**2026-09-21：班级代码共用机制已完成本地验证并 push（Hub `5564e3f`，工具规范 `4c7c3ef`）**：`data/class-code-client.js` 现在会让错误代码留在同一个输入流程继续重试，成功读到名单后自动显示「换班级」按钮；换班会验证新代码、保留其他网址参数、更新 `?code=` 后重新载入当前工具，避免上一班的学生／成绩／进度残留。共用客户端本身已自动覆盖当前 7 个引用工具，未来新工具只需按 `docs/tool-modes-spec.md` 的标准引用并调用 `ClassCode.loadOrPrompt()`。本地 Playwright 已验：错误→重试→成功、换班→重新载入、其他参数保留、375px 手机弹窗不溢出。预览部署已验线上档案：`https://kongsi-idea-lhr670055-kongsi-idea.vercel.app/data/class-code-client.js`；正式 `--prod`／`kongsi-idea.vercel.app` alias 被 guard 拦下，**尚未上线正式网址**，下次先用该预览链接点验后再部署／切 alias。
+
 ## ⏯️ 目前做到哪
 
 **磁力创造实验室 v2 全链路发布完成（2026-09-17）**：接续上面那条「登记已更新」，这次把 `tahun1-dst-magnet` 工具本身也发完了。磁铁 repo 发布前验收（Playwright，1440/375px，四工作区×课堂/家庭模式）发现一个小瑕疵（老师控制台「暂停全班」按钮文字点遮罩恢复后不同步，误导老师误操作）并修复，commit `a777f82`。老师本人在对话里用 `!` 前缀跑 `vercel --prod --yes`（生产部署被 guard 的 `deploy_allowlist` 挡下，`tahun1-dst-magnet` 不在名单内，Claude 没有绕过，请老师本人执行）——本次自动别名直接指对了 `tahun1-dst-magnet.vercel.app`，不用像 Hub 自己这样手动 `alias set`。部署后用 Playwright 实际操作正式网址拍了 4 张 v2 真实截图（首页/磁极谜题场/挑战创造工坊/老师控制台），替换进本仓库 `app.js` 的 `thumbnails`，旧版 4 张截图搬去 `~/Documents/待删除/kongsi-idea-thumbs-tahun1-dst-magnet-v1-20260917/`（未删除）。`docs/published-tools-coverage.md` 同步更新为「已部署、已线上复验」。**Hub 本体也重新部署生产**（`vercel --prod --yes` 又把自动别名指去了 `eduneo-hub.vercel.app`，老毛病，手动 `vercel alias set` 切回 `kongsi-idea.vercel.app`）。端到端复验：curl 确认两个正式网址的 v2 特征（工具四工作区、Hub app.js 里的 2.0/新缩图路径/次到访），Playwright 确认 Hub 卡片标题「磁力创造实验室」、缩图非破图（1440×900 真实加载）、详情页版本 2.0/changelog/DSKP 7.1.1–7.1.6 齐全、「开始使用」外链能打开工具本身，两站点 console 均无报错。全部 commit 已 push（磁铁 repo `a777f82`＋`45d2cb3`；本仓库 `35c87e2`）。**顺带发现一个非本次引入的既有问题**：Hub 首页「浏览全部工具」的年级/科目筛选状态存 `localStorage`，若访客之前筛过别的年级/科目，下次进站会沿用旧筛选、可能把新工具挡在列表外，且没有明显的「已筛选」提示或一键清除入口——不影响这次发布，但值得之后找时间处理。
