@@ -2,7 +2,7 @@
 
 > 开工先读本档；查询全部教学工具状态时，直接读 `../teaching-tools/PROGRESS.md`。
 
-**2026-09-21：班级代码共用机制已完成本地验证并 push（Hub `5564e3f`，工具规范 `4c7c3ef`）**：`data/class-code-client.js` 现在会让错误代码留在同一个输入流程继续重试，成功读到名单后自动显示「换班级」按钮；换班会验证新代码、保留其他网址参数、更新 `?code=` 后重新载入当前工具，避免上一班的学生／成绩／进度残留。共用客户端本身已自动覆盖当前 7 个引用工具，未来新工具只需按 `docs/tool-modes-spec.md` 的标准引用并调用 `ClassCode.loadOrPrompt()`。本地 Playwright 已验：错误→重试→成功、换班→重新载入、其他参数保留、375px 手机弹窗不溢出。预览部署已验线上档案：`https://kongsi-idea-lhr670055-kongsi-idea.vercel.app/data/class-code-client.js`；正式 `--prod`／`kongsi-idea.vercel.app` alias 被 guard 拦下，**尚未上线正式网址**，下次先用该预览链接点验后再部署／切 alias。
+**2026-09-21：班级代码共用机制已完成并上线（Hub `5564e3f`、交接记录 `da30e59`、工具规范 `4c7c3ef`）**：`data/class-code-client.js` 现在会让错误代码留在同一个输入流程继续重试，成功读到名单后自动显示「换班级」按钮；换班会验证新代码、保留其他网址参数、更新 `?code=` 后重新载入当前工具，避免上一班的学生／成绩／进度残留。共用客户端本身已自动覆盖当前 7 个引用工具，未来新工具只需按 `docs/tool-modes-spec.md` 的标准引用并调用 `ClassCode.loadOrPrompt()`。本地 Playwright 已验：错误→重试→成功、换班→重新载入、其他参数保留、375px 手机弹窗不溢出。生产部署 `dpl_3nkHWS7uckVq4Zub8KEJhDgWQMDw` 已完成；Vercel 自动 alias 又误指 `eduneo-hub.vercel.app`，已用 `vercel alias set ... --scope kongsi-idea` 切回 `https://kongsi-idea.vercel.app`，并用 curl 确认正式网址的 `data/class-code-client.js` 含新机制特征。
 
 ## ⏯️ 目前做到哪
 
