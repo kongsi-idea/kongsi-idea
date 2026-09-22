@@ -282,7 +282,7 @@ const TOOLS = [
     title_bm: "Pengembaraan Ilmu Bahasa Cina Tahun 2",
     desc: "二年级华文跨单元综合闯关：沿着知识岛完成22个站点，从字音、词语、句子到阅读理解，按基础、进阶、勇者三档挑战，收集积分与宝石。",
     keywords: ["二年级", "华文", "综合复习", "跨单元", "字音", "词语", "句子", "阅读理解", "知识岛", "闯关", "Bahasa Cina", "Tahun 2"],
-    url: "https://tahun2-bc-zonghe-3z8g2goax-kongsi-idea.vercel.app",
+    url: "https://tahun2-bc-zonghe.vercel.app",
     type: "综合复习游戏",
     stars: 0,
     creator: { name: "李老师", initial: "李" },
@@ -299,7 +299,7 @@ const TOOLS = [
     standards: [],
     practiceSummary: "以四选一自动判分复习二年级华文22个跨单元知识点；题库共220题，覆盖字音、词语、句子、阅读理解等，暂不代表听说读写全部课程。",
     teachingMode: ["电脑室小组闯关", "个人自学", "公开排行榜"],
-    prep: "2–3人一组完成22站；可直接手填组员姓名，也可在网址加入班级代码读取 Kelasku 名单并进入本班榜。完成主线后正式成绩才会写入公开排行榜；无限挑战只作练习，不计入正式榜。目前链接为验收 preview，团队默认启用 SSO，正式公开使用前需确认访问设定。",
+    prep: "2–3人一组完成22站；可直接手填组员姓名，也可在网址加入班级代码读取 Kelasku 名单并进入本班榜。完成主线后正式成绩才会写入公开排行榜；无限挑战只作练习，不计入正式榜。",
   },
 
   {
