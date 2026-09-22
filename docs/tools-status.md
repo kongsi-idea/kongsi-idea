@@ -27,7 +27,7 @@
 | `tahun1-bc-juxing` | 已上架 | 待评估 | — | 补充状态与下一步 |
 | `tahun1-mt-masa` | 开发中 | 未完成 | 尚未部署、未上架 Hub：等老师在真实设备实测确认后才走部署流程（newtool skill 第7条硬性规定）；马来文 DSKP 官方用词未查证，暂不收进 kongsi-idea/data/dskp-index.js；本机没有一年级数学课本原文可对照，「4时／4时半／4时一刻／4时15分」用词照 DSKP 摘要＋老师口述，待老师对课本；真实触屏（尤其课室一体机）的拖拽手感、音效音量还没实测，只在 headless 模拟过 | 老师本机/真实设备实测确认玩法、手感与音效 → git init/gh repo create → Vercel 部署 → 截图 → Hub TOOLS 登记(含 hasLeaderboard) + published-tools-coverage.md 加一行 |
 | `tahun2-bc-bishun` | 已上架 | 待评估 | — | 补充状态与下一步 |
-| `tahun2-bc-zonghe` | 已上架 | 待评估 | 尚未用真实班级与访客完成一次成绩写入／读取验证；工具 preview 已部署，Hub 也已有验收 preview（https://kongsi-idea-ofgswnvvm-kongsi-idea.vercel.app），但 Kongsi Idea 团队默认启用 SSO，普通未登录访客会先看到 Vercel 登录页；正式 Hub alias 尚未切换；朋友提供的生成插画公开发布授权仍需确认 | 老师点击 Hub 入口验收 → 用真实班级与访客验证成绩 → 决定是否调整 preview 保护设定 |
+| `tahun2-bc-zonghe` | 已上架 | 待评估 | 尚未用真实班级与访客完成一次成绩写入／读取验证；Hub 已上线 https://eduneo-hub.vercel.app；工具本身仍是 preview，且 Kongsi Idea 团队默认启用 SSO，普通未登录访客会先看到 Vercel 登录页；朋友提供的生成插画公开发布授权仍需确认 | 老师点击 Hub 入口验收 → 用真实班级与访客验证成绩 → 决定是否调整 preview 保护设定 |
 | `tahun3-bc-bishun` | 已上架 | 待评估 | — | 补充状态与下一步 |
 | `tahun4-bc-bishun` | 已上架 | 待评估 | 真实滑鼠描写与学校电脑室手感尚未由教师验收；Supabase migration 尚未执行（本机无法解析数据库主机）；Hub 已更新为蓝天草地毛绒场景缩图 | 网络恢复后部署本地 v2.1 并更新 Hub；之后老师打开 https://tahun4-bc-bishun.vercel.app 对照课本第193–194页并实写一字；网络可连接 Supabase 后执行 migration |
 | `tahun4-bi-writing` | 已上架 | 待评估 | 纸本作业投稿仅测过一次性测试图片，尚无真实学生投稿；教师审核端（把 pending 改 approved/rejected）还没有介面，只能直接在 Supabase Dashboard 操作 | 等课堂真实使用反馈；视需要补一个给老师审核投稿的简单介面 |
@@ -48,7 +48,7 @@
 | `tahun1-dst-magnet` | 磁力创造实验室 | Tahun 1 | 科学与科技世界 | 7.1 磁铁 — 7.1.1/7.1.2/7.1.3/7.1.4/7.1.5/7.1.6 | 已上架 | 待评估 | 2.0 | 已同步 | 有 | — | 等待课堂反馈；有不满意之处时在这里登记 | 2026-09-17 |
 | `tahun1-mt-bundar` | 近似值特快车 | Tahun 1 | 数学 | 1.0 数与运算——100以内的整数 — 1.8 | 已上架 | 待评估 | 1.0 | 已同步 | 无 | — | 等待课堂反馈；有不满意之处时在这里登记 | 2026-07-21 |
 | `tahun2-bc-bishun` | 二年级写字 | Tahun 2 | 华文 | ⚠️ 引用异常：3.0 — 3.1 | 已上架 | 待评估 | 1.1 | 资料异常 | 有 | — | 补充状态与下一步 | 2026-09-11 |
-| `tahun2-bc-zonghe` | 华文勇者大冒险 | Tahun 2 | 华文 | 待核对 | 已上架 | 待评估 | 0.1.0 | 资料异常 | 有 | 尚未用真实班级与访客完成一次成绩写入／读取验证；工具 preview 已部署，Hub 也已有验收 preview（https://kongsi-idea-ofgswnvvm-kongsi-idea.vercel.app），但 Kongsi Idea 团队默认启用 SSO，普通未登录访客会先看到 Vercel 登录页；正式 Hub alias 尚未切换；朋友提供的生成插画公开发布授权仍需确认 | 老师点击 Hub 入口验收 → 用真实班级与访客验证成绩 → 决定是否调整 preview 保护设定 | 2026-09-22 |
+| `tahun2-bc-zonghe` | 华文勇者大冒险 | Tahun 2 | 华文 | 待核对 | 已上架 | 待评估 | 0.1.0 | 资料异常 | 有 | 尚未用真实班级与访客完成一次成绩写入／读取验证；Hub 已上线 https://eduneo-hub.vercel.app；工具本身仍是 preview，且 Kongsi Idea 团队默认启用 SSO，普通未登录访客会先看到 Vercel 登录页；朋友提供的生成插画公开发布授权仍需确认 | 老师点击 Hub 入口验收 → 用真实班级与访客验证成绩 → 决定是否调整 preview 保护设定 | 2026-09-22 |
 | `tahun2-mt-baigetu` | 百格图乘法表动画 | Tahun 2 | 数学 | 2.0 数与运算——基本运算 — 2.3 | 已上架 | 待评估 | 1.0 | 已同步 | 无 | — | 等待课堂反馈；有不满意之处时在这里登记 | 2026-07-21 |
 | `tahun2-mt-shulie-boss` | 数字数列大对决 | Tahun 2 | 数学 | 1.0 数与运算——1000以内的整数 — 1.7 | 已上架 | 待评估 | 1.0 | 已同步 | 无 | — | 等待课堂反馈；有不满意之处时在这里登记 | 2026-07-21 |
 | `tahun2-mt-shulie-duel` | 双人数字对决 | Tahun 2 | 数学 | 1.0 数与运算——1000以内的整数 — 1.7 | 已上架 | 待评估 | 1.0 | 已同步 | 无 | — | 等待课堂反馈；有不满意之处时在这里登记 | 2026-07-21 |
@@ -107,5 +107,5 @@
 
 ## 最后同步
 
-- 时间：2026-09-22, 16:58
+- 时间：2026-09-22, 17:02
 - Hub 覆盖文件可读取：是
