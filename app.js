@@ -1073,6 +1073,12 @@ function openDetail(tool) {
     link.onclick = (e) => e.preventDefault();
   }
 
+  document.getElementById("detailShareUrl").hidden = true;
+  const qrBox = document.getElementById("detailShareQrBox");
+  qrBox.hidden = true;
+  qrBox.innerHTML = "";
+  document.getElementById("detailShareQr").textContent = "显示QR码";
+
   document.getElementById("detailModal").classList.add("open");
 }
 
@@ -2204,4 +2210,24 @@ document.getElementById("detailShareLink").addEventListener("click",async()=> {
   url.searchParams.set("tool",slug);
   try { await navigator.clipboard.writeText(url.href); showToast("已复制课堂点子铺的工具链接"); }
   catch { const field=document.getElementById("detailShareUrl"); field.hidden=false; field.value=url.href; field.focus(); field.select(); showToast("请复制已选中的链接"); }
+});
+
+// QR 码用同一条工具详情链接现场生成（离线的 qrcode-generator 库，不外传网址给第三方 API）；
+// 给老师投影在班级屏幕，学生用平板/手机扫码直接进工具详情页，不用自己打字找网址。
+document.getElementById("detailShareQr").addEventListener("click",()=> {
+  const slug=new URLSearchParams(window.location.search).get("tool");
+  if (!slug) return;
+  const qrBox=document.getElementById("detailShareQr");
+  const box=document.getElementById("detailShareQrBox");
+  if (!box.hidden) { box.hidden=true; box.innerHTML=""; qrBox.textContent="显示QR码"; return; }
+  if (!box.innerHTML) {
+    const url=new URL(window.location.pathname,window.location.origin);
+    url.searchParams.set("tool",slug);
+    const qr=qrcode(0,"M");
+    qr.addData(url.href);
+    qr.make();
+    box.innerHTML=qr.createSvgTag(6,0);
+  }
+  box.hidden=false;
+  qrBox.textContent="隐藏QR码";
 });
