@@ -274,6 +274,35 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun2-bc-zonghe",
+    tahun: 2,
+    subjek: "bc",
+    status: "published",
+    title_zh: "华文勇者大冒险",
+    title_bm: "Pengembaraan Ilmu Bahasa Cina Tahun 2",
+    desc: "二年级华文跨单元综合闯关：沿着知识岛完成22个站点，从字音、词语、句子到阅读理解，按基础、进阶、勇者三档挑战，收集积分与宝石。",
+    keywords: ["二年级", "华文", "综合复习", "跨单元", "字音", "词语", "句子", "阅读理解", "知识岛", "闯关", "Bahasa Cina", "Tahun 2"],
+    url: "https://tahun2-bc-zonghe-3z8g2goax-kongsi-idea.vercel.app",
+    type: "综合复习游戏",
+    stars: 0,
+    creator: { name: "朋友原作／Kongsi Idea 整合", initial: "友" },
+    version: "0.1.0",
+    changelog: [
+      { version: "0.1.0", date: "2026-09-22", note: "首次上架预览：220题、22个知识点、公开排行榜与班级代码机制" },
+    ],
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-bc-zonghe/1-home.png", label: "首页：二年级华文复习游戏" },
+      { img: "assets/thumbs/tahun2-bc-zonghe/2-difficulty.png", label: "知识岛路线：三档难度选择" },
+      { img: "assets/thumbs/tahun2-bc-zonghe/3-question.png", label: "四选一题目：即时反馈与继续前进" },
+      { img: "assets/thumbs/tahun2-bc-zonghe/4-board.png", label: "公开排行榜：班级与全部成绩" },
+    ],
+    standards: [],
+    practiceSummary: "以四选一自动判分复习二年级华文22个跨单元知识点；题库共220题，覆盖字音、词语、句子、阅读理解等，暂不代表听说读写全部课程。",
+    teachingMode: ["电脑室小组闯关", "个人自学", "公开排行榜"],
+    prep: "2–3人一组完成22站；可直接手填组员姓名，也可在网址加入班级代码读取 Kelasku 名单并进入本班榜。完成主线后正式成绩才会写入公开排行榜；无限挑战只作练习，不计入正式榜。目前链接为验收 preview，团队默认启用 SSO，正式公开使用前需确认访问设定。",
+  },
+
+  {
     slug: "tahun3-bc-bishun",
     tahun: 3,
     subjek: "bc",
