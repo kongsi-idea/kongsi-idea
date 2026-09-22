@@ -285,7 +285,7 @@ const TOOLS = [
     url: "https://tahun2-bc-zonghe-3z8g2goax-kongsi-idea.vercel.app",
     type: "综合复习游戏",
     stars: 0,
-    creator: { name: "朋友原作／Kongsi Idea 整合", initial: "友" },
+    creator: { name: "李老师", initial: "李" },
     version: "0.1.0",
     changelog: [
       { version: "0.1.0", date: "2026-09-22", note: "首次上架预览：220题、22个知识点、公开排行榜与班级代码机制" },
