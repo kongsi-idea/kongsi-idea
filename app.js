@@ -1106,7 +1106,7 @@ function openDetail(tool) {
   const qrBox = document.getElementById("detailShareQrBox");
   qrBox.hidden = true;
   qrBox.innerHTML = "";
-  document.getElementById("detailShareQr").textContent = "显示QR码";
+  document.getElementById("detailShareLabel").textContent = "分享给学生";
 
   document.getElementById("detailModal").classList.add("open");
 }
@@ -2232,31 +2232,27 @@ if (requestedToolSlug) {
   if (requestedTool) openDetail(requestedTool);
   else showToast("找不到这个工具，请从目录重新选择。","error");
 }
-document.getElementById("detailShareLink").addEventListener("click",async()=> {
+// 分享给学生：一次点击做两件事——复制链接＋就地生成QR码（离线的 qrcode-generator
+// 库，不外传网址给第三方 API）。老师课堂上两个通常都要（投影QR＋链接留着备用），
+// 不用先选「要哪一种分享方式」。再点一次收起QR（不重复复制，避免每次点都跳提示）。
+document.getElementById("detailShareBtn").addEventListener("click",async()=> {
   const slug=new URLSearchParams(window.location.search).get("tool");
   if (!slug) return;
+  const label=document.getElementById("detailShareLabel");
+  const box=document.getElementById("detailShareQrBox");
+  if (!box.hidden) { box.hidden=true; label.textContent="分享给学生"; return; }
+
   const url=new URL(window.location.pathname,window.location.origin);
   url.searchParams.set("tool",slug);
   try { await navigator.clipboard.writeText(url.href); showToast("已复制课堂点子铺的工具链接"); }
   catch { const field=document.getElementById("detailShareUrl"); field.hidden=false; field.value=url.href; field.focus(); field.select(); showToast("请复制已选中的链接"); }
-});
 
-// QR 码用同一条工具详情链接现场生成（离线的 qrcode-generator 库，不外传网址给第三方 API）；
-// 给老师投影在班级屏幕，学生用平板/手机扫码直接进工具详情页，不用自己打字找网址。
-document.getElementById("detailShareQr").addEventListener("click",()=> {
-  const slug=new URLSearchParams(window.location.search).get("tool");
-  if (!slug) return;
-  const qrBox=document.getElementById("detailShareQr");
-  const box=document.getElementById("detailShareQrBox");
-  if (!box.hidden) { box.hidden=true; box.innerHTML=""; qrBox.textContent="显示QR码"; return; }
   if (!box.innerHTML) {
-    const url=new URL(window.location.pathname,window.location.origin);
-    url.searchParams.set("tool",slug);
     const qr=qrcode(0,"M");
     qr.addData(url.href);
     qr.make();
     box.innerHTML=qr.createSvgTag(6,0);
   }
   box.hidden=false;
-  qrBox.textContent="隐藏QR码";
+  label.textContent="收起分享";
 });

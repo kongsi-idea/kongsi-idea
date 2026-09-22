@@ -127,10 +127,14 @@
              说明／标准／版本这些给老师读的内容一律下移到分隔线以下。 -->
         <div class="detail__actions">
           <a class="detail__open" id="detailOpenLink" href="#" target="_blank" rel="noopener">开始使用</a>
-          <button type="button" id="detailShareLink" style="min-height:44px;padding:8px 14px;border:1px solid currentColor;border-radius:8px;background:transparent;color:inherit;font:inherit;cursor:pointer">复制分享链接</button>
-          <button type="button" id="detailShareQr" style="min-height:44px;padding:8px 14px;border:1px solid currentColor;border-radius:8px;background:transparent;color:inherit;font:inherit;cursor:pointer">显示QR码</button>
+          <!-- 分享给学生：一个按钮同时做两件事（复制链接＋就地显示QR码），
+               老师课堂上通常两个都要（投影QR＋链接备用），不用先选要哪个。 -->
+          <button type="button" class="detail__share" id="detailShareBtn">
+            <svg class="detail__share-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M12 3l-4 4M12 3l4 4M5 14v4a2 2 0 002 2h10a2 2 0 002-2v-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="detailShareLabel">分享给学生</span>
+          </button>
           <input id="detailShareUrl" type="text" readonly hidden aria-label="工具分享链接" style="width:100%;padding:10px;user-select:text">
-          <div id="detailShareQrBox" hidden style="margin-top:8px;padding:12px;background:#fff;border-radius:8px;width:fit-content"></div>
+          <div class="detail__share-qr" id="detailShareQrBox" hidden></div>
         </div>
         <hr class="detail__rule">
         <div class="creator" id="detailCreator"></div>
