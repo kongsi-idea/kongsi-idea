@@ -32,6 +32,8 @@
 16. `kongsi-idea.vercel.app` 域名可能从专案（`prj_Oyf637d4j8ODuilHIY7eZ2OoZswQ`）Domains列表消失（边缘缓存顶旧内容仍200）——线上无反应先查 Domains 列表，`POST /v10/projects/{id}/domains` 加回
 17. **只开放anon INSERT不开放SELECT的表，insert 绝不能带 `.select()`／`Prefer: return=representation`**（RETURNING读回要过SELECT检查，会撞 `42501`）。一律 `Prefer: return=minimal`
 18. 不需要 `supabase` CLI/`psql`：`supabase/.secrets.local.md` 存DB密码，Python `psycopg2` 直连 `db.{project_ref}.supabase.co:5432` 跑 migration，比手贴 Dashboard 快；Dashboard 降级为备案
+19. 详情弹窗「分享给学生」是**一个按钮同时做两件事**（复制链接＋就地生成QR码，`qrcode-generator` CDN 离线库，不外传网址给第三方 API），2026-09-25 老师反馈原本「复制分享链接」+「显示QR码」两个等重按钮排版鸡肋、跟「开始使用」抢视觉重量后改的——不要拆回两个按钮，也不要加"先选分享方式"的中间步骤，老师课堂场景两个通常都要。按钮样式故意做得比 `.detail__open` 轻（`.detail__share`，无边框、小字），维持关键决定7「第一屏只留一个焦点给学生」。
+20. **详情打开次数（浏览→使用转化率）尚未做**，2026-09-25 讨论过：工程量小（现有 `tool_stats` 表加一栏＋RPC，複用 `increment_tool_uses` 那套模式），但老师自己一人经营、单工具日打开量小，数字只能当方向参考不能精算——之后要做才做，不是遗漏也不用主动补
 
 ## 视觉设计
 布告栏意象；不用 emoji，图钉/星星用 CSS/SVG；科目用缩写字母徽章（MT/BM/BI/BC/SA）；配色（跟 EduNeo 区分）：暖纸白 `#FBF6EC`、黑板绿 `#1F3A34`、橙黄 `#E8873E`、天空蓝 `#4FA8D8`（马来文）、珊瑚红 `#D65B4A`（中文/星星）、暖金 `#F0B429`；卡片±1-2°随机倾斜
