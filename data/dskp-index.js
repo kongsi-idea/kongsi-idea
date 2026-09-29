@@ -113,6 +113,26 @@ const DSKP_INDEX = [
           },
         ],
       },
+      {
+        // 马来文用词照 docs/dskp-bm-glossary-mt-sains.md（已核对官方 DSKP）
+        code: "3.0",
+        title_zh: "数与运算——分数",
+        title_bm: "Pecahan",
+        objectives: [
+          {
+            code: "3.1",
+            title_zh: "二等份和四等份的真分数概念（1/2、1/4、2/4、3/4）",
+            title_bm: "Konsep perdua dan perempat pecahan wajar",
+            terms: ["分数", "几分之几", "二分之一", "四分之一", "四分之三", "等分", "一半", "pecahan", "perdua", "perempat", "pecahan wajar", "separuh", "suku"],
+          },
+          {
+            code: "3.2",
+            title_zh: "解决问题：分数相关日常应用题",
+            title_bm: "Penyelesaian masalah",
+            terms: ["分数应用题", "分东西", "penyelesaian masalah pecahan"],
+          },
+        ],
+      },
     ],
   },
   {

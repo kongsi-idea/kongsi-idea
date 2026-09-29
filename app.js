@@ -140,6 +140,40 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-mt-pecahan",
+    tahun: 1,
+    subjek: "mt",
+    status: "published",
+    title_zh: "燕菜切切乐",
+    title_bm: "Potong Agar-agar: Perdua dan Perempat",
+    desc: "在娘惹糕点铺的大理石桌上，用鼠标或手指在燕菜上划一条线就能切开，切开会抖。「分给朋友」要把燕菜分给 2 或 4 位动物朋友，切歪了照样分下去——拿到小块的朋友会说「我的比较小…」，让孩子亲眼看到「不一样大就不是几分之一」。「燕菜铺开张」有 10 位客人：先切成一样大再拿几块给客人、看盘上虚线空位说出拿走了几分之几、判断亮起的那块是不是四分之一（含切不等分的陷阱题），成绩上班级排行榜。「自由切」给老师示范，可关掉「帮手刀」故意切歪。全程有预录的真人感朗读。",
+    keywords: ["分数", "几分之几", "二分之一", "四分之一", "四分之二", "四分之三", "等分", "一年级", "数学", "pecahan", "perdua", "perempat", "pecahan wajar", "燕菜", "agar-agar", "切蛋糕", "排行榜"],
+    url: "https://tahun1-mt-pecahan.vercel.app",
+    type: "游戏",
+    hasLeaderboard: true,
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-09-29", note: "首次上架：分给朋友 5 关、燕菜铺开张 10 位客人（接班级名单与排行榜）、自由切；预录人声朗读；手机竖屏／横屏版面" },
+    ],
+    // 这 5 张是用 Playwright 实际操作 https://tahun1-mt-pecahan.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-mt-pecahan/1-home.png", label: "娘惹糕点铺首页：点燕菜会抖" },
+      { img: "assets/thumbs/tahun1-mt-pecahan/2-share-unfair.png", label: "切歪了照样分：拿到小块的朋友会不高兴" },
+      { img: "assets/thumbs/tahun1-mt-pecahan/3-share-fair.png", label: "切成 4 块一样大，每人得到四分之一" },
+      { img: "assets/thumbs/tahun1-mt-pecahan/4-shop-order.png", label: "燕菜铺：客人要四分之三，拿 3 块进打包盒" },
+      { img: "assets/thumbs/tahun1-mt-pecahan/5-shop-isit.png", label: "陷阱题：4 块不一样大，所以不是四分之一" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1", "3.2"] },
+    ],
+    practiceSummary: "用切燕菜建构二等份、四等份的真分数（1/2、1/4、2/4、3/4）；分辨「一样大才是几分之几」；解决分给朋友、客人点单的日常分数问题",
+    teachingMode: ["投影互动", "教师带教/演示", "个人自学"],
+    prep: "打开即用，不需要打印；电脑用鼠标划线、平板／一体机／手机用手指划线都可以。有声音朗读（建议开喇叭）。「燕菜铺开张」会请学生点自己的名字上班级排行榜（网址带 ?code= 班级代码，或当访客自己写名字）；老师示范用「自由切」，可关掉「帮手刀」故意切歪给全班看",
+  },
+
+  {
     slug: "tahun4-mt-nombor",
     tahun: 4,
     subjek: "mt",
