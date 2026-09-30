@@ -31,7 +31,7 @@
 15. 「网页浏览量」2026-09-11起用真实计数（`page_view_counter`+RPC，见 `supabase/migration-2026-09-11-page-views.sql`），历史无法补回，**不可用估算值填**，数字落差宁可暂藏统计卡不编数字。2026-09-17改名「次到访」并加30分钟session去重（`localStorage` key `kongsi-idea-last-visit-ts`）——单纯刷新会灌水，不反映真实到访意图；窗口内改打 `get_page_views()` 只读不加，超过窗口才打 `increment_page_views()`。这也是客户端估计值（清cache/换设备会重算），不是真独立访客数，但比纯page view更接近
 16. `kongsi-idea.vercel.app` 域名可能从专案（`prj_Oyf637d4j8ODuilHIY7eZ2OoZswQ`）Domains列表消失（边缘缓存顶旧内容仍200）——线上无反应先查 Domains 列表，`POST /v10/projects/{id}/domains` 加回
 17. **只开放anon INSERT不开放SELECT的表，insert 绝不能带 `.select()`／`Prefer: return=representation`**（RETURNING读回要过SELECT检查，会撞 `42501`）。一律 `Prefer: return=minimal`
-18. 不需要 `supabase` CLI/`psql`：`supabase/.secrets.local.md` 存DB密码，Python `psycopg2` 直连 `db.{project_ref}.supabase.co:5432` 跑 migration，比手贴 Dashboard 快；Dashboard 降级为备案
+18. 不需要 `supabase` CLI/`psql`：`supabase/.secrets.local.md` 存DB密码，Python `psycopg2` 直连 `db.{project_ref}.supabase.co:5432` 跑 migration，比手贴 Dashboard 快；Dashboard 降级为备案。密码那行是全角冒号 `Database password：`，解析用 `[:：]`，**不要把档案内容印出来**
 19. 详情弹窗「分享给学生」是**一个按钮同时做两件事**（复制链接＋就地生成QR码，`qrcode-generator` CDN 离线库，不外传网址给第三方 API），2026-09-25 老师反馈原本「复制分享链接」+「显示QR码」两个等重按钮排版鸡肋、跟「开始使用」抢视觉重量后改的——不要拆回两个按钮，也不要加"先选分享方式"的中间步骤，老师课堂场景两个通常都要。按钮样式故意做得比 `.detail__open` 轻（`.detail__share`，无边框、小字），维持关键决定7「第一屏只留一个焦点给学生」。
 20. **详情打开次数（浏览→使用转化率）尚未做**，2026-09-25 讨论过：工程量小（现有 `tool_stats` 表加一栏＋RPC，複用 `increment_tool_uses` 那套模式），但老师自己一人经营、单工具日打开量小，数字只能当方向参考不能精算——之后要做才做，不是遗漏也不用主动补
 
