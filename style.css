@@ -20,6 +20,18 @@
   --field-pad-y: 12px;
   --field-pad-x: 16px;
   --field-font: 0.92rem;
+
+  /* 页面「天地格」：所有区块共用同一条左右边界与上下节奏。
+     内容最宽 1200px（桌面上一行 4 张卡刚好），两侧至少留 --gutter；
+     区块之间统一用 --space-section，不再各自写一个 clamp。 */
+  --page-max: 1200px;
+  --gutter: clamp(16px, 4vw, 40px);
+  --space-section: clamp(28px, 4vw, 48px);
+}
+
+.container {
+  width: min(100% - 2 * var(--gutter), var(--page-max));
+  margin-inline: auto;
 }
 
 * { box-sizing: border-box; }
@@ -124,11 +136,13 @@ body {
 
 /* ---------- Header ---------- */
 .site-head {
+  padding: 28px 0 18px;
+  border-bottom: 3px dashed rgba(31,58,52,0.15);
+}
+.site-head__inner {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 28px clamp(20px, 5vw, 56px) 18px;
-  border-bottom: 3px dashed rgba(31,58,52,0.15);
 }
 .site-head__mark {
   width: 14px;
@@ -209,12 +223,12 @@ body {
   flex-wrap: wrap;
   gap: 14px;
   align-items: center;
-  padding: 18px clamp(16px, 5vw, 52px) 0;
+  padding: 18px 0 0;
 }
 .search { flex: 1; min-width: 220px; }
 /* ---------- Facets: 年级 / 科目 双条件筛选，可同时选 ---------- */
 .facets {
-  padding: 18px clamp(16px, 5vw, 52px) 4px;
+  padding: 18px 0 4px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -252,23 +266,29 @@ body {
 }
 
 /* ---------- Board ---------- */
+/* 栏数交给浏览器按宽度算：每张卡至少 250px（放得下放大后的字），
+   桌面 4 栏、平板 2 栏、手机 1 栏；min(100%, …) 让超窄屏也不会横向溢出 */
 .board {
   background: #fff;
-  margin: 14px clamp(16px, 5vw, 52px) 0;
+  margin-top: 14px;
   border-radius: 12px;
   box-shadow: 0 4px 14px rgba(31,58,52,0.08);
-  padding: clamp(24px, 4vw, 40px);
+  padding: clamp(16px, 3vw, 32px);
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 28px 22px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  gap: 32px 24px;
   min-height: 320px;
 }
 .board__empty {
-  margin: 18px clamp(16px, 5vw, 52px) 0;
+  margin: 18px 0 0;
   color: rgba(31,58,52,0.5);
   font-size: 0.9rem;
 }
 
+/* 卡片内部 7 行：缩略图／中文名／马来文名／作者／标签／代号／统计。
+   用 subgrid 让同一排卡片共用这 7 条行线——某张卡的马来文名折成两行，
+   同排其他卡的作者、标签、统计也一起往下对齐，不会高低错落。
+   不支持 subgrid 的旧浏览器退回单卡直排，内容不受影响。 */
 .card {
   background: var(--paper);
   border-radius: var(--card-radius);
@@ -277,6 +297,17 @@ body {
   box-shadow: 0 6px 14px rgba(31,58,52,0.1);
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+@supports (grid-template-rows: subgrid) {
+  .card {
+    display: grid;
+    grid-row: span 7;
+    grid-template-rows: subgrid;
+    row-gap: 8px;
+  }
 }
 .card:nth-child(3n) { transform: rotate(-1.4deg); }
 .card:nth-child(3n+1) { transform: rotate(1.1deg); }
@@ -302,7 +333,7 @@ body {
   position: relative;
   aspect-ratio: 4 / 3;
   border-radius: 8px;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   overflow: hidden;
   background:
     repeating-linear-gradient(45deg, rgba(232,135,62,0.16) 0 14px, rgba(214,91,74,0.14) 14px 28px),
@@ -345,9 +376,12 @@ body {
 .card__tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 10px;
+  align-content: flex-start;
+  gap: 6px;
 }
+.card .creator { margin: 0; }
+.card .creator__name { font-size: 0.88rem; }
+.card .tag { font-size: 0.8rem; padding: 4px 10px; }
 .tag {
   font-size: 0.68rem;
   padding: 3px 9px;
@@ -357,14 +391,17 @@ body {
 }
 .card__title-zh {
   font-family: var(--font-display);
-  font-size: 1.05rem;
-  margin: 0 0 2px;
+  font-size: clamp(1.15rem, 1rem + 0.4vw, 1.35rem);
+  line-height: 1.3;
+  margin: 0;
 }
 .card__title-bm {
-  font-size: 0.78rem;
-  color: rgba(31,58,52,0.55);
-  margin: 0 0 10px;
+  font-size: 0.92rem;
+  line-height: 1.4;
+  color: rgba(31,58,52,0.6);
+  margin: 0;
 }
+.card > .card__slug { justify-self: start; align-self: start; font-size: 0.76rem; }
 .card__slug {
   font-family: var(--font-mono);
   font-size: 0.68rem;
@@ -375,7 +412,8 @@ body {
   color: rgba(31,58,52,0.6);
 }
 .card__stats {
-  margin-top: 12px;
+  align-self: end;
+  margin-top: 4px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -383,7 +421,7 @@ body {
 }
 .card__like {
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: rgba(31,58,52,0.45);
   background: none;
   border: none;
@@ -400,7 +438,7 @@ body {
 .card__like.liked { color: var(--gold); }
 .card__like.liked .star-icon { fill: var(--gold); }
 .card__uses {
-  font-size: 0.72rem;
+  font-size: 0.85rem;
   color: rgba(31,58,52,0.45);
 }
 
@@ -409,7 +447,7 @@ body {
    4 个东西常常挤成 3+1，最后一个孤零零飘在中间对不齐上面任何一栏，grid 直接锁死每个断点的欄数 */
 .stats-section {
   background: var(--ink);
-  padding: clamp(40px, 6vw, 64px) clamp(20px, 5vw, 56px) clamp(24px, 4vw, 36px);
+  padding: clamp(40px, 6vw, 64px) 0 clamp(24px, 4vw, 36px);
 }
 .stats-bar {
   display: grid;
@@ -459,6 +497,7 @@ body {
 }
 .stat--pending .stat__num { color: rgba(251,246,234,0.35); }
 .star-icon { width: 14px; height: 14px; fill: var(--gold); }
+.card__like .star-icon { width: 16px; height: 16px; }
 
 /* ---------- 新访客欢迎侧边卡：从右边滑入，只在第一次造访时出现 ---------- */
 .welcome-toast {
@@ -529,7 +568,7 @@ body {
 
 /* ---------- About ---------- */
 .about {
-  padding: 48px clamp(20px, 5vw, 56px) 70px;
+  padding: var(--space-section) 0 calc(var(--space-section) * 1.5);
   display: flex;
   justify-content: center;
 }
@@ -911,7 +950,7 @@ body {
 
 /* ============ 按学习目标找工具（主入口） ============ */
 .finder {
-  margin: 20px clamp(16px, 5vw, 52px) 0;
+  margin-top: var(--space-section);
   background: #fff;
   border-radius: 14px;
   padding: clamp(22px, 4vw, 34px);
@@ -1071,11 +1110,11 @@ body {
 .finder-card__meta dd { margin: 0; font-size: 0.86rem; }
 
 /* ============ 浏览全部工具（辅助路径） ============ */
-.browse { margin-top: 30px; }
+.browse { margin-top: var(--space-section); }
 .browse__title {
   font-family: var(--font-display);
   font-size: 1.1rem;
-  margin: 0 0 4px clamp(16px, 5vw, 52px);
+  margin: 0 0 4px;
   color: rgba(31,58,52,0.6);
 }
 
@@ -1144,7 +1183,7 @@ body {
 .wish__btn--submit:not(:disabled) { background: var(--orange); color: #fff8ef; cursor: pointer; }
 
 @media (max-width: 640px) {
-  .site-head { flex-wrap: wrap; }
+  .site-head__inner { flex-wrap: wrap; }
   .wish-btn { margin-left: 0; }
   .finder-card__meta { grid-template-columns: 1fr; }
   .finder__row { grid-template-columns: 1fr; }

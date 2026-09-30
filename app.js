@@ -849,6 +849,11 @@ function getVoterKey() {
 
 const toolStatsCache = {}; // slug -> { likesCount, usesCount, liked }
 
+// 上次从服务器拿到的真实数字先记在本机：再次打开时卡片直接按上次的喜欢数排好，
+// 不会先按预设顺序排、等 Supabase 回来再整批跳位置（老师以为页面还在载入）。服务器一回来就覆盖。
+const TOOL_STATS_CACHE_KEY = "kongsi-idea-tool-stats-cache";
+try { Object.assign(toolStatsCache, JSON.parse(localStorage.getItem(TOOL_STATS_CACHE_KEY) || "{}")); } catch (e) { /* 读不到就当第一次来 */ }
+
 function getUses(slug) {
   return (toolStatsCache[slug] && toolStatsCache[slug].usesCount) || 0;
 }
@@ -876,6 +881,7 @@ async function loadToolStats() {
       liked: likedSlugs.has(t.slug),
     };
   });
+  try { localStorage.setItem(TOOL_STATS_CACHE_KEY, JSON.stringify(toolStatsCache)); } catch (e) { /* 存不了不影响画面 */ }
   renderBoard();
   renderStats();
 }
@@ -990,20 +996,30 @@ function creatorHtml(tool) {
   return `<div class="creator"><span class="creator__avatar">${c.initial}</span><span class="creator__name">${c.name}</span></div>`;
 }
 
-function cardHtml(tool) {
+// 卡片与详情弹窗用 scripts/build-thumbs.py 产生的轻量 WebP（最长边 960px），
+// 原图 PNG 动辄 0.5–2MB，只留给灯箱放大看。WebP 还没产生（新工具忘了跑脚本）就自动退回原图，不会破图。
+function webThumb(img) {
+  return img.replace(/^assets\/thumbs\//, "assets/thumbs-web/").replace(/\.(png|jpe?g|webp)$/i, ".webp");
+}
+function thumbImgHtml(shot, eager) {
+  const fallback = `this.onerror=null;this.src='${shot.img}'`;
+  return `<img src="${webThumb(shot.img)}" alt="${shot.label || ""}" loading="${eager ? "eager" : "lazy"}" decoding="async" onerror="${fallback}">`;
+}
+
+function cardHtml(tool, index) {
   const uses = getUses(tool.slug);
   const liked = hasLiked(tool.slug);
   const cover = tool.thumbnails && tool.thumbnails[0];
   return `
     <div class="card" data-slug="${tool.slug}">
       <div class="card__thumb">${cover
-        ? (cover.img ? `<img src="${cover.img}" alt="${cover.label || ""}">` : `<span>${cover.label}</span>`)
+        ? (cover.img ? thumbImgHtml(cover, index < 4) : `<span>${cover.label}</span>`)
         : `<span>${subjectBadge(tool.subjek)}</span>`}${tool.hasLeaderboard
         ? `<a class="card__board" href="${tool.url}?board=1" target="_blank" rel="noopener" title="查看排行榜" onclick="event.stopPropagation()">🏆</a>`
         : ""}</div>
       <h3 class="card__title-zh">${tool.title_zh}</h3>
       <p class="card__title-bm">${tool.title_bm}</p>
-      ${creatorHtml(tool)}
+      ${creatorHtml(tool) || '<div class="creator"></div>'}
       <div class="card__tags">${tagChips(tool)}</div>
       <span class="card__slug">${tool.slug}</span>
       <div class="card__stats">
@@ -1040,7 +1056,7 @@ function renderBoard() {
   // 喜欢数最多的排前面，是老师最先看到的
   list = list.slice().sort((a, b) => getLikes(b) - getLikes(a));
 
-  boardEl.innerHTML = list.map(cardHtml).join("");
+  boardEl.innerHTML = list.map((tool, i) => cardHtml(tool, i)).join("");
   boardEmptyEl.hidden = list.length > 0;
   boardEl.hidden = list.length === 0;
 
@@ -1071,7 +1087,7 @@ function renderGallery(thumbnails) {
   lightboxShots = shots;
   el.className = "detail__gallery detail__gallery--" + shots.length;
   el.innerHTML = shots.map((s, i) =>
-    `<div class="detail__shot" data-index="${i}">${s.img ? `<img src="${s.img}" alt="${s.label || ""}">` : `<span>${s.label || "缩略图待补"}</span>`}</div>`
+    `<div class="detail__shot" data-index="${i}">${s.img ? thumbImgHtml(s, true) : `<span>${s.label || "缩略图待补"}</span>`}</div>`
   ).join("");
   el.querySelectorAll(".detail__shot").forEach((shotEl) => {
     shotEl.addEventListener("click", () => openLightbox(Number(shotEl.dataset.index)));

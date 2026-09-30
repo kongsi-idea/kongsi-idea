@@ -4,6 +4,8 @@
 
 ## ⏯️ 目前做到哪
 
+**2026-09-30：首页载入提速＋版面整理**（老师问 loading 慢、没有天地格、卡片字太小）：① 缩略图改用 WebP 小图（首页下载 8.56MB→0.87MB），`vercel.json` 加 `/assets/*` 缓存，喜欢数本机缓存避免载入后卡片整批跳位；② 全站 `.container` 天地格；③ 卡片 subgrid 行对齐＋字放大。细节见 `agents.md` 关键决定 21、22。本地 Playwright 320/390/820/1280/1920 验过（无横向溢出、console 无报错、弹窗/灯箱/WebP 退回原图正常）。部署状态见下方「最后更新」。
+
 **2026-09-25：工具详情弹窗「分享给学生」功能上线（两次迭代）**：第一版做了 QR 码分享（`43776e0`），第二版依老师反馈把「复制分享链接」「显示QR码」两个等重按钮合并成一个次要小图标按钮 `#detailShareBtn`（`d74e91e`）——点一下同时复制链接＋就地生成QR码（`qrcode-generator` CDN，离线生成不外传网址），再点一次收起；换工具时状态自动重置。设计原因见 `agents.md` 关键决定 19。两次都用独立起的 headless Chromium（非共享 Playwright MCP，当时被另一 session 锁住）跑过 Playwright 验证（生成/切换/换工具重置、剪贴板内容、console 无相关报错），均已 `git push` + `vercel --prod --yes` + `vercel alias set --scope kongsi-idea` 三步生产部署，curl 复验线上文件含新代码。讨论中确认「详情打开次数」转化率指标暂不做（见 `agents.md` 关键决定 20），老师说好再动手。
 
 ## 🚦 目前状态
