@@ -754,30 +754,31 @@ const TOOLS = [
     status: "published",
     title_zh: "浮沉实验室：密度大发现",
     title_bm: "Makmal Terapung-Tenggelam: Ketumpatan",
-    desc: "专业科学模拟风格的密度实验室，四个实验站对应 DSKP 7.1.1–7.1.4：① 先预测再放入烧杯水槽，结果自动记进实验记录表并分类浮／沉；② 用电子天平称重，发现「大木块比小铁钉重却会浮」，破除「重的会沉」误解；③ 一勺一勺加盐，看鸡蛋慢慢浮起，理解加盐增加水的密度；④ 生活难题：神秘方块排序、做木筏、救生衣、海水与河水。最后生成学习报告。自学／老师（投影）双模式，数值密度默认隐藏。浮沉机制概念参考 PhET Density，界面与程序为原创实现。",
-    keywords: ["密度", "浮沉", "三年级", "科学", "density", "ketumpatan", "terapung", "tenggelam", "加盐", "鸡蛋", "预测", "实验记录"],
+    desc: "3D 写实的厨房实验台，真实浮力物理（东西会翻转、溅水花、冒气泡，水位会上升）。五个实验对应 DSKP 7.1：① 猜一猜：先猜浮或沉再放进水缸，结果自动分成浮／沉两组，再推断原因（7.1.1）；② 重的会沉吗：电子秤称重，大木块比铁钉重却会浮、剥了皮的橙子反而沉，并和「一样大小的水」比一比（7.1.2）；③ 救救鸡蛋：一匙一匙加盐或糖、汤匙搅拌，看鸡蛋慢慢浮起，自动记录（7.1.3）；④ 液体分层：油、炼奶倒进水里，再做五层彩虹杯，放软木塞、小番茄、葡萄看停在哪一层（DSKP 活动建议）；⑤ 我的发现：用实验时自动拍下的照片，拼句子做发现卡展示（7.1.4）。",
+    keywords: ["密度", "浮沉", "三年级", "科学", "density", "ketumpatan", "terapung", "tenggelam", "加盐", "加糖", "鸡蛋", "液体分层", "彩虹杯", "天平", "3D"],
     url: "https://tahun3-dst-density.vercel.app",
     type: "工具",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
-    version: "2.0",
+    version: "3.0",
     changelog: [
+      { version: "3.0", date: "2026-10-02", note: "整个重做成 3D 厨房实验台：真实浮力物理、水花与气泡；水缸为主角，物品架点一下就放进水里，拖到秤上自动称重；依 DSKP 原件补上加糖、油与炼奶、彩色液体分层、剥皮橙子；新增「我的发现」卡（7.1.4）" },
       { version: "2.0", date: "2026-09-17", note: "全面重做为专业科学模拟：四个实验站对应 7.1.1–7.1.4＋学习报告；自学／老师投影双模式；SVG 烧杯水槽与半物理浮力（浸水比例＝密度比）；电子天平破除「重的会沉」误解；12 张写实物体素材取代图标；移除「轻/重」误导用语，数值密度默认隐藏" },
       { version: "1.0", date: "2026-07-21", note: "首次上架" },
     ],
-    // v2.0 缩图：2026-09-17 用 Playwright 实际操作正式网址 https://tahun3-dst-density.vercel.app 截的真实画面，不是 mock
+    // v3.0 缩图：2026-10-02 用 Playwright 实际操作正式网址 https://tahun3-dst-density.vercel.app 截的真实画面，不是 mock
     thumbnails: [
-      { img: "assets/thumbs/tahun3-dst-density/v2-1-predict.png", label: "站①预测与分类：先预测再放入，实验记录表自动登记浮沉结果" },
-      { img: "assets/thumbs/tahun3-dst-density/v2-2-weight-density.png", label: "站②重量还是密度：电子天平称重，大木块浮、小铁钉沉" },
-      { img: "assets/thumbs/tahun3-dst-density/v2-3-salt-egg.png", label: "站③改变液体：逐勺加盐，鸡蛋从沉底到浮上水面" },
-      { img: "assets/thumbs/tahun3-dst-density/v2-4-teacher.png", label: "老师投影模式：全班先预测再揭晓" },
+      { img: "assets/thumbs/tahun3-dst-density/v3-1-predict.png", label: "① 猜一猜：物品悬在水缸上方，先猜会浮还是会沉，再放进去" },
+      { img: "assets/thumbs/tahun3-dst-density/v3-2-scale.png", label: "② 重的会沉吗：大木块放在电子秤上，大字卡显示重量；铁钉已沉到缸底" },
+      { img: "assets/thumbs/tahun3-dst-density/v3-3-egg.png", label: "③ 救救鸡蛋：加了 4 匙盐，鸡蛋浮上水面，左边自动记录每一匙的结果" },
+      { img: "assets/thumbs/tahun3-dst-density/v3-4-rainbow.png", label: "④ 液体分层：五层彩虹杯，软木塞浮在最上面、小番茄停在油和水中间" },
     ],
     standards: [
       { curriculum: "KSSR Semakan 2017", unitCode: "7.1", objectiveCodes: ["7.1.1", "7.1.2", "7.1.3", "7.1.4"] },
     ],
-    practiceSummary: "推断物体材料浮沉、联系浮沉与密度、确认增加水密度的方法、应用密度知识解决问题",
+    practiceSummary: "推断物体与材料的浮沉、联系浮沉与密度、确认增加水密度的方法（盐、糖）、观察液体分层，并用照片与句子解释发现",
     teachingMode: ["投影互动", "教师带教/演示", "学生自学"],
-    prep: "打开即用，不需要打印，不需要真的水缸教具；投影请切「老师」模式（字更大、全班先预测再揭晓），电脑室个人练习用「自学」模式（进度存在该浏览器）",
+    prep: "打开即用，不需要真的水缸；建议用电脑或触控一体机横屏（3D 画面，旧电脑会自动降画质）。进度只存在该浏览器。数字模拟不替代真实的加盐救鸡蛋实验，可先模拟再动手做",
   },
 
   {
