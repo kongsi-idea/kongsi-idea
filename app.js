@@ -419,7 +419,7 @@ const TOOLS = [
     version: "1.1",
     changelog: [
       { version: "1.1", date: "2026-10-01", note: "照国文老师核对修改笔顺：e 2 画、J 先竖弯钩后横、K/k 3 画交在竖线上、M 4 画尖头到底、V/v 2 画与 W/w 4 画（往上那画从底往上）、大写 U 没有尾巴" },
-      { version: "1.1", date: "2026-10-01", note: "首次上架：A–Z 26 组大小写笔顺（自动写／逐步／学生描写）、等距四线、字母挂卡主页、马来文介面" },
+      { version: "1.0", date: "2026-10-01", note: "首次上架：A–Z 26 组大小写笔顺（自动写／逐步／学生描写）、等距四线、字母挂卡主页、马来文介面" },
     ],
     // 这 5 张是用 Playwright 实际操作 https://tahun1-bm-huruf.vercel.app 截的真实画面（第 4、5 张是真的用滑鼠描 Q q），不是 mock
     thumbnails: [
