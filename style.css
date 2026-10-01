@@ -263,6 +263,13 @@ body {
   background: var(--ink);
   color: var(--paper);
 }
+/* 还没有工具的科目：留着让老师知道「这科可以开发」，但灰掉、按不到 */
+.chip:disabled {
+  background: transparent;
+  color: rgba(31,58,52,0.32);
+  box-shadow: inset 0 0 0 1.5px rgba(31,58,52,0.12);
+  cursor: not-allowed;
+}
 
 /* ---------- Board ---------- */
 /* 栏数交给浏览器按宽度算：每张卡至少 250px（放得下放大后的字），

@@ -962,6 +962,12 @@ function renderFacet(container, options, activeValue, onPick) {
     const btn = document.createElement("button");
     btn.className = "chip" + (opt.value === activeValue ? " active" : "");
     btn.textContent = opt.label;
+    if (opt.disabled) {
+      btn.disabled = true;
+      btn.title = "这个科目还没有工具";
+      container.appendChild(btn);
+      return;
+    }
     btn.addEventListener("click", () => {
       onPick(opt.value);
       saveBoardFilter();
@@ -972,8 +978,20 @@ function renderFacet(container, options, activeValue, onPick) {
   });
 }
 
-// 筛选只列「真的有工具」的年级／科目：原本 13 个科目全列，一半点下去是空白，手机上还占 5 行。
-// 科目跟着已选年级走（选 1 年级就只剩 1 年级有工具的科目）；之前存的科目在新年级没有工具就回到「全部」。
+// 科目筛选：有工具的排前面可以按；还没有工具的排后面、灰色按不到——不删掉，让老师看得出「这科还能开发」
+// （2026-10-01 老师定）。科目跟着已选年级走；之前存的科目在新年级没有工具就回到「全部」。
+// 年级目前每级都有工具，没工具的年级直接不列。
+// 灰色只放「这个年级课纲里本来就有」的科目；课纲没有的（如 4 年级的科学与科技世界）不列，
+// 不然会被误读成「可以开发」。年级分段依 docs/subjek-tahun.md（KSSR Semakan 2017，2026-07-21 查证）。
+const SUBJECT_TAHUN = { dst: [1, 2, 3], sains: [4, 5, 6], sejarah: [4, 5, 6], rbt: [4, 5, 6] };
+function subjectOfferedIn(code, tahun) {
+  return !tahun || tahun === "all" || !SUBJECT_TAHUN[code] || SUBJECT_TAHUN[code].includes(Number(tahun));
+}
+function withEmptySubjectsLast(available, tahun) {
+  const codes = new Set(available.map((s) => s.code));
+  const empty = SUBJECTS.filter((s) => !codes.has(s.code) && subjectOfferedIn(s.code, tahun));
+  return [...available.map((s) => ({ ...s, empty: false })), ...empty.map((s) => ({ ...s, empty: true }))];
+}
 function publishedTools() {
   return TOOLS.filter((t) => t.status === "published" && !!t.url);
 }
@@ -991,7 +1009,7 @@ function renderFacets() {
   );
   renderFacet(
     subjekFacetEl,
-    [{ value: "all", label: "全部" }, ...subjects.map((s) => ({ value: s.code, label: s.title_zh }))],
+    [{ value: "all", label: "全部" }, ...withEmptySubjectsLast(subjects, gradeFilter).map((s) => ({ value: s.code, label: s.title_zh, disabled: s.empty }))],
     subjekFilter,
     (v) => (subjekFilter = v)
   );
@@ -1261,8 +1279,8 @@ const FINDER_SHORTCUTS = [
 finderTahunEl.innerHTML = '<option value="">选年级 Tahun</option>' +
   TAHUN.map((t) => `<option value="${t}">Tahun ${t}（${t}年级）</option>`).join("");
 
-// 科目下拉只列「这个年级真的有东西」的科目（有学习目标索引，或至少有一个已发布工具）。
-// 2026-10-01 前 13 科全列、12 科挂「整理中」，老师选了走进死路，整页也像没做完。
+// 科目下拉：这个年级有东西的科目（有学习目标索引，或至少有一个已发布工具）排前面；
+// 没有工具的排后面、灰色不能选——保留让老师知道还能开发。2026-10-01 前 12 科挂「整理中」又能选，选了走进死路。
 function finderSubjectsFor(tahun) {
   return SUBJECTS.filter((s) => findDskpRecord(tahun, s.code) || finderToolsFor(tahun, s.code).length);
 }
@@ -1273,7 +1291,9 @@ function fillFinderSubjekOptions() {
   finderSubjekEl.dataset.tahun = String(finderState.tahun);
   finderSubjekEl.disabled = false;
   finderSubjekEl.innerHTML = '<option value="">选科目 Subjek</option>' +
-    finderSubjectsFor(finderState.tahun).map((s) => `<option value="${s.code}">${s.title_zh}</option>`).join("");
+    withEmptySubjectsLast(finderSubjectsFor(finderState.tahun), finderState.tahun).map((s) =>
+      s.empty ? `<option value="${s.code}" disabled>${s.title_zh}</option>` : `<option value="${s.code}">${s.title_zh}</option>`
+    ).join("");
 }
 
 // 常用入口：有学习目标索引的直接跳到那个单元；没有索引的当关键词搜索（同时筛下方卡片）。
