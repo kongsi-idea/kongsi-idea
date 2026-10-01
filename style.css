@@ -4,6 +4,7 @@
   --ink: #1F3A34;
   --orange: #E8873E;
   --blue: #4FA8D8;
+  --blue-deep: #23729E; /* 天空蓝的深一阶：白字放上去对比 5.3:1，过 WCAG AA；原天空蓝配白字只有 2.6 */
   --red: #D65B4A;
   --gold: #F0B429;
   --card-radius: 10px;
@@ -75,7 +76,6 @@
 }
 
 /* ---------- 统一控件规格：搜索框/下拉选单/文字输入/文字区一律套用同一套尺寸 ---------- */
-.search input,
 .finder__row select,
 .finder__search input,
 .wish__field textarea,
@@ -93,7 +93,6 @@
   background: #fff;
   color: var(--ink);
 }
-.search input:focus,
 .finder__row select:focus,
 .finder__search input:focus,
 .wish__field textarea:focus,
@@ -144,6 +143,7 @@ body {
   align-items: center;
   gap: 16px;
 }
+.site-head__actions { display: flex; gap: 12px; }
 .site-head__mark {
   width: 14px;
   height: 14px;
@@ -216,16 +216,15 @@ body {
 .wish-btn:hover { transform: translateY(-2px); }
 .wish-btn:active { transform: translateY(1px); box-shadow: 0 2px 0 rgba(31,58,52,0.25); }
 .wish-btn__sub { display: block; font-size: 0.68rem; font-weight: normal; opacity: 0.85; }
-
-/* ---------- Controls: search + view switch ---------- */
-.controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  align-items: center;
-  padding: 18px 0 0;
+/* 页首只留一个主按钮（许愿池）；「我的班级」是已登记老师才常用的入口，降为次要样式，不跟它抢视线 */
+.wish-btn--quiet {
+  background: var(--paper-deep);
+  color: var(--ink);
+  box-shadow: 0 4px 0 rgba(31,58,52,0.12);
+  text-decoration: none;
+  text-align: center;
 }
-.search { flex: 1; min-width: 220px; }
+
 /* ---------- Facets: 年级 / 科目 双条件筛选，可同时选 ---------- */
 .facets {
   padding: 18px 0 4px;
@@ -285,7 +284,7 @@ body {
   font-size: 0.9rem;
 }
 
-/* 卡片内部 7 行：缩略图／中文名／马来文名／作者／标签／代号／统计。
+/* 卡片内部 6 行：缩略图／中文名／马来文名／作者／标签／统计（开发代号 2026-10-01 起只留在详情弹窗）。
    用 subgrid 让同一排卡片共用这 7 条行线——某张卡的马来文名折成两行，
    同排其他卡的作者、标签、统计也一起往下对齐，不会高低错落。
    不支持 subgrid 的旧浏览器退回单卡直排，内容不受影响。 */
@@ -304,7 +303,7 @@ body {
 @supports (grid-template-rows: subgrid) {
   .card {
     display: grid;
-    grid-row: span 7;
+    grid-row: span 6;
     grid-template-rows: subgrid;
     row-gap: 8px;
   }
@@ -359,6 +358,7 @@ body {
   transition: transform 0.12s ease;
 }
 .card__board:hover { transform: scale(1.08); }
+.trophy-icon { width: 18px; height: 18px; fill: var(--ink); }
 .card__thumb img { width: 100%; height: 100%; object-fit: cover; }
 .card__thumb span {
   font-family: var(--font-display);
@@ -401,7 +401,6 @@ body {
   color: rgba(31,58,52,0.6);
   margin: 0;
 }
-.card > .card__slug { justify-self: start; align-self: start; font-size: 0.76rem; }
 .card__slug {
   font-family: var(--font-mono);
   font-size: 0.68rem;
@@ -588,10 +587,35 @@ body {
 .about__invite {
   background: #fff;
   border-radius: 10px;
-  padding: 14px 16px;
+  padding: 16px;
   border: 2px dashed var(--orange);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
 }
-.about__invite-sub { font-size: 0.8rem; color: rgba(31,58,52,0.5); }
+.about__invite-text { margin: 0; flex: 1 1 220px; line-height: 1.6; font-size: 0.94rem; }
+.about__contact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--blue-deep);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  text-decoration: none;
+  box-shadow: 0 4px 0 rgba(31,58,52,0.2);
+  transition: transform 0.12s ease;
+}
+.about__contact svg { width: 18px; height: 18px; flex-shrink: 0; }
+.about__contact:hover { transform: translateY(-2px); }
+.about__contact:active { transform: translateY(1px); box-shadow: 0 2px 0 rgba(31,58,52,0.2); }
+@media (max-width: 480px) { .about__contact { flex: 1 1 100%; } }
 
 /* ---------- Modal ---------- */
 .modal {
@@ -1183,8 +1207,60 @@ body {
 .wish__btn--submit:not(:disabled) { background: var(--orange); color: #fff8ef; cursor: pointer; }
 
 @media (max-width: 640px) {
-  .site-head__inner { flex-wrap: wrap; }
-  .wish-btn { margin-left: 0; }
+  /* 手机页首三行：①标题＋登录 ②中马标语各一行 ③两个按钮并排等宽。
+     原本五个元素全塞同一排 flex 换行，按钮东一个西一个（2026-10-01 老师截图反馈） */
+  .site-head { padding: 20px 0 16px; }
+  .site-head__inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "mark title auth" "tag tag tag" "act act act";
+    align-items: center;
+    gap: 6px 10px;
+  }
+  .site-head__mark { grid-area: mark; }
+  .site-head__text { display: contents; }
+  .site-head__text h1 { grid-area: title; font-size: 1.6rem; }
+  .kelasku-body .site-head__text h1 { font-size: 1.3rem; }
+  .tagline { grid-area: tag; margin: 0; font-size: 0.88rem; }
+  .tagline__sep { display: none; }
+  .tagline__bm { display: block; font-size: 0.8rem; opacity: 0.8; }
+  .auth-status { grid-area: auth; }
+  .auth-status__long { display: none; }
+  .auth-status__login { padding: 7px 12px; }
+  .auth-status__email { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .site-head__actions { grid-area: act; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+  .wish-btn { margin-left: 0; padding: 10px 12px; }
   .finder-card__meta { grid-template-columns: 1fr; }
   .finder__row { grid-template-columns: 1fr; }
 }
+
+/* ---------- 手机：工具卡改横式清单（缩略图左、文字右） ----------
+   直式卡一张约 550px 高，25 个工具整页 14,000px，第一张卡要滑过一整屏筛选才出现；
+   横式每张约 130px，同样的内容滑四分之一的距离。作者在详情弹窗里看得到，手机卡片先省掉。 */
+@media (max-width: 560px) {
+  .board { padding: 14px 12px; gap: 16px; }
+  .card,
+  .card:nth-child(n) {
+    display: grid;
+    grid-row: auto;
+    grid-template-rows: none;
+    grid-template-columns: 112px minmax(0, 1fr);
+    align-content: start;
+    gap: 4px 12px;
+    padding: 12px;
+  }
+  .card:nth-child(odd) { transform: rotate(-0.5deg); }
+  .card:nth-child(even) { transform: rotate(0.4deg); }
+  .card__thumb { grid-column: 1; grid-row: 1 / span 4; margin: 0; align-self: start; }
+  .card > :not(.card__thumb) { grid-column: 2; }
+  .card .creator { display: none; }
+  .card__title-zh { font-size: 1.1rem; }
+  .card__title-bm { font-size: 0.82rem; }
+  .card .tag { font-size: 0.74rem; padding: 2px 8px; }
+  .card__stats { align-self: start; margin-top: 2px; }
+  .card__like { font-size: 0.88rem; }
+  .card__uses { font-size: 0.78rem; }
+  .card__board { top: 4px; right: 4px; width: 26px; height: 26px; }
+  .card__board .trophy-icon { width: 14px; height: 14px; }
+}
+

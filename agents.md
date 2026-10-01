@@ -36,10 +36,12 @@
 20. **详情打开次数（浏览→使用转化率）尚未做**，2026-09-25 讨论过：工程量小（现有 `tool_stats` 表加一栏＋RPC，複用 `increment_tool_uses` 那套模式），但老师自己一人经营、单工具日打开量小，数字只能当方向参考不能精算——之后要做才做，不是遗漏也不用主动补
 
 21. **缩略图两套**（2026-09-30）：`assets/thumbs/` 原图只给灯箱放大；卡片与详情弹窗读 `assets/thumbs-web/` 的 WebP（最长边 960px，`scripts/build-thumbs.py` 生成，原图 23MB→1.9MB）。**新增或换缩略图后必须跑一次该脚本**再部署；忘了跑不会破图（`onerror` 退回原图），但首页又会变慢。`vercel.json` 给 `/assets/*` 一天缓存。起因：首页一开就下载 8.3MB 原图 PNG，学校网路要等十几秒
-22. **版面天地格**（2026-09-30）：全站区块用 `.container`（`--page-max: 1200px`、`--gutter`、`--space-section`）对齐同一条左右边界，不要再在单一区块写 `clamp(...)` 左右边距。工具卡片用 `grid-template-rows: subgrid` 跨 7 行（缩略图／中文名／马来文名／作者／标签／代号／统计），同排卡片行线对齐——**卡片子元素数量必须固定 7 个**（没作者也要留空 `.creator`），增删卡片栏位要同步改 `grid-row: span 7`。栏数靠 `minmax(min(100%, 250px), 1fr)` 自动算：桌面 4、平板 2、手机 1。⚠️ 卡片不能加 `container-type`，Chrome 会让 subgrid 的缩略图行高塌掉、盖住标题
+22. **版面天地格**（2026-09-30，10-01 修订）：全站区块用 `.container`（`--page-max: 1200px`、`--gutter`、`--space-section`）对齐同一条左右边界，不要再在单一区块写 `clamp(...)` 左右边距。工具卡片用 `grid-template-rows: subgrid` 跨 6 行（缩略图／中文名／马来文名／作者／标签／统计），同排卡片行线对齐——**卡片子元素数量必须固定 6 个**（没作者也要留空 `.creator`），增删栏位要同步改 `grid-row: span 6`。开发代号只在详情弹窗显示。栏数靠 `minmax(min(100%, 250px), 1fr)`：桌面 4、平板 2；**≤560px 手机改横式清单卡**（缩略图左、文字右、隐藏作者），整页从 14,000px 缩到 5,500px。⚠️ 卡片不能加 `container-type`，Chrome 会让 subgrid 的缩略图行高塌掉
+23. **首页只有一个搜索框**（2026-10-01）：「今天要教什么？」的 `#finderQuery` 同时筛下方「浏览全部工具」卡片（`boardTools()`）；已选定单元／学习目标时不拿查询词筛卡片。不要再在浏览区加第二个搜索框——老师分不清用哪个。浏览区年级／科目筛选只列有已发布工具的项（科目跟着年级缩），不要改回全列 13 科
+24. **联络入口用 Telegram**（2026-10-01 老师选定）：「为什么会有这个地方」的按钮连 `https://t.me/yquanloo`，不公开 email
 
 ## 视觉设计
-布告栏意象；不用 emoji，图钉/星星用 CSS/SVG；科目用缩写字母徽章（MT/BM/BI/BC/SA）；配色（跟 EduNeo 区分）：暖纸白 `#FBF6EC`、黑板绿 `#1F3A34`、橙黄 `#E8873E`、天空蓝 `#4FA8D8`（马来文）、珊瑚红 `#D65B4A`（中文/星星）、暖金 `#F0B429`；卡片±1-2°随机倾斜
+布告栏意象；不用 emoji，图钉/星星/奖杯用 CSS/SVG；科目用缩写字母徽章（MT/BM/BI/BC/SA）；配色（跟 EduNeo 区分）：暖纸白 `#FBF6EC`、黑板绿 `#1F3A34`、橙黄 `#E8873E`、天空蓝 `#4FA8D8`（马来文）、珊瑚红 `#D65B4A`（中文/星星）、暖金 `#F0B429`；卡片±1-2°随机倾斜
 
 ## 资料夹结构（要点）
 `index.html/style.css/app.js` 首页；`kelasku.html/.js/.css` 班级名单页；`docs/dskp/{tahun}/{subjek}.md` DSKP摘要；`data/dskp-index.js` 结构化索引权威来源；`data/supabase-client.js`／`class-code-client.js` 前端SDK；`supabase/schema.sql`（wishes/tool_stats/tool_like_votes+RPC）、`supabase/.secrets.local.md`（DB密码，已gitignore，**凭证存于此**）。同级 `../teaching-tools/{slug}/` 各工具源码。工具登记未拆 `meta.json`，直接写 `app.js` 的 `TOOLS` 常量数组。

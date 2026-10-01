@@ -13,20 +13,22 @@
     <div class="site-head__mark" aria-hidden="true"></div>
     <div class="site-head__text">
       <h1>课堂点子铺</h1>
-      <p class="tagline">老师有点子，课堂有办法 · Cikgu ada idea, kelas ada jalan</p>
+      <p class="tagline"><span class="tagline__zh">老师有点子，课堂有办法</span><span class="tagline__sep" aria-hidden="true"> · </span><span class="tagline__bm">Cikgu ada idea, kelas ada jalan</span></p>
     </div>
     <div class="auth-status" id="authStatus">
       <button type="button" class="auth-status__login" id="authLoginBtn">
         <svg class="auth-status__g" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84c-.21 1.13-.84 2.09-1.8 2.73v2.27h2.91c1.7-1.57 2.69-3.88 2.69-6.64z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.91-2.27c-.81.54-1.84.86-3.05.86-2.35 0-4.34-1.58-5.05-3.71H.96v2.33C2.44 15.98 5.48 18 9 18z"/><path fill="#FBBC05" d="M3.95 10.7A5.4 5.4 0 0 1 3.65 9c0-.59.1-1.17.28-1.7V4.97H.96A9 9 0 0 0 0 9c0 1.45.35 2.83.96 4.03l2.99-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.51.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.97l2.99 2.33C4.66 5.16 6.65 3.58 9 3.58z"/></svg>
-        用 Google 登录
+        <span><span class="auth-status__long">用 Google </span>登录</span>
       </button>
       <span class="auth-status__signed-in" id="authSignedIn" hidden>
         <span class="auth-status__email" id="authEmail"></span>
         <button type="button" class="auth-status__logout" id="authLogoutBtn">登出</button>
       </span>
     </div>
-    <a href="kelasku.html" class="wish-btn" style="text-decoration:none;">我的班级 <span class="wish-btn__sub">kelasku</span></a>
-    <button class="wish-btn" id="openWish">点子许愿池 <span class="wish-btn__sub">Kedai Idea</span></button>
+    <nav class="site-head__actions" aria-label="老师功能">
+      <a href="kelasku.html" class="wish-btn wish-btn--quiet">我的班级 <span class="wish-btn__sub">kelasku</span></a>
+      <button class="wish-btn" id="openWish">点子许愿池 <span class="wish-btn__sub">Kedai Idea</span></button>
+    </nav>
    </div>
   </header>
 
@@ -47,9 +49,9 @@
     </div>
 
     <div class="finder__search">
-      <label for="finderQuery" class="finder__search-label">搜索学习目标、代码或关键词</label>
+      <label for="finderQuery" class="finder__search-label">搜索工具名称、学习目标或关键词</label>
       <input type="text" id="finderQuery" autocomplete="off"
-        placeholder="例如：4.2、钱币加法、tambah wang、找零钱">
+        placeholder="例如：钱币、笔顺、4.2、tambah wang">
       <div class="finder__suggestions" id="finderSuggestions" hidden role="listbox"></div>
     </div>
 
@@ -67,12 +69,6 @@
   <!-- ============ 辅助路径：浏览全部工具 ============ -->
   <section class="browse container">
     <h2 class="browse__title">浏览全部工具</h2>
-
-    <div class="controls">
-      <label class="search">
-        <input type="text" id="searchInput" placeholder="搜索工具，例如「钱币」「wang」「数学」……">
-      </label>
-    </div>
 
     <div class="facets">
       <div class="facet-row">
@@ -96,17 +92,20 @@
     <div class="about__card">
       <h2>为什么会有这个地方</h2>
       <p>
-        这里想做的事很简单：<strong>老师负责提想法、说说自己教室里缺什么，我负责把这些想法一点一点打磨成真正能直接搬进课堂用的工具</strong>。
-        不是什么素材都往上贴，每一个上架的工具都经过实际试用与调整，宁可数量少一点，也希望老师点开的每一个，都对得起大家腾出来的那几分钟。
+        一开始，只是想给自己班上做个小游戏。做着做着，发现这些东西值得让更多老师一起用，就有了这里。
       </p>
       <p>
-        这个平台的起点很简单——一开始只是想给自己班上做个小游戏，做着做着，发现这些东西值得让更多老师一起用。
-        以后会一个一个把工具慢慢做出来放上来，不会一次全部塞给大家，希望这里能陪着大家的课堂一起慢慢长大。
+        分工很简单：<strong>你说说教室里缺什么，我把它打磨成能直接搬进课堂的工具。</strong>
+        每个工具都在真实课堂试过、改过才上架——宁可少一点，也要对得起你腾出来的那几分钟。
       </p>
-      <p class="about__invite">
-        如果你也想一起开发、一起维护这个地方——欢迎找我聊聊。<br>
-        <span class="about__invite-sub">联络方式：待补</span>
-      </p>
+      <div class="about__invite">
+        <p class="about__invite-text">想一起开发、一起照顾这个地方？欢迎找我聊聊。</p>
+        <!-- 联络用 Telegram 而不是 email：华小老师最常用，手机一点就开聊，也不用把邮箱公开在网页上（2026-10-01 老师选定） -->
+        <a class="about__contact" id="aboutContact" href="https://t.me/yquanloo" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 4.2 2.9 11.4c-.9.4-.9 1.6.1 1.9l4.6 1.4 1.8 5.6c.3.8 1.3 1 1.9.4l2.6-2.5 4.8 3.5c.7.5 1.7.1 1.9-.7L23 5.6c.2-1-.7-1.8-1.5-1.4ZM9.8 14.3l-.5 4.1-1.4-4.5 10.6-6.9-8.7 7.3Z" fill="currentColor"/></svg>
+          Telegram 私讯我
+        </a>
+      </div>
     </div>
   </section>
 

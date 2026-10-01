@@ -917,7 +917,6 @@ async function bumpUses(slug) {
 
 const boardEl = document.getElementById("board");
 const boardEmptyEl = document.getElementById("boardEmpty");
-const searchInput = document.getElementById("searchInput");
 const gradeFacetEl = document.getElementById("gradeFacet");
 const subjekFacetEl = document.getElementById("subjekFacet");
 
@@ -940,6 +939,9 @@ loadBoardFilter();
 
 function subjectBadge(code) {
   return (SUBJECT_BY_CODE[code] && SUBJECT_BY_CODE[code].badge) || code.slice(0, 2).toUpperCase();
+}
+function trophyIcon() {
+  return '<svg class="trophy-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v2h3v3a4 4 0 0 1-4 4h-.3A5 5 0 0 1 13 14.9V17h3v2H8v-2h3v-2.1A5 5 0 0 1 8.3 12H8a4 4 0 0 1-4-4V5h3V3Zm0 4H6v1a2 2 0 0 0 1 1.7V7Zm10 0v2.7A2 2 0 0 0 18 8V7h-1ZM7 20h10v1H7v-1Z"/></svg>';
 }
 function starIcon() {
   return '<svg class="star-icon" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6z"/></svg>';
@@ -970,16 +972,26 @@ function renderFacet(container, options, activeValue, onPick) {
   });
 }
 
+// 筛选只列「真的有工具」的年级／科目：原本 13 个科目全列，一半点下去是空白，手机上还占 5 行。
+// 科目跟着已选年级走（选 1 年级就只剩 1 年级有工具的科目）；之前存的科目在新年级没有工具就回到「全部」。
+function publishedTools() {
+  return TOOLS.filter((t) => t.status === "published" && !!t.url);
+}
 function renderFacets() {
+  const tools = publishedTools();
+  const grades = TAHUN.filter((t) => tools.some((tool) => matchesToolCoverage(tool, t, "all")));
+  if (gradeFilter !== "all" && !grades.includes(Number(gradeFilter))) gradeFilter = "all";
+  const subjects = SUBJECTS.filter((s) => tools.some((tool) => matchesToolCoverage(tool, gradeFilter, s.code)));
+  if (subjekFilter !== "all" && !subjects.some((s) => s.code === subjekFilter)) subjekFilter = "all";
   renderFacet(
     gradeFacetEl,
-    [{ value: "all", label: "全部" }, ...TAHUN.map((t) => ({ value: t, label: `${t}年级` }))],
+    [{ value: "all", label: "全部" }, ...grades.map((t) => ({ value: t, label: `${t}年级` }))],
     gradeFilter,
     (v) => (gradeFilter = v)
   );
   renderFacet(
     subjekFacetEl,
-    [{ value: "all", label: "全部" }, ...SUBJECTS.map((s) => ({ value: s.code, label: s.title_zh }))],
+    [{ value: "all", label: "全部" }, ...subjects.map((s) => ({ value: s.code, label: s.title_zh }))],
     subjekFilter,
     (v) => (subjekFilter = v)
   );
@@ -1015,13 +1027,12 @@ function cardHtml(tool, index) {
       <div class="card__thumb">${cover
         ? (cover.img ? thumbImgHtml(cover, index < 4) : `<span>${cover.label}</span>`)
         : `<span>${subjectBadge(tool.subjek)}</span>`}${tool.hasLeaderboard
-        ? `<a class="card__board" href="${tool.url}?board=1" target="_blank" rel="noopener" title="查看排行榜" onclick="event.stopPropagation()">🏆</a>`
+        ? `<a class="card__board" href="${tool.url}?board=1" target="_blank" rel="noopener" title="查看排行榜" aria-label="查看排行榜" onclick="event.stopPropagation()">${trophyIcon()}</a>`
         : ""}</div>
       <h3 class="card__title-zh">${tool.title_zh}</h3>
       <p class="card__title-bm">${tool.title_bm}</p>
       ${creatorHtml(tool) || '<div class="creator"></div>'}
       <div class="card__tags">${tagChips(tool)}</div>
-      <span class="card__slug">${tool.slug}</span>
       <div class="card__stats">
         <button class="card__like${liked ? " liked" : ""}" data-like-slug="${tool.slug}" title="不用登录，谁都能点">${starIcon()}<span class="card__like-count">${getLikes(tool)}</span> 人喜欢</button>
         <span class="card__uses">用过 ${uses} 次</span>
@@ -1042,16 +1053,21 @@ function matchesToolCoverage(tool, tahun, subjek) {
   const rows = tool.coverage || [{tahun:tool.tahun,subjects:[tool.subjek]}];
   return rows.some(row => (!tahun || tahun === "all" || row.tahun === Number(tahun)) && (!subjek || subjek === "all" || row.subjects.includes(subjek)));
 }
-function renderBoard() {
-  const query = searchInput.value.trim().toLowerCase();
+// 全页只有一个搜索框（「今天要教什么？」那个）：2026-10-01 前上下各有一个，老师分不清该用哪个。
+// 它的文字同时筛这里的卡片；但已经选定单元/学习目标时，输入框里是 DSKP 文字不是工具名，不拿来筛卡片。
+function boardQuery() {
+  return finderState.unit ? "" : (finderState.q || "").toLowerCase();
+}
+function boardTools() {
+  const query = boardQuery();
   // 年级 AND 科目 AND（没有查询词 OR 查询词匹配）—— 之前这里有 bug：一输入查询词就整个无视年级/科目筛选，
   // 已修正（见 docs/dskp-learning-objective-search.md 第7.1节／验收条件第2条）
-  let list = TOOLS.filter((tool) => {
-    const gradeOk = matchesToolCoverage(tool, gradeFilter, subjekFilter);
-    const subjekOk = true;
-    const queryOk = !query || matchesQuery(tool, query);
-    return tool.status === "published" && !!tool.url && gradeOk && subjekOk && queryOk;
-  });
+  return publishedTools().filter((tool) =>
+    matchesToolCoverage(tool, gradeFilter, subjekFilter) && (!query || matchesQuery(tool, query))
+  );
+}
+function renderBoard() {
+  let list = boardTools();
 
   // 喜欢数最多的排前面，是老师最先看到的
   list = list.slice().sort((a, b) => getLikes(b) - getLikes(a));
@@ -1217,7 +1233,6 @@ document.getElementById("detailModal").addEventListener("click", (e) => {
   if (e.target.id === "detailModal") closeDetailModal();
 });
 
-searchInput.addEventListener("input", renderBoard);
 
 // ============================================================
 // 按学习目标找工具（主入口，阶段A） —— docs/dskp-learning-objective-search.md
@@ -1373,8 +1388,21 @@ function finderResultCardHtml(tool) {
     </div>`;
 }
 
+// 还没选年级＋科目、只打了关键词时：告诉老师下方卡片已经按关键词筛好，给一个跳过去的按钮
+function renderFinderQueryJump() {
+  const n = boardTools().length;
+  finderResultsEl.innerHTML = n
+    ? `<p class="finder__count">找到 ${n} 个名称相符的工具 <button type="button" class="finder__browse-link" id="finderJumpBoard">跳到工具</button></p>`
+    : `<p class="finder__empty">没有名称相符的工具，换个关键词，或从下拉建议选学习目标。</p>`;
+  const btn = document.getElementById("finderJumpBoard");
+  if (btn) btn.addEventListener("click", () => document.querySelector(".browse").scrollIntoView({ behavior: "smooth" }));
+}
+
 function renderFinderResults() {
-  if (!finderState.tahun || !finderState.subjek) { finderResultsEl.innerHTML = ""; return; }
+  if (!finderState.tahun || !finderState.subjek) {
+    if (finderState.q) renderFinderQueryJump(); else finderResultsEl.innerHTML = "";
+    return;
+  }
   const record = findDskpRecord(finderState.tahun, finderState.subjek);
   if (!record) { finderResultsEl.innerHTML = ""; return; }
   if (!finderState.unit && !finderState.q) {
@@ -1511,6 +1539,7 @@ function renderFinder() {
   renderFinderUnits();
   renderFinderResults();
   updateFinderUrl();
+  renderBoard();
 }
 
 finderTahunEl.addEventListener("change", () => {
@@ -1528,9 +1557,21 @@ finderQueryEl.addEventListener("input", () => {
   renderFinderSuggestions();
   renderFinderResults();
   updateFinderUrl();
+  renderBoard();
 });
 document.addEventListener("click", (e) => {
   if (!finderSuggestionsEl.contains(e.target) && e.target !== finderQueryEl) finderSuggestionsEl.hidden = true;
+});
+// 下拉建议会盖住下面的「跳到工具」：Enter＝收起建议、直接看下方卡片（还没选年级科目时）；Esc＝只收起建议
+finderQueryEl.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") { finderSuggestionsEl.hidden = true; return; }
+  if (e.key !== "Enter") return;
+  e.preventDefault();
+  finderSuggestionsEl.hidden = true;
+  finderQueryEl.blur(); // 手机上顺便收起键盘
+  if (finderState.q && !(finderState.tahun && finderState.subjek) && boardTools().length) {
+    document.querySelector(".browse").scrollIntoView({ behavior: "smooth" });
+  }
 });
 
 // ============================================================
