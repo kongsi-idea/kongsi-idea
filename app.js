@@ -1249,7 +1249,7 @@ const finderResultsEl = document.getElementById("finderResults");
 
 let finderState = { tahun: null, subjek: null, unit: null, objective: null, q: "" };
 
-// 「常用入口」快捷方式；目前只有钱币真的有索引，其他几个诚实标成「整理中」，不假装都有资料
+// 「常用入口」快捷方式；钱币有学习目标索引，其他几个当关键词搜索（见 renderFinderShortcuts）
 const FINDER_SHORTCUTS = [
   { label: "钱币", tahun: 2, subjek: "mt", unit: "4.0" },
   { label: "分数" },
@@ -1261,29 +1261,46 @@ const FINDER_SHORTCUTS = [
 finderTahunEl.innerHTML = '<option value="">选年级 Tahun</option>' +
   TAHUN.map((t) => `<option value="${t}">Tahun ${t}（${t}年级）</option>`).join("");
 
+// 科目下拉只列「这个年级真的有东西」的科目（有学习目标索引，或至少有一个已发布工具）。
+// 2026-10-01 前 13 科全列、12 科挂「整理中」，老师选了走进死路，整页也像没做完。
+function finderSubjectsFor(tahun) {
+  return SUBJECTS.filter((s) => findDskpRecord(tahun, s.code) || finderToolsFor(tahun, s.code).length);
+}
+function finderToolsFor(tahun, subjek) {
+  return publishedTools().filter((t) => matchesToolCoverage(t, tahun, subjek));
+}
 function fillFinderSubjekOptions() {
   finderSubjekEl.dataset.tahun = String(finderState.tahun);
   finderSubjekEl.disabled = false;
   finderSubjekEl.innerHTML = '<option value="">选科目 Subjek</option>' +
-    SUBJECTS.map((s) => {
-      const indexed = findDskpRecord(finderState.tahun, s.code);
-      return `<option value="${s.code}">${s.title_zh}${indexed ? "" : "（整理中）"}</option>`;
-    }).join("");
+    finderSubjectsFor(finderState.tahun).map((s) => `<option value="${s.code}">${s.title_zh}</option>`).join("");
 }
 
+// 常用入口：有学习目标索引的直接跳到那个单元；没有索引的当关键词搜索（同时筛下方卡片）。
+// 搜不到任何工具的入口不显示——不放点了只会看到「整理中」的按钮。
+function shortcutHasTools(s) {
+  if (s.tahun && findDskpRecord(s.tahun, s.subjek)) return true;
+  const q = s.label.toLowerCase();
+  return publishedTools().some((t) => matchesQuery(t, q));
+}
 function renderFinderShortcuts() {
-  finderShortcutsEl.innerHTML = FINDER_SHORTCUTS.map((s, i) => `<button type="button" class="chip" data-idx="${i}">${s.label}</button>`).join("");
+  const shortcuts = FINDER_SHORTCUTS.filter(shortcutHasTools);
+  finderShortcutsEl.parentElement.hidden = !shortcuts.length;
+  finderShortcutsEl.innerHTML = shortcuts.map((s, i) => `<button type="button" class="chip" data-idx="${i}">${s.label}</button>`).join("");
   finderShortcutsEl.querySelectorAll("button").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const s = FINDER_SHORTCUTS[Number(btn.dataset.idx)];
+      const s = shortcuts[Number(btn.dataset.idx)];
       if (s.tahun && findDskpRecord(s.tahun, s.subjek)) {
         finderState = { tahun: s.tahun, subjek: s.subjek, unit: s.unit || null, objective: null, q: "" };
         finderQueryEl.value = "";
-        renderFinder();
       } else {
-        finderStatusEl.hidden = false;
-        finderStatusEl.innerHTML = `「${s.label}」的学习目标索引还在整理中，可以到下面「浏览全部工具」找找看。`;
+        finderState = { tahun: null, subjek: null, unit: null, objective: null, q: s.label };
+        finderQueryEl.value = s.label;
+        // 关键词入口要看全部工具，清掉下方残留的年级／科目筛选，不然会被挡成「没有相符」
+        gradeFilter = "all"; subjekFilter = "all";
+        saveBoardFilter(); renderFacets();
       }
+      renderFinder();
     });
   });
 }
@@ -1292,8 +1309,10 @@ function renderFinderStatus() {
   if (!finderState.tahun || !finderState.subjek) { finderStatusEl.hidden = true; return; }
   const record = findDskpRecord(finderState.tahun, finderState.subjek);
   if (record) { finderStatusEl.hidden = true; return; }
+  // 有工具但还没建学习目标索引：如实说「还没按学习目标细分」，同时给出能用的工具，不让老师停在死路
+  const n = finderToolsFor(finderState.tahun, finderState.subjek).length;
   finderStatusEl.hidden = false;
-  finderStatusEl.innerHTML = `这个科目（${SUBJECT_BY_CODE[finderState.subjek].title_zh}）的学习目标索引仍在整理中。<button type="button" class="finder__browse-link" id="finderBrowseLink">先浏览这个科目的全部工具</button>`;
+  finderStatusEl.innerHTML = `${finderState.tahun}年级${SUBJECT_BY_CODE[finderState.subjek].title_zh}目前有 ${n} 个工具，还没按学习目标细分。<button type="button" class="finder__browse-link" id="finderBrowseLink">看这 ${n} 个工具</button>`;
   const linkBtn = document.getElementById("finderBrowseLink");
   if (linkBtn) linkBtn.addEventListener("click", () => jumpToBrowse(finderState.tahun, finderState.subjek));
 }
@@ -1391,11 +1410,20 @@ function finderResultCardHtml(tool) {
 // 还没选年级＋科目、只打了关键词时：告诉老师下方卡片已经按关键词筛好，给一个跳过去的按钮
 function renderFinderQueryJump() {
   const n = boardTools().length;
-  finderResultsEl.innerHTML = n
-    ? `<p class="finder__count">找到 ${n} 个名称相符的工具 <button type="button" class="finder__browse-link" id="finderJumpBoard">跳到工具</button></p>`
-    : `<p class="finder__empty">没有名称相符的工具，换个关键词，或从下拉建议选学习目标。</p>`;
+  const q = boardQuery();
+  const hiddenByFacets = n ? 0 : publishedTools().filter((t) => matchesQuery(t, q)).length;
+  if (n) {
+    finderResultsEl.innerHTML = `<p class="finder__count">找到 ${n} 个名称相符的工具 <button type="button" class="finder__browse-link" id="finderJumpBoard">跳到工具</button></p>`;
+  } else if (hiddenByFacets) {
+    // 工具其实有，只是被下方「浏览全部工具」的年级／科目筛选挡住——明说，并给一键清除
+    finderResultsEl.innerHTML = `<p class="finder__count">有 ${hiddenByFacets} 个工具相符，但不在下方目前的年级／科目筛选里。<button type="button" class="finder__browse-link" id="finderClearFacets">清除筛选并查看</button></p>`;
+  } else {
+    finderResultsEl.innerHTML = `<p class="finder__empty">没有名称相符的工具，换个关键词，或从下拉建议选学习目标。</p>`;
+  }
   const btn = document.getElementById("finderJumpBoard");
   if (btn) btn.addEventListener("click", () => document.querySelector(".browse").scrollIntoView({ behavior: "smooth" }));
+  const clear = document.getElementById("finderClearFacets");
+  if (clear) clear.addEventListener("click", () => { jumpToBrowse(null, null); renderFinderResults(); });
 }
 
 function renderFinderResults() {
@@ -1509,7 +1537,7 @@ function loadFinderFromUrl() {
   const q = params.get("q") || "";
 
   const validTahun = TAHUN.includes(tahunRaw) ? tahunRaw : null;
-  const validSubjek = validTahun && SUBJECT_BY_CODE[subjekRaw] ? subjekRaw : null;
+  const validSubjek = validTahun && finderSubjectsFor(validTahun).some((s) => s.code === subjekRaw) ? subjekRaw : null;
   const record = validTahun && validSubjek ? findDskpRecord(validTahun, validSubjek) : null;
   let validUnit = null, validObjective = null;
   if (record && unitRaw) {
