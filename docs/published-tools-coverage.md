@@ -12,6 +12,7 @@
 | `tahun1-mt-pecahan` | Tahun 1 | 数学 (mt) | 燕菜切切乐 | 3.0 分数 — 3.1 二等份和四等份的真分数概念 ＋ 3.2 解决问题 | https://tahun1-mt-pecahan.vercel.app | `../teaching-tools/tahun1-mt-pecahan/` | v1.0（2026-09-29）首次上架。接 kelasku 名单＋Supabase 排行榜（`tahun1_mt_pecahan_scores`，只记「燕菜铺开张」）；朗读为 edge-tts 预录（改句子要重跑 `gen-voice.py`）。待办：本机没有一年级数学课本分数单元原文，「二分之一」读法与直式写法照 DSKP 摘要，待对课本；「燕菜」叫法待老师确认；Windows 学校电脑与课室一体机触控未实测。 |
 | `tahun4-mt-nombor` | Tahun 4 | 数学 (mt) | 数学知识大比拼 | 1.0 数与运算 — 1.1 数值 | https://tahun4-mt-nombor.vercel.app | `../teaching-tools/tahun4-mt-nombor/` | — |
 | `tahun1-bc-shizi` | Tahun 1 | 华文 (bc) | 识字大对决 | 2.0 阅读技能 — 2.1 阅读与理解教材 | https://tahun1-bc-shizi.vercel.app | `../teaching-tools/tahun1-bc-shizi/` | — |
+| `tahun1-bm-huruf` | Tahun 1 | 马来文 (bm) | Huruf A–Z 写字母 | 3.0 书写技能 — 3.1 基础书写（3.1.1 (i) huruf） | https://tahun1-bm-huruf.vercel.app | `../teaching-tools/tahun1-bm-huruf/` | v1.0（2026-10-01）首次上架。字母按等距四线自绘（笔画结构参照 Azim 字体，字体档本身不公开）；介面全马来文。待办：J、M/N、k、B、U/u/y、i/j 笔顺待老师对课本；马来文说明用词（cangkuk、condong ke dalam/luar 等）待老师确认；Windows 学校电脑与一体机触控未实测。 |
 | `tahun1-bm-kvkv` | Tahun 1 | 马来文 (bm) | KVKV音节打地鼠 | 2.0 阅读技能 — 2.1 基础阅读与理解 | https://tahun1-bm-kvkv.vercel.app | `../teaching-tools/tahun1-bm-kvkv/` | — |
 | `tahun1-bc-bushou` | Tahun 1 | 华文 (bc) | 部首大对垒 | 5.0 语文基础知识 — 5.1 汉字基本知识 | https://tahun1-bc-bushou.vercel.app | `../teaching-tools/tahun1-bc-bushou/` | — |
 | `tahun1-bc-zaoju` | Tahun 1 | 华文 (bc) | 神奇句子小火车 | 3.0 书写技能 — 3.2 书面表达能力 | https://tahun1-bc-zaoju.vercel.app | `../teaching-tools/tahun1-bc-zaoju/` | — |

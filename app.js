@@ -404,6 +404,39 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-bm-huruf",
+    tahun: 1,
+    subjek: "bm",
+    status: "published",
+    title_zh: "Huruf A–Z 写字母",
+    title_bm: "Huruf A–Z: Mari Menulis",
+    desc: "教一年级学生在等距四线上写马来文大小写字母 A–Z。每个字母都标出 1、2、3 笔顺号码和会沿笔画方向长出来的箭头。「Tonton」自动一笔一笔写给全班看；「Langkah demi langkah」老师按一下出一笔、可退回重播；「Saya tulis」学生用鼠标或手指从闪动的圆点开始描，描对了墨迹才会跟着出来，写完整个字母弹出「Bagus! Pandai!」和彩带（彩带在字的后面，不挡字）。主页是 26 张挂在绳子上的字母卡，元音 a e i o u 用粉色卡区分，学生写过的字母会贴上星星。页面指示全部是马来文。",
+    keywords: ["字母", "huruf", "huruf besar", "huruf kecil", "huruf vokal", "huruf konsonan", "menulis", "tulisan mekanis", "四线", "笔顺", "描红", "写字", "马来文", "一年级", "abjad"],
+    url: "https://tahun1-bm-huruf.vercel.app",
+    type: "工具",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-01", note: "首次上架：A–Z 26 组大小写笔顺（自动写／逐步／学生描写）、等距四线、字母挂卡主页、马来文介面" },
+    ],
+    // 这 5 张是用 Playwright 实际操作 https://tahun1-bm-huruf.vercel.app 截的真实画面（第 4、5 张是真的用滑鼠描 Q q），不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bm-huruf/1-home.png", label: "主页：26 张字母挂卡，粉色是元音" },
+      { img: "assets/thumbs/tahun1-bm-huruf/2-tonton.png", label: "Tonton：一笔一笔自动写，带笔顺号码和箭头" },
+      { img: "assets/thumbs/tahun1-bm-huruf/3-langkah.png", label: "Langkah demi langkah：老师按一下出一笔" },
+      { img: "assets/thumbs/tahun1-bm-huruf/4-saya-tulis.png", label: "Saya tulis：学生从圆点开始描" },
+      { img: "assets/thumbs/tahun1-bm-huruf/5-bagus.png", label: "写完：Bagus! Pandai! 与彩带" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1"] },
+    ],
+    practiceSummary: "在四线上按正确笔顺、方向机械式书写马来文大小写字母（SP 3.1.1 (i) huruf）",
+    teachingMode: ["投影互动", "教师带教/演示", "个人自学"],
+    prep: "打开即用，不需要打印。投影时老师用「Tonton」或「Langkah demi langkah」示范，键盘 ← → 换字母；学生在电脑用鼠标、平板／一体机用手指描写。网址后面加 #A（换成任何字母）可直接打开该字母。学生写过的星星只记在那台电脑上。",
+  },
+
+  {
     slug: "tahun1-bm-kvkv",
     tahun: 1,
     subjek: "bm",

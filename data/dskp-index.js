@@ -249,6 +249,20 @@ const DSKP_INDEX = [
           },
         ],
       },
+      {
+        // 2026-10-01 用本机官方 PDF（DSKP Bahasa Melayu SJK Tahun 1，第 32 页）逐字核对
+        code: "3.0",
+        title_zh: "书写技能",
+        title_bm: "Kemahiran Menulis",
+        objectives: [
+          {
+            code: "3.1",
+            title_zh: "基础书写：机械式书写字母／音节／词语／短语／句子",
+            title_bm: "Asas menulis",
+            terms: ["字母", "写字", "笔顺", "四线", "huruf", "menulis", "menulis secara mekanis", "tulisan"],
+          },
+        ],
+      },
     ],
   },
   {
