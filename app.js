@@ -1015,13 +1015,31 @@ function starIcon() {
   return '<svg class="star-icon" viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.9-6.3 3.9 1.7-7L2 9.2l7.1-.6z"/></svg>';
 }
 
-function jumpToBrowse(tahun, subjek) {
-  gradeFilter = tahun || "all";
-  subjekFilter = subjek || "all";
-  saveBoardFilter();
-  renderFacets();
-  renderBoard();
+function scrollToBoard() {
   document.querySelector(".browse").scrollIntoView({ behavior: "smooth" });
+}
+
+// ---------- 上下共用同一套条件（2026-10-02 老师反馈：上面选 1 年级马来文，下面还显示全部，会混淆） ----------
+// finderState（「今天要教什么？」）是唯一来源；下方年级／科目按钮只是它的镜像。
+// 在任何一边改，另一边跟着变；下方卡片同时吃年级、科目、单元／学习目标、关键词。
+function syncFacetsFromFinder() {
+  gradeFilter = finderState.tahun || "all";
+  subjekFilter = finderState.subjek || "all";
+  saveBoardFilter();
+}
+function applyFacetsToFinder() {
+  const tahun = gradeFilter === "all" ? null : Number(gradeFilter);
+  const subjek = subjekFilter === "all" ? null : subjekFilter;
+  if (tahun !== finderState.tahun || subjek !== finderState.subjek) {
+    finderState.unit = null; finderState.objective = null; // 单元索引按年级×科目分，换了就失效
+  }
+  finderState.tahun = tahun;
+  finderState.subjek = subjek;
+}
+function clearAllConditions() {
+  finderState = { tahun: null, subjek: null, unit: null, objective: null, q: "" };
+  finderQueryEl.value = "";
+  renderFinder();
 }
 
 function renderFacet(container, options, activeValue, onPick) {
@@ -1038,9 +1056,9 @@ function renderFacet(container, options, activeValue, onPick) {
     }
     btn.addEventListener("click", () => {
       onPick(opt.value);
-      saveBoardFilter();
-      renderFacets();
-      renderBoard();
+      renderFacets(); // 先让科目跟着年级校正，再写回 finderState
+      applyFacetsToFinder();
+      renderFinder();
     });
     container.appendChild(btn);
   });
@@ -1144,16 +1162,44 @@ function matchesToolCoverage(tool, tahun, subjek) {
 function boardQuery() {
   return finderState.unit ? "" : (finderState.q || "").toLowerCase();
 }
+function toolMatchesUnit(tool) {
+  if (!finderState.unit) return true;
+  return (tool.standards || []).some((s) => s.unitCode === finderState.unit &&
+    (!finderState.objective || s.objectiveCodes.includes(finderState.objective)));
+}
 function boardTools() {
   const query = boardQuery();
-  // 年级 AND 科目 AND（没有查询词 OR 查询词匹配）—— 之前这里有 bug：一输入查询词就整个无视年级/科目筛选，
-  // 已修正（见 docs/dskp-learning-objective-search.md 第7.1节／验收条件第2条）
+  // 年级 AND 科目 AND 单元／学习目标 AND（没有查询词 OR 查询词匹配）
+  // （年级科目与查询词要同时成立，见 docs/dskp-learning-objective-search.md 第7.1节／验收条件第2条）
   return publishedTools().filter((tool) =>
-    matchesToolCoverage(tool, gradeFilter, subjekFilter) && (!query || matchesQuery(tool, query))
+    matchesToolCoverage(tool, gradeFilter, subjekFilter) && toolMatchesUnit(tool) && (!query || matchesQuery(tool, query))
   );
+}
+
+// 卡片上方一行「目前条件」：让老师知道下面为什么只剩这几张，也能一键清掉
+function renderBoardSummary(count) {
+  const el = document.getElementById("boardSummary");
+  if (!el) return;
+  const parts = [];
+  if (finderState.tahun) parts.push(`${finderState.tahun}年级`);
+  if (finderState.subjek) parts.push(SUBJECT_BY_CODE[finderState.subjek].title_zh);
+  const record = finderState.tahun && finderState.subjek && findDskpRecord(finderState.tahun, finderState.subjek);
+  const unit = record && finderState.unit && getUnit(record, finderState.unit);
+  if (unit) {
+    const obj = finderState.objective && getObjective(unit, finderState.objective);
+    parts.push(obj ? `${obj.code} ${obj.title_zh}` : `${unit.code} ${unit.title_zh}`);
+  }
+  if (boardQuery()) parts.push(`「${finderState.q}」`);
+  if (!parts.length) { el.hidden = true; el.innerHTML = ""; return; }
+  el.hidden = false;
+  el.innerHTML = `<span class="board__summary-count">显示 ${count} 个工具</span>` +
+    parts.map((p) => `<span class="board__summary-tag">${p}</span>`).join("") +
+    `<button type="button" class="finder__browse-link" id="boardClearAll">清除条件</button>`;
+  document.getElementById("boardClearAll").addEventListener("click", clearAllConditions);
 }
 function renderBoard() {
   let list = boardTools();
+  renderBoardSummary(list.length);
 
   // 喜欢数最多的排前面，是老师最先看到的
   list = list.slice().sort((a, b) => getLikes(b) - getLikes(a));
@@ -1356,7 +1402,7 @@ function finderToolsFor(tahun, subjek) {
   return publishedTools().filter((t) => matchesToolCoverage(t, tahun, subjek));
 }
 function fillFinderSubjekOptions() {
-  finderSubjekEl.dataset.tahun = String(finderState.tahun);
+  finderSubjekEl.dataset.tahun = String(finderState.tahun || "");
   finderSubjekEl.disabled = false;
   finderSubjekEl.innerHTML = '<option value="">选科目 Subjek</option>' +
     withEmptySubjectsLast(finderSubjectsFor(finderState.tahun), finderState.tahun).map((s) =>
@@ -1382,11 +1428,9 @@ function renderFinderShortcuts() {
         finderState = { tahun: s.tahun, subjek: s.subjek, unit: s.unit || null, objective: null, q: "" };
         finderQueryEl.value = "";
       } else {
+        // 关键词入口看全部年级科目，不然会被残留条件挡成「没有相符」
         finderState = { tahun: null, subjek: null, unit: null, objective: null, q: s.label };
         finderQueryEl.value = s.label;
-        // 关键词入口要看全部工具，清掉下方残留的年级／科目筛选，不然会被挡成「没有相符」
-        gradeFilter = "all"; subjekFilter = "all";
-        saveBoardFilter(); renderFacets();
       }
       renderFinder();
     });
@@ -1402,7 +1446,7 @@ function renderFinderStatus() {
   finderStatusEl.hidden = false;
   finderStatusEl.innerHTML = `${finderState.tahun}年级${SUBJECT_BY_CODE[finderState.subjek].title_zh}目前有 ${n} 个工具，还没按学习目标细分。<button type="button" class="finder__browse-link" id="finderBrowseLink">看这 ${n} 个工具</button>`;
   const linkBtn = document.getElementById("finderBrowseLink");
-  if (linkBtn) linkBtn.addEventListener("click", () => jumpToBrowse(finderState.tahun, finderState.subjek));
+  if (linkBtn) linkBtn.addEventListener("click", scrollToBoard);
 }
 
 function renderFinderPath() {
@@ -1503,15 +1547,15 @@ function renderFinderQueryJump() {
   if (n) {
     finderResultsEl.innerHTML = `<p class="finder__count">找到 ${n} 个名称相符的工具 <button type="button" class="finder__browse-link" id="finderJumpBoard">跳到工具</button></p>`;
   } else if (hiddenByFacets) {
-    // 工具其实有，只是被下方「浏览全部工具」的年级／科目筛选挡住——明说，并给一键清除
-    finderResultsEl.innerHTML = `<p class="finder__count">有 ${hiddenByFacets} 个工具相符，但不在下方目前的年级／科目筛选里。<button type="button" class="finder__browse-link" id="finderClearFacets">清除筛选并查看</button></p>`;
+    // 工具其实有，只是被目前选的年级／科目挡住——明说，并给一键清除
+    finderResultsEl.innerHTML = `<p class="finder__count">有 ${hiddenByFacets} 个工具相符，但不在目前选的年级／科目里。<button type="button" class="finder__browse-link" id="finderClearFacets">不限年级科目再找</button></p>`;
   } else {
     finderResultsEl.innerHTML = `<p class="finder__empty">没有名称相符的工具，换个关键词，或从下拉建议选学习目标。</p>`;
   }
   const btn = document.getElementById("finderJumpBoard");
-  if (btn) btn.addEventListener("click", () => document.querySelector(".browse").scrollIntoView({ behavior: "smooth" }));
+  if (btn) btn.addEventListener("click", scrollToBoard);
   const clear = document.getElementById("finderClearFacets");
-  if (clear) clear.addEventListener("click", () => { jumpToBrowse(null, null); renderFinderResults(); });
+  if (clear) clear.addEventListener("click", () => { finderState.tahun = null; finderState.subjek = null; renderFinder(); });
 }
 
 function renderFinderResults() {
@@ -1522,7 +1566,7 @@ function renderFinderResults() {
   const record = findDskpRecord(finderState.tahun, finderState.subjek);
   if (!record) { finderResultsEl.innerHTML = ""; return; }
   if (!finderState.unit && !finderState.q) {
-    finderResultsEl.innerHTML = '<p class="finder__hint">在上面选一个单元或学习目标，看看有哪些工具适合。</p>';
+    finderResultsEl.innerHTML = '<p class="finder__hint">在上面选一个单元或学习目标缩小范围；下方已经列出这个年级科目的全部工具。</p>';
     return;
   }
   const matches = TOOLS.filter(toolMatchesFinder);
@@ -1625,7 +1669,7 @@ function loadFinderFromUrl() {
   const q = params.get("q") || "";
 
   const validTahun = TAHUN.includes(tahunRaw) ? tahunRaw : null;
-  const validSubjek = validTahun && finderSubjectsFor(validTahun).some((s) => s.code === subjekRaw) ? subjekRaw : null;
+  const validSubjek = finderSubjectsFor(validTahun).some((s) => s.code === subjekRaw) ? subjekRaw : null;
   const record = validTahun && validSubjek ? findDskpRecord(validTahun, validSubjek) : null;
   let validUnit = null, validObjective = null;
   if (record && unitRaw) {
@@ -1636,31 +1680,35 @@ function loadFinderFromUrl() {
     }
   }
   finderState = { tahun: validTahun, subjek: validSubjek, unit: validUnit, objective: validObjective, q };
+  if (!params.has("tahun") && !params.has("subjek") && !q) {
+    // 网址没指定就沿用这台浏览器上次的年级／科目，刷新不会跳回「全部」
+    finderState.tahun = gradeFilter === "all" ? null : Number(gradeFilter);
+    finderState.subjek = subjekFilter === "all" || !finderSubjectsFor(finderState.tahun).some((s) => s.code === subjekFilter) ? null : subjekFilter;
+  }
   finderQueryEl.value = q;
 }
 
 function renderFinder() {
   finderTahunEl.value = finderState.tahun || "";
 
-  if (finderState.tahun) {
-    if (finderSubjekEl.dataset.tahun !== String(finderState.tahun)) fillFinderSubjekOptions();
-    finderSubjekEl.value = finderState.subjek || "";
-  } else {
-    finderSubjekEl.disabled = true;
-    finderSubjekEl.innerHTML = '<option value="">先选年级</option>';
-  }
+  // 科目下拉不再要求先选年级——下方科目按钮本来就能单选科目，两边要能表达同一种状态
+  if (finderSubjekEl.dataset.tahun !== String(finderState.tahun || "")) fillFinderSubjekOptions();
+  finderSubjekEl.value = finderState.subjek || "";
 
   renderFinderStatus();
   renderFinderPath();
   renderFinderUnits();
   renderFinderResults();
   updateFinderUrl();
+  syncFacetsFromFinder();
+  renderFacets();
   renderBoard();
 }
 
 finderTahunEl.addEventListener("change", () => {
   finderState.tahun = finderTahunEl.value ? Number(finderTahunEl.value) : null;
-  finderState.subjek = null; finderState.unit = null; finderState.objective = null;
+  if (finderState.subjek && !finderSubjectsFor(finderState.tahun).some((s) => s.code === finderState.subjek)) finderState.subjek = null;
+  finderState.unit = null; finderState.objective = null;
   renderFinder();
 });
 finderSubjekEl.addEventListener("change", () => {
@@ -1686,7 +1734,7 @@ finderQueryEl.addEventListener("keydown", (e) => {
   finderSuggestionsEl.hidden = true;
   finderQueryEl.blur(); // 手机上顺便收起键盘
   if (finderState.q && !(finderState.tahun && finderState.subjek) && boardTools().length) {
-    document.querySelector(".browse").scrollIntoView({ behavior: "smooth" });
+    scrollToBoard();
   }
 });
 
