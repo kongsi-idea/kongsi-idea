@@ -8,6 +8,7 @@ const SUBJECTS = [
   { code: "bc", title_zh: "华文", title_bm: "Bahasa Cina", badge: "BC" },
   { code: "mt", title_zh: "数学", title_bm: "Matematik", badge: "MT" },
   { code: "dst", title_zh: "科学与科技世界", title_bm: "Dunia Sains dan Teknologi", badge: "DST" },
+  { code: "am", title_zh: "Alam dan Manusia", title_bm: "Alam dan Manusia", badge: "AM" }, // KP2027 新课程（一年级起），官方中文译名未核对，暂用马来文原名
   { code: "sains", title_zh: "科学", title_bm: "Sains", badge: "SA" },
   { code: "sejarah", title_zh: "历史", title_bm: "Sejarah", badge: "SJ" },
   { code: "rbt", title_zh: "设计与工艺", title_bm: "Reka Bentuk dan Teknologi", badge: "RBT" },
@@ -715,6 +716,36 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-am-cahaya",
+    tahun: 1,
+    subjek: "am",
+    status: "published",
+    title_zh: "光的小探险",
+    title_bm: "Pengembaraan Cahaya",
+    desc: "2027 年新课程（KP2027）一年级 Alam dan Manusia 5.1 Kraf Cahaya（DSKP 5.1.1–5.1.4）的 3D 互动工具。第一幕：停电夜的娃娃屋剖面，学生先用手电筒做三件事（收玩具走到门口、照着楼梯往上走、看书上的图），来电后再做一次，比较明和暗的差别，体会「光让我们看得见」，并让眼睛休息一下（电子设备的光）。第二幕：在房间里找 9 样亮亮的东西，一样一样猜哪些会自己发光，再关灯做全黑测验；月亮的秘密用动画解说月亮自己不发光；最后天亮，总结光源。",
+    keywords: ["光", "光源", "手电筒", "太阳", "月亮", "明暗", "停电", "眼睛", "cahaya", "sumber cahaya", "Alam dan Manusia", "KP2027", "Kraf Cahaya", "一年级", "3D"],
+    url: "https://tahun1-am-cahaya.vercel.app",
+    type: "工具",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-02", note: "首次上线：停电夜 3D 娃娃屋，两幕" },
+    ],
+    // 这 4 张是用 Playwright 实际操作 https://tahun1-am-cahaya.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-am-cahaya/v1-0-home.png", label: "开场：亮灯的房子，「这是你的家」" },
+      { img: "assets/thumbs/tahun1-am-cahaya/v1-0-torch.png", label: "第一幕：停电后，用手电筒照亮黑暗的客厅" },
+      { img: "assets/thumbs/tahun1-am-cahaya/v1-0-act2.png", label: "第二幕：停电后找亮亮的东西" },
+      { img: "assets/thumbs/tahun1-am-cahaya/v1-0-moon.png", label: "月亮的秘密：动画解说月亮不会自己发光" },
+    ],
+    standards: [], // KP2027 官方马来文用词未核对，暂不进 data/dskp-index.js（DSKP 5.1.1–5.1.4 写在 desc）
+    practiceSummary: "辨认光源，体会没有光就看不见，比较明暗中做事的差别，分辨会自己发光和不会自己发光的东西，并知道电子设备的光对眼睛的影响（DSKP 5.1.1–5.1.4）",
+    teachingMode: ["课堂投影", "个人练习", "教师引导"],
+    prep: "需要较新的电脑或平板（3D 画面）。建议课室投影全班一起玩，也可学生一人一机。不需要摄像头或麦克风；有音效，可关。每一幕约 15 分钟，共两幕。",
+  },
+
+  {
     slug: "tahun1-dst-magnet",
     tahun: 1,
     subjek: "dst",
@@ -1020,7 +1051,7 @@ function renderFacet(container, options, activeValue, onPick) {
 // 年级目前每级都有工具，没工具的年级直接不列。
 // 灰色只放「这个年级课纲里本来就有」的科目；课纲没有的（如 4 年级的科学与科技世界）不列，
 // 不然会被误读成「可以开发」。年级分段依 docs/subjek-tahun.md（KSSR Semakan 2017，2026-07-21 查证）。
-const SUBJECT_TAHUN = { dst: [1, 2, 3], sains: [4, 5, 6], sejarah: [4, 5, 6], rbt: [4, 5, 6] };
+const SUBJECT_TAHUN = { am: [1], dst: [1, 2, 3], sains: [4, 5, 6], sejarah: [4, 5, 6], rbt: [4, 5, 6] };
 function subjectOfferedIn(code, tahun) {
   return !tahun || tahun === "all" || !SUBJECT_TAHUN[code] || SUBJECT_TAHUN[code].includes(Number(tahun));
 }
