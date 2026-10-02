@@ -728,15 +728,16 @@ const TOOLS = [
     type: "工具",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
+    version: "1.1",
     changelog: [
+      { version: "1.1", date: "2026-10-02", note: "黑暗中只有真光源会发亮：白色物件改哑光、手电筒亮度固定；全屋视角光圈加大" },
       { version: "1.0", date: "2026-10-02", note: "首次上线：停电夜 3D 娃娃屋，两幕" },
     ],
     // 这 4 张是用 Playwright 实际操作 https://tahun1-am-cahaya.vercel.app 截的真实画面，不是 mock
     thumbnails: [
       { img: "assets/thumbs/tahun1-am-cahaya/v1-0-home.png", label: "开场：亮灯的房子，「这是你的家」" },
       { img: "assets/thumbs/tahun1-am-cahaya/v1-0-torch.png", label: "第一幕：停电后，用手电筒照亮黑暗的客厅" },
-      { img: "assets/thumbs/tahun1-am-cahaya/v1-0-act2.png", label: "第二幕：停电后找亮亮的东西" },
+      { img: "assets/thumbs/tahun1-am-cahaya/v1-1-act2.png", label: "第二幕：停电后找亮亮的东西" },
       { img: "assets/thumbs/tahun1-am-cahaya/v1-0-moon.png", label: "月亮的秘密：动画解说月亮不会自己发光" },
     ],
     standards: [], // KP2027 官方马来文用词未核对，暂不进 data/dskp-index.js（DSKP 5.1.1–5.1.4 写在 desc）
