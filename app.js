@@ -992,19 +992,9 @@ const subjekFacetEl = document.getElementById("subjekFacet");
 let gradeFilter = "all";
 let subjekFilter = "all";
 
-// 「浏览全部工具」的年级/科目筛选记在本机，刷新页面不会跳回「全部」
-const BOARD_FILTER_KEY = "kongsi-idea-board-filter";
-function saveBoardFilter() {
-  localStorage.setItem(BOARD_FILTER_KEY, JSON.stringify({ grade: gradeFilter, subjek: subjekFilter }));
-}
-function loadBoardFilter() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(BOARD_FILTER_KEY) || "{}");
-    if (saved.grade !== undefined) gradeFilter = saved.grade;
-    if (saved.subjek !== undefined) subjekFilter = saved.subjek;
-  } catch (e) { /* 存的东西格式不对就当没存过，不影响正常使用 */ }
-}
-loadBoardFilter();
+// 年级／科目条件只存在网址里（刷新、返回键、传网址都保留）；不再记在浏览器里——
+// 老师隔天直接打开网站，一律从「全部工具」开始，不会被上次的条件悄悄筛掉（2026-10-04 老师确认）。
+try { localStorage.removeItem("kongsi-idea-board-filter"); } catch (e) { /* 清旧记忆，失败不影响 */ }
 
 function subjectBadge(code) {
   return (SUBJECT_BY_CODE[code] && SUBJECT_BY_CODE[code].badge) || code.slice(0, 2).toUpperCase();
@@ -1026,7 +1016,6 @@ function scrollToBoard() {
 function syncFacetsFromFinder() {
   gradeFilter = finderState.tahun || "all";
   subjekFilter = finderState.subjek || "all";
-  saveBoardFilter();
 }
 function applyFacetsToFinder() {
   const tahun = gradeFilter === "all" ? null : Number(gradeFilter);
@@ -1681,11 +1670,6 @@ function loadFinderFromUrl() {
     }
   }
   finderState = { tahun: validTahun, subjek: validSubjek, unit: validUnit, objective: validObjective, q };
-  if (!params.has("tahun") && !params.has("subjek") && !q) {
-    // 网址没指定就沿用这台浏览器上次的年级／科目，刷新不会跳回「全部」
-    finderState.tahun = gradeFilter === "all" ? null : Number(gradeFilter);
-    finderState.subjek = subjekFilter === "all" || !finderSubjectsFor(finderState.tahun).some((s) => s.code === subjekFilter) ? null : subjekFilter;
-  }
   finderQueryEl.value = q;
 }
 
