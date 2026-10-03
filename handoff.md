@@ -4,17 +4,17 @@
 
 ## ⏯️ 目前做到哪
 
-**2026-10-02／03：首页上下共用一套条件已上线**（`424a2bf`，随另一 session 部署 `f4c9735` 一起上正式站）：查找区年级／科目／单元／学习目标／关键词同步筛下方卡片，下方年级科目按钮双向同步，卡片上方显示条件＋清除。10-03 Sonnet verify 在正式站桌面＋手机跑 10 条全过（截图 `my-agent/playwright-to-delete/kongsi-live-verify/`）。见 `agents.md` 关键决定 23。
-
-**2026-10-01：首页第二轮**（老师看完预览后要求）：手机页首重排成三行；「为什么会有这个地方」精简＋Telegram 联络按钮；整体优化 1–5 项全做——手机横式清单卡、筛选只列有工具的年级科目、卡片拿掉开发代号、🏆 换 SVG、两个搜索框合并成一个（Enter 收起建议并跳到卡片）。见 `agents.md` 关键决定 22–24。第 6 项「打字效果 2 秒停顿」老师未要求，没动。
-
-**2026-09-30：首页载入提速＋版面整理**（老师问 loading 慢、没有天地格、卡片字太小）：① 缩略图改用 WebP 小图（首页下载 8.56MB→0.87MB），`vercel.json` 加 `/assets/*` 缓存，喜欢数本机缓存避免载入后卡片整批跳位；② 全站 `.container` 天地格；③ 卡片 subgrid 行对齐＋字放大。细节见 `agents.md` 关键决定 21、22。本地 Playwright 320/390/820/1280/1920 验过（无横向溢出、console 无报错、弹窗/灯箱/WebP 退回原图正常）。部署状态见下方「最后更新」。
-
-**2026-09-25：工具详情弹窗「分享给学生」功能上线（两次迭代）**：第一版做了 QR 码分享（`43776e0`），第二版依老师反馈把「复制分享链接」「显示QR码」两个等重按钮合并成一个次要小图标按钮 `#detailShareBtn`（`d74e91e`）——点一下同时复制链接＋就地生成QR码（`qrcode-generator` CDN，离线生成不外传网址），再点一次收起；换工具时状态自动重置。设计原因见 `agents.md` 关键决定 19。两次都用独立起的 headless Chromium（非共享 Playwright MCP，当时被另一 session 锁住）跑过 Playwright 验证（生成/切换/换工具重置、剪贴板内容、console 无相关报错），均已 `git push` + `vercel --prod --yes` + `vercel alias set --scope kongsi-idea` 三步生产部署，curl 复验线上文件含新代码。讨论中确认「详情打开次数」转化率指标暂不做（见 `agents.md` 关键决定 20），老师说好再动手。
+**2026-09-30～10-04：首页大整理，全部已上线**（正式站 = `8086a1f`，`b07ac42` 为纯文档）。老师看手机／桌面截图逐轮反馈，做了：
+- **提速**：缩略图改 WebP 小图（首页 8.56MB→0.87MB，`scripts/build-thumbs.py`），`vercel.json` 缓存 `/assets/*`，喜欢数本机缓存。
+- **版面**：全站 `.container` 天地格；工具卡 subgrid 行对齐（6 行）；≤560px 手机改横式清单卡（整页 14,500→5,500px）；手机页首三行；卡片拿掉开发代号、🏆 换 SVG。
+- **搜索与筛选**：只留一个搜索框；`finderState` 为唯一来源，上下年级／科目／单元／关键词双向同步，卡片上方显示条件＋清除；没有工具的科目灰色按不到（只列该年级课纲有的科目）；拿掉所有「整理中」；条件只存网址、不存 localStorage（干净网址＝全部工具）。
+- **关于区块**：文案精简，联络改 Telegram 私讯按钮（`t.me/yquanloo`）。
+- 验证：本机 320–1920px 多尺寸；10-03 Sonnet verify 在正式站桌面＋手机 10 条全过。决策与理由见 `agents.md` 关键决定 21–24。
+- **另一个 session 也在改这个专案**（上架 Huruf、光的小探险、新增科目 `am`），开工先 `git fetch` 看 `HEAD..@{u}`。
 
 ## 🚦 目前状态
 
-- Hub 正式网址：https://kongsi-idea.vercel.app（含合并版分享按钮，已 curl 复验）
+- Hub 正式网址：https://kongsi-idea.vercel.app（= `8086a1f`，含上下同步条件、横式手机卡片，已 curl 复验）
 - 磁力创造实验室：https://tahun1-dst-magnet.vercel.app（v2 已上线）
 - Story Quest：https://tahun4-bi-writing.vercel.app（独立 repo，同 `kongsi-idea` team）
 - `tahun4-bc-bishun` v2.1 视觉改版**仍待部署**（本地已 commit，接手先看该工具自己的 handoff）
@@ -45,14 +45,16 @@
 
 ## 🕐 最后更新
 
-- 时间：2026-09-25
-- 更新者：Claude Sonnet 5 @ 这台 Mac
-- Git push：✅ 已推（`43776e0`／`d74e91e`）；Hub 正式网址已部署生产并 curl 复验
+- 时间：2026-10-04
+- 更新者：Claude Sonnet 5.5 @ 这台 Mac
+- Git push：✅ 已推（`8086a1f` 代码；本次收工文档 commit 见 git log）；正式站已 curl 复验
 
 ---
 
 ## 历史摘要
 
+- 2026-09-30～10-04：首页提速＋天地格＋subgrid 卡片＋手机横式卡＋单一搜索框＋上下同步条件＋灰色无工具科目＋Telegram 联络（见上方「目前做到哪」）。
+- 2026-09-25：详情弹窗「分享给学生」（QR＋复制链接合成一个次要按钮，`43776e0`／`d74e91e`），见 `agents.md` 关键决定 19。
 - 2026-09-21：班级代码共用机制上线（`5564e3f`），错误代码留在同一输入流程重试、成功后可「换班级」，换班保留其他网址参数并清掉旧班状态；本地 Playwright 验证过错误→重试→成功、375px 手机弹窗不溢出。
 - 2026-09-17：磁力创造实验室 v2 全链路发布（改名「磁力创造实验室」、四工作区新设计、Hub 缩图换新、DSKP 补齐）；首页统计条「网页浏览量」改名「次到访」加 30 分钟 session 去重（`1e6a650`）；guard 深夜限制放开 `vercel`/`git push` 盘查（DB migration 仍挡）。
 - 2026-09-15：全校名单批量导入 kelasku（67 班/2581 人）；Story Quest（`tahun4-bi-writing`）v0.3.0 上线上架，接上 Supabase 投稿审核；`tahun4-bc-bishun` 登记 published，v2.1 视觉改版待部署。
