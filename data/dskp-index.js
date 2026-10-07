@@ -221,7 +221,7 @@ const DSKP_INDEX = [
             code: "3.2",
             title_zh: "培养书面表达能力：练习写话，初步尝试书面表达，不拘形式写自己想说的话",
             title_bm: "Memupuk kemahiran penulisan berformat bebas",
-            terms: ["写话", "造句", "语序", "penulisan"],
+            terms: ["写话", "看图写话", "造句", "语序", "penulisan"],
           },
         ],
       },

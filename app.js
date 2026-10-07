@@ -533,6 +533,37 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-bc-kantu",
+    tahun: 1,
+    subjek: "bc",
+    status: "published",
+    title_zh: "看图小侦探",
+    title_bm: "Detektif Cilik: Lihat Gambar, Bina Ayat",
+    desc: "侦探笔记本主题的看图写话练习：看一张生活场景图，把「线索卡」拖进「＿时间＿，＿人物＿在＿地点＿＿做什么＿。」四个格子，按放大镜检查。干扰卡都是图里看得出不对的（大白天放「晚上」、只有一个人放「同学们」），错的格子会摇动并标出「时间不对」「地点不对」，语音提示该看图里哪里；四格全对就盖「破案！」章、朗读整句、给星星。第一关卡片按四要素分颜色，第二关全部同色、放错要素格也算错。24 个场景，时间看不出确切答案的题接受多个正确答案（例如傍晚／下午／放学后）。全部词语与句子用自然人声预录朗读，点一下卡片就读。",
+    keywords: ["看图写话", "看图造句", "写话", "造句", "时间", "人物", "地点", "做什么", "四要素", "一年级", "华文", "拖拽", "kantu"],
+    url: "https://tahun1-bc-kantu.vercel.app",
+    type: "工具",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-08", note: "首次上架：24 个场景、两关（颜色线索／真正的侦探）、随机 6 题与自己选题两种用法、预录朗读" },
+    ],
+    // 这 3 张是 2026-10-08 用 Playwright 实际操作正式网址 https://tahun1-bc-kantu.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bc-kantu/1-home.png", label: "主页：四要素与两关选择" },
+      { img: "assets/thumbs/tahun1-bc-kantu/2-feedback.png", label: "检查后：时间、做什么两格标红，人物、地点打勾" },
+      { img: "assets/thumbs/tahun1-bc-kantu/3-solved.png", label: "破案！盖章、星星、彩色整句朗读" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.2"] },
+    ],
+    practiceSummary: "看图写话：从图中找线索，用时间、人物、地点、做什么组成完整句子",
+    teachingMode: ["投影互动", "全班参与", "学生自学"],
+    prep: "打开即用。一体机全班做：用「自己选题」逐题讲；电脑室一人一台：用「开始破案」随机 6 题，建议戴耳机（会朗读）。触控屏、鼠标都能拖",
+  },
+
+  {
     slug: "tahun2-mt-shuzhi",
     tahun: 2,
     subjek: "mt",
