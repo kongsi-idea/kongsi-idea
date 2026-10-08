@@ -2,7 +2,7 @@
 // 各工具页只要加一行：
 //   <script src="https://kongsi-idea.vercel.app/data/track-use.js" data-slug="工具slug" defer></script>
 // 规则：
-// - 只在工具自己的正式网址（slug.vercel.app）计数，preview／本机不算，免得写进假 slug。
+// - 只在工具自己的正式网址（slug.vercel.app，或 data-host 指定的旧网址）计数，preview／本机不算，免得写进假 slug。
 // - 从 hub 点「开始使用」进来的网址带 ?kh=1：hub 已经算过，这里跳过，并把 kh 从网址拿掉，
 //   老师之后从地址栏复制转发就不会漏算。
 // - 同一台浏览器 30 分钟内同一个工具只算一次（刷新不灌水），和首页「次到访」同一套规则。
@@ -11,7 +11,8 @@
   try {
     var el = document.currentScript;
     var slug = el && el.getAttribute("data-slug");
-    if (!slug || location.hostname !== slug + ".vercel.app") return;
+    var legacy = el && el.getAttribute("data-host"); // 改名前的旧网址（如 grade2-math-tools.vercel.app），仍有人在用才加
+    if (!slug || (location.hostname !== slug + ".vercel.app" && location.hostname !== legacy)) return;
 
     var u = new URL(location.href);
     if (u.searchParams.get("kh") === "1") {
