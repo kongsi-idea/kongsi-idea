@@ -175,6 +175,38 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-mt-ruang",
+    tahun: 1,
+    subjek: "mt",
+    status: "published",
+    title_zh: "空间小天地",
+    title_bm: "Ruang: Bentuk Tiga Dimensi dan Dua Dimensi",
+    desc: "一年级「空间」单元的 3D 教学工具，可拖拽自由旋转。立体图形：六种立体，按「面／边／顶点」一个个圈出来报数，另有生活物品配对立体。平面图形：数直线边、顶点、曲线。模式排列：只比形状，一行从左到右读，按「为什么」框出重复的一组，老师也能自己出题。创意图案：拼平面图案、搭立体模型，三级小挑战（数图形、补对称、照样拼）。延伸：五种立体的展开图（正方体 11 种），看它站着打开、合起；还有「能折成正方体吗？」与「盖印章」小乐趣。每个模块都有「老师讲解」（先猜后揭晓）和「自己练习」（点选作答）两种模式。",
+    keywords: ["空间", "立体图形", "平面图形", "长方体", "正方体", "圆锥体", "正方棱锥体", "圆柱体", "球体", "正方形", "长方形", "三角形", "圆形", "面", "边", "顶点", "曲线", "模式排列", "规律", "创意图案", "展开图", "3D", "一年级", "数学", "ruang", "bentuk 3D", "bentuk 2D", "bucu", "sisi", "permukaan", "pola", "bentangan"],
+    url: "https://tahun1-mt-ruang.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-08", note: "首次上架：立体图形、平面图形、模式排列、创意图案，延伸展开图（5 种立体）与盖印章；老师讲解／自己练习两种模式；电脑、投影、手机竖屏版面" },
+    ],
+    // 这 5 张是用 Playwright 实际操作 https://tahun1-mt-ruang.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-mt-ruang/v1-0-1-home.png", label: "首页：立体图形、平面图形、模式排列、创意图案、展开图、盖印章" },
+      { img: "assets/thumbs/tahun1-mt-ruang/v1-0-2-vertex.png", label: "长方体：点「顶点」一个个圈出来报数，共 8 个" },
+      { img: "assets/thumbs/tahun1-mt-ruang/v1-0-3-net.png", label: "展开图：正方体站着一层层打开" },
+      { img: "assets/thumbs/tahun1-mt-ruang/v1-0-4-pattern.png", label: "模式排列：按「为什么」框出重复的一组" },
+      { img: "assets/thumbs/tahun1-mt-ruang/v1-0-5-create.png", label: "创意图案：用圆柱体和圆锥体搭出火箭" },
+    ],
+    // standards 暂不填：7.0 空间的马来文 DSKP 官方用词还没核对官方 PDF，不编造课程对照（对应 DSKP 7.1／7.2／7.3，见 published-tools-coverage.md）
+    standards: [],
+    practiceSummary: "说出六种立体与四种平面图形的名称；数立体的面、边、顶点与平面图形的直线边、顶点、曲线；依形状规律排列；用平面图形创作图案、用立体组合新模型；解决空间相关的数数与配对问题",
+    teachingMode: ["投影互动", "教师带教/演示", "个人自学"],
+    prep: "打开即用，不需要打印。Google Meet 共享屏幕、课室投影／一体机、学生在家用手机或电脑都可以。老师上课用「老师讲解」（名称和数量先藏起来，问完再揭晓）；学生自学切到「自己练习」（点选作答，不计分）。电脑有键盘快捷键：空白键揭晓、←→ 换下一个、R 复位视角",
+  },
+
+  {
     slug: "tahun4-mt-nombor",
     tahun: 4,
     subjek: "mt",
