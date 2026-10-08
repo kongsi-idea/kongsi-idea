@@ -1341,7 +1341,7 @@ function openDetail(tool) {
 
   const link = document.getElementById("detailOpenLink");
   if (tool.url) {
-    link.href = tool.url;
+    link.href = `${tool.url}?kh=1`; // hub 已算过使用次数；工具端 data/track-use.js 看到 kh=1 会跳过并清掉它
     link.classList.remove("detail__open--disabled");
     link.textContent = "开始使用";
     link.onclick = () => { bumpUses(tool.slug); };
