@@ -9,6 +9,7 @@
 |---|---|---|---|---|---|---|---|
 | `tahun2-mt-wang` | Tahun 2 | 数学 (mt) | 钱币乐园 | 4.0 钱币 — 4.1 | https://tahun2-mt-wang.vercel.app | `../teaching-tools/tahun2-mt-wang/` | 原登记误标 4.2/4.3/4.6，实际代码只有「确认币值」「钱币组合」「抽签」三个模式，全档搜不到加减法或储蓄情境，已改回只登记实际覆盖的 4.1；想真正覆盖 4.2/4.3/4.6 需另外加「找零/加减法/储蓄」题型 |
 | `tahun1-mt-bundar` | Tahun 1 | 数学 (mt) | 近似值特快车 | 1.0 数与运算 — 1.8 近似值 | https://tahun1-mt-bundar.vercel.app | `../teaching-tools/tahun1-mt-bundar/` | — |
+| `tahun1-mt-masa` | Tahun 1 | 数学 (mt) | 时刻大对决 | 时间与时刻 — 5.2 确认时针分针（DSKP 对照待核对官方 PDF，未收进 dskp-index） | https://tahun1-mt-masa.vercel.app | `../teaching-tools/tahun1-mt-masa/` | v1.0（2026-10-08）首次上架。接 kelasku 名单＋Supabase 排行榜（`tahun1_mt_masa_scores`，对垒与自由作答分开计分）。待办：马来文 DSKP 用词未查证；「4时／4时半／4时一刻／4时15分」用词待对一年级数学课本；对垒每轮换人后排行榜只记最后一轮上场的两位（待老师定是否每轮都记）；课室一体机触控手感与音效音量未实测。 |
 | `tahun1-mt-pecahan` | Tahun 1 | 数学 (mt) | 燕菜切切乐 | 3.0 分数 — 3.1 二等份和四等份的真分数概念 ＋ 3.2 解决问题 | https://tahun1-mt-pecahan.vercel.app | `../teaching-tools/tahun1-mt-pecahan/` | v1.0（2026-09-29）首次上架。接 kelasku 名单＋Supabase 排行榜（`tahun1_mt_pecahan_scores`，只记「燕菜铺开张」）；朗读为 edge-tts 预录（改句子要重跑 `gen-voice.py`）。待办：本机没有一年级数学课本分数单元原文，「二分之一」读法与直式写法照 DSKP 摘要，待对课本；「燕菜」叫法待老师确认；Windows 学校电脑与课室一体机触控未实测。 |
 | `tahun4-mt-nombor` | Tahun 4 | 数学 (mt) | 数学知识大比拼 | 1.0 数与运算 — 1.1 数值 | https://tahun4-mt-nombor.vercel.app | `../teaching-tools/tahun4-mt-nombor/` | — |
 | `tahun1-bc-shizi` | Tahun 1 | 华文 (bc) | 识字大对决 | 2.0 阅读技能 — 2.1 阅读与理解教材 | https://tahun1-bc-shizi.vercel.app | `../teaching-tools/tahun1-bc-shizi/` | — |

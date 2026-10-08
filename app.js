@@ -845,6 +845,37 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-mt-masa",
+    tahun: 1,
+    subjek: "mt",
+    status: "published",
+    title_zh: "时刻大对决",
+    title_bm: "Pertarungan Masa",
+    desc: "一年级「时间与时刻」拨钟工具，分课堂对垒和自由作答两种模式。题目只考整时、半、一刻、三刻（可自选），例如「把钟拨成 4 时半」。学生拖动分针和时针拨钟，时针也要跟着走到位才算对，答错会直接指出「分针对了，时针还没走到」。课堂对垒：左右各一个大钟，两位学生同屏抢拨，每答完一题就从班级名单重新抽一对新同学上场，不重复、全班轮完一遍才重来。自由作答：一个人练习，记录答对几题和用时。时针宽容度有宽松、标准、严格三档，可按学生程度调整；有音效（可静音）和排行榜，对垒与自由作答分开计分。",
+    keywords: ["时刻", "时间", "拨钟", "钟面", "整时", "半", "一刻", "三刻", "一年级", "数学", "masa", "jam", "waktu", "对决", "抢答", "排行榜"],
+    url: "https://tahun1-mt-masa.vercel.app",
+    type: "游戏",
+    hasLeaderboard: true,
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-08", note: "首次上架" },
+    ],
+    // 缩图：2026-10-08 用 Playwright 实际打开正式网址 https://tahun1-mt-masa.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-mt-masa/v1-0-hero.png", label: "开场：木框实体风格的大钟，下方写着「两个人比赛，看谁先把指针拨对！」和「开始」按钮" },
+      { img: "assets/thumbs/tahun1-mt-masa/v1-1-setup.png", label: "设定页：选课堂对垒或自由作答，输入蓝队红队名字，选要考哪几种时刻（整时、半、一刻、三刻）" },
+      { img: "assets/thumbs/tahun1-mt-masa/v1-2-solo.png", label: "自由作答：题目卡写着「把钟拨成 6 时」，下方是木框大钟，上方显示第几题和用时" },
+      { img: "assets/thumbs/tahun1-mt-masa/v1-3-duel.png", label: "课堂对垒：蓝队红队计分条，题目卡「把钟拨成 2 时」，下方并排两个大钟，两位学生同屏抢拨" },
+    ],
+    // standards 暂不填：马来文 DSKP 官方用词未核对官方 PDF，不编造课程对照
+    practiceSummary: "确认时针与分针的位置，读出并拨出整时、半、一刻、三刻",
+    teachingMode: ["投影互动", "课堂对垒", "学生自学"],
+    prep: "打开即用。课堂对垒建议用一体机或投影横屏，两位学生同屏拨钟；接班级名单后每题自动换一对新同学上场，没有名单可直接打名字。自由作答一人一台即可。时针宽容度预设「宽松」，要练习「半点时针要走到两个数字中间」请调到标准或严格",
+  },
+
+  {
     slug: "tahun1-bc-liangci",
     tahun: 1,
     subjek: "bc",
