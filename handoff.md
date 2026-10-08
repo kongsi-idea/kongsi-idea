@@ -4,25 +4,26 @@
 
 ## ⏯️ 目前做到哪
 
-**2026-09-30～10-04：首页大整理，全部已上线**（正式站 = `8086a1f`，`b07ac42` 为纯文档）。老师看手机／桌面截图逐轮反馈，做了：
-- **提速**：缩略图改 WebP 小图（首页 8.56MB→0.87MB，`scripts/build-thumbs.py`），`vercel.json` 缓存 `/assets/*`，喜欢数本机缓存。
-- **版面**：全站 `.container` 天地格；工具卡 subgrid 行对齐（6 行）；≤560px 手机改横式清单卡（整页 14,500→5,500px）；手机页首三行；卡片拿掉开发代号、🏆 换 SVG。
-- **搜索与筛选**：只留一个搜索框；`finderState` 为唯一来源，上下年级／科目／单元／关键词双向同步，卡片上方显示条件＋清除；没有工具的科目灰色按不到（只列该年级课纲有的科目）；拿掉所有「整理中」；条件只存网址、不存 localStorage（干净网址＝全部工具）。
-- **关于区块**：文案精简，联络改 Telegram 私讯按钮（`t.me/yquanloo`）。
-- 验证：本机 320–1920px 多尺寸；10-03 Sonnet verify 在正式站桌面＋手机 10 条全过。决策与理由见 `agents.md` 关键决定 21–24。
-- **另一个 session 也在改这个专案**（上架 Huruf、光的小探险、新增科目 `am`），开工先 `git fetch` 看 `HEAD..@{u}`。
+**2026-10-08：全部工具「直接打开也计使用次数」＋自动部署**（Hub `c9927a3`、`data-host` 版再部署一次，已切正式 alias，`8fe6188` 为文档）。
+- Hub 新增 `data/track-use.js`；hub「开始使用」链接带 `?kh=1`（hub 已算过，工具端跳过并清掉它）。29 个已上架工具入口都已带这一行，`npm run check -- --all`（31 个网址）全过。决策与约束见 `agents.md` 关键决定 25。
+- 实测：kantu／bishun／drone／liangci＋zaoju／density／duel／masa／wang 新旧网址，直接打开 +1、刷新与 `?kh=1` 不重复。历史次数补不回来，从 10-08 起算。
+- `tahun2-mt-wang` 改成与其他工具同规格（本体搬到根目录，项目域名补上 `tahun2-mt-wang.vercel.app`）；`tahun4-bc-bishun` 补建了 GitHub 私有仓库。
+- 工具端自动部署（GitHub Actions）已接好，见 `../teaching-tools/handoff.md`。**Hub 本体仍是手动三步**（Hobby 套餐连不了私有组织仓库）。
+- `docs/tools-status.md` 有别人未提交的改动，没碰。
+
+**2026-09-30～10-04：首页大整理**（已上线，正式站 `8086a1f`）：提速（WebP 缩图）、全站天地格、工具卡 subgrid、手机横式卡、单一搜索框＋上下同步筛选、Telegram 联络；决策见 `agents.md` 关键决定 21–24。
 
 ## 🚦 目前状态
 
 - Hub 正式网址：https://kongsi-idea.vercel.app（= `8086a1f`，含上下同步条件、横式手机卡片，已 curl 复验）
 - 磁力创造实验室：https://tahun1-dst-magnet.vercel.app（v2 已上线）
 - Story Quest：https://tahun4-bi-writing.vercel.app（独立 repo，同 `kongsi-idea` team）
-- `tahun4-bc-bishun` v2.1 视觉改版**仍待部署**（本地已 commit，接手先看该工具自己的 handoff）
+- `tahun4-bc-bishun` v2.1 已随 10-08 批量上线部署（线上已验到追踪那一行；v2.1 画面本身没单独复验）
 - 排行榜表未建之前，`tahun1to6-drone` 排行榜面板能显示但读写静默失败（不影响游戏本身）
 
 ## ➡️ 下一步
 
-1. `tahun4-bc-bishun` v2.1 待部署——接手先看该工具自己的 handoff
+1. 抽看几天后 `tool_stats` 的使用次数增长是否合理（直接打开计数是否有异常暴增）
 2. 确认「王菱敏」是不是「王凌敏」（LOVELLE HENG LYNN MIN，学号 26311）——老师核对后一句话即可补 1I 最后一笔 name_en/seat_no
 3. 全校名单 `Kelas 2026` 分页缺 4F/5F/5I/5L 这几个班代号——如果是真实固定班需回头单独补建
 4. Story Quest 投稿审核目前只能在 Supabase Dashboard 手改 `pending`→`approved`/`rejected`；等真实投稿量再评估要不要做审核页面
