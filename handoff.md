@@ -4,6 +4,8 @@
 
 ## ⏯️ 目前做到哪
 
+**2026-10-09：许愿池表单改版**（`8ad6e51`，已切正式 alias 并 curl 复验）。首批 10 份许愿多半只写「听不懂概念、程度差异大」之类标签，缺学生实际错法；第 2 步改为错例两格（题目／活动＋学生实际表现，组合存进 `problem_description`），删掉困难／限制标签和「必须有／不要有」，第 3 步加必填设备单选（存 `usage_modes`）。不改表结构，规格见 `docs/idea-wish-pool-spec.md` 3.3。首批 10 份里有 4 份需要回访（T3 MT 行列、T6 MT 分数乘法、T3 BM Kata Tanya、T3 BI adjectives 疑似测试单），可以和其他需求合并的有：拼写类（T1、T4 BI）、形似字类（T1、T2 BC）。
+
 **2026-10-08：全部工具「直接打开也计使用次数」＋自动部署**（Hub `c9927a3`、`data-host` 版再部署一次，已切正式 alias，`8fe6188` 为文档）。
 - Hub 新增 `data/track-use.js`；hub「开始使用」链接带 `?kh=1`（hub 已算过，工具端跳过并清掉它）。29 个已上架工具入口都已带这一行，`npm run check -- --all`（31 个网址）全过。决策与约束见 `agents.md` 关键决定 25。
 - 实测：kantu／bishun／drone／liangci＋zaoju／density／duel／masa／wang 新旧网址，直接打开 +1、刷新与 `?kh=1` 不重复。历史次数补不回来，从 10-08 起算。
