@@ -59,3 +59,21 @@ begin
 end;
 $$;
 grant execute on function public.admin_update_wish(uuid, text, text, text) to authenticated;
+
+-- 管理员列出全部注册老师（邮箱、姓名、注册／最近登录时间、许愿数）；非管理员回空
+create or replace function public.admin_list_teachers()
+returns table (email text, full_name text, created_at timestamptz, last_sign_in_at timestamptz, wish_count int)
+language sql
+security definer
+set search_path = public
+stable
+as $$
+  select u.email::text, coalesce(u.raw_user_meta_data->>'full_name', u.raw_user_meta_data->>'name'),
+         u.created_at, u.last_sign_in_at,
+         (select count(*)::int from public.wishes w where w.teacher_id = u.id)
+  from public.profiles p
+  join auth.users u on u.id = p.id
+  where public.is_admin()
+  order by u.created_at desc;
+$$;
+grant execute on function public.admin_list_teachers() to authenticated;

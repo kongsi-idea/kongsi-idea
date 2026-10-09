@@ -8,6 +8,7 @@ const HELP = { "practice-game": "练习小游戏", "classroom-interactive": "课
 const appEl = document.getElementById("app");
 let wishes = [];
 let filter = "all";
+let teachers = null;
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const stLabel = (v) => (STATUSES.find((s) => s[0] === v) || [v, v])[1];
@@ -29,12 +30,28 @@ async function load() {
 function render() {
   const counts = {};
   wishes.forEach((w) => { counts[w.status] = (counts[w.status] || 0) + 1; });
-  const tabs = [["all", `全部 ${wishes.length}`], ...STATUSES.map(([v, l]) => [v, `${l} ${counts[v] || 0}`])]
+  if (filter === "teachers") return renderTeachers();
+  const tabs = [["all", `全部 ${wishes.length}`], ...STATUSES.map(([v, l]) => [v, `${l} ${counts[v] || 0}`]), ["teachers", "注册名单"]]
     .map(([v, l]) => `<button class="${filter === v ? "on" : ""}" data-f="${v}">${l}</button>`).join("");
   const list = wishes.filter((w) => filter === "all" || w.status === filter);
   appEl.innerHTML = `<div class="ad__bar">${tabs}</div>` + (list.map(card).join("") || '<p class="ad__msg">这个分类下没有许愿单</p>');
   appEl.querySelectorAll("[data-f]").forEach((b) => b.addEventListener("click", () => { filter = b.dataset.f; render(); }));
   appEl.querySelectorAll("[data-save]").forEach((b) => b.addEventListener("click", () => save(b.dataset.save, b)));
+}
+
+async function renderTeachers() {
+  if (teachers === null) {
+    showMsg("载入名单…");
+    const { data, error } = await supabaseClient.rpc("admin_list_teachers");
+    if (error) return showMsg("读取失败：" + esc(error.message));
+    teachers = data || [];
+  }
+  const fmt = (t) => (t ? new Date(t).toLocaleDateString("zh-CN") : "-");
+  const rows = teachers.map((t) => `<tr><td>${esc(t.full_name) || "-"}</td><td>${esc(t.email)}</td><td>${fmt(t.created_at)}</td><td>${fmt(t.last_sign_in_at)}</td><td>${t.wish_count}</td></tr>`).join("");
+  const tabs = [["all", "返回许愿单"], ["teachers", `注册名单 ${teachers.length}`]]
+    .map(([v, l]) => `<button class="${filter === v ? "on" : ""}" data-f="${v}">${l}</button>`).join("");
+  appEl.innerHTML = `<div class="ad__bar">${tabs}</div><div class="ad__card" style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;font-size:.9rem"><thead><tr style="text-align:left"><th>姓名</th><th>邮箱</th><th>注册</th><th>最近登录</th><th>许愿数</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  appEl.querySelectorAll("[data-f]").forEach((b) => b.addEventListener("click", () => { filter = b.dataset.f; render(); }));
 }
 
 function card(w) {
