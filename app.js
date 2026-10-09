@@ -943,6 +943,38 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-bc-liangci1",
+    tahun: 1,
+    subjek: "bc",
+    status: "published",
+    title_zh: "量词南瓜丰收季",
+    title_bm: "Musim Menuai Labu: Penjodoh Bilangan",
+    desc: "把「双、朵、只、颗、片、群」六个量词送到南瓜上，收割南瓜。关卡一是短语：一屏 6 粒南瓜，每粒南瓜上有图和「一（？）鲜花」，把量词卡拖过去（或点一下卡再点南瓜）；「群」的图一律画出好几个聚在一起，「只」「颗」是单个，让学生靠数一数、看形状来判断。关卡二是句子：读句子、把量词送进空格。题目每次乱序，答案没有规律可猜；答错先给观察提示（只教怎么看，不说答案），再答错才给完整提示，第三次起正确的量词卡会发光。第一次就答错的题，会在这一遍结束后再回炉一轮；最后显示星星和每个量词的答对率，提醒哪个量词最该多练。每个字可打开拼音，题目和提示都有预录人声朗读。构想来自陈晓琪老师。",
+    keywords: ["量词", "一年级", "华文", "南瓜", "双", "朵", "只", "颗", "片", "群", "penjodoh bilangan", "拖放", "拼音", "看图选词", "句子"],
+    url: "https://tahun1-bc-liangci1.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "陈晓琪老师（构想）／卢老师", initial: "陈" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-09", note: "首次上架：改编自陈晓琪老师的「南瓜量词丰收季」构想，重新核对题库（群的图画出多个、句子补「一」、换掉画不对的珍珠／葡萄／大雁／海鸥）、乱序出题、三阶段提示、错题回炉、量词答对率、拼音开关、预录朗读" },
+    ],
+    // 缩图：2026-10-09 用 Playwright 实际打开正式网址 https://tahun1-bc-liangci1.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bc-liangci1/v1-0-home.png", label: "首页：量词南瓜丰收季，关卡一、关卡二和量词宝典三个按钮" },
+      { img: "assets/thumbs/tahun1-bc-liangci1/v1-1-level1.png", label: "关卡一：6 粒南瓜，每粒有图和「一（？）XX」，下方是双朵只颗片群六张量词卡" },
+      { img: "assets/thumbs/tahun1-bc-liangci1/v1-2-pinyin.png", label: "打开「拼」按钮：量词卡和题目的字上方都标出拼音" },
+      { img: "assets/thumbs/tahun1-bc-liangci1/v1-3-level2.png", label: "关卡二：一幅图加一个句子，把量词送进空格" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.3.1"] },
+    ],
+    practiceSummary: "认识双、朵、只、颗、片、群六个量词，根据图中事物的数量与形状选出合适的量词，并在句子里运用",
+    teachingMode: ["个人自学", "投影互动", "课堂练习"],
+    prep: "打开即用，不需要打印；拖放或点选都可，触控一体机、平板、手机皆可（建议横屏）。想看拼音点顶栏「拼」。一人一台自学，或投影后请学生上台拖一拖。与「量词大冒险」是不同玩法：这个只练六个最常用的量词，适合刚学量词时",
+  },
+
+  {
     slug: "tahun1-bc-juxing",
     tahun: 1,
     subjek: "bc",
