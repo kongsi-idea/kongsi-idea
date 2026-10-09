@@ -392,4 +392,35 @@ const DSKP_INDEX = [
       },
     ],
   },
+  {
+    // 依本机 DSKP 截取档：资料库/DSKP资料/KSSR2017/Pendidikan-Jasmani-Kesihatan/通用/TAHUN1.md
+    // （PDF 自动提取，老师 2026-10-10 确认收录，未逐字人工核对）。马来文照该档原文。
+    curriculum: "KSSR Semakan 2017",
+    tahun: 1,
+    subjek: "pjpk",
+    sourceUrl: "https://bpk.moe.gov.my/kurikulum/kssr/kssr-tahun-1",
+    sourceLabel: "DSKP Pendidikan Jasmani dan Pendidikan Kesihatan Tahun 1",
+    verifiedAt: "2026-10-10",
+    units: [
+      {
+        code: "1.0",
+        title_zh: "体育：动作技能",
+        title_bm: "Kemahiran Pergerakan",
+        objectives: [
+          { code: "1.1", title_zh: "依动作概念探索身体形状、平衡等动作", title_bm: "Meneroka pelbagai corak pergerakan berdasarkan konsep pergerakan", terms: ["身体形状", "大字形", "动作概念", "konsep pergerakan", "bentuk badan"] },
+          { code: "1.6", title_zh: "探索动物动作（低、中、高水平）", title_bm: "Melakukan penerokaan pergerakan haiwan", terms: ["动物动作", "动物模仿", "pergerakan haiwan", "aras rendah", "aras tinggi"] },
+          { code: "1.7", title_zh: "平衡技能：单脚平衡、四至一个支撑点平衡", title_bm: "Melakukan kemahiran imbangan dengan lakuan yang betul", terms: ["平衡", "单脚站", "支撑点", "imbangan", "tapak sokongan"] },
+        ],
+      },
+      {
+        code: "3.0",
+        title_zh: "体育：体能",
+        title_bm: "Kecergasan",
+        objectives: [
+          { code: "3.3", title_zh: "柔韧性：动态与静态伸展", title_bm: "Melakukan senaman kelenturan dengan lakuan yang betul", terms: ["伸展", "拉筋", "柔韧", "kelenturan", "regangan"] },
+          { code: "3.4", title_zh: "肌耐力与肌力：保持俯卧撑预备姿势等", title_bm: "Melakukan senaman meningkatkan daya tahan dan kekuatan otot dengan lakuan yang betul", terms: ["肌耐力", "俯卧撑", "平板撑", "daya tahan otot", "tekan tubi"] },
+        ],
+      },
+    ],
+  },
 ];

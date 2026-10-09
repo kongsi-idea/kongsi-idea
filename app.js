@@ -874,6 +874,38 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-pj-haiwan",
+    tahun: 1,
+    subjek: "pjpk",
+    status: "published",
+    title_zh: "动物模仿秀",
+    title_bm: "Gaya Haiwan",
+    desc: "烟霾停课、不能到户外运动时，一年级学生在家用手机前置镜头做体育动作。先看动作教学（插画＋三个步骤＋朗读），再做站位检查：先调手机角度、站进屏幕上的人像，确认空间够做全部动作，并放拖鞋做记号。之后挑雨林动物来模仿：青蛙蹲、长颈鹿伸高、红鹤单脚站、小狗三脚站、海星大字形、鳄鱼撑地、小猫伸懒腰。手机辨认身体骨架，动作做对并撑住几秒就自动拍照，照片盖上名字、日期和动作名（华文＋马来文）。做完拼成一张「雨林探险」打卡卡，可分享到 Google Classroom、WhatsApp，或存进手机交给老师。影像只在手机本机处理，不会上传。",
+    keywords: ["体育", "一年级", "居家", "烟霾", "停课", "动作", "平衡", "伸展", "动物模仿", "拍照", "打卡", "Google Classroom", "pendidikan jasmani", "PJ", "imbangan", "regangan", "pergerakan haiwan", "kecergasan"],
+    url: "https://tahun1-pj-haiwan.vercel.app",
+    type: "工具",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-10", note: "首次上架" },
+    ],
+    // v1.0 缩图：2026-10-10 用 Playwright 操作正式网址 https://tahun1-pj-haiwan.vercel.app 截的真实画面；拍照画面需要真实摄像头，未截
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-pj-haiwan/v1-1-home.png", label: "首页：雨林里探头的七只动物，输入名字和班级就开始" },
+      { img: "assets/thumbs/tahun1-pj-haiwan/v1-2-tutorial.png", label: "动作教学：青蛙蹲的插画、三个步骤与要撑的秒数，会自动朗读" },
+      { img: "assets/thumbs/tahun1-pj-haiwan/v1-3-list.png", label: "挑一只动物来模仿：七张标本卡，做完的会盖章、可重拍" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.1", "1.6", "1.7"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.3", "3.4"] },
+    ],
+    practiceSummary: "模仿动物在低、高水平的动作，单脚与多支撑点平衡，大字形身体形状，俯卧撑预备姿势撑住，伸展拉筋",
+    teachingMode: ["学生自学", "个人练习"],
+    prep: "学生用手机（或有摄像头的电脑），以 Chrome 或 Safari 打开；在 Telegram／WhatsApp 里点开会提示改用浏览器。手机要立在桌上，人退后约 2–3 米，身边要有空地，建议有大人陪同。首次载入约 17MB（含动作辨认模型），建议用 Wi-Fi。旧手机辨认太慢时会自动改用 10 秒倒数拍。照片只存在学生手机，老师从 Classroom／WhatsApp 收打卡卡",
+  },
+
+  {
     slug: "tahun3-dst-density",
     tahun: 3,
     subjek: "dst",
