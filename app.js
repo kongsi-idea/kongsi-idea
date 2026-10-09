@@ -53,6 +53,36 @@ const TOOLS = [
     prep: "建议一人一台设备完成前七关，最后在纸上手写；拍照上传的作业默认不公开，老师批准后才算完成审核。",
   },
   {
+    slug: "tahun2-bi-punctuation",
+    tahun: 2,
+    subjek: "bi",
+    status: "published",
+    title_zh: "句子小火车",
+    title_bm: "Sentence Train",
+    desc: "二年级英文标点练习，针对「问句也放句号」的常见错误。每个词是一节车厢，大写字母是火车头，句末标点是车尾那节。关 1「Asking or Telling?」：句子以全小写、无标点出现，选问号或句号；答错时句首车厢亮起，并用车厢换位演示 he is → is he，每句有英文朗读（问句语调上扬也是线索）。关 2「Fix the train」：点首字母变大写、点车尾选句号或问号，修好整句；人名和 I 也要大写。每个问句都配一个只差词序的陈述句，混在一起出题，光靠反射答不对。题库 17 对（34 句），含 Unit 6–9 主题（衣服、家、身体、假期、栖息地）；可选「全班投影」或「自己练」，结束列出错题并可再练。",
+    keywords: ["标点", "问号", "句号", "大写", "问句", "陈述句", "punctuation", "question mark", "full stop", "capital letter", "二年级", "英文", "Bahasa Inggeris", "Year 2", "Superminds", "writing"],
+    url: "https://tahun2-bi-punctuation.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "Teacher Irene Wong", initial: "W" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-10", note: "首次上架：两关（Asking or Telling? ／ Fix the train）× 两种模式（全班投影／自己练），17 对句子预录英文朗读，错题可再练" },
+    ],
+    // 缩图：2026-10-10 用 Playwright 实际操作正式网址 https://tahun2-bi-punctuation.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-bi-punctuation/v1-1-home.png", label: "首页：大写 I 变火车头、句点接成车尾；可选全班投影或自己练" },
+      { img: "assets/thumbs/tahun2-bi-punctuation/v1-2-ask-tell.png", label: "关 1：看句子选「问」或「说」，答对后车头大写、车尾接上标点" },
+      { img: "assets/thumbs/tahun2-bi-punctuation/v1-3-swap.png", label: "关 1 答错：句首车厢亮起，并用车厢换位演示 she is → is she" },
+      { img: "assets/thumbs/tahun2-bi-punctuation/v1-4-fix.png", label: "关 2：点字母变大写、点车尾选标点，修好整句" },
+    ],
+    standards: [], // DSKP 搜索索引尚未收录 Tahun 2 BI；对照见 docs/dskp/tahun2/bahasa-inggeris.md：4.3.1（延伸 4.2.1）
+    practiceSummary: "判断句子是问还是说，句末用对问号或句号；句首与人名、I 用大写字母（DSKP Y2 BI 4.3.1，延伸 4.2.1）",
+    teachingMode: ["课堂投影", "个人练习"],
+    prep: "打开即用，不需要登录或班级代码；建议开声音（句子有英文朗读）。题库为参照 Unit 6–9 主题补写，非逐课课本原句；进度不保存。",
+  },
+
+  {
     slug: "tahun1to6-drone", tahun: 1, subjek: "mt", status: "published",
     coverage: [
       { tahun: 1, subjects: ["mt", "dst", "bm", "bi", "bc"] },
