@@ -890,11 +890,13 @@ const TOOLS = [
     changelog: [
       { version: "1.0", date: "2026-10-10", note: "首次上架" },
     ],
-    // v1.0 缩图：2026-10-10 用 Playwright 操作正式网址 https://tahun1-pj-haiwan.vercel.app 截的真实画面；拍照画面需要真实摄像头，未截
+    // v1.0：封面由 cx 生图（雨林七动物＋工具名），其余 4 张是老师 2026-10-10 在电脑上操作正式网址的实际截图（横式，配合 4:3 卡片）
     thumbnails: [
-      { img: "assets/thumbs/tahun1-pj-haiwan/v1-1-home.png", label: "首页：雨林里探头的七只动物，输入名字和班级就开始" },
-      { img: "assets/thumbs/tahun1-pj-haiwan/v1-2-tutorial.png", label: "动作教学：青蛙蹲的插画、三个步骤与要撑的秒数，会自动朗读" },
-      { img: "assets/thumbs/tahun1-pj-haiwan/v1-3-list.png", label: "挑一只动物来模仿：七张标本卡，做完的会盖章、可重拍" },
+      { img: "assets/thumbs/tahun1-pj-haiwan/v1-0-cover.png", label: "封面：雨林里七只动物各做一个动作，小朋友跟着摆海星" },
+      { img: "assets/thumbs/tahun1-pj-haiwan/v1-1-home.png", label: "首页：输入名字和班级，开始前先看四个安全提示" },
+      { img: "assets/thumbs/tahun1-pj-haiwan/v1-2-tutorial.png", label: "动作教学：红鹤单脚站的插画、三个步骤与要撑的秒数，会自动朗读" },
+      { img: "assets/thumbs/tahun1-pj-haiwan/v1-3-position.png", label: "站位检查：先调手机角度让人像踩在地板上，再站进人像里" },
+      { img: "assets/thumbs/tahun1-pj-haiwan/v1-4-list.png", label: "挑一只动物来模仿：七张标本卡，做完的会盖章、可重拍" },
     ],
     standards: [
       { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.1", "1.6", "1.7"] },
