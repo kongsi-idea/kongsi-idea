@@ -877,6 +877,37 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun2-dst-tower",
+    tahun: 2,
+    subjek: "dst",
+    status: "published",
+    title_zh: "科学叠叠塔",
+    title_bm: "Menara Sains",
+    desc: "二年级科学「光和暗」「混合物」的看图答题叠塔游戏。每题配一张图（光源、物体、屏幕，或盐水、沙子和筛网），答对才会落下一块积木，学生左右移动或单点快速落块，把塔叠得越高越好；两块并排先搭地基，塔越高越会摇晃，没接稳就倒塌。连续答对三题可选技能：稳固、双倍、自选积木形状。答对也会看到一句「为什么」，答错会指出正确答案和原因。叠到 100 cm、200 cm 会有庆祝提示。输入班级代码后从名单点自己的名字，成绩进入本班排行榜（每人每个题库只留最高塔）；也可以不登录用访客模式试玩。光和暗 19 题＋变式，混合物 52 题，全部配图。",
+    keywords: ["光和暗", "影子", "透光", "混合物", "溶解", "分离", "二年级", "科学", "叠叠塔", "看图答题", "排行榜", "cahaya", "bayang", "campuran", "larut"],
+    url: "https://tahun2-dst-tower.vercel.app",
+    type: "游戏",
+    hasLeaderboard: true,
+    stars: 0,
+    creator: { name: "曾慧恩老师", initial: "曾" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-09", note: "首次上架：接入班级代码名单与班级排行榜（访客可试玩）；答对也显示「为什么」，叠到 100 cm 有庆祝提示，塔越高天空越暗，答题卡不再挡住塔" },
+    ],
+    // 缩图：2026-10-09 用 Playwright 实际打开正式网址 https://tahun2-dst-tower.vercel.app 截的真实画面（访客模式），不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-dst-tower/v2-0-start.png", label: "开始页：登录（保存成绩、挑战班级排行榜）或访客模式（无需登录直接体验）" },
+      { img: "assets/thumbs/tahun2-dst-tower/v2-1-map.png", label: "科学冒险地图：两座岛——阳光城堡「光和暗」、像素矿场「混合物」" },
+      { img: "assets/thumbs/tahun2-dst-tower/v2-2-question.png", label: "看图答题：题目配一张光源、透明玻璃和屏幕的图，答对才有积木，旁边是自己的塔" },
+      { img: "assets/thumbs/tahun2-dst-tower/v2-3-tower.png", label: "叠塔：答对后积木落下，塔叠到 100 cm 时出现「突破 100 cm」庆祝提示" },
+    ],
+    // standards 暂不填：题库内的学习标准代码（光和暗 6.1.1–6.1.6、混合物 8.1.1–8.1.4）沿用原作者，未核对官方 PDF（本机无 Tahun 2 科学原件）；Hub 摘要只到内容标准 6.1／8.1
+    practiceSummary: "光和暗：确认光源、比较光暗、判断影子的方向、大小与清晰度；混合物：辨认可溶解与不可溶解的材料、选择分离混合物的方法、加快溶解的做法",
+    teachingMode: ["学生自学", "投影互动", "课堂竞赛"],
+    prep: "打开即用，需要网络。登录要班级代码（老师给，如 JBC1037-1A；网址后面加 ?code=班级代码 可直接带入，设备会记住），成绩进入该班排行榜；不想登录就选访客模式（不上榜）。建议一人一台平板或电脑，触控拖动或鼠标左右移动积木，单点快速落块；一体机投影也可全班轮流玩。题库里的学习标准代码来自原作者，尚未核对官方文件",
+  },
+
+  {
     slug: "tahun1-mt-masa",
     tahun: 1,
     subjek: "mt",
