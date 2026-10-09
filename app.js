@@ -496,7 +496,7 @@ const TOOLS = [
       { img: "assets/thumbs/tahun1-bm-huruf/v1-3-5-bagus.png", label: "写完：Bagus! Pandai! 与彩带" },
     ],
     standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1"] },
+      { curriculum: "KSSR 2015（原版）", unitCode: "3.0", objectiveCodes: ["3.1"] },
     ],
     practiceSummary: "在四线上按正确笔顺、方向机械式书写马来文大小写字母（SP 3.1.1 (i) huruf）",
     teachingMode: ["投影互动", "教师带教/演示", "个人自学"],
@@ -526,7 +526,7 @@ const TOOLS = [
       { img: "assets/thumbs/tahun1-bm-kvkv/2-playing.png", label: "两队同时打地鼠" },
     ],
     standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.1"] },
+      { curriculum: "KSSR 2015（原版）", unitCode: "2.0", objectiveCodes: ["2.1"] },
     ],
     practiceSummary: "正确发音朗读KV+KV结构的马来文音节与词汇",
     teachingMode: ["投影互动", "两队对战"],
@@ -1462,7 +1462,7 @@ function renderStandards(tool) {
       <p class="detail__standards-title">对应课程标准 · DSKP（核对日期 ${r.record.verifiedAt}）</p>
       <p class="detail__standards-unit">${r.unit.code} ${r.unit.title_zh}（${r.unit.title_bm}）</p>
       <ul class="detail__standards-list">${r.objectives.map((o) => `<li>${o.code} ${o.title_zh}</li>`).join("")}</ul>
-      <p class="detail__standards-source">来源：<a href="${r.record.sourceUrl}" target="_blank" rel="noopener">${r.record.sourceLabel}</a></p>
+      <p class="detail__standards-source">来源：${r.record.sourceUrl ? `<a href="${r.record.sourceUrl}" target="_blank" rel="noopener">${r.record.sourceLabel}</a>` : r.record.sourceLabel}</p>
     </div>
   `).join("");
 }
@@ -1736,6 +1736,8 @@ function finderResultCardHtml(tool) {
   const objLabel = objectives.map((o) => `${o.code} ${o.title_zh}`).join("、");
   const unitPart = resolved.map((r) => `${r.unit.code} ${r.unit.title_zh}`).join("；");
   const verifiedAt = resolved[0] ? resolved[0].record.verifiedAt : "";
+  // 资料库截取档没有审核（sourceLabel 标「未经审核」），不能写成「已核对」
+  const unreviewed = resolved[0] && /未经审核/.test(resolved[0].record.sourceLabel);
   return `
     <div class="finder-card" data-slug="${tool.slug}">
       <h4>${tool.title_zh} <span class="finder-card__bm">${tool.title_bm}</span></h4>
@@ -1744,7 +1746,7 @@ function finderResultCardHtml(tool) {
         <div><dt>可练习什么</dt><dd>${tool.practiceSummary || "—"}</dd></div>
         <div><dt>课堂方式</dt><dd>${(tool.teachingMode || []).join("、") || "—"}</dd></div>
         <div><dt>准备条件</dt><dd>${tool.prep || "—"}</dd></div>
-        <div><dt>DSKP 核对状态</dt><dd>已核对 · ${verifiedAt}</dd></div>
+        <div><dt>DSKP 核对状态</dt><dd>${unreviewed ? `已对照资料库截取档，未经审核 · ${verifiedAt}` : `已核对 · ${verifiedAt}`}</dd></div>
       </dl>
     </div>`;
 }
