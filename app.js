@@ -1738,8 +1738,8 @@ function finderResultCardHtml(tool) {
   const objLabel = objectives.map((o) => `${o.code} ${o.title_zh}`).join("、");
   const unitPart = resolved.map((r) => `${r.unit.code} ${r.unit.title_zh}`).join("；");
   const verifiedAt = resolved[0] ? resolved[0].record.verifiedAt : "";
-  // 资料库截取档没有审核（sourceLabel 标「未经审核」），不能写成「已核对」
-  const unreviewed = resolved[0] && /未经审核/.test(resolved[0].record.sourceLabel);
+  // 截取档没有审核（record.reviewed === false），不能写成「已核对」
+  const unreviewed = resolved[0] && resolved[0].record.reviewed === false;
   return `
     <div class="finder-card" data-slug="${tool.slug}">
       <h4>${tool.title_zh} <span class="finder-card__bm">${tool.title_bm}</span></h4>
@@ -1748,7 +1748,7 @@ function finderResultCardHtml(tool) {
         <div><dt>可练习什么</dt><dd>${tool.practiceSummary || "—"}</dd></div>
         <div><dt>课堂方式</dt><dd>${(tool.teachingMode || []).join("、") || "—"}</dd></div>
         <div><dt>准备条件</dt><dd>${tool.prep || "—"}</dd></div>
-        <div><dt>DSKP 核对状态</dt><dd>${unreviewed ? `已对照资料库截取档，未经审核 · ${verifiedAt}` : `已核对 · ${verifiedAt}`}</dd></div>
+        <div><dt>DSKP 核对状态</dt><dd>${unreviewed ? `已对照 · ${verifiedAt}` : `已核对 · ${verifiedAt}`}</dd></div>
       </dl>
     </div>`;
 }

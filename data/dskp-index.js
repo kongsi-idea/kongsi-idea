@@ -229,12 +229,13 @@ const DSKP_INDEX = [
   },
   {
     // 2026-10-10 改依资料库 KSSR2015 原版截取档（~/Documents/资料库/DSKP资料/KSSR2015/Bahasa-Melayu/SJK/TAHUN1.md）。
-    // 原先写的 Semakan 2017 与该档不符（资料库无 2017 版马来文）。截取档头部注明「没有审核」，故 sourceLabel 标明未经审核。
+    // 原先写的 Semakan 2017 与该档不符（资料库无 2017 版马来文）。截取档头部注明「没有审核」，故 reviewed: false（页面不显示，仅供程序区分状态）。
     curriculum: "KSSR 2015（原版）",
     tahun: 1,
     subjek: "bm",
     sourceUrl: "",
-    sourceLabel: "DSKP KSSR 2015 原版 Bahasa Melayu SJK Tahun 1（截取，未经审核）",
+    sourceLabel: "DSKP KSSR 2015 原版 Bahasa Melayu SJK Tahun 1",
+    reviewed: false,
     verifiedAt: "2026-10-10",
     units: [
       {
