@@ -2173,9 +2173,11 @@ async function handleAuthChange() {
   updateAuthStatusUI();
   updateWishNextButton();
   if (wishCurrentStep === 3) wishSubmitBtn.disabled = !validateWishStep(3);
-  await tryResumeWishFlow();
-  await tryAutoSubmitPending();
-  await ensureProfileRow();
+  // 先登记再做别的：许愿恢复／自动送出一旦出错，排在后面的登记就不会跑。
+  // 2026-10-09 发现 107 位老师漏登记，这是最可能的原因之一（已补登）
+  try { await ensureProfileRow(); } catch (e) { console.error("登记老师失败", e); }
+  try { await tryResumeWishFlow(); } catch (e) { console.error("恢复许愿流程失败", e); }
+  try { await tryAutoSubmitPending(); } catch (e) { console.error("自动送出失败", e); }
   await refreshTeacherCount();
 }
 

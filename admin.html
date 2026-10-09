@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>许愿池后台 · 点子铺</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  body { background: var(--paper, #faf6ee); color: var(--ink, #1f2d28); font-family: var(--font-body, system-ui, sans-serif); margin: 0; }
+  .ad { max-width: 860px; margin: 0 auto; padding: 24px 16px 64px; }
+  .ad h1 { font-family: var(--font-display, inherit); font-size: 1.5rem; margin: 0 0 4px; }
+  .ad__bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 16px 0; }
+  .ad button, .ad select, .ad input, .ad textarea { font: inherit; border: 1px solid #c9c2b2; border-radius: 8px; padding: 6px 10px; background: #fff; color: inherit; }
+  .ad button { cursor: pointer; }
+  .ad button.on { background: #24382f; color: #fff; border-color: #24382f; }
+  .ad__card { background: #fff; border: 1px solid #e0d9c8; border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
+  .ad__meta { font-size: .85rem; color: #6b6657; display: flex; flex-wrap: wrap; gap: 4px 12px; }
+  .ad__goal { font-weight: 600; margin: 6px 0 2px; }
+  .ad__row { margin: 4px 0; font-size: .92rem; }
+  .ad__row b { color: #6b6657; font-weight: 500; }
+  .ad__edit { display: grid; grid-template-columns: 1fr; gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e0d9c8; }
+  .ad__edit textarea { min-height: 52px; }
+  .ad__msg { padding: 24px; text-align: center; color: #6b6657; }
+</style>
+</head>
+<body>
+<main class="ad">
+  <h1>许愿池后台</h1>
+  <div id="app"><p class="ad__msg">载入中…</p></div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="data/supabase-client.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
