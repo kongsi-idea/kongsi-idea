@@ -4,7 +4,8 @@ const STATUSES = [
   ["building", "制作中"], ["shipped", "已上架"], ["declined", "不做"],
 ];
 const SUBJ = { bm: "马来文", bc: "华文", bi: "英文", mt: "数学" };
-const HELP = { "practice-game": "练习小游戏", "classroom-interactive": "课堂互动", "presentation-aid": "教学演示", unsure: "不确定" };
+const HELP = { "practice-game": "练习小游戏", "classroom-interactive": "课堂互动", "presentation-aid": "教学演示", "group-activity": "分组活动", printable: "可打印材料", utility: "抽选／计时", unsure: "不确定" };
+const MODE = { "whole-class": "只有老师投影", "pair-group": "学生几人共用设备", independent: "学生每人一台", "teacher-prep": "老师课前准备", "no-device": "没有设备" };
 const appEl = document.getElementById("app");
 let wishes = [];
 let filter = "all";
@@ -63,7 +64,7 @@ function card(w) {
     <div class="ad__goal">${esc(w.learning_goal)}</div>
     ${row("单元目标", w.unit_objective)}${row("课堂时机", w.lesson_moment)}${row("卡在哪", w.problem_description)}
     ${row("困难类型", w.difficulty_tags)}${row("试过什么", w.tried_already)}${row("限制", w.constraints)}
-    ${row("想要", HELP[w.desired_help] || w.desired_help)}${row("使用方式", w.usage_modes)}${row("必须／避免", w.must_have_or_avoid)}${row("班级情况", w.classroom_context)}
+    ${row("想要", HELP[w.desired_help] || w.desired_help)}${row("设备／使用", (w.usage_modes || []).map((m) => MODE[m] || m))}${row("必须／避免", w.must_have_or_avoid)}${row("班级情况", w.classroom_context)}
     <div class="ad__edit">
       <select data-status>${STATUSES.map(([v, l]) => `<option value="${v}"${v === w.status ? " selected" : ""}>${l}</option>`).join("")}</select>
       <textarea data-note placeholder="审核备注（不公开）">${esc(w.review_note)}</textarea>

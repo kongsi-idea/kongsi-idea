@@ -1883,26 +1883,6 @@ finderQueryEl.addEventListener("keydown", (e) => {
 // ============================================================
 // 点子许愿池：三步结构化需求单 —— docs/idea-wish-pool-spec.md
 // ============================================================
-const DIFFICULTY_TAGS = [
-  // 规格文件 docs/idea-wish-pool-spec.md 3.1 的储存值只有 7 个，但文字说明列了 8 个标签
-  // （多了「全班互动不够」），两处对不上——已并入 visibility 这一项，没有单独开一个不在储存值清单里的 id
-  { id: "concept", label: "听不懂概念" },
-  { id: "steps", label: "容易混淆步骤" },
-  { id: "engagement", label: "缺少练习动机" },
-  { id: "mixed-ability", label: "程度差异大" },
-  { id: "visibility", label: "全班互动不够／难以快速看见谁会谁不会" },
-  { id: "prep-time", label: "准备材料太花时间" },
-  { id: "other", label: "其他" },
-];
-const CONSTRAINTS = [
-  { id: "teacher-projector", label: "只有教师投影" },
-  { id: "no-student-devices", label: "学生没有个人设备" },
-  { id: "unstable-network", label: "网络不稳定" },
-  { id: "no-printing", label: "不能打印" },
-  { id: "short-lesson", label: "课时很短" },
-  { id: "large-class", label: "班级人数多" },
-  { id: "other", label: "其他" },
-];
 const DESIRED_HELP = [
   { id: "classroom-interactive", label: "课堂互动工具" },
   { id: "practice-game", label: "练习或小游戏" },
@@ -1912,38 +1892,27 @@ const DESIRED_HELP = [
   { id: "utility", label: "随机抽选或计时工具" },
   { id: "unsure", label: "还不确定" },
 ];
-const USAGE_MODES = [
-  { id: "whole-class", label: "全班投影" },
-  { id: "pair-group", label: "两人或小组" },
-  { id: "independent", label: "学生自己练习" },
-  { id: "teacher-prep", label: "老师课前准备" },
-  { id: "no-device", label: "没有设备也能用" },
+// 10-09 首批 10 份许愿：困难／限制标签和文字常互相矛盾，「希望怎样使用」和「限制」也互相打架，
+// 所以改成单选的设备题；储存值沿用 USAGE_MODES 的 id，写进 usage_modes（单一元素）
+const DEVICE_OPTIONS = [
+  { id: "whole-class", label: "只有老师电脑＋投影" },
+  { id: "pair-group", label: "学生几人共用一台平板／电脑" },
+  { id: "independent", label: "学生每人一台平板／电脑" },
+  { id: "no-device", label: "完全没有设备（要打印或用实物）" },
 ];
 
 const wishSelections = {
-  difficultyTags: new Set(),
-  constraints: new Set(),
-  usageModes: new Set(),
+  device: { value: null },
   desiredHelp: { value: null },
 };
 
-function renderMultiChips(container, options, selectedSet) {
-  container.innerHTML = options.map((o) => `<button type="button" class="wish-chip${selectedSet.has(o.id) ? " active" : ""}" data-id="${o.id}">${o.label}</button>`).join("");
-  container.querySelectorAll("button").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const id = btn.dataset.id;
-      if (selectedSet.has(id)) selectedSet.delete(id); else selectedSet.add(id);
-      btn.classList.toggle("active");
-    });
-  });
-}
 function renderRadioOptions(container, options, stateRef) {
   container.innerHTML = options.map((o) => `<button type="button" class="wish-chip wish-chip--radio${stateRef.value === o.id ? " active" : ""}" data-id="${o.id}">${o.label}</button>`).join("");
   container.querySelectorAll("button").forEach((btn) => {
     btn.addEventListener("click", () => {
       stateRef.value = btn.dataset.id;
       container.querySelectorAll("button").forEach((b) => b.classList.toggle("active", b === btn));
-      wishSubmitBtn.disabled = !validateWishStep(3); // 选完「最希望得到哪种帮助」要立刻重新判断送出按钮能不能按
+      wishSubmitBtn.disabled = !validateWishStep(3); // 选完帮助类型／设备要立刻重新判断送出按钮能不能按
     });
   });
 }
@@ -1989,20 +1958,26 @@ function validateWishStep(step) {
     return !!wishTahunEl.value && !!wishSubjekEl.value && lenOk;
   }
   if (step === 2) {
+    const task = document.getElementById("wishTask").value.trim();
+    const taskErrEl = document.getElementById("wishTaskError");
+    const taskOk = task.length >= 4;
+    taskErrEl.hidden = taskOk;
+    taskErrEl.textContent = "写出是哪一题或哪个活动，例如「听写 10 个水果词」。";
     const val = document.getElementById("wishProblem").value.trim();
     const errEl = document.getElementById("wishProblemError");
-    const lenOk = val.length >= 20;
+    const lenOk = val.length >= 10;
     errEl.hidden = lenOk;
-    errEl.textContent = "再多说一点，至少 20 个字，帮我们理解学生卡在哪里。";
-    return lenOk;
+    errEl.textContent = "再具体一点，至少 10 个字：学生写了什么、说了什么？";
+    return taskOk && lenOk;
   }
   if (step === 3) {
-    return !!wishSelections.desiredHelp.value && document.getElementById("wishConsent").checked;
+    return !!wishSelections.desiredHelp.value && !!wishSelections.device.value && document.getElementById("wishConsent").checked;
   }
   return true;
 }
 
 document.getElementById("wishLearningGoal").addEventListener("blur", () => validateWishStep(1));
+document.getElementById("wishTask").addEventListener("blur", () => validateWishStep(2));
 document.getElementById("wishProblem").addEventListener("blur", () => validateWishStep(2));
 
 wishNextBtn.addEventListener("click", async () => {
@@ -2082,13 +2057,12 @@ function collectWishResumeState(step) {
     unitObjective: document.getElementById("wishUnitObjective").value,
     learningGoal: document.getElementById("wishLearningGoal").value,
     lessonMoment: document.getElementById("wishLessonMoment").value,
+    problemTask: document.getElementById("wishTask").value,
     problemDescription: document.getElementById("wishProblem").value,
-    difficultyTags: [...wishSelections.difficultyTags],
+    problemCause: document.getElementById("wishCause").value,
     triedAlready: document.getElementById("wishTried").value,
-    constraints: [...wishSelections.constraints],
     desiredHelp: wishSelections.desiredHelp.value,
-    usageModes: [...wishSelections.usageModes],
-    mustHaveOrAvoid: document.getElementById("wishMustHave").value,
+    device: wishSelections.device.value,
     classroomContext: document.getElementById("wishContext").value,
   };
 }
@@ -2106,24 +2080,29 @@ function loadWishResumeState() {
 }
 function clearWishResumeState() { localStorage.removeItem(WISH_RESUME_KEY); }
 
+// 恢复暂存／登录跳转回来时共用；10-09 前存的旧草稿没有 problemTask／device，留空让老师补
+function applyWishTextFields(saved) {
+  document.getElementById("wishTask").value = saved.problemTask || "";
+  document.getElementById("wishProblem").value = saved.problemDescription || "";
+  document.getElementById("wishCause").value = saved.problemCause || "";
+  document.getElementById("wishTried").value = saved.triedAlready || "";
+  document.getElementById("wishContext").value = saved.classroomContext || "";
+  wishSelections.desiredHelp.value = saved.desiredHelp || null;
+  wishSelections.device.value = saved.device || null;
+  renderWishRadios();
+}
+function renderWishRadios() {
+  renderRadioOptions(document.getElementById("wishDesiredHelp"), DESIRED_HELP, wishSelections.desiredHelp);
+  renderRadioOptions(document.getElementById("wishDevice"), DEVICE_OPTIONS, wishSelections.device);
+}
+
 function applyWishResumeState(state) {
   if (state.tahun) { wishTahunEl.value = state.tahun; fillWishSubjekOptions(); }
   if (state.subjek) wishSubjekEl.value = state.subjek;
   document.getElementById("wishUnitObjective").value = state.unitObjective || "";
   document.getElementById("wishLearningGoal").value = state.learningGoal || "";
   document.getElementById("wishLessonMoment").value = state.lessonMoment || "";
-  document.getElementById("wishProblem").value = state.problemDescription || "";
-  document.getElementById("wishTried").value = state.triedAlready || "";
-  (state.difficultyTags || []).forEach((id) => wishSelections.difficultyTags.add(id));
-  (state.constraints || []).forEach((id) => wishSelections.constraints.add(id));
-  wishSelections.desiredHelp.value = state.desiredHelp || null;
-  (state.usageModes || []).forEach((id) => wishSelections.usageModes.add(id));
-  document.getElementById("wishMustHave").value = state.mustHaveOrAvoid || "";
-  document.getElementById("wishContext").value = state.classroomContext || "";
-  renderMultiChips(document.getElementById("wishDifficultyTags"), DIFFICULTY_TAGS, wishSelections.difficultyTags);
-  renderMultiChips(document.getElementById("wishConstraints"), CONSTRAINTS, wishSelections.constraints);
-  renderMultiChips(document.getElementById("wishUsageModes"), USAGE_MODES, wishSelections.usageModes);
-  renderRadioOptions(document.getElementById("wishDesiredHelp"), DESIRED_HELP, wishSelections.desiredHelp);
+  applyWishTextFields(state);
 }
 
 async function tryResumeWishFlow() {
@@ -2205,6 +2184,16 @@ function collectWishSchool() {
   return { state, district, name: null, source: null };
 }
 
+// 错例拆成两三格填，存回原本的 problem_description 一栏（不改表结构），后台照行显示
+function composeWishProblem() {
+  const cause = document.getElementById("wishCause").value.trim();
+  return [
+    `题目／活动：${document.getElementById("wishTask").value.trim()}`,
+    `学生表现：${document.getElementById("wishProblem").value.trim()}`,
+    cause && `老师判断原因：${cause}`,
+  ].filter(Boolean).join("\n");
+}
+
 function collectWishPayload() {
   const school = collectWishSchool();
   return {
@@ -2213,13 +2202,13 @@ function collectWishPayload() {
     unit_objective: document.getElementById("wishUnitObjective").value || null,
     learning_goal: document.getElementById("wishLearningGoal").value.trim(),
     lesson_moment: document.getElementById("wishLessonMoment").value || null,
-    problem_description: document.getElementById("wishProblem").value.trim(),
-    difficulty_tags: [...wishSelections.difficultyTags],
+    problem_description: composeWishProblem(),
+    difficulty_tags: [],
     tried_already: document.getElementById("wishTried").value || null,
-    constraints: [...wishSelections.constraints],
+    constraints: [],
     desired_help: wishSelections.desiredHelp.value,
-    usage_modes: [...wishSelections.usageModes],
-    must_have_or_avoid: document.getElementById("wishMustHave").value || null,
+    usage_modes: wishSelections.device.value ? [wishSelections.device.value] : [],
+    must_have_or_avoid: null,
     classroom_context: document.getElementById("wishContext").value || null,
     school_state: school.state,
     school_district: school.district,
@@ -2285,13 +2274,12 @@ function collectWishDraft() {
     unitObjective: document.getElementById("wishUnitObjective").value,
     learningGoal: document.getElementById("wishLearningGoal").value,
     lessonMoment: document.getElementById("wishLessonMoment").value,
+    problemTask: document.getElementById("wishTask").value,
     problemDescription: document.getElementById("wishProblem").value,
-    difficultyTags: [...wishSelections.difficultyTags],
+    problemCause: document.getElementById("wishCause").value,
     triedAlready: document.getElementById("wishTried").value,
-    constraints: [...wishSelections.constraints],
     desiredHelp: wishSelections.desiredHelp.value,
-    usageModes: [...wishSelections.usageModes],
-    mustHaveOrAvoid: document.getElementById("wishMustHave").value,
+    device: wishSelections.device.value,
     classroomContext: document.getElementById("wishContext").value,
     savedAt: Date.now(),
   };
@@ -2299,7 +2287,7 @@ function collectWishDraft() {
 }
 function hasDraftContent() {
   const d = collectWishDraft();
-  return !!(d.learningGoal || d.problemDescription || d.tahun || d.subjek || d.unitObjective || d.triedAlready || d.difficultyTags.length || d.constraints.length || d.desiredHelp || d.usageModes.length || d.mustHaveOrAvoid || d.classroomContext);
+  return !!(d.learningGoal || d.problemTask || d.problemDescription || d.problemCause || d.tahun || d.subjek || d.unitObjective || d.triedAlready || d.desiredHelp || d.device || d.classroomContext);
 }
 function saveDraft() { localStorage.setItem(WISH_DRAFT_KEY, JSON.stringify(collectWishDraft())); }
 function clearDraft() { localStorage.removeItem(WISH_DRAFT_KEY); }
@@ -2319,33 +2307,18 @@ function applyDraft(draft) {
   document.getElementById("wishUnitObjective").value = draft.unitObjective || "";
   document.getElementById("wishLearningGoal").value = draft.learningGoal || "";
   document.getElementById("wishLessonMoment").value = draft.lessonMoment || "";
-  document.getElementById("wishProblem").value = draft.problemDescription || "";
-  document.getElementById("wishTried").value = draft.triedAlready || "";
-  document.getElementById("wishMustHave").value = draft.mustHaveOrAvoid || "";
-  document.getElementById("wishContext").value = draft.classroomContext || "";
-  (draft.difficultyTags || []).forEach((id) => wishSelections.difficultyTags.add(id));
-  (draft.constraints || []).forEach((id) => wishSelections.constraints.add(id));
-  (draft.usageModes || []).forEach((id) => wishSelections.usageModes.add(id));
-  wishSelections.desiredHelp.value = draft.desiredHelp || null;
-  renderMultiChips(document.getElementById("wishDifficultyTags"), DIFFICULTY_TAGS, wishSelections.difficultyTags);
-  renderMultiChips(document.getElementById("wishConstraints"), CONSTRAINTS, wishSelections.constraints);
-  renderMultiChips(document.getElementById("wishUsageModes"), USAGE_MODES, wishSelections.usageModes);
-  renderRadioOptions(document.getElementById("wishDesiredHelp"), DESIRED_HELP, wishSelections.desiredHelp);
+  applyWishTextFields(draft);
 }
 
 function resetWishForm() {
-  wishSelections.difficultyTags.clear();
-  wishSelections.constraints.clear();
-  wishSelections.usageModes.clear();
   wishSelections.desiredHelp.value = null;
+  wishSelections.device.value = null;
   document.getElementById("wishForm").reset();
   wishSubjekEl.innerHTML = '<option value="">先选年级</option>';
   wishSubjekEl.disabled = true;
-  renderMultiChips(document.getElementById("wishDifficultyTags"), DIFFICULTY_TAGS, wishSelections.difficultyTags);
-  renderMultiChips(document.getElementById("wishConstraints"), CONSTRAINTS, wishSelections.constraints);
-  renderMultiChips(document.getElementById("wishUsageModes"), USAGE_MODES, wishSelections.usageModes);
-  renderRadioOptions(document.getElementById("wishDesiredHelp"), DESIRED_HELP, wishSelections.desiredHelp);
+  renderWishRadios();
   document.getElementById("wishLearningGoalError").hidden = true;
+  document.getElementById("wishTaskError").hidden = true;
   document.getElementById("wishProblemError").hidden = true;
   wishSubmitBtn.textContent = "送出点子";
   wishLoginStatusEl.textContent = "";
