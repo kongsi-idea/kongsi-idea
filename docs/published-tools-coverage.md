@@ -19,7 +19,7 @@
 | `tahun1-bc-bushou` | Tahun 1 | 华文 (bc) | 部首大对垒 | 5.0 语文基础知识 — 5.1 汉字基本知识 | https://tahun1-bc-bushou.vercel.app | `../teaching-tools/tahun1-bc-bushou/` | — |
 | `tahun1-bc-zaoju` | Tahun 1 | 华文 (bc) | 神奇句子小火车 | 3.0 书写技能 — 3.2 书面表达能力 | https://tahun1-bc-zaoju.vercel.app | `../teaching-tools/tahun1-bc-zaoju/` | — |
 | `tahun1-bc-kantu` | Tahun 1 | 华文 (bc) | 看图小侦探 | 3.0 书写技能 — 3.2 书面表达能力（3.2.1 教材建议「看图写话」；亦涉 1.3.1 交代时间地点人物，马来文用词未核对未收录） | https://tahun1-bc-kantu.vercel.app | `../teaching-tools/tahun1-bc-kantu/` | — |
-| `tahun1-pj-haiwan` | Tahun 1 | 体育 (pjpk) | 动物模仿秀 | 1.0 动作技能 — 1.1.1 身体形状、1.6.1 动物动作、1.7.1／1.7.2 平衡；3.0 体能 — 3.3.1 伸展、3.4.1 俯卧撑预备姿势（DSKP 截取档，未逐字核对） | https://tahun1-pj-haiwan.vercel.app | `../teaching-tools/tahun1-pj-haiwan/` | v1.0.1（2026-10-10）修正 iPhone 直拿时画面变横条。待办：学生真人实测侦测阈值、真机分享、要不要规定手机横放 |
+| `tahun1-pj-haiwan` | Tahun 1 | 体育 (pjpk) | 动物模仿秀 | 1.0 动作技能 — 1.1.1 身体形状、1.6.1 动物动作、1.7.1／1.7.2 平衡；3.0 体能 — 3.3.1 伸展、3.4.1 俯卧撑预备姿势（DSKP 截取档，未逐字核对） | https://tahun1-pj-haiwan.vercel.app | `../teaching-tools/tahun1-pj-haiwan/` | v1.0.2（2026-10-10）手机拍照画面改成镜头占满屏、字缩小；v1.0.1 修正 iPhone 直拿时画面变横条。待办：学生真人实测侦测阈值、真机分享、要不要规定手机横放 |
 | `tahun2-mt-shuzhi` | Tahun 2 | 数学 (mt) | 苹果果园数学 | 1.0 数与运算 — 1.4 数位 | https://tahun2-mt-shuzhi.vercel.app | `../teaching-tools/tahun2-mt-shuzhi/` | — |
 | `tahun2-mt-shulie-explore` | Tahun 2 | 数学 (mt) | 数序列小探险 | 1.0 数与运算 — 1.7 有规律的数列 | https://tahun2-mt-shulie-explore.vercel.app | `../teaching-tools/tahun2-mt-shulie-explore/` | — |
 | `tahun2-mt-shulie-boss` | Tahun 2 | 数学 (mt) | 数字数列大对决 | 1.0 数与运算 — 1.7 有规律的数列 | https://tahun2-mt-shulie-boss.vercel.app | `../teaching-tools/tahun2-mt-shulie-boss/` | — |

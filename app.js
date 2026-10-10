@@ -886,8 +886,9 @@ const TOOLS = [
     type: "工具",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
-    version: "1.0.1",
+    version: "1.0.2",
     changelog: [
+      { version: "1.0.2", date: "2026-10-10", note: "手机拍照画面改版：镜头画面占满屏幕、上下控制列变薄叠在画面上、提示改单行小字，人形框更大" },
       { version: "1.0.1", date: "2026-10-10", note: "修正 iPhone 直拿时摄像头画面变成扁横条、人形框对不上：改开直式画面" },
       { version: "1.0", date: "2026-10-10", note: "首次上架" },
     ],
