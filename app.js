@@ -84,6 +84,37 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun6-bi-questiontags",
+    tahun: 6,
+    subjek: "bi",
+    status: "published",
+    title_zh: "Case Files: Question Tags",
+    title_bm: "侦探语法局",
+    desc: "Year 6 English question-tag practice in a detective case-file theme (Unit 10 Lesson 3: be, can, present simple). Instead of guessing from a multiple-choice list, pupils build the tag in three steps: is the statement positive or negative, which helper verb (be / can / do-does), and which pronoun comes back. Two levels of clues per step highlight the negative word, the verb or the subject and state the textbook rule (be → be, can → can, other verbs → do/does). Three cases: Case 1 Be Inspector (14 statements), Case 2 Can Detective (13), Case 3 Do Files (14). After the three cases an Extra File unlocks with I am… aren't I? (beyond the textbook, not part of the score). Each solved statement explains why, and can be read aloud with a Listen button (pre-recorded British English). Statements are shuffled every round, and missed statements can be redone on their own.",
+    keywords: ["question tags", "tag questions", "isn't it", "aren't they", "can't he", "don't you", "助动词", "反意疑问句", "附加疑问句", "六年级", "英文", "Bahasa Inggeris", "Year 6", "Unit 10", "grammar"],
+    url: "https://tahun6-bi-questiontags.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "Teacher Irene Wong", initial: "W" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-10", note: "首次上架：三案（Be 14／Can 13／Do 14 题）＋拓展档案 I am… aren't I（5 题，三案后解锁、不计分）；每题三步（正负 → 助动词 → 代词）、两级线索、答对后讲解与预录朗读、错题可单独重做" },
+    ],
+    // 缩图：第 1 张封面为 cx 生图；其余为 2026-10-10 用 Playwright 操作正式网址 https://tahun6-bi-questiontags.vercel.app 截的真实画面（1366×768），不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-cover.png", label: "封面：Case Files: Question Tags（Tahun 6 · English）" },
+      { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-home.png", label: "首页：三个案件加一份课本外拓展档案；规则提示在最上方" },
+      { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-step2-clue.png", label: "第 2 步选助动词：线索把句中的动词标成黄色，并给出 be→be、can→can、其他→do/does" },
+      { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-solved.png", label: "答对后：讲解为什么是这个尾巴，可点 Listen 听整句" },
+      { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-results.png", label: "结算：评级与错题档案，可只重做错的题" },
+    ],
+    standards: [], // DSKP 搜索索引未收录 Tahun 6 BI，未核对官方 PDF；内容依据 Year 6 Unit 10 Lesson 3 Grammar（PB p.125、WB p.104）
+    practiceSummary: "Use question tags to confirm information: be → be, can → can, present simple → do/does; positive statement → negative tag and the reverse (Year 6 Unit 10 Lesson 3; DSKP code not yet verified)",
+    teachingMode: ["Classroom projection", "Individual practice"],
+    prep: "Open and use; no login or class code needed. Turn the sound on if you want pupils to listen (optional Listen button after each answer). The statements follow Unit 10 Lesson 3 (be, can, present simple); the Extra File with I am… aren't I? goes beyond the textbook and unlocks after the three cases. Only the best score per case is remembered in this browser.",
+  },
+
+  {
     slug: "tahun1to6-drone", tahun: 1, subjek: "mt", status: "published",
     coverage: [
       { tahun: 1, subjects: ["mt", "dst", "bm", "bi", "bc"] },
