@@ -53,7 +53,7 @@
 
 - 时间：2026-10-10
 - 更新者：Claude Haiku 5.5 @ 这台 Mac
-- Git push：✅ 已推 `c5cfd36`（agents.md 第 26 条）；本次代码 `fb48c07` 也已推。下一个 commit（agents.md 第 27 条、handoff）待推，见下方收工回报。
+- Git push：✅ 已推 `e8839dc`（收工文件：agents.md 第 26、27 条、handoff）；本次代码 `fb48c07` 也已推。
 
 ---
 
