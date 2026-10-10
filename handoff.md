@@ -4,6 +4,14 @@
 
 ## ⏯️ 目前做到哪
 
+**2026-10-09～10：老师注册与许愿池后台**（代码 `46fed72`、`a6b80a3` 已推；决定见 `agents.md` 第 28、29 条）。
+- 首页「位老师注册」：补登记 108 笔，`get_teacher_count()` 现为 **110**；登录流程改成先登记再做别的（之前漏登记的主因）。
+- 新增 `admin.html`／`admin.js`（许愿池审核后台，只有管理员能用）：许愿单按状态分页签、可改状态／备注／关联工具；「注册名单」页签列出全部老师。管理员目前只有 yquan77。
+- 数据库已执行：`migration-2026-07-24-wish-pipeline-columns.sql`（线上缺 `review_note`、`linked_tool_slug` 两栏，后台需要）和 `migration-2026-10-09-wish-admin.sql`。
+- 删除 yquan77 在 07-23 的 5 笔测试许愿（不可恢复）。许愿池现在 10 笔真实的，全是 10-08 之后。
+- 线上手动部署过一次（`vercel --prod --yes`，含 admin 与登记修复）；之后的线上版本以各自收工记录为准。
+- 本机新增 `~/Documents/my-agent/.ops/kongsi-stats.py`：每次跑一次，把到访／工具使用／老师数追加到 `.ops/out/kongsi-daily-stats.csv`，两次相减就是每日增长。**还没设定每天自动跑**。基线 10-09 22:47：到访 2599、工具使用 3152、老师 110。
+
 **2026-10-10（晚）：一年级「动物模仿秀」网址由 `tahun1-pj-haiwan` 改为 `tahun1-pj-pergerakan`，Hub v1.1.1**（老师定：slug 是分类用的，体育打卡系列各年级统一 `tahunN-pj-pergerakan`；学生看到的名称另取、要吸引人，所以名称没变）。旧网址已 301 跳转；GitHub 仓库已改名；Vercel 新建了 `tahun1-pj-pergerakan` 项目，旧项目只留跳转页。
 
 **2026-10-10：上架 `tahun1-pj-haiwan` 动物模仿秀（一年级体育居家打卡），线上 v1.0.3**。
@@ -53,14 +61,14 @@
 - Google OAuth 用 PKCE；登录状态依赖 `onAuthStateChange` 的 `INITIAL_SESSION`，不要改回 `getSession()`。
 - Supabase Client Secret、数据库密码只留在已忽略的 `supabase/.secrets.local.md`，不可提交。
 - 跑 migration 用 `.secrets.local.md` 的密码＋ Python `psycopg2` 直连，不要把档案内容印出来。
-- 许愿池状态流转栏位的 migration（`supabase/migration-2026-07-24-wish-pipeline-columns.sql`）写好了但还没在 Supabase 执行。
+- 许愿池状态流转栏位的 migration（`supabase/migration-2026-07-24-wish-pipeline-columns.sql`）已于 10-09 在线上执行（之前这里写「还没执行」是过时的）。
 - 深夜（23:00–09:00）`git push` 不挡；部署限授权名单内专案；DB migration 深夜仍挡。
 
 ## 🕐 最后更新
 
 - 时间：2026-10-10
 - 更新者：Claude Haiku 5.5 @ 这台 Mac
-- Git push：✅ 已推 `e8839dc`（收工文件：agents.md 第 26、27 条、handoff）；本次代码 `fb48c07` 也已推。
+- Git push：⏳ 待推（本次收工改动：agents.md 第 28、29 条、handoff 注册与后台段落、注意事项更正；等老师点头 commit）。代码 `46fed72`、`a6b80a3` 已推。
 
 ---
 

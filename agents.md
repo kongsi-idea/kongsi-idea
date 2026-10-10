@@ -49,6 +49,8 @@
    - 课标原文从 `资料库/DSKP资料/` 取，引用时不要在页面上加「（截取，未经审核）」这类字样；资料是否审核用记录的 `reviewed: false` 标记，只影响「核对状态」文字（显示「已对照」而非「已核对」）。
    - 数学、科学、AM 工具：SJK(C) 的课标本身是中文，目前仍用中文，要改先问老师。
 27. **马来文 DSKP 依资料库，不依网上版本**（2026-10-10 老师定）：马来文一年级课标以 `资料库/DSKP资料/KSSR2015/Bahasa-Melayu/SJK/TAHUN1.md`（KSSR 原版，Terbitan 2015）为准。资料库没有 Semakan 2017 的马来文，所以 `curriculum` 写「KSSR 2015（原版）」。该截取档没有审核，记录上标 `reviewed: false`，页面只显示「已对照」，不写「已核对」，也不在页面上加「未经审核」字样。Sentence Train（BI 二年级）的 DSKP 仍空着，等从官方 PDF 核对 4.3.1 后再补。
+28. **「位老师注册」= `profiles` 表的笔数**（2026-10-09，老师确认）。每位老师登录时写一笔（`ensureProfileRow`，放在 `handleAuthChange` 最前面，不可排在会出错的许愿恢复之后——2026-10-09 发现 107 位因此漏登记，已补回）。访客不能读 `profiles`（刻意不开放，避免枚举），只能经 `get_teacher_count()` 拿总数。数字跟「次到访」一样**每次载入页面读一次，不做定时刷新**，老师 10-10 确认够用。注册人数不会自己跳，要等下一次有人开首页。
+29. **许愿池后台 `admin.html` 的权限放在数据库**（2026-10-09）：管理员名单在 `public.admins`（不开任何 policy），`is_admin()` 判断，`admin_list_wishes()`／`admin_update_wish()`／`admin_list_teachers()` 三个 RPC 只对管理员回资料，非管理员回空。前端只负责显示。**不要为了方便开放 `wishes` 或 `profiles` 的 select 给 anon／authenticated**。加管理员用 SQL `insert into public.admins`，目前只有 yquan77。页面 `noindex`，网址不对外发。
 
 ## 视觉设计
 布告栏意象；不用 emoji，图钉/星星/奖杯用 CSS/SVG；科目用缩写字母徽章（MT/BM/BI/BC/SA）；配色（跟 EduNeo 区分）：暖纸白 `#FBF6EC`、黑板绿 `#1F3A34`、橙黄 `#E8873E`、天空蓝 `#4FA8D8`（马来文）、珊瑚红 `#D65B4A`（中文/星星）、暖金 `#F0B429`；卡片±1-2°随机倾斜
