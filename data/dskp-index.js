@@ -426,4 +426,34 @@ const DSKP_INDEX = [
       },
     ],
   },
+  {
+    // 依本机 DSKP 截取档：资料库/DSKP资料/KSSR2017/Pendidikan-Jasmani-Kesihatan/通用/TAHUN2.md
+    // （PDF 自动提取，老师 2026-10-10 确认收录，未逐字人工核对）。马来文照该档内容标准原文。
+    curriculum: "KSSR Semakan 2017",
+    tahun: 2,
+    subjek: "pjpk",
+    sourceUrl: "https://bpk.moe.gov.my/kurikulum/kssr/kssr-tahun-2",
+    sourceLabel: "DSKP Pendidikan Jasmani dan Pendidikan Kesihatan Tahun 2",
+    verifiedAt: "2026-10-10",
+    units: [
+      {
+        code: "1.0",
+        title_zh: "体育：动作技能",
+        title_bm: "Kemahiran Pergerakan",
+        objectives: [
+          { code: "1.3", title_zh: "非移动动作：弯身、伸展、摇摆、卷缩、扭转、推拉、摆动与平衡", title_bm: "Melakukan pelbagai pergerakan bukan lokomotor", terms: ["非移动动作", "弯身", "伸展", "扭转", "bukan lokomotor", "fleksi badan", "meregang", "mengilas"] },
+          { code: "1.7", title_zh: "平衡技能：不同支撑点的静态与动态平衡", title_bm: "Melakukan pergerakan yang memerlukan kawalan badan dan sokongan", terms: ["平衡", "静态平衡", "单脚站", "支撑点", "imbangan statik", "tapak sokongan"] },
+        ],
+      },
+      {
+        code: "3.0",
+        title_zh: "体育：体能",
+        title_bm: "Kecergasan",
+        objectives: [
+          { code: "3.3", title_zh: "柔韧性：动态与静态伸展主要肌群", title_bm: "Melakukan senaman meningkatkan kelenturan dengan lakuan yang betul", terms: ["伸展", "拉筋", "柔韧", "kelenturan", "regangan"] },
+          { code: "3.4", title_zh: "肌耐力与肌力：改良撑地、踮脚、半蹲等", title_bm: "Melakukan senaman meningkatkan daya tahan dan kekuatan otot dengan lakuan yang betul", terms: ["肌耐力", "改良撑地", "踮脚", "半蹲", "tekan tubi ubah suai", "jengkit kaki", "separa cangkung"] },
+        ],
+      },
+    ],
+  },
 ];
