@@ -4,6 +4,11 @@
 
 ## ⏯️ 目前做到哪
 
+**2026-10-10：上架 `tahun1-pj-haiwan` 动物模仿秀（一年级体育居家打卡），线上 v1.0.3**。
+- 新增 `pjpk` 科目第一个工具，以及 `data/dskp-index.js` 的 PJPK Tahun 1 条目（依资料库截取档，未逐字核对）。
+- 缩图：封面由 cx 生成（含工具名＋「一年级 · 体育」），另 4 张是老师的横式实机截图。5 张 png／webp 10-10 线上复验全部 200，旧的 `v1-3-list.png` 已不再引用，下方的「404」那条已解决。
+- 提交：`e640cff`、`f72cf1c`、`bb5065a`、`7fbe8bd`、`dd4d671`。
+
 **2026-10-10：非中文科目工具改用该语言＋马来文 DSKP 依资料库**（已上线，线上已 curl 复验）。
 - 英文（BI）、马来文（BM）工具的主标题、`desc`、练习摘要、课堂方式、准备条件全部改成该语言；中文名放副标题。涉及 `tahun2-bi-punctuation`、`tahun4-bi-writing`、`tahun1-bm-huruf`、`tahun1-bm-kvkv`。
 - 详情页的 DSKP 课标对 bm／bi 显示马来文／英文原文（`renderStandards`）。
@@ -20,7 +25,7 @@
 - 本次部署用 `vercel --prod --yes`，线上 curl 确认新文字在。**没有另外跑 `vercel alias set`**，因为 curl 结果已确认域名指向新内容。
 - 工作区未提交的东西不是本次做的：`assets/thumbs-web/tahun1-mt-ruang/` 是 untracked。
 - 别的 session 的提交也被一起推上去了：`f72cf1c`、`bb5065a`（tahun1-pj-haiwan）、`dd4d671`。
-- `tahun1-pj-haiwan` 的「第 3 张说明图 404」（`assets/thumbs/tahun1-pj-haiwan/v1-3-list.png`）：当时是工作区删除的文件被一起部署。后来 `f72cf1c`、`bb5065a` 有改 haiwan 缩图，**还没线上复验**。
+- `tahun1-pj-haiwan` 的「第 3 张说明图 404」（`assets/thumbs/tahun1-pj-haiwan/v1-3-list.png`）：当时是工作区删除的文件被一起部署。后来 `f72cf1c`、`bb5065a` 有改 haiwan 缩图，**还没线上复验**。→ 10-10 已复验，5 张都是 200。
 
 ## ➡️ 下一步
 
