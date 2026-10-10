@@ -68,7 +68,7 @@
 
 - 时间：2026-10-10
 - 更新者：Claude Haiku 5.5 @ 这台 Mac
-- Git push：⏳ 待推（本次收工改动：agents.md 第 28、29 条、handoff 注册与后台段落、注意事项更正；等老师点头 commit）。代码 `46fed72`、`a6b80a3` 已推。
+- Git push：✅ 已推 `388ba30`（收工文件：agents.md 第 28、29 条、handoff 注册与后台段落）；代码 `46fed72`、`a6b80a3` 也已推。
 
 ---
 
