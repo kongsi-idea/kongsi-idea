@@ -886,8 +886,9 @@ const TOOLS = [
     type: "工具",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
+    version: "1.0.1",
     changelog: [
+      { version: "1.0.1", date: "2026-10-10", note: "修正 iPhone 直拿时摄像头画面变成扁横条、人形框对不上：改开直式画面" },
       { version: "1.0", date: "2026-10-10", note: "首次上架" },
     ],
     // v1.0：封面由 cx 生图（雨林七动物＋工具名），其余 4 张是老师 2026-10-10 在电脑上操作正式网址的实际截图（横式，配合 4:3 卡片）
