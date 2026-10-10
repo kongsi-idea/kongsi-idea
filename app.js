@@ -48,9 +48,9 @@ const TOOLS = [
     ],
     thumbnails: [{ img: "assets/thumbs/tahun4-bi-writing/home.png", label: "Story Quest 首页" }],
     standards: [], // DSKP 搜索索引尚未收录 Tahun 4 BI，确认索引资料后再启用。
-    practiceSummary: "由图像与提示发展故事点子，配对理由与细节，组装五句并排列成一段约 40–50 词的英文短文",
-    teachingMode: ["个人练习", "教师引导", "纸笔写作"],
-    prep: "建议一人一台设备完成前七关，最后在纸上手写；拍照上传的作业默认不公开，老师批准后才算完成审核。",
+    practiceSummary: "Develop story ideas from pictures and prompts, match reasons with details, and assemble five sentences into a paragraph of about 40–50 English words",
+    teachingMode: ["Individual practice", "Teacher guidance", "Pen-and-paper writing"],
+    prep: "Ideally one device per student for the first seven levels; finish the last step by handwriting on paper. Uploaded photos of homework are private by default and count as complete only after the teacher approves them.",
   },
   {
     slug: "tahun2-bi-punctuation",
@@ -78,9 +78,9 @@ const TOOLS = [
       { img: "assets/thumbs/tahun2-bi-punctuation/v1-1-fix-I.png", label: "关 2：点字母变大写、点车尾选标点；句中的 I 也要大写，亮金色" },
     ],
     standards: [], // DSKP 搜索索引尚未收录 Tahun 2 BI；对照见 docs/dskp/tahun2/bahasa-inggeris.md：4.3.1（延伸 4.2.1）
-    practiceSummary: "判断句子是问还是说，句末用对问号或句号；句首与人名、星期、国家、I 用大写字母（DSKP Y2 BI 4.3.1，延伸 4.2.1）",
-    teachingMode: ["课堂投影", "个人练习"],
-    prep: "打开即用，不需要登录或班级代码；建议开声音（句子有英文朗读）。题库为参照 Unit 6–9 主题补写，非逐课课本原句；进度不保存。",
+    practiceSummary: "Decide whether a sentence is a question or a statement and use the correct question mark or full stop at the end; capitalise the first word of a sentence, names, days, countries and the word I (DSKP Year 2 BI 4.3.1, extended 4.2.1)",
+    teachingMode: ["Classroom projection", "Individual practice"],
+    prep: "Open and use; no login or class code needed. Turn the sound on (sentences are read aloud). The question bank is written to match the Unit 6–9 themes and is not copied line by line from the textbook; progress is not saved.",
   },
 
   {
@@ -474,7 +474,7 @@ const TOOLS = [
     status: "published",
     title_zh: "Huruf A–Z: Mari Menulis",
     title_bm: "Huruf A–Z 写字母",
-    desc: "教一年级学生在等距四线上写马来文大小写字母 A–Z。每个字母都标出 1、2、3 笔顺号码和会沿笔画方向长出来的箭头。「Tonton」自动一笔一笔写给全班看；「Langkah demi langkah」老师按一下出一笔、可退回重播；「Saya tulis」学生用鼠标或手指从闪动的圆点开始描，描对了墨迹才会跟着出来，写完整个字母弹出「Bagus! Pandai!」和彩带（彩带在字的后面，不挡字）。主页是 26 张挂在绳子上的字母卡，元音 a e i o u 用粉色卡区分，学生写过的字母会贴上星星。页面指示全部是马来文。",
+    desc: "Ajar murid Tahun 1 menulis huruf besar dan kecil bahasa Melayu A–Z di atas garis empat sama jarak. Setiap huruf ditanda dengan nombor urutan lorekan 1, 2, 3 dan anak panah yang memanjang mengikut arah lorekan. \"Tonton\" menulis setiap lorekan satu demi satu untuk seluruh kelas; \"Langkah demi langkah\" guru menekan sekali untuk setiap lorekan dan boleh diundur untuk diulang; \"Saya tulis\" murid menggunakan tetikus atau jari untuk mula dari titik yang berkelip, dan dakwat hanya muncul apabila lorekan betul. Apabila huruf siap, \"Bagus! Pandai!\" dan reben muncul (reben di belakang huruf, tidak menutup huruf). Halaman utama ialah 26 kad huruf yang digantung pada tali; vokal a e i o u dibezakan dengan kad merah jambu, dan huruf yang telah ditulis murid akan ditampal bintang. Semua arahan di halaman dalam bahasa Melayu.",
     keywords: ["字母", "huruf", "huruf besar", "huruf kecil", "huruf vokal", "huruf konsonan", "menulis", "tulisan mekanis", "四线", "笔顺", "描红", "写字", "马来文", "一年级", "abjad"],
     url: "https://tahun1-bm-huruf.vercel.app",
     type: "工具",
@@ -498,9 +498,9 @@ const TOOLS = [
     standards: [
       { curriculum: "KSSR 2015（原版）", unitCode: "3.0", objectiveCodes: ["3.1"] },
     ],
-    practiceSummary: "在四线上按正确笔顺、方向机械式书写马来文大小写字母（SP 3.1.1 (i) huruf）",
-    teachingMode: ["投影互动", "教师带教/演示", "个人自学"],
-    prep: "打开即用，不需要打印。投影时老师用「Tonton」或「Langkah demi langkah」示范，键盘 ← → 换字母；学生在电脑用鼠标、平板／一体机用手指描写。网址后面加 #A（换成任何字母）可直接打开该字母。学生写过的星星只记在那台电脑上。",
+    practiceSummary: "Menulis huruf besar dan kecil bahasa Melayu secara mekanis, dengan urutan dan arah lorekan yang betul di atas garis empat (SP 3.1.1 (i) huruf)",
+    teachingMode: ["Interaksi unjuran", "Guru bimbing / tunjuk cara", "Belajar kendiri"],
+    prep: "Buka terus, tidak perlu cetak. Semasa unjuran, guru guna \"Tonton\" atau \"Langkah demi langkah\" untuk menunjuk cara; tekan ← → pada papan kekunci untuk tukar huruf. Murid menulis dengan tetikus di komputer, atau dengan jari di tablet / papan putih interaktif. Tambah #A (gantikan dengan mana-mana huruf) di hujung alamat untuk terus ke huruf itu. Bintang yang ditulis murid hanya disimpan di komputer tersebut.",
   },
 
   {
@@ -510,7 +510,7 @@ const TOOLS = [
     status: "published",
     title_zh: "Kebun Pintar KVKV",
     title_bm: "KVKV音节打地鼠",
-    desc: "两队同时打地鼠，听朗读念出的词汇后找出对应字卡的地鼠。18个辅音+元音重复两次（KV+KV）结构的马来文词汇，用浏览器内建语音朗读，不需要任何外部服务或网络API。",
+    desc: "Dua pasukan memukul tikus serentak. Selepas mendengar perkataan yang dibacakan, cari tikus yang memegang kad suku kata yang sepadan. Perkataan bahasa Melayu berstruktur KV+KV (konsonan + vokal, diulang dua kali), dibaca dengan suara terbina dalam pelayar; tidak memerlukan sebarang perkhidmatan luar atau API rangkaian.",
     keywords: ["KVKV", "音节", "拼音", "马来文", "一年级", "bahasa melayu", "suku kata", "打地鼠"],
     url: "https://tahun1-bm-kvkv.vercel.app",
     type: "游戏",
@@ -528,9 +528,9 @@ const TOOLS = [
     standards: [
       { curriculum: "KSSR 2015（原版）", unitCode: "2.0", objectiveCodes: ["2.1"] },
     ],
-    practiceSummary: "正确发音朗读KV+KV结构的马来文音节与词汇",
-    teachingMode: ["投影互动", "两队对战"],
-    prep: "打开即用，不需要打印，不需要学生设备，不需要网络API key",
+    practiceSummary: "Membaca dengan sebutan dan intonasi yang betul suku kata dan perkataan bahasa Melayu berstruktur KV+KV",
+    teachingMode: ["Interaksi unjuran", "Pertandingan dua pasukan"],
+    prep: "Buka terus, tidak perlu cetak, tiada peranti murid diperlukan, tiada kunci API rangkaian diperlukan.",
   },
 
   {
@@ -1460,11 +1460,13 @@ function renderStandards(tool) {
   const resolved = resolveToolStandards(tool);
   if (!resolved.length) { el.hidden = true; el.innerHTML = ""; return; }
   el.hidden = false;
+  // 马来文／英文工具的课标内容用原文显示，中文译名不当主标题
+  const inLanguage = tool.subjek === "bm" || tool.subjek === "bi";
   el.innerHTML = resolved.map((r) => `
     <div class="standards-block">
       <p class="detail__standards-title">对应课程标准 · DSKP（核对日期 ${r.record.verifiedAt}）</p>
-      <p class="detail__standards-unit">${r.unit.code} ${r.unit.title_zh}（${r.unit.title_bm}）</p>
-      <ul class="detail__standards-list">${r.objectives.map((o) => `<li>${o.code} ${o.title_zh}</li>`).join("")}</ul>
+      <p class="detail__standards-unit">${inLanguage ? `${r.unit.code} ${r.unit.title_bm}` : `${r.unit.code} ${r.unit.title_zh}（${r.unit.title_bm}）`}</p>
+      <ul class="detail__standards-list">${r.objectives.map((o) => `<li>${o.code} ${inLanguage ? o.title_bm : o.title_zh}</li>`).join("")}</ul>
       <p class="detail__standards-source">来源：${r.record.sourceUrl ? `<a href="${r.record.sourceUrl}" target="_blank" rel="noopener">${r.record.sourceLabel}</a>` : r.record.sourceLabel}</p>
     </div>
   `).join("");

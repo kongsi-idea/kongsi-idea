@@ -247,7 +247,7 @@ const DSKP_INDEX = [
             // 官方原文 2.1.1「以正确发音语调朗读音节/词语/句子」，用 WebSearch 查证
             code: "2.1",
             title_zh: "基础阅读与理解：以正确发音语调朗读音节/词语/句子",
-            title_bm: "Asas membaca dan memahami",
+            title_bm: "Asas membaca dan memahami: Murid boleh membaca dengan sebutan yang betul dan intonasi yang sesuai (i) suku kata (ii) perkataan (iii) ayat",
             terms: ["音节", "拼音", "KVKV", "suku kata", "perkataan", "membaca"],
           },
         ],
@@ -261,7 +261,7 @@ const DSKP_INDEX = [
           {
             code: "3.1",
             title_zh: "基础书写：机械式书写字母／音节／词语／短语／句子",
-            title_bm: "Asas menulis",
+            title_bm: "Asas menulis: Murid boleh menulis secara mekanis (i) huruf (ii) suku kata (iii) perkataan (iv) frasa (v) ayat",
             terms: ["字母", "写字", "笔顺", "四线", "huruf", "menulis", "menulis secara mekanis", "tulisan"],
           },
         ],
