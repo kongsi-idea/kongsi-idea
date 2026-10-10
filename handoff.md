@@ -4,7 +4,7 @@
 
 ## ⏯️ 目前做到哪
 
-**2026-10-10（晚）：一年级「动物模仿秀」改名「动作打卡」，网址 `tahun1-pj-haiwan` → `tahun1-pj-pergerakan`，Hub v1.1.0**（老师定：体育打卡系列各年级同名，只差 tahun，名字取 DSKP 用词 pergerakan）。旧网址已 301 跳转到新网址；GitHub 仓库已改名；Vercel 新建了 `tahun1-pj-pergerakan` 项目，旧项目只留跳转。**还欠一张封面**：`v1-0-cover.png` 里印的还是「动物模仿秀」，需老师跑 cx 重画（指令稿在工具目录 `img-src/PROMPT-cx-3-cover.md`）。
+**2026-10-10（晚）：一年级「动物模仿秀」网址由 `tahun1-pj-haiwan` 改为 `tahun1-pj-pergerakan`，Hub v1.1.1**（老师定：slug 是分类用的，体育打卡系列各年级统一 `tahunN-pj-pergerakan`；学生看到的名称另取、要吸引人，所以名称没变）。旧网址已 301 跳转；GitHub 仓库已改名；Vercel 新建了 `tahun1-pj-pergerakan` 项目，旧项目只留跳转页。
 
 **2026-10-10：上架 `tahun1-pj-haiwan` 动物模仿秀（一年级体育居家打卡），线上 v1.0.3**。
 - 新增 `pjpk` 科目第一个工具，以及 `data/dskp-index.js` 的 PJPK Tahun 1 条目（依资料库截取档，未逐字核对）。
