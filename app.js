@@ -84,6 +84,36 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun2-bi-dressing",
+    tahun: 2,
+    subjek: "bi",
+    status: "published",
+    title_zh: "The Dressing Game",
+    title_bm: "穿衣拼字转盘",
+    desc: "Year 2 English spelling game for the Get Dressed! unit, built on the textbook's dressing-game wheel. Spin the 3-second wheel (pictures only, no words) and a capybara in the middle gets dressed. Look at the picture, work out the colour and the clothes, then spell the colour word and the clothes word on the keyboard: type on a real keyboard or tap the on-screen keys (the matching key lights up so pupils learn where the letters are). Wrong letters shake and clear but correct letters stay green. Pupils tap Help whenever they need it: hear the word, fill the first letter, or peek for 3 seconds. Six items (cap, T-shirt, jacket, trousers, socks, shoes) make one outfit; then the next outfit starts with different colours until all 18 items from the textbook wheel are collected. Spelling the colour word tests colour words as well as clothes words. Progress and stars are kept on the pupil's own device; no login or class code.",
+    keywords: ["Get Dressed", "clothes", "colours", "spelling", "wheel", "dressing game", "capybara", "typing", "keyboard", "Superminds", "二年级", "英文", "拼写", "颜色", "衣服", "Bahasa Inggeris", "Year 2"],
+    url: "https://tahun2-bi-dressing.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-11", note: "首次上架：课本转盘（3 秒）＋拼颜色词／衣服词＋卡比巴拉穿衣；实体键盘与屏幕键盘；三档 Help；一套 6 件、18 件全部收集；英式发音预录" },
+    ],
+    // 缩图：第 1 张为生图封面；其余 2026-10-11 用 Playwright 实际操作正式网址 https://tahun2-bi-dressing.vercel.app 截的真实画面（横式 1366×768），不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-bi-dressing/v1-0-cover.png", label: "封面：卡比巴拉与课本转盘" },
+      { img: "assets/thumbs/tahun2-bi-dressing/v1-1-wheel.png", label: "转盘页：只有图没有字，点 SPIN（或按空白键）转 3 秒" },
+      { img: "assets/thumbs/tahun2-bi-dressing/v1-2-spell.png", label: "拼写：颜色词已拼对（绿色），正在用键盘拼 trousers，屏幕键盘与 Help 在下方" },
+      { img: "assets/thumbs/tahun2-bi-dressing/v1-3-dressed.png", label: "穿衣：拼对的衣服即时穿到卡比巴拉身上，右边显示这一套 5/6" },
+    ],
+    standards: [], // DSKP 搜索索引尚未收录 Tahun 2 BI；对照见 docs/dskp/tahun2/bahasa-inggeris.md：4.3.2（未核对官方 PDF，课本页码待补）
+    practiceSummary: "Spell familiar high-frequency words: ten colour words and six clothes words from the Get Dressed! unit, and recognise colour words from pictures (DSKP Year 2 BI 4.3.2, not yet checked against the official PDF)",
+    teachingMode: ["Individual practice", "Classroom projection"],
+    prep: "One device per pupil works best; a laptop with a real keyboard is ideal for typing practice, and tablets work with the on-screen keys. Turn the sound on (words are read aloud). The wheel follows the textbook, so pupils can look at the textbook too. Progress and stars are saved only on that device; no login or class code. The wheel only lands on clothes not yet worn in the current outfit.",
+  },
+
+  {
     slug: "tahun6-bi-questiontags",
     tahun: 6,
     subjek: "bi",
