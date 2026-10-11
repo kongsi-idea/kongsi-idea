@@ -1170,6 +1170,38 @@ const TOOLS = [
     teachingMode: ["摄像头体感互动", "分组比赛"],
     prep: "需要摄像头（画面只在本机处理，不上传）；建议 4-8 人一组上场，需要一定活动空间；光线要充足；用 Chrome/Edge 等现代浏览器打开",
   },
+
+  {
+    slug: "tahun1-mz-irama",
+    tahun: 1,
+    subjek: "muzik",
+    status: "published",
+    title_zh: "软糖回声乐园",
+    title_bm: "Taman Gema Irama",
+    desc: "一年级音乐节奏回声游戏：软糖熊先用鼓或铃鼓打一段节奏，轨道上的草莓（鼓）和柠檬（铃鼓）跟着亮起来；接着「预备、3、2、1」人声倒数，换学生在两个垫子上把同一段节奏打回来，每一下当场判「完美／很好／漏掉」，「很好」还会提示早了或晚了。6 个世界共 18 关：稳稳的拍子、两种声音、第一拍最重（强拍）、快快慢慢（变速）、看谱打（不示范，只看图标谱）、长长的回声（8 拍长句），每个世界第 3 关是大考验；伴奏有 6 种风格。开始前有跟着拍子点 12 下的校准，蓝牙喇叭慢半拍也能判准。先有 5 步「学一学」教会玩法。全程预录人声提示，失败只说「再试一次」。",
+    keywords: ["音乐", "节奏", "拍子", "回声", "鼓", "铃鼓", "强拍", "快慢", "图像谱", "一年级", "muzik", "irama", "rentak", "skor ikon", "节奏游戏"],
+    url: "https://tahun1-mz-irama.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "黄慧欣老师", initial: "黄" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-11", note: "首次上架：6 个世界 18 关、学一学 5 步、延迟校准、预备倒数人声" },
+    ],
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-mz-irama/v1-0-cover.png", label: "封面：软糖熊打鼓、小兔摇铃鼓，草莓＝鼓、柠檬＝铃鼓" },
+      { img: "assets/thumbs/tahun1-mz-irama/v1-1-map.png", label: "关卡地图：6 个世界、每个世界 3 关，第 3 关是大考验" },
+      { img: "assets/thumbs/tahun1-mz-irama/v1-2-play.png", label: "换你了：草莓一颗颗亮圈，打在拍子上就是「完美」" },
+      { img: "assets/thumbs/tahun1-mz-irama/v1-3-result.png", label: "结算：星星与准确度，可再来一次或下一关" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "1.1", objectiveCodes: ["1.1.3"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "2.2", objectiveCodes: ["2.2.1", "2.2.2", "2.2.3", "2.2.4"] },
+    ],
+    practiceSummary: "分辨鼓和铃鼓的音色，按拍子、按速度、按听到的节奏型以及按图像谱演奏打击乐器（听了再打出来）",
+    teachingMode: ["个人自学", "投影互动", "课堂练习"],
+    prep: "一定要有声音（打开喇叭、手机关静音键）；手机、平板、电脑、触控一体机都能玩，电脑也可用键盘 F/J 或左右键。第一次进入会先检查声音、跟着拍子点 12 下校准，换了喇叭（尤其蓝牙）请到「设定」重新校准。一人一台自学最准；投影全班玩时请一位学生上台点垫子，其他人拍手跟。",
+  },
 ];
 
 // ---------- DSKP 索引查询辅助（读 data/dskp-index.js 的 DSKP_INDEX） ----------
