@@ -1234,6 +1234,40 @@ const TOOLS = [
     teachingMode: ["个人自学", "投影互动", "课堂练习"],
     prep: "一定要有声音（打开喇叭、手机关静音键）；手机、平板、电脑、触控一体机都能玩，电脑也可用键盘 F/J 或左右键。第一次进入会先检查声音、跟着拍子点 12 下校准，换了喇叭（尤其蓝牙）请到「设定」重新校准。一人一台自学最准；投影全班玩时请一位学生上台点垫子，其他人拍手跟。",
   },
+
+  {
+    slug: "tahun2-bc-biaodian",
+    tahun: 2,
+    subjek: "bc",
+    status: "published",
+    title_zh: "标点小蛇闯关",
+    title_bm: "Ular Tanda Baca",
+    desc: "二年级华文标点符号的贪吃蛇填空游戏，画面是玩具木盘：软胶小蛇在枫木盘上吃水果，每吃到一个就弹出一道标点题，把木头标点积木点进或拖进句子的空格里。三个关卡：简单（句号、问号、叹号、逗号）、中等（加上顿号，一句两个标点）、挑战（冒号和引号的对话句）。答对蛇会长一节，答错不长，并看到完整正确的句子和为什么；撞墙会晕眩 3 秒。每轮随机抽题，结算有 1–3 颗星、错题本和「再练错题」。题目可以点「听一听」朗读，另有「标点小课堂」先温习六种标点的用法。学生各自一台电脑、平板或手机都能玩（滑动或方向键转向）。",
+    keywords: ["标点符号", "句号", "问号", "叹号", "逗号", "顿号", "冒号", "引号", "二年级", "华文", "贪吃蛇", "填空", "tanda baca", "tanda koma", "tanda soal", "tanda seru", "tanda petik", "titik", "游戏"],
+    url: "https://tahun2-bc-biaodian.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "陈晓琪老师", initial: "陈" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-12", note: "首次上架：贪吃蛇＋标点填空，三个关卡（简单／中等／挑战），标点积木点选或拖放，答对蛇长一节，1–3 星结算、错题本与再练错题，题目与完整句子预录朗读，标点小课堂" },
+    ],
+    // 缩图：第 1 张封面为生图；其余 2026-10-12 用 Playwright 实际操作正式网址 https://tahun2-bc-biaodian.vercel.app 截的真实画面（1366×768），不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-bc-biaodian/v1-0-cover.png", label: "封面：标点小蛇闯关，木牌旁是软胶小蛇、标点积木和苹果" },
+      { img: "assets/thumbs/tahun2-bc-biaodian/v1-1-home.png", label: "首页：三个关卡木牌（简单、中等、挑战），可先看标点小课堂" },
+      { img: "assets/thumbs/tahun2-bc-biaodian/v1-2-snake.png", label: "木盘上的小蛇：吃到水果就会弹出标点题，答对蛇会变长" },
+      { img: "assets/thumbs/tahun2-bc-biaodian/v1-4-quiz.png", label: "标点填空：把木头积木放进句子的空格，填满后才能提交" },
+    ],
+    // 学习标准只填到内容标准 5.5（认识各种标点符号）：Hub 摘要 docs/dskp/tahun2/bahasa-cina.md 的 5.5.1 顿号、冒号、引号，与课本第10页（冒号引号）、第36页（顿号）教学提示吻合；本机无二年级华文官方 PDF 可逐条核对
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.5"] },
+    ],
+    practiceSummary: "认识并正确使用句号、问号、叹号、逗号（一年级复习）和顿号、冒号、引号（二年级新学）",
+    teachingMode: ["个人自学", "课堂练习"],
+    prep: "打开即用，需要网络（首次载入约 4MB，含字体和朗读音档）。一人一台电脑、平板或手机都行：电脑用方向键或 WASD，触控屏在木盘上滑动或点方向键。进度不保存，每次从头抽题。声音可在右上角关掉。引号用「“ ”」，叹号沿用课本用词。",
+  },
+
   {
     slug: "tahun2-mz-irama",
     tahun: 2,
