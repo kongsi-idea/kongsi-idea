@@ -265,6 +265,37 @@ const TOOLS = [
     teachingMode: ["投影互动", "教师带教/演示", "个人自学"],
     prep: "打开即用，不需要打印；电脑用鼠标划线、平板／一体机／手机用手指划线都可以。有声音朗读（建议开喇叭）。「燕菜铺开张」会请学生点自己的名字上班级排行榜（网址带 ?code= 班级代码，或当访客自己写名字）；老师示范用「自由切」，可关掉「帮手刀」故意切歪给全班看",
   },
+  {
+    slug: "tahun1-mt-latihan-oktober",
+    tahun: 1,
+    subjek: "mt",
+    status: "published",
+    title_zh: "一年级10月数学练习",
+    title_bm: "Latihan Matematik Tahun 1 (Oktober)",
+    desc: "把一张纸本月考式练习变成一题一题做的电子版：分数涂色与读法、钱币计算与连线、换算钱币、星期、认时刻与分辨时针分针、一天的时段、立体图形的面和顶点、数量应用题、看图表。学生先点自己的名字（接班级名单，找不到可手动输入），每题有预录朗读，做的过程中不显示对错；交卷后看到答错的题和正确答案，可以再试一次。老师在后台（仅限登录的班级老师）看到每题答对率和学生常见的错误类型，也可以把纸本答案回填进去一起分析。",
+    keywords: ["数学", "练习", "月考", "诊断", "分数", "钱币", "时间", "星期", "时刻", "立体图形", "棒形图", "一年级", "latihan", "pecahan", "wang", "masa", "bentuk 3D", "错误分析"],
+    url: "https://tahun1-mt-latihan-oktober.vercel.app",
+    type: "练习",
+    hasLeaderboard: false,
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-12", note: "首次上架：29 个小项、手机／平板／电脑可用；选名字（班级名单或手动输入）；预录朗读；交卷后可重做错题；老师后台（登录后才看得到）看答对率与错误类型，可回填纸本答案" },
+    ],
+    // 这 5 张：第 1 张是生图封面；其余用 Playwright 操作 https://tahun1-mt-latihan-oktober.vercel.app 截的真实画面（Supabase 已拦截，没有写入真数据库）
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-mt-latihan-oktober/1-cover.png", label: "封面：一年级10月数学练习" },
+      { img: "assets/thumbs/tahun1-mt-latihan-oktober/2-names.png", label: "进入时先点自己的名字，找不到可以手动输入" },
+      { img: "assets/thumbs/tahun1-mt-latihan-oktober/3-money.png", label: "钱币计算：用屏幕数字键盘输入答案" },
+      { img: "assets/thumbs/tahun1-mt-latihan-oktober/4-clock.png", label: "认时刻：钟面上是几时" },
+      { img: "assets/thumbs/tahun1-mt-latihan-oktober/5-chart.png", label: "看图表：哪一班吃了 6 片三文治" },
+    ],
+    standards: [],
+    practiceSummary: "一年级 10 月综合练习：分数（二分之一至四分之三）、钱币（sen／仙／令吉）的计算与换算、星期顺序、认时刻与时针分针、一天的时段、立体图形（圆柱）的面与顶点、加减应用题、看棒形图／象形图回答问题",
+    teachingMode: ["个人练习"],
+    prep: "学生各自用手机、平板或电脑打开，需要联网；有声音朗读（建议戴耳机）。班级网址请带班级代码，例如 …vercel.app/?code=JBC1037-1I，学生就只会看到本班名单；没带代码会先请输入班级代码。纸本做的学生，由老师登录后台（Hub 的 latihan-admin.html，仅限班级老师）把答案回填。学生交卷的答案只有登录的班级老师看得到",
+  },
 
   {
     slug: "tahun1-mt-ruang",
