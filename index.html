@@ -222,6 +222,11 @@
             <p class="wish__error" id="wishProblemError" role="alert" hidden></p>
           </div>
           <div class="wish__field">
+            <label for="wishExample">能给一道学生真的做错的题吗？（选填，但最有用）</label>
+            <p class="wish__field-hint">写出<strong>题目本身</strong>（数字、词、句子都行）和<strong>学生给的错误答案</strong>。我们会拿它直接设计练习。</p>
+            <textarea id="wishExample" rows="2" placeholder="例：求 3、8、3、9、5 的中位数 → 学生答 3（应该是 5）"></textarea>
+          </div>
+          <div class="wish__field">
             <label for="wishCause">你觉得他们为什么会错？（选填）</label>
             <textarea id="wishCause" rows="2" placeholder="例：只记整个词的读音，不会把音拆开对应字母"></textarea>
           </div>
@@ -258,7 +263,7 @@
           </div>
 
           <div class="wish__field wish__consent">
-            <label><input type="checkbox" id="wishConsent" required> 我知道需求会由平台团队阅读与汇总，且我没有填写学生个人资料。</label>
+            <label><input type="checkbox" id="wishConsent" required> 我知道需求会由平台团队阅读与汇总，团队可能用我的登录邮箱回访一两个问题，且我没有填写学生个人资料。</label>
           </div>
 
           <p class="wish__login-status" id="wishLoginStatus" aria-live="polite"></p>

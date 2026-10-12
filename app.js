@@ -330,6 +330,37 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun5-mt-data",
+    tahun: 5,
+    subjek: "mt",
+    status: "published",
+    title_zh: "数据侦探局",
+    title_bm: "Detektif Data",
+    desc: "专治「中位数、众数总是混」。老师投影，全班当侦探：找出中位数／众数／平均数／极差，或判断小侦探说得对不对。答完马上演示怎么找（排队站中间、数次数、总和÷个数、最大−最小），答错会说出「你把它当成了哪一个」，一局结束列出全班最容易混的地方。",
+    keywords: ["众数", "中位数", "平均数", "极差", "数据处理", "五年级", "数学", "mod", "median", "min", "julat", "pemprosesan data", "投影", "全班"],
+    url: "https://tahun5-mt-data.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-12", note: "首次上架（来自许愿池：Tahun 5 数学，学生分不清中位数与众数）" },
+    ],
+    // 缩略图是 Playwright 操作正式网址截的真实画面
+    thumbnails: [
+      { img: "assets/thumbs/tahun5-mt-data/1-home.png", label: "首页：选练习范围与玩法" },
+      { img: "assets/thumbs/tahun5-mt-data/2-question.png", label: "一道题：小侦探说得对吗？" },
+      { img: "assets/thumbs/tahun5-mt-data/3-median-reveal.png", label: "揭晓：先排队，再找正中间" },
+      { img: "assets/thumbs/tahun5-mt-data/4-dots.png", label: "换成点点图看" },
+    ],
+    // standards 暂不填：dskp-index 还没有 Tahun 5 数学。对照依据是 资料库 KSSR2017/Matematik/SJKC/TAHUN5.md 的 8.2.1（该档为截取、没有审核），见 published-tools-coverage.md
+    standards: [],
+    practiceSummary: "从非分组数据认识并确定众数、中位数、平均数和极差；辨认「中位数要先排队」「众数看次数最多」等常见混淆；用数字卡和点点图两种方式看数据",
+    teachingMode: ["投影互动", "全班举手抢答", "分队轮流"],
+    prep: "打开即用，不需要打印，学生不需要设备。老师投影，每题先让全班举手投票，再点答案揭晓；键盘 1–4（或 Y／N）选答案，空白键进入下一题。「练哪些」可只练中位数 vs 众数，也可四个全练，双数个数据另外选",
+  },
+
+  {
     slug: "tahun4-mt-nombor",
     tahun: 4,
     subjek: "mt",
@@ -2227,6 +2258,19 @@ wishTahunEl.addEventListener("change", () => {
   else { wishSubjekEl.innerHTML = '<option value="">先选年级</option>'; wishSubjekEl.disabled = true; }
 });
 
+// 第 2 步的示例随科目换：数学示例带数字，老师才会照着写出「题目＋学生的错误答案」
+const WISH_PLACEHOLDERS = {
+  mt: { task: "例：求一组数据的中位数", problem: "例：学生把出现次数最多的数，当成了中位数", example: "例：求 3、8、3、9、5 的中位数 → 学生答 3（应该是 5）" },
+  _default: { task: "例：听写水果单元的 10 个英文词", problem: "例：会念 banana，却写成 bnana、benana；10 题只对 2 题", example: "例：听写 banana → 学生写 bnana" },
+};
+function updateWishPlaceholders() {
+  const ph = WISH_PLACEHOLDERS[wishSubjekEl.value] || WISH_PLACEHOLDERS._default;
+  document.getElementById("wishTask").placeholder = ph.task;
+  document.getElementById("wishProblem").placeholder = ph.problem;
+  document.getElementById("wishExample").placeholder = ph.example;
+}
+wishSubjekEl.addEventListener("change", updateWishPlaceholders);
+
 let wishCurrentStep = 1;
 const wishStepEls = { 1: document.getElementById("wishStep1"), 2: document.getElementById("wishStep2"), 3: document.getElementById("wishStep3") };
 const wishProgressEl = document.getElementById("wishProgress");
@@ -2239,6 +2283,7 @@ function showWishStep(step) {
   wishCurrentStep = step;
   [1, 2, 3].forEach((s) => { wishStepEls[s].hidden = s !== step; });
   wishProgressEl.textContent = `第 ${step}／3 步：${WISH_STEP_LABELS[step]}`;
+  if (step === 2) updateWishPlaceholders();
   wishBackBtn.hidden = step === 1;
   wishNextBtn.hidden = step === 3;
   wishSubmitBtn.hidden = step !== 3;
@@ -2357,6 +2402,7 @@ function collectWishResumeState(step) {
     lessonMoment: document.getElementById("wishLessonMoment").value,
     problemTask: document.getElementById("wishTask").value,
     problemDescription: document.getElementById("wishProblem").value,
+    problemExample: document.getElementById("wishExample").value,
     problemCause: document.getElementById("wishCause").value,
     triedAlready: document.getElementById("wishTried").value,
     desiredHelp: wishSelections.desiredHelp.value,
@@ -2382,6 +2428,7 @@ function clearWishResumeState() { localStorage.removeItem(WISH_RESUME_KEY); }
 function applyWishTextFields(saved) {
   document.getElementById("wishTask").value = saved.problemTask || "";
   document.getElementById("wishProblem").value = saved.problemDescription || "";
+  document.getElementById("wishExample").value = saved.problemExample || "";
   document.getElementById("wishCause").value = saved.problemCause || "";
   document.getElementById("wishTried").value = saved.triedAlready || "";
   document.getElementById("wishContext").value = saved.classroomContext || "";
@@ -2485,9 +2532,11 @@ function collectWishSchool() {
 // 错例拆成两三格填，存回原本的 problem_description 一栏（不改表结构），后台照行显示
 function composeWishProblem() {
   const cause = document.getElementById("wishCause").value.trim();
+  const example = document.getElementById("wishExample").value.trim();
   return [
     `题目／活动：${document.getElementById("wishTask").value.trim()}`,
     `学生表现：${document.getElementById("wishProblem").value.trim()}`,
+    example && `错例：${example}`,
     cause && `老师判断原因：${cause}`,
   ].filter(Boolean).join("\n");
 }
@@ -2574,6 +2623,7 @@ function collectWishDraft() {
     lessonMoment: document.getElementById("wishLessonMoment").value,
     problemTask: document.getElementById("wishTask").value,
     problemDescription: document.getElementById("wishProblem").value,
+    problemExample: document.getElementById("wishExample").value,
     problemCause: document.getElementById("wishCause").value,
     triedAlready: document.getElementById("wishTried").value,
     desiredHelp: wishSelections.desiredHelp.value,
@@ -2585,7 +2635,7 @@ function collectWishDraft() {
 }
 function hasDraftContent() {
   const d = collectWishDraft();
-  return !!(d.learningGoal || d.problemTask || d.problemDescription || d.problemCause || d.tahun || d.subjek || d.unitObjective || d.triedAlready || d.desiredHelp || d.device || d.classroomContext);
+  return !!(d.learningGoal || d.problemTask || d.problemDescription || d.problemExample || d.problemCause || d.tahun || d.subjek || d.unitObjective || d.triedAlready || d.desiredHelp || d.device || d.classroomContext);
 }
 function saveDraft() { localStorage.setItem(WISH_DRAFT_KEY, JSON.stringify(collectWishDraft())); }
 function clearDraft() { localStorage.removeItem(WISH_DRAFT_KEY); }
@@ -2614,6 +2664,7 @@ function resetWishForm() {
   document.getElementById("wishForm").reset();
   wishSubjekEl.innerHTML = '<option value="">先选年级</option>';
   wishSubjekEl.disabled = true;
+  updateWishPlaceholders();
   renderWishRadios();
   document.getElementById("wishLearningGoalError").hidden = true;
   document.getElementById("wishTaskError").hidden = true;
