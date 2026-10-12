@@ -52,6 +52,10 @@
 28. **「位老师注册」= `profiles` 表的笔数**（2026-10-09，老师确认）。每位老师登录时写一笔（`ensureProfileRow`，放在 `handleAuthChange` 最前面，不可排在会出错的许愿恢复之后——2026-10-09 发现 107 位因此漏登记，已补回）。访客不能读 `profiles`（刻意不开放，避免枚举），只能经 `get_teacher_count()` 拿总数。数字跟「次到访」一样**每次载入页面读一次，不做定时刷新**，老师 10-10 确认够用。注册人数不会自己跳，要等下一次有人开首页。
 29. **许愿池后台 `admin.html` 的权限放在数据库**（2026-10-09）：管理员名单在 `public.admins`（不开任何 policy），`is_admin()` 判断，`admin_list_wishes()`／`admin_update_wish()`／`admin_list_teachers()` 三个 RPC 只对管理员回资料，非管理员回空。前端只负责显示。**不要为了方便开放 `wishes` 或 `profiles` 的 select 给 anon／authenticated**。加管理员用 SQL `insert into public.admins`，目前只有 yquan77。页面 `noindex`，网址不对外发。
 
+30. **许愿池来的工具，署名与许愿单收尾**（2026-10-12）：许愿单没署名时 `creator` 写「一位×年级老师」（`initial: "师"`），**不写「卢老师」、不写学校**（许愿默认不公开老师与学校）；「卢老师」只给卢老师自己主动做的工具。表单第 3 步有选填「想怎么署名」，**存在 `wishes.classroom_context` 末尾一行 `署名：…`**（不加栏位、不改 schema），**勾选确认句＝同意该署名写在工具上**。工具上线／修订后要回许愿池把该单改 `shipped`＋`linked_tool_slug`＋备注（agent 用 psycopg2 直连，只改这三栏）。完整流程在 `../teaching-tools/agents.md`「从许愿池做工具的标准流程」。
+31. **许愿池「错例」栏**（2026-10-12）：第 2 步新增选填「能给一道学生真的做错的题吗」，存成 `problem_description` 的 `错例：…` 一行；placeholder 随科目换（数学带数字）。起因：第 11 份仍只写概括没写具体错题。判断标准：之后的许愿里这栏有填的比例、填的是不是「题目＋错误答案」。
+32. **`dskp-index` 收录 Tahun 5 数学只含 8.0／8.2**（2026-10-12）：依资料库截取档（中文 SJKC＋马来文 SK），`reviewed:false`，页面显示「已对照」不显示「已核对」；只收工具实际覆盖的目标，不是整个单元。
+
 ## 视觉设计
 布告栏意象；不用 emoji，图钉/星星/奖杯用 CSS/SVG；科目用缩写字母徽章（MT/BM/BI/BC/SA）；配色（跟 EduNeo 区分）：暖纸白 `#FBF6EC`、黑板绿 `#1F3A34`、橙黄 `#E8873E`、天空蓝 `#4FA8D8`（马来文）、珊瑚红 `#D65B4A`（中文/星星）、暖金 `#F0B429`；卡片±1-2°随机倾斜
 
