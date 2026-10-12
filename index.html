@@ -252,6 +252,12 @@
             <textarea id="wishContext" rows="2"></textarea>
           </div>
 
+          <div class="wish__field">
+            <label for="wishCredit">如果做成工具，想怎么署名？（选填）</label>
+            <p class="wish__field-hint">工具在点子铺上会写「谁提出的点子」。想用名字就写在这里；留空就写「一位×年级老师」，不会出现你的名字或学校。</p>
+            <input type="text" id="wishCredit" maxlength="40" placeholder="例：陈老师">
+          </div>
+
           <div class="wish__field school-picker">
             <p class="school-picker__label">学校（选填，只用于汇总覆盖范围，不会公开显示）</p>
             <div class="school-picker__row">
@@ -263,7 +269,7 @@
           </div>
 
           <div class="wish__field wish__consent">
-            <label><input type="checkbox" id="wishConsent" required> 我知道需求会由平台团队阅读与汇总，团队可能用我的登录邮箱回访一两个问题，且我没有填写学生个人资料。</label>
+            <label><input type="checkbox" id="wishConsent" required> 我知道需求会由平台团队阅读与汇总，且我没有填写学生个人资料。如果需求不够清楚，平台可能用我的登录邮箱给我写信，问一两个问题（只用于这件事，不公开、不发广告）。</label>
           </div>
 
           <p class="wish__login-status" id="wishLoginStatus" aria-live="polite"></p>

@@ -341,7 +341,7 @@ const TOOLS = [
     url: "https://tahun5-mt-data.vercel.app",
     type: "游戏",
     stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
+    creator: { name: "一位五年级老师", initial: "师" },
     version: "1.0",
     changelog: [
       { version: "1.0", date: "2026-10-12", note: "首次上架（来自许愿池：Tahun 5 数学，学生分不清中位数与众数）" },
@@ -353,8 +353,9 @@ const TOOLS = [
       { img: "assets/thumbs/tahun5-mt-data/3-median-reveal.png", label: "揭晓：先排队，再找正中间" },
       { img: "assets/thumbs/tahun5-mt-data/4-dots.png", label: "换成点点图看" },
     ],
-    // standards 暂不填：dskp-index 还没有 Tahun 5 数学。对照依据是 资料库 KSSR2017/Matematik/SJKC/TAHUN5.md 的 8.2.1（该档为截取、没有审核），见 published-tools-coverage.md
-    standards: [],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "8.0", objectiveCodes: ["8.2"] },
+    ],
     practiceSummary: "从非分组数据认识并确定众数、中位数、平均数和极差；辨认「中位数要先排队」「众数看次数最多」等常见混淆；用数字卡和点点图两种方式看数据",
     teachingMode: ["投影互动", "全班举手抢答", "分队轮流"],
     prep: "打开即用，不需要打印，学生不需要设备。老师投影，每题先让全班举手投票，再点答案揭晓；键盘 1–4（或 Y／N）选答案，空白键进入下一题。「练哪些」可只练中位数 vs 众数，也可四个全练，双数个数据另外选",
@@ -2408,6 +2409,7 @@ function collectWishResumeState(step) {
     desiredHelp: wishSelections.desiredHelp.value,
     device: wishSelections.device.value,
     classroomContext: document.getElementById("wishContext").value,
+    credit: document.getElementById("wishCredit").value,
   };
 }
 function saveWishResumeState(step) {
@@ -2432,6 +2434,7 @@ function applyWishTextFields(saved) {
   document.getElementById("wishCause").value = saved.problemCause || "";
   document.getElementById("wishTried").value = saved.triedAlready || "";
   document.getElementById("wishContext").value = saved.classroomContext || "";
+  document.getElementById("wishCredit").value = saved.credit || "";
   wishSelections.desiredHelp.value = saved.desiredHelp || null;
   wishSelections.device.value = saved.device || null;
   renderWishRadios();
@@ -2541,6 +2544,14 @@ function composeWishProblem() {
   ].filter(Boolean).join("\n");
 }
 
+// 署名偏好不另开栏位（不改表结构）：附在「补充」后面的一行，后台照行显示；没填就不加，开发时默认写「一位×年级老师」
+function composeWishContext() {
+  const ctx = document.getElementById("wishContext").value.trim();
+  const credit = document.getElementById("wishCredit").value.trim();
+  const out = [ctx, credit && `署名：${credit}`].filter(Boolean).join("\n");
+  return out || null;
+}
+
 function collectWishPayload() {
   const school = collectWishSchool();
   return {
@@ -2556,7 +2567,7 @@ function collectWishPayload() {
     desired_help: wishSelections.desiredHelp.value,
     usage_modes: wishSelections.device.value ? [wishSelections.device.value] : [],
     must_have_or_avoid: null,
-    classroom_context: document.getElementById("wishContext").value || null,
+    classroom_context: composeWishContext(),
     school_state: school.state,
     school_district: school.district,
     school_name: school.name,
@@ -2629,13 +2640,14 @@ function collectWishDraft() {
     desiredHelp: wishSelections.desiredHelp.value,
     device: wishSelections.device.value,
     classroomContext: document.getElementById("wishContext").value,
+    credit: document.getElementById("wishCredit").value,
     savedAt: Date.now(),
   };
   // 按规格 3.2：不暂存学校资料和隐私确认
 }
 function hasDraftContent() {
   const d = collectWishDraft();
-  return !!(d.learningGoal || d.problemTask || d.problemDescription || d.problemExample || d.problemCause || d.tahun || d.subjek || d.unitObjective || d.triedAlready || d.desiredHelp || d.device || d.classroomContext);
+  return !!(d.learningGoal || d.problemTask || d.problemDescription || d.problemExample || d.problemCause || d.tahun || d.subjek || d.unitObjective || d.triedAlready || d.desiredHelp || d.device || d.classroomContext || d.credit);
 }
 function saveDraft() { localStorage.setItem(WISH_DRAFT_KEY, JSON.stringify(collectWishDraft())); }
 function clearDraft() { localStorage.removeItem(WISH_DRAFT_KEY); }

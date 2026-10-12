@@ -456,4 +456,25 @@ const DSKP_INDEX = [
       },
     ],
   },
+  {
+    // 依本机 DSKP 截取档：资料库/DSKP资料/KSSR2017/Matematik/SJKC/TAHUN5.md（中文）与 SK/TAHUN5.md（马来文原文）。
+    // 截取档头部注明「没有审核」，故 reviewed: false（页面显示「已对照」，不显示「已核对」）。只收录已有工具覆盖的 8.2，不是整个单元。
+    curriculum: "KSSR Semakan 2017",
+    tahun: 5,
+    subjek: "mt",
+    sourceUrl: "https://bpk.moe.gov.my/kurikulum/kssr/kssr-tahun-5/223-dskp-kssr-semakan-2017-matematik-tahun-5-sjkc/file",
+    sourceLabel: "DSKP Matematik Tahun 5 SJK(C)",
+    reviewed: false,
+    verifiedAt: "2026-10-12",
+    units: [
+      {
+        code: "8.0",
+        title_zh: "统计与概率——数据处理",
+        title_bm: "Pengurusan Data",
+        objectives: [
+          { code: "8.2", title_zh: "众数、中位数、平均数和极差：从非分组数据认识并确定", title_bm: "Mod, median, min dan julat: mengenal dan menentukan daripada data tak terkumpul", terms: ["众数", "中位数", "平均数", "极差", "非分组数据", "mod", "median", "min", "julat", "data tak terkumpul"] },
+        ],
+      },
+    ],
+  },
 ];
