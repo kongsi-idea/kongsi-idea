@@ -477,4 +477,25 @@ const DSKP_INDEX = [
       },
     ],
   },
+  {
+    // 依本机 DSKP 截取档：资料库/DSKP资料/KSSR2017/Bahasa-Inggeris/SJK/TAHUN1.md（英文原文，SJK 版官方 PDF 截取）。
+    // 截取档头部注明「没有审核」，故 reviewed: false。BI 一律用英文原文（Hub 决定 26、27）。只收录已有工具覆盖的 4.3.2，不是整个 Writing 内容标准。
+    curriculum: "KSSR Semakan 2017",
+    tahun: 1,
+    subjek: "bi",
+    sourceUrl: "https://jpnpp.moe.gov.my/muat-turun/sektor/sektor-pembelajaran/bahasa/bahasa-inggeris/sjk/240-dskp-english-sjk-year-1/file",
+    sourceLabel: "DSKP English SJK Year 1",
+    reviewed: false,
+    verifiedAt: "2026-10-12",
+    units: [
+      {
+        code: "4.0",
+        title_zh: "写作",
+        title_bm: "Writing",
+        objectives: [
+          { code: "4.3", title_zh: "拼写熟悉的高频词（4.3.2）", title_bm: "Spell high frequency words accurately (4.3.2: Spell familiar high frequency words accurately)", terms: ["spelling", "spell", "high frequency words", "fruit", "vegetables", "拼写", "听写"] },
+        ],
+      },
+    ],
+  },
 ];

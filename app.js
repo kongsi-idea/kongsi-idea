@@ -114,6 +114,38 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-bi-fruitveg",
+    tahun: 1,
+    subjek: "bi",
+    status: "published",
+    title_zh: "Spelling Market",
+    title_bm: "拼写小市场",
+    desc: "From the wish pool, a Year 1 teacher's sticking point: pupils can listen, speak and read the fruit and vegetable words, but cannot spell them (10-word dictations: only 2 right). So this tool teaches spelling in three steps at a market stall: Build (look at the word, tap the letters in order, vowels coloured) → Type (hear the word, spell it on a keyboard or on-screen keys, right letters lock in place, three levels of Help) → Dictation (listen only, no picture, no help, like the classroom test). 16 words from Unit 4 Lunchtime in three levels, plus a 10-word spelling test that picks the words each pupil has missed. Words are read aloud in British English.",
+    keywords: ["fruit", "vegetables", "spelling", "dictation", "phonics", "Lunchtime", "Unit 4", "Superminds", "apple", "banana", "carrot", "tomato", "一年级", "英文", "拼写", "听写", "水果", "蔬菜", "Bahasa Inggeris", "Year 1", "Tahun 1"],
+    url: "https://tahun1-bi-fruitveg.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "一位一年级老师", initial: "师" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-12", note: "首次上架（来自许愿池：Tahun 1 英文，学生会听说读却不会拼 fruit and vegetables，听写 10 题只对 2 题）：Build → Type → Dictation 三步；16 个词三个层级；10 词拼写测验优先出错过的词；英式发音预录" },
+    ],
+    // 缩图是 2026-10-12 用 Playwright 操作正式网址 https://tahun1-bi-fruitveg.vercel.app 截的真实画面（横式 1366×768），不是 mock；第 1 张是首页（未另做生图封面）
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bi-fruitveg/1-home.png", label: "首页：三个层级与 10 词拼写测验，下方是自己的小篮子" },
+      { img: "assets/thumbs/tahun1-bi-fruitveg/2-build.png", label: "Build：看着示范词（元音染色），按顺序点字母块" },
+      { img: "assets/thumbs/tahun1-bi-fruitveg/3-type.png", label: "Type：只听＋看图，打字拼写，对的字母会锁住，Help 分三档" },
+      { img: "assets/thumbs/tahun1-bi-fruitveg/5-dictation-reveal.png", label: "Dictation：不看图、不给帮助；拼完揭晓，错的字母标红" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "4.0", objectiveCodes: ["4.3"] },
+    ],
+    practiceSummary: "Spell familiar high-frequency words accurately: 16 fruit and vegetable words from Unit 4 Lunchtime (pea, pear, corn, apple, peach, onion, carrot, tomato, potato, banana, orange, coconut, pineapple, mushroom, broccoli, strawberry), from copying to spelling after listening only (DSKP Year 1 BI 4.3.2)",
+    teachingMode: ["Individual practice", "Classroom projection"],
+    prep: "One device per pupil, about 10 minutes; no login or class code. A laptop keyboard or tablet touch both work (on-screen letters are on the page). Turn the sound on: every word is read aloud. Start pupils at Level 1; the Spelling test button gives a 10-word dictation-style check and lists the words to practise. Progress and stars are saved only on that device. Textbook page numbers not yet added.",
+  },
+
+  {
     slug: "tahun6-bi-questiontags",
     tahun: 6,
     subjek: "bi",
