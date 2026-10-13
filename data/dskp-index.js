@@ -269,6 +269,30 @@ const DSKP_INDEX = [
     ],
   },
   {
+    // 2026-10-13 逐字核对本机官方 PDF「DSKP KSSR Semakan 2017 Bahasa Melayu SJK Tahun 2 v2」第 38 页（Aspek Tatabahasa 5.1.4 (iii) kata arah）
+    curriculum: "KSSR Semakan 2017",
+    tahun: 2,
+    subjek: "bm",
+    sourceUrl: "https://jpnpp.moe.gov.my/muat-turun/sektor/sektor-pembelajaran/bahasa/bahasa-melayu/sjk-1/257-dskp-bahasa-melayu-sjk-tahun-2/file",
+    sourceLabel: "DSKP KSSR Semakan 2017 Bahasa Melayu SJK Tahun 2",
+    verifiedAt: "2026-10-13",
+    units: [
+      {
+        code: "5.0",
+        title_zh: "语法",
+        title_bm: "Aspek Tatabahasa",
+        objectives: [
+          {
+            code: "5.1",
+            title_zh: "理解并依语境运用词类：认识并运用词语，包括方位词（kata arah）",
+            title_bm: "Memahami fungsi dan menggunakan golongan kata mengikut konteks (5.1.4 (iii) kata arah)",
+            terms: ["方位词", "上下前后", "kata arah", "kata tugas", "atas", "bawah", "hadapan", "belakang", "luar", "dalam", "tepi", "tatabahasa"],
+          },
+        ],
+      },
+    ],
+  },
+  {
     curriculum: "KSSR Semakan 2017",
     tahun: 3,
     subjek: "bc",

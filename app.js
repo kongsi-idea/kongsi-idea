@@ -398,6 +398,38 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun2-bm-kataarah",
+    tahun: 2,
+    subjek: "bm",
+    status: "published",
+    title_zh: "Di Mana Letaknya?",
+    title_bm: "Kata Arah 方位词",
+    desc: "Murid Tahun 2 belajar kata arah (atas, bawah, hadapan, belakang, luar, dalam, tepi) melalui dua pemandangan daripada buku teks: Bilik Sukan Sekolah dan Panasnya Cuaca, dibina semula dalam gaya mainan blok. Tiga peringkat: \"Kenali\" (sentuh kata untuk dengar ayat buku teks; guru boleh tekan \"Main semua\" di skrin besar), \"Jawab\" (lengkapkan ayat dengan kata arah yang betul) dan \"Susun\" (seret benda ke tempat yang betul tanpa petak bantuan; jika salah, murid diberitahu di mana benda itu sebenarnya diletakkan). Semua arahan dan suara dalam bahasa Melayu.",
+    keywords: ["方位词", "kata arah", "atas", "bawah", "hadapan", "belakang", "luar", "dalam", "tepi", "tatabahasa", "拖放", "二年级", "马来文", "国文", "bahasa melayu", "投影", "在家练习"],
+    url: "https://tahun2-bm-kataarah.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "Cikgu Lee Xin Hui", initial: "L" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-13", note: "首次上架（BM Tahun 2 课本第 49、82 页 Kata Arah，DSKP 5.1.4 (iii)；Kenali／Jawab／Susun 三阶段，积木玩具风格）" },
+    ],
+    // 封面是生图；其余是 Playwright 操作正式网址 https://tahun2-bm-kataarah.vercel.app 截的真实画面
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-bm-kataarah/1-cover.png", label: "封面：Di Mana Letaknya? Kata Arah" },
+      { img: "assets/thumbs/tahun2-bm-kataarah/2-kenali.png", label: "Kenali：点词，听课本例句" },
+      { img: "assets/thumbs/tahun2-bm-kataarah/3-jawab.png", label: "Jawab：选词完成句子" },
+      { img: "assets/thumbs/tahun2-bm-kataarah/4-susun.png", label: "Susun：把物件拖到正确位置" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.1"] },
+    ],
+    practiceSummary: "Memahami dan mengenal pasti penggunaan kata arah mengikut konteks: atas, bawah, hadapan, belakang, luar, dalam dan tepi (SP 5.1.4 (iii)), berdasarkan Buku Teks Bahasa Melayu Tahun 2 ms. 49 dan ms. 82",
+    teachingMode: ["Interaksi unjuran kelas", "Latihan sendiri di rumah", "Murid tampil ke hadapan"],
+    prep: "Boleh digunakan terus tanpa cetakan. Guru unjurkan di skrin besar dan panggil seorang murid ke hadapan untuk menyeret benda; murid lain menjawab dari tempat duduk. Murid juga boleh berlatih sendiri di rumah dengan komputer, tablet atau telefon. Tidak perlu daftar nama atau kod kelas.",
+  },
+
+  {
     slug: "tahun5-mt-data",
     tahun: 5,
     subjek: "mt",

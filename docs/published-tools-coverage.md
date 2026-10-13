@@ -50,6 +50,7 @@
 | `tahun1-am-cahaya` | Tahun 1 | Alam dan Manusia (am) | 光的小探险 | KP2027 5.1 Kraf Cahaya — 5.1.1–5.1.4（光源、光让我们看得见、明暗中做事比较、电子设备的光与眼睛）；未进 `data/dskp-index.js` | https://tahun1-am-cahaya.vercel.app | `../teaching-tools/tahun1-am-cahaya/` | v1.1（2026-10-02）依老师实测修正：黑暗中非题目物件一律哑光、手电筒照度按距离固定、全屋视角光圈加大、切房间时找东西提示跟着更新；v1.0（2026-10-02）首次上线，两幕（停电夜与手电筒、找光源／全黑测验／月亮／天亮）。马来文用词待查证；未在学校电脑／投影实测。新增科目 `am`（Alam dan Manusia，KP2027 新课程，官方中文译名未核对）。 |
 | `tahun6-bi-questiontags` | Tahun 6 | 英文 (bi) | 侦探语法局 Case Files: Question Tags | Year 6 Unit 10 Lesson 3 Grammar（PB p.125、WB p.104）；DSKP 代码未核对，索引未收录 | https://tahun6-bi-questiontags.vercel.app | `../teaching-tools/tahun6-bi-questiontags/` | — |
 | `tahun5-mt-data` | Tahun 5 | 数学 (mt) | 数据侦探局 | 8.0 数据处理 — 8.2.1 众数、中位数、平均数和极差（已收进 dskp-index，依资料库截取档，`reviewed:false`） | https://tahun5-mt-data.vercel.app | `../teaching-tools/tahun5-mt-data/` | v1.0（2026-10-12）首次上架，来自许愿池第 11 份。待老师回信补：真实错例、平均数／极差是否也有困难、课本数据形式（象形图／条形图尚未做）。 |
+| `tahun2-bm-kataarah` | Tahun 2 | 马来文 (bm) | Di Mana Letaknya? Kata Arah | 5.0 Aspek Tatabahasa — 5.1.4 (iii) kata arah（已收进 dskp-index，逐字核对本机官方 PDF 第 38 页） | https://tahun2-bm-kataarah.vercel.app | `../teaching-tools/tahun2-bm-kataarah/` | v1.0（2026-10-13）首次上架。BM Tahun 2 课本第 49、82 页复刻（积木玩具风格重画，不用课本原图），Kenali／Jawab／Susun 三阶段，无格子拖放。待老师核对：补题措辞（体育室 2 题、前院 3 题）、锥筒摆在左架最底层（右架底层被篮球占满）；触控与朗读未在真机实测。做法见 `../teaching-tools/tahun2-bm-kataarah/METHOD.md` |
 
 > 「优化备注」栏：`—` 表示目前没有已知待改事项；有想法时写一句话摘要（如「拖拽手感偏慢，考虑换动画」），细节多的话另开该工具的 `handoff.md` 再从这里链过去。
 
@@ -60,7 +61,7 @@
 | 年级 \ 科目 | bm | bi | bc | mt | dst/sains | sejarah | rbt | islam | moral | seni | muzik | pjpk |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | Tahun 1 | ✅ 2.1音节 | ✅ 4.3.2拼写(水果蔬菜) | ✅ 2.1/3.1笔顺/3.2/5.1/5.3.1/5.4.1 (6个)＋华文复习本(2.1/3.2/5.3.1) | ✅ 1.8近似值 | ✅ 7.1磁铁 | — | — | — | — | — | — | — |
-| Tahun 2 | — | — | ✅ 3.1笔顺/5.1 (写字)＋综合复习 | ✅ 4.1钱币(部分)/1.4数位/1.7数列(3个)/2.3乘法 (共5个) | — | — | — | — | — | — | — | — |
+| Tahun 2 | ✅ 5.1.4(iii) kata arah | — | ✅ 3.1笔顺/5.1 (写字)＋综合复习 | ✅ 4.1钱币(部分)/1.4数位/1.7数列(3个)/2.3乘法 (共5个) | — | — | — | — | — | — | — | — |
 | Tahun 3 | — | — | ✅ 2.1课文理解 / 3.1笔顺+5.1(写字) | — | ✅ 7.1密度 | — | — | — | — | — | — | — |
 | Tahun 4 | — | — | ✅ 3.1笔顺/5.1汉字基本知识 | ✅ 1.1数值 | — | — | — | — | — | — | — | — |
 | Tahun 5 | — | — | — | ✅ 8.2众数中位数平均数极差 | — | — | — | — | — | — | — | — |
