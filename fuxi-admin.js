@@ -111,6 +111,9 @@ const Core = (() => {
     }
 
     const list = [...students.values()].map((s) => {
+      // 重试后成绩＝第一次对的题＋第一次错但再试答对的题（和学生完成页的「现在」一致）
+      s.retriedItems = s.wrong.filter((id) => s.retryByItem[id]).length;
+      s.finalCorrect = s.correct + s.wrong.filter((id) => s.retryByItem[id] && s.retryByItem[id].is_correct === true).length;
       let topTag = null, topCount = 0;
       for (const [t, c] of Object.entries(s.tags)) if (t !== "__none" && c > topCount) { topTag = t; topCount = c; }
       s.topTag = topTag; s.topTagCount = topCount;
@@ -143,10 +146,12 @@ const Core = (() => {
 
     const n = list.length;
     const avgCorrect = n ? list.reduce((a, s) => a + s.correct, 0) / n : null;
+    const avgFinal = n ? list.reduce((a, s) => a + s.finalCorrect, 0) / n : null;
+    const retriedStudents = list.filter((s) => s.retriedItems > 0).length;
     const finished = list.filter((s) => s.answered >= bank.items.length).length;
     const avgAnswered = n ? list.reduce((a, s) => a + s.answered, 0) / n : null;
     return {
-      perItem, students: list, hardest, topTags, topWrong, avgCorrect,
+      perItem, students: list, hardest, topTags, topWrong, avgCorrect, avgFinal, retriedStudents,
       gradedTotal: graded.length, writingTotal: writing.length,
       participants: n, finished, avgAnswered,
       retry: { wrongPairs, retriedPairs, improvedPairs, improvedStudents: improvedStudents.size },
@@ -179,14 +184,14 @@ const Core = (() => {
     return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
   }
   function buildCsv(analysis, bank, rosterNames) {
-    const head = ["学生", "名单内", "批改题对题数", "批改题已答", "写作题完成"];
+    const head = ["学生", "名单内", "批改题对题数（第一次）", "批改题对题数（重试后）", "批改题已答", "写作题完成"];
     for (const it of bank.items) head.push(`${it.id} 答案`, `${it.id} 对错`);
     const lines = [head];
-    const std = ["标准答案／范例", "", "", "", ""];
+    const std = ["标准答案／范例", "", "", "", "", ""];
     for (const it of bank.items) std.push(it.graded ? fmtAnswer(it.correct) : (it.model || ""), "");
     lines.push(std);
     for (const s of sortStudents(analysis.students, "seat", rosterNames)) {
-      const row = [s.name, s.inRoster ? "是" : "手动输入", s.correct, s.gradedAnswered, s.writingDone];
+      const row = [s.name, s.inRoster ? "是" : "手动输入", s.correct, s.finalCorrect, s.gradedAnswered, s.writingDone];
       for (const it of bank.items) {
         const r = s.byItem[it.id];
         row.push(r ? fmtAnswer(ansOf(r)) : "", r && it.graded ? (r.is_correct ? "对" : "错") : "");
@@ -386,9 +391,10 @@ if (typeof document !== "undefined" && typeof supabaseClient !== "undefined") (f
       <div class="la__stats">
         <div class="la__stat"><span>参与人数</span><b id="stTotal">${A.participants}</b><span>${A.finished} 人做完全部 ${N} 项；平均交了 ${A.avgAnswered === null ? "–" : A.avgAnswered.toFixed(1)} 项</span></div>
         <div class="la__stat"><span>全班平均分</span><b id="stAvg">${A.avgCorrect === null ? "–" : A.avgCorrect.toFixed(1)}</b><span>满分 ${G}（只算批改题，写作题 ${A.writingTotal} 项不算分）</span></div>
+        <div class="la__stat"><span>重试后全班平均分</span><b id="stAvgFinal">${A.avgFinal === null ? "–" : A.avgFinal.toFixed(1)}</b><span>${A.retriedStudents} 位学生再试过；第一次平均 ${A.avgCorrect === null ? "–" : A.avgCorrect.toFixed(1)}，满分 ${G}</span></div>
         <div class="la__stat"><span>再试一次后改对</span><b id="stRetry">${r.improvedPairs}</b><span id="stRetryTxt">${retryText}</span></div>
       </div>
-      <p class="muted">只用第一次作答（attempt 1），同人同题取最早一笔。</p>
+      <p class="muted">下面的答对率、最难题、错误类别只用第一次作答（attempt 1），同人同题取最早一笔；「重试后」成绩＝第一次对的＋再试改对的。</p>
       <div class="la__two">
         <section class="la__card hard"><h2>最难的 5 题</h2>${hard}</section>
         <section class="la__card"><h2>最常见的错误类别 Top 5</h2>${tags}</section>
@@ -409,16 +415,17 @@ if (typeof document !== "undefined" && typeof supabaseClient !== "undefined") (f
       return `<tr class="stu" data-i="${i}" tabindex="0" aria-expanded="${open}">
         <td>${esc(s.name)}${!s.inRoster ? '<span class="pill info">手动输入</span>' : ""}${s.flagged ? '<span class="pill warn">需要帮助</span>' : ""}</td>
         <td>${s.correct} / ${G}${s.gradedAnswered < G ? `<span class="muted">（已答 ${s.gradedAnswered}）</span>` : ""}</td>
+        <td>${s.retriedItems ? `<strong>${s.finalCorrect}</strong> / ${G}${s.finalCorrect > s.correct ? `<span class="pill info">+${s.finalCorrect - s.correct}</span>` : ""}` : '<span class="muted">没再试</span>'}</td>
         <td>${s.wrong.length ? esc(s.wrong.join("、")) : '<span class="muted">全对</span>'}</td>
         <td>${s.topTag ? esc(tagText(s.topTag)) + ` <span class="muted">×${s.topTagCount}</span>` : '<span class="muted">–</span>'}</td>
         <td>${s.writingDone} / ${W}</td></tr>
-        ${open ? `<tr class="detail"><td colspan="5">${studentDetail(s, names)}</td></tr>` : ""}`;
+        ${open ? `<tr class="detail"><td colspan="6">${studentDetail(s, names)}</td></tr>` : ""}`;
     }).join("");
     pane.innerHTML = `
       <div class="la__bar"><span class="muted">排序</span><span class="la__seg">${sortBtn("help", "需要帮助")}${sortBtn("seat", "名单顺序")}${sortBtn("name", "姓名")}</span>
         <span class="muted">「需要帮助」＝错题多、或同一类错误出现 3 次以上的排前面</span></div>
-      <section class="la__card la__scroll"><table id="stuTable"><thead><tr><th>学生</th><th>对 / ${G}</th><th>答错的题</th><th>主要错误类别</th><th>写作题完成</th></tr></thead>
-      <tbody>${rows || '<tr><td colspan="5" class="muted">还没有学生的作答。</td></tr>'}</tbody></table></section>
+      <section class="la__card la__scroll"><table id="stuTable"><thead><tr><th>学生</th><th>第一次 / ${G}</th><th>重试后 / ${G}</th><th>答错的题</th><th>主要错误类别</th><th>写作题完成</th></tr></thead>
+      <tbody>${rows || '<tr><td colspan="6" class="muted">还没有学生的作答。</td></tr>'}</tbody></table></section>
       ${missing.length ? `<p class="muted">名单里还没有数据的人（${missing.length}）：${missing.map(esc).join("、")}</p>` : ""}`;
     pane.querySelectorAll("[data-sort]").forEach((b) => b.addEventListener("click", () => { S.sort = b.dataset.sort; render(); }));
     pane.querySelectorAll("tr.stu").forEach((tr) => {
