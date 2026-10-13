@@ -430,6 +430,38 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-bm-kataarah",
+    tahun: 1,
+    subjek: "bm",
+    status: "published",
+    title_zh: "Kibarkan Bendera",
+    title_bm: "Kata Arah 方位词",
+    desc: "Murid Tahun 1 belajar kata arah (atas, bawah, hadapan, belakang) melalui pemandangan perhimpunan mingguan di sekolah (buku teks BA ms. 28: Kibarkan Bendera Malaysia), dilukis dalam gaya kartun comel dengan pandangan serong 45 darjah. Tiga peringkat: \"Kenali\" (sentuh kata untuk dengar ayat buku teks; guru boleh tekan \"Main semua\" di skrin besar), \"Jawab\" (lengkapkan ayat dengan kata arah yang betul) dan \"Susun\" (tiga tahap \"Ketua Kecil mengatur perhimpunan\": murid menyeret watak ke tempat yang betul tanpa petak bantuan; jika salah, murid diberitahu di mana watak itu sebenarnya diletakkan; apabila semua betul, bendera dinaikkan). Semua arahan dan suara dalam bahasa Melayu. Sesuai untuk skrin besar di kelas atau latihan di rumah dengan telefon/komputer.",
+    keywords: ["方位词", "kata arah", "atas", "bawah", "hadapan", "belakang", "tatabahasa", "拖放", "一年级", "马来文", "国文", "bahasa melayu", "周会", "升旗", "投影", "在家练习"],
+    url: "https://tahun1-bm-kataarah.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "Cikgu Lee Xin Hui", initial: "L" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-14", note: "首次上架（BM Tahun 1 课本 BA 28 Kibarkan Bendera Malaysia，DSKP 5.1.4 (iii)；Kenali／Jawab／Susun 三阶段，Q 版卡通 45 度斜俯视周会场景）" },
+    ],
+    // 封面是生图；其余是 Playwright 操作正式网址 https://tahun1-bm-kataarah.vercel.app 截的真实画面
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bm-kataarah/1-cover.png", label: "封面：Kibarkan Bendera Kata Arah" },
+      { img: "assets/thumbs/tahun1-bm-kataarah/2-kenali.png", label: "Kenali：点词，听课本例句" },
+      { img: "assets/thumbs/tahun1-bm-kataarah/3-jawab.png", label: "Jawab：选词完成句子" },
+      { img: "assets/thumbs/tahun1-bm-kataarah/4-susun.png", label: "Susun：小班长排周会，把人放到正确位置" },
+    ],
+    standards: [
+      { curriculum: "KSSR 2015（原版）", unitCode: "5.0", objectiveCodes: ["5.1"] },
+    ],
+    practiceSummary: "Memahami dan mengenal pasti penggunaan kata arah mengikut konteks: atas, bawah, hadapan dan belakang (SP 5.1.4 (iii)), berdasarkan Buku Teks Bahasa Melayu Tahun 1 BA ms. 28 (Kibarkan Bendera Malaysia)",
+    teachingMode: ["Interaksi unjuran kelas", "Latihan sendiri di rumah", "Murid tampil ke hadapan"],
+    prep: "无需打印。班级大屏幕投影，请一位同学上台点或拖，其他同学在座位回答；在家用手机时以「点小人再点位置」操作；无需登记名单。Boleh digunakan terus tanpa cetakan; tidak perlu daftar nama atau kod kelas.",
+  },
+
+  {
     slug: "tahun5-mt-data",
     tahun: 5,
     subjek: "mt",

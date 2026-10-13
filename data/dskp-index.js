@@ -266,6 +266,20 @@ const DSKP_INDEX = [
           },
         ],
       },
+      {
+        // 2026-10-14 依资料库截取档 TAHUN1.md 的 5.1 / 5.1.4 (iii)（该档「仅为截取，没有审核」，未对官方 PDF 逐字核对；马来文用词待查证）
+        code: "5.0",
+        title_zh: "语法",
+        title_bm: "Aspek Tatabahasa",
+        objectives: [
+          {
+            code: "5.1",
+            title_zh: "理解并依语境运用词类：认识并运用词语，包括方位词（kata arah）",
+            title_bm: "Memahami fungsi dan menggunakan golongan kata mengikut konteks (5.1.4 (iii) kata arah)",
+            terms: ["方位词", "上下前后", "kata arah", "kata tugas", "atas", "bawah", "hadapan", "belakang", "tatabahasa"],
+          },
+        ],
+      },
     ],
   },
   {
