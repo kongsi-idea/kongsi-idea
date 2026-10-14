@@ -988,6 +988,38 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-bc-xingsi",
+    tahun: 1,
+    subjek: "bc",
+    status: "published",
+    title_zh: "找对小帮手",
+    title_bm: "Pembantu Cilik: Cari Aksara yang Betul",
+    desc: "来自许愿池一位一年级老师的卡点：形似字选择题里，学生有些字还不会认读，只好乱猜，选错了。所以这个工具让每张字卡「点一下就读出来」（读「字，词」，例：清，清水），句子也能朗读。画面是纸艺叠层风：句子里挖一个空，下面摆 2–3 张形似字卡，选错时字卡抖动变灰，并用「偏旁＋声旁」把两个字不同的部件标黄（例：清＝氵＋青、请＝讠＋青），再给一句找偏旁的提示；选对就填进空格、读整句。题目全部取自一年级课本，包括《识字五》的包字族（包、抱、跑、泡、饱）以及青、白、巴、马、门、果、工、采、方、少、木等 23 个字族，共 65 题，每题标课本页码。字体与语音都打包在页面里，第一次打开后断网也能用。",
+    keywords: ["形似字", "近似字", "形近字", "认读", "识字", "偏旁", "字族", "包抱跑泡饱", "一年级", "华文", "投影", "离线", "xingsi"],
+    url: "https://tahun1-bc-xingsi.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "一位一年级老师", initial: "师" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-15", note: "首次上架：23 个字族、65 题、点字卡朗读、字形对比提示、可离线使用" },
+    ],
+    // 第 1 张是生图封面；其余 3 张是用 Playwright 实际操作正式网址 https://tahun1-bc-xingsi.vercel.app 截的真实画面，不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bc-xingsi/cover.png", label: "找对小帮手：点字卡听声音，找出对的形似字" },
+      { img: "assets/thumbs/tahun1-bc-xingsi/1-home.png", label: "主页：选一个字族，或全部混合" },
+      { img: "assets/thumbs/tahun1-bc-xingsi/2-wrong.png", label: "选错：字卡变灰，标黄两个字不同的偏旁" },
+      { img: "assets/thumbs/tahun1-bc-xingsi/3-right.png", label: "选对：字填进空格，朗读整句" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.3.1"] },
+    ],
+    practiceSummary: "辨认形似字：听字卡读音，在句子里选出对的字，并看偏旁分辨差异",
+    teachingMode: ["投影互动", "全班参与"],
+    prep: "打开即用，不需要打印、不需要学生设备。老师投影带全班：点字卡听读音，学生商量后由老师点选。课前在有网络时先打开一次，之后断网也能用",
+  },
+
+  {
     slug: "tahun2-mt-shuzhi",
     tahun: 2,
     subjek: "mt",
