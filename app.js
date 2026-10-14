@@ -330,6 +330,43 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun2-mt-latihan-oktober",
+    tahun: 2,
+    subjek: "mt",
+    status: "published",
+    title_zh: "二年级10月数学练习",
+    title_bm: "Latihan Matematik Tahun 2 (Oktober)",
+    desc: "二年级数学月考复习的在线版，共 47 个小项：1000 以内的数值与加减乘除、分数与小数、钱币与储蓄消费、时刻与时间单位、长度质量液体体积、立体与平面图形（含展开图）、条形统计图。学生先点自己的名字（接班级名单，找不到可手动输入），选好或填好答案按「确认」当场知道对错：答对有鼓励，答错会给出正确答案、为什么，以及针对这类错误的提示；题目和解释都能点喇叭朗读。老师在后台（仅限登录的班级老师）看到每题答对率和学生常见的错误类型，也能把纸本答案回填进去一起分析。",
+    keywords: ["数学", "练习", "复习", "月考", "诊断", "数值", "近似值", "加法", "减法", "乘法", "除法", "分数", "小数", "钱币", "储蓄", "时刻", "时间", "长度", "质量", "液体体积", "立体图形", "展开图", "平面图形", "条形统计图", "二年级", "latihan", "pecahan", "perpuluhan", "wang", "masa", "ukuran", "bentuk 3D", "data", "错误分析"],
+    url: "https://tahun2-mt-latihan-oktober.vercel.app",
+    type: "练习",
+    hasLeaderboard: false,
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-14", note: "首次上架：47 个小项（含原卷没有的数与运算）；确认后当场对错反馈，答错给正确答案与针对性提示；预录朗读；手机／平板／电脑可用；可再试一次答错的题；老师后台（登录后才看得到）看答对率与错误类型，可回填纸本答案" },
+    ],
+    // 5 张用 Playwright 操作 https://tahun2-mt-latihan-oktober.vercel.app 截的真实画面（Supabase 已拦截，没有写入真数据库）
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-mt-latihan-oktober/1-cover.png", label: "封面：二年级10月数学练习" },
+      { img: "assets/thumbs/tahun2-mt-latihan-oktober/2-names.png", label: "进入时先点自己的名字，找不到可以手动输入" },
+      { img: "assets/thumbs/tahun2-mt-latihan-oktober/3-fraction.png", label: "分数与小数：涂色部分写成分数" },
+      { img: "assets/thumbs/tahun2-mt-latihan-oktober/4-clock.png", label: "认时刻：答错后马上告诉你为什么" },
+      { img: "assets/thumbs/tahun2-mt-latihan-oktober/5-chart.png", label: "条形统计图：读出每种面包卖了几个" },
+    ],
+    // 只引用 DSKP_INDEX 已收录并核对过的代码；分数小数、时间、度量衡、空间、数据处理尚未收入索引（见 coverage 表备注）
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.4"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.3"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "4.0", objectiveCodes: ["4.1", "4.2", "4.3", "4.6"] },
+    ],
+    practiceSummary: "二年级 10 月综合练习：数值与近似值、四则运算、分数与小数（涂色、比较）、钱币计算与储蓄消费表、时刻与天／时／分换算、长度质量液体体积读数与单位、立体与展开图、条形统计图",
+    teachingMode: ["个人练习"],
+    prep: "学生各自用手机、平板或电脑打开，需要联网；有声音朗读（建议戴耳机）。班级网址请带班级代码，例如 …vercel.app/?code=JBC1037-2B，学生就只会看到本班名单；没带代码会先请输入班级代码。纸本做的学生，由老师登录后台（Hub 的 latihan2-admin.html，仅限班级老师）把答案回填。学生的答案只有登录的班级老师看得到",
+  },
+
+  {
     slug: "tahun1-bc-fuxi-oktober",
     tahun: 1,
     subjek: "bc",
