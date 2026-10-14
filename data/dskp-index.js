@@ -434,6 +434,27 @@ const DSKP_INDEX = [
     ],
   },
   {
+    // 依本机 DSKP 截取档：资料库/DSKP资料/KSSR2017/Pendidikan-Jasmani-Kesihatan/通用/TAHUN1.md 第 10.0 PERTOLONGAN CEMAS
+    // （PDF 自动提取，未逐字人工核对）。PK 与 PJ 共用同一份 DSKP，但属不同科目（老师 2026-10-15 定）。马来文照该档原文。
+    curriculum: "KSSR Semakan 2017",
+    tahun: 1,
+    subjek: "pk",
+    reviewed: false,
+    sourceUrl: "https://bpk.moe.gov.my/kurikulum/kssr/kssr-tahun-1",
+    sourceLabel: "DSKP Pendidikan Jasmani dan Pendidikan Kesihatan Tahun 1",
+    verifiedAt: "2026-10-15",
+    units: [
+      {
+        code: "10.0",
+        title_zh: "急救",
+        title_bm: "Pertolongan Cemas",
+        objectives: [
+          { code: "10.1", title_zh: "急救基本知识与依情境明智行动：认识紧急事件、明白该怎么做、实践求助", title_bm: "Pengetahuan asas pertolongan cemas dan kepentingan bertindak dengan bijak mengikut situasi", terms: ["紧急事件", "求助", "急救", "999", "situasi kecemasan", "meminta bantuan", "pertolongan cemas"] },
+        ],
+      },
+    ],
+  },
+  {
     // 依本机 DSKP 截取档：资料库/DSKP资料/KSSR2017/Pendidikan-Jasmani-Kesihatan/通用/TAHUN1.md
     // （PDF 自动提取，老师 2026-10-10 确认收录，未逐字人工核对）。马来文照该档原文。
     curriculum: "KSSR Semakan 2017",

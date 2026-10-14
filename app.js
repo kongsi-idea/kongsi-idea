@@ -17,6 +17,7 @@ const SUBJECTS = [
   { code: "seni", title_zh: "视觉艺术教育", title_bm: "Pendidikan Seni Visual", badge: "SV" },
   { code: "muzik", title_zh: "音乐教育", title_bm: "Pendidikan Muzik", badge: "MZ" },
   { code: "pjpk", title_zh: "体育与健康教育", title_bm: "Pendidikan Jasmani dan Pendidikan Kesihatan", badge: "PJ" },
+  { code: "pk", title_zh: "健康教育", title_bm: "Pendidikan Kesihatan", badge: "PK" }, // 与 pjpk 共用同一份 DSKP／课本，但属于不同科目（老师 2026-10-15 定）
 ];
 const SUBJECT_BY_CODE = Object.fromEntries(SUBJECTS.map((s) => [s.code, s]));
 
@@ -1265,6 +1266,39 @@ const TOOLS = [
     practiceSummary: "比较不同材料、探究磁极相吸相斥、进行距离与磁力的公平实验、解释观察并创造磁铁挑战",
     teachingMode: ["课堂投影", "家庭探索", "学生创造"],
     prep: "家庭打开即用；课堂建议配合真实磁铁示范，数字模拟不替代实体实验",
+  },
+
+  {
+    slug: "tahun1-pk-kecemasan",
+    tahun: 1,
+    subjek: "pk",
+    status: "published",
+    title_zh: "找谁来帮忙",
+    title_bm: "Kecemasan: Cari Bantuan",
+    desc: "一年级健康教育「急救」：学生在一个手绘小镇里点哪走哪，碰到闪动「!」的居民才触发学习。商场里迷路的小朋友、校门口递糖果和玩具的友善陌生叔叔、邻居家着火了，再加上玩具没电、想吃糖这两个「不是紧急事件」的假警报，要学生判断该怎么做。每次先点三下深呼吸让心安静，再选做法；选对时求助是真的动作：走去找保安，按住喇叭大声喊让路人回头，在电话亭按 9-9-9 并说清楚「发生什么事、在哪里、我是谁」，消防车才会开来。每个选项、提示和角色台词都有预录语音（不同角色不同声音），选错有不吓人的小后果，可以重来。完成一个地点就点亮徽章，小镇里的警车和救护车也会跑起来。这是第一期（3 个地点＋2 个假警报），停电、有人敲门、车祸、溺水等地点还在做。",
+    keywords: ["健康教育", "一年级", "急救", "紧急事件", "求助", "999", "112", "迷路", "陌生人", "糖果玩具不可要", "着火", "深呼吸", "冷静", "pendidikan kesihatan", "PK", "pertolongan cemas", "kecemasan", "meminta bantuan", "orang yang tidak dikenali", "角色扮演", "小镇"],
+    url: "https://tahun1-pk-kecemasan.vercel.app",
+    type: "工具",
+    stars: 0,
+    creator: { name: "黄友霞老师", initial: "黄" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-15", note: "首次上架（第一期：小镇探索，3 个事件地点＋2 个假警报）" },
+    ],
+    // v1.0：封面用工具自带素材合成，其余 4 张是对正式网址的真实截图（横式，配合 4:3 卡片）
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-pk-kecemasan/v1-0-cover.png", label: "封面：手绘小镇里，小朋友和保安、警察、老师一起，标题「找谁来帮忙」" },
+      { img: "assets/thumbs/tahun1-pk-kecemasan/v1-0-1-pick.png", label: "开局：选一位小朋友，一起去小镇帮忙（会朗读）" },
+      { img: "assets/thumbs/tahun1-pk-kecemasan/v1-0-2-town.png", label: "小镇：点哪走哪，闪动的「!」是需要帮忙的居民" },
+      { img: "assets/thumbs/tahun1-pk-kecemasan/v1-0-3-choice.png", label: "商场迷路的小朋友：深呼吸后选做法，每个选项都有喇叭朗读" },
+      { img: "assets/thumbs/tahun1-pk-kecemasan/v1-0-4-phone.png", label: "邻居着火：在电话亭按 9-9-9，再说清楚发生什么事、在哪里、我是谁" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "10.0", objectiveCodes: ["10.1"] },
+    ],
+    practiceSummary: "认识紧急事件（含不是紧急事件的假警报）、选对求助对象（路人、保安、老师、大人）、按 999 并说清楚三句话、拒绝陌生人的糖果玩具",
+    teachingMode: ["投影互动", "个人自学", "教师带教/演示"],
+    prep: "学生用手机或平板（横屏最好）、或老师用电脑投影全班，以 Chrome 或 Safari 打开；首次载入约 4MB（含语音和插图），建议用 Wi-Fi。有声音：喇叭按钮会朗读，拨 999 时有电话按键音，请开声音。进度存在本机浏览器。老师可在网址后加 ?preview 一页看全部台词、选项、正确答案和提示。",
   },
 
   {
