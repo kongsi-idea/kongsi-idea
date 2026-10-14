@@ -4,6 +4,11 @@
 
 ## ⏯️ 目前做到哪
 
+**2026-10-14（晚）：两张英文工具封面「Tahun」→「Year」**（`1b04d26`、`b59e78f` 已推 origin/main；决定见 `agents.md` 第 33 条）。
+- `tahun6-bi-questiontags`、`tahun2-bi-dressing` 的封面副标题改为 Year 6／Year 2（cx 重生，PNG＋WebP＋app.js label）。
+- 推送前 `.git/refs` 里有 iCloud 重复档 `main 2`（heads／remotes 各一）卡住 fetch，已搬到 `~/Documents/待删除/kongsi-git-refs/`。
+- **未验证**：Hub 线上封面（等自动部署）。其他英文科工具若封面也写 Tahun，需同样处理——还没全面扫。
+
 **2026-10-12：上架 `tahun5-mt-data` 数据侦探局 v1.0（许愿池第 11 份）；许愿池表单三改**（Hub 已部署、线上复验；提交 `509efa8` 起，共 4 笔）。
 - 工具：投影辨认中位数／众数／平均数／极差；补了 `dskp-index` Tahun 5 数学 8.0／8.2；署名「一位五年级老师」。详见 `../teaching-tools/tahun5-mt-data/handoff.md`。
 - 表单：新增「错例」栏、「署名」栏、确认句改白话＋勾选同意署名；规格见 `docs/idea-wish-pool-spec.md` 3.3 末段；决定见 `agents.md` 第 30–32 条。
