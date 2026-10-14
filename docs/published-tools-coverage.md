@@ -52,6 +52,7 @@
 | `tahun1-am-cahaya` | Tahun 1 | Alam dan Manusia (am) | 光的小探险 | KP2027 5.1 Kraf Cahaya — 5.1.1–5.1.4（光源、光让我们看得见、明暗中做事比较、电子设备的光与眼睛）；未进 `data/dskp-index.js` | https://tahun1-am-cahaya.vercel.app | `../teaching-tools/tahun1-am-cahaya/` | v1.1（2026-10-02）依老师实测修正：黑暗中非题目物件一律哑光、手电筒照度按距离固定、全屋视角光圈加大、切房间时找东西提示跟着更新；v1.0（2026-10-02）首次上线，两幕（停电夜与手电筒、找光源／全黑测验／月亮／天亮）。马来文用词待查证；未在学校电脑／投影实测。新增科目 `am`（Alam dan Manusia，KP2027 新课程，官方中文译名未核对）。 |
 | `tahun6-bi-questiontags` | Tahun 6 | 英文 (bi) | 侦探语法局 Case Files: Question Tags | Year 6 Unit 10 Lesson 3 Grammar（PB p.125、WB p.104）；DSKP 代码未核对，索引未收录 | https://tahun6-bi-questiontags.vercel.app | `../teaching-tools/tahun6-bi-questiontags/` | — |
 | `tahun5-mt-data` | Tahun 5 | 数学 (mt) | 数据侦探局 | 8.0 数据处理 — 8.2.1 众数、中位数、平均数和极差（已收进 dskp-index，依资料库截取档，`reviewed:false`） | https://tahun5-mt-data.vercel.app | `../teaching-tools/tahun5-mt-data/` | v1.0（2026-10-12）首次上架，来自许愿池第 11 份。待老师回信补：真实错例、平均数／极差是否也有困难、课本数据形式（象形图／条形图尚未做）。 |
+| `tahun3-mt-koordinat` | Tahun 3 | 数学 (mt) | 座位小侦探 | 8.0 坐标 — 8.1.2/8.1.3 说出物体名称、确定位置（已收进 dskp-index，依资料库截取档，`reviewed:false`） | https://tahun3-mt-koordinat.vercel.app | `../teaching-tools/tahun3-mt-koordinat/` | v1.0（2026-10-15）首次上架，来自许愿池。待许愿老师回信补：真实错例、是否还有别的卡点；竖屏 8×4 座位仅 44px。 |
 | `tahun2-bm-kataarah` | Tahun 2 | 马来文 (bm) | Di Mana Letaknya? Kata Arah | 5.0 Aspek Tatabahasa — 5.1.4 (iii) kata arah（已收进 dskp-index，逐字核对本机官方 PDF 第 38 页） | https://tahun2-bm-kataarah.vercel.app | `../teaching-tools/tahun2-bm-kataarah/` | v1.0（2026-10-13）首次上架。BM Tahun 2 课本第 49、82 页复刻（积木玩具风格重画，不用课本原图），Kenali／Jawab／Susun 三阶段，无格子拖放。待老师核对：补题措辞（体育室 2 题、前院 3 题）、锥筒摆在左架最底层（右架底层被篮球占满）；触控与朗读未在真机实测。做法见 `../teaching-tools/tahun2-bm-kataarah/METHOD.md` |
 | `tahun1-bm-kataarah` | Tahun 1 | 马来文 (bm) | Kibarkan Bendera Kata Arah | 5.0 Aspek Tatabahasa — 5.1.4 (iii) kata arah（依资料库 `KSSR2015/Bahasa-Melayu/SJK/TAHUN1.md` 的 5.1／5.1.4 (iii)，该档「仅为截取，没有审核」；马来文用词待查证） | https://tahun1-bm-kataarah.vercel.app | `../teaching-tools/tahun1-bm-kataarah/` | — 。备注：v1.0（2026-10-14）首次上架，BM Tahun 1 课本 BA 28 Kibarkan Bendera Malaysia，Q 版卡通 45 度周会场景，Kenali／Jawab／Susun 三阶段。课本第 2 句 Nani／Sin Ling 答案 belakang 已由老师确认（2026-10-14） |
 
@@ -65,12 +66,12 @@
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | Tahun 1 | ✅ 2.1音节 | ✅ 4.3.2拼写(水果蔬菜) | ✅ 2.1/3.1笔顺/3.2/5.1/5.3.1/5.4.1 (6个)＋华文复习本(2.1/3.2/5.3.1) | ✅ 1.8近似值 | ✅ 7.1磁铁 | — | — | — | — | — | — | — |
 | Tahun 2 | ✅ 5.1.4(iii) kata arah | — | ✅ 3.1笔顺/5.1 (写字)＋综合复习 | ✅ 4.1钱币(部分)/1.4数位/1.7数列(3个)/2.3乘法 (共5个) | — | — | — | — | — | — | — | — |
-| Tahun 3 | — | — | ✅ 2.1课文理解 / 3.1笔顺+5.1(写字) | — | ✅ 7.1密度 | — | — | — | — | — | — | — |
+| Tahun 3 | — | — | ✅ 2.1课文理解 / 3.1笔顺+5.1(写字) | ✅ 8.1.2/8.1.3坐标(行列) | ✅ 7.1密度 | — | — | — | — | — | — | — |
 | Tahun 4 | — | — | ✅ 3.1笔顺/5.1汉字基本知识 | ✅ 1.1数值 | — | — | — | — | — | — | — | — |
 | Tahun 5 | — | — | — | ✅ 8.2众数中位数平均数极差 | — | — | — | — | — | — | — | — |
 | Tahun 6 | — | — | — | — | — | — | — | — | — | — | — | — |
 
-**一眼看出的缺口**（2026-07-22 更新）：16 个工具，Tahun 1/2 数学+华文仍最密集，Tahun 2 数学一个年级就占了 5 个（钱币/数位/数列×3/乘法），但每个工具教学场景不同（solo/双人/整班），不算重复堆砌。科学工具增加到 2 个：`tahun1-dst-magnet`（磁铁）+ `tahun3-dst-density`（密度浮沉），两个都是自主开发不靠老师投稿。**英文（bi）、历史/设计与工艺/伊斯兰/道德/视觉艺术/音乐/体育 这 7 个科目仍然完全空白**；数学 Tahun 3/5/6、华文 Tahun 2/4/5/6、马来文 Tahun 2-6、科学 Tahun 2/4/5/6 也都还空着。下次找素材/构思新工具时优先看这些空科目/年级。
+**一眼看出的缺口**（2026-07-22 更新）：16 个工具，Tahun 1/2 数学+华文仍最密集，Tahun 2 数学一个年级就占了 5 个（钱币/数位/数列×3/乘法），但每个工具教学场景不同（solo/双人/整班），不算重复堆砌。科学工具增加到 2 个：`tahun1-dst-magnet`（磁铁）+ `tahun3-dst-density`（密度浮沉），两个都是自主开发不靠老师投稿。**英文（bi）、历史/设计与工艺/伊斯兰/道德/视觉艺术/音乐/体育 这 7 个科目仍然完全空白**；数学 Tahun 6（Tahun 3 坐标、Tahun 5 数据处理已各有一个）、华文 Tahun 2/4/5/6、马来文 Tahun 2-6、科学 Tahun 2/4/5/6 也都还空着。下次找素材/构思新工具时优先看这些空科目/年级。
 
 **教学环节分布的结构性缺口**（2026-08-14 新增，见《游戏化教学应用手册》理论库）：这条产线的生成方式是"扫 `PROGRESS.md`/DSKP 空白 → 一个工具对应一个 DSKP 代码"，所以现有全部工具的形状都落在**教授/练习**环节（少数如钱币乐园偏「模拟游戏」），这不是数量不够，是产线结构决定的——**前置**（开学团建）不绑定任何 DSKP 代码，扫描 DSKP 空白这个动作永远不会触发它；**总结**（学生主导归纳/开放式产出）需要跟现有"出题→判对错"完全不同的工具形状；**复习**天生要跨多个 DSKP 代码串起来，但 `dskp-index.js` 的 `standards` 是单点对应，现有工具再怎么加总也不会自动变成跨单元复习工具。想要总结/复习类工具，需要**刻意立项**做一种新形状的工具（跨单元题库、开放式产出/reflection 类），不会靠现有产线自然长出来；前置也未必要做成软件，更适合是老师的现场带班技巧。
 

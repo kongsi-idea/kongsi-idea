@@ -567,6 +567,38 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun3-mt-koordinat",
+    tahun: 3,
+    subjek: "mt",
+    status: "published",
+    title_zh: "座位小侦探",
+    title_bm: "Detektif Tempat Duduk",
+    desc: "来自许愿池一位三年级老师的卡点：学生分不清行和列，忘了「先读列，再读行」的步骤，又没有耐心。所以这个工具把列变成蓝色竖光柱、行变成橙色横光带，而且严格先亮列、后亮行；学生说反了不扣分，直接演给全班看他点到的是哪个座位。老师投影，有找座位、看人说位置、找空位三个活动，各三关，提示逐关减少。",
+    keywords: ["行", "列", "第几列第几行", "位置", "坐标", "先列后行", "kedudukan", "koordinat", "lajur", "baris", "paksi mengufuk", "paksi mencancang", "三年级", "数学", "投影", "全班"],
+    url: "https://tahun3-mt-koordinat.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "一位三年级老师", initial: "师" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-15", note: "首次上架（来自许愿池：Tahun 3 数学，分不清行与列）" },
+    ],
+    // 缩略图是 Playwright 操作正式网址截的真实画面（封面为生图）
+    thumbnails: [
+      { img: "assets/thumbs/tahun3-mt-koordinat/1-cover.png", label: "封面：座位小侦探" },
+      { img: "assets/thumbs/tahun3-mt-koordinat/2-learn.png", label: "认识：点一位学生，蓝柱先亮、橙带后亮，名牌出现" },
+      { img: "assets/thumbs/tahun3-mt-koordinat/3-find-feedback.png", label: "找座位：列和行说反了，演出实际点到的座位" },
+      { img: "assets/thumbs/tahun3-mt-koordinat/4-empty.png", label: "找空位：三个选项，对照光柱和光带选" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "8.0", objectiveCodes: ["8.1"] },
+    ],
+    practiceSummary: "根据横轴和纵轴上的位置说出物体（座位上的学生）的名称，并确定物体在横轴和纵轴上的位置（DSKP 8.1.2、8.1.3）：先读列、再读行；找座位、看人说位置、找空位三个活动",
+    teachingMode: ["投影互动", "全班先喊再点", "请学生上台点"],
+    prep: "打开即用，不需要打印，学生不需要设备。老师投影，全班先喊出「第几列，第几行」，再请一位学生上台点；可在手机上使用，但主要设计给投影（竖屏 8×4 座位较小）",
+  },
+
+  {
     slug: "tahun4-mt-nombor",
     tahun: 4,
     subjek: "mt",

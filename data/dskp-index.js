@@ -516,6 +516,27 @@ const DSKP_INDEX = [
     ],
   },
   {
+    // 依本机 DSKP 截取档：资料库/DSKP资料/KSSR2017/Matematik/SJKC/TAHUN3.md（中文）与 SK/TAHUN3.md（马来文原文）。
+    // 截取档头部注明「没有审核」，故 reviewed: false。只收录已有工具覆盖的 8.1.2、8.1.3，不是整个坐标单元（8.1.1 参考点词汇、8.2 应用题未覆盖）。
+    curriculum: "KSSR Semakan 2017",
+    tahun: 3,
+    subjek: "mt",
+    sourceUrl: "https://bpk.moe.gov.my/kurikulum/kssr/kssr-tahun-3/132-dskp-kssr-semakan-2017-matematik-tahun-3-sjkc-v3/file",
+    sourceLabel: "DSKP Matematik Tahun 3 SJK(C)",
+    reviewed: false,
+    verifiedAt: "2026-10-15",
+    units: [
+      {
+        code: "8.0",
+        title_zh: "坐标",
+        title_bm: "Koordinat",
+        objectives: [
+          { code: "8.1", title_zh: "第一象限的坐标：8.1.2 根据横轴和纵轴上的位置，说出物体的名称；8.1.3 确定物体在横轴和纵轴上的位置", title_bm: "Koordinat pada sukuan pertama: 8.1.2 Menamakan objek berdasarkan kedudukan pada paksi mengufuk dan paksi mencancang; 8.1.3 Menentukan kedudukan objek pada paksi mengufuk dan paksi mencancang", terms: ["坐标", "横轴", "纵轴", "位置", "行", "列", "koordinat", "paksi mengufuk", "paksi mencancang", "kedudukan", "lajur", "baris"] },
+        ],
+      },
+    ],
+  },
+  {
     // 依本机 DSKP 截取档：资料库/DSKP资料/KSSR2017/Bahasa-Inggeris/SJK/TAHUN1.md（英文原文，SJK 版官方 PDF 截取）。
     // 截取档头部注明「没有审核」，故 reviewed: false。BI 一律用英文原文（Hub 决定 26、27）。只收录已有工具覆盖的 4.3.2，不是整个 Writing 内容标准。
     curriculum: "KSSR Semakan 2017",
