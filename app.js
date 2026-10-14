@@ -367,6 +367,41 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun2-mt-fuxi-oktober",
+    tahun: 2,
+    subjek: "mt",
+    status: "published",
+    title_zh: "二年级数学复习本",
+    title_bm: "Buku Ulang Kaji Matematik Tahun 2 (Oktober)",
+    desc: "二年级数学评估（单元 3–8）的复习在线版，共 40 题，有易、中、难三种程度：分数与小数、钱币、时间与时刻、度量衡、空间、数据处理。学生先点自己的名字（接班级名单，找不到可手动输入），选好或填好答案按「确认」当场知道对错：答对有鼓励，答错会给出正确答案、为什么，以及针对这类错误的提示；题目和解释都能点喇叭朗读。钱币题用真实的硬币和钞票图。老师在后台（仅限登录的班级老师）看到每题答对率、各难度的整体表现和学生常见的错误类型，也能把纸本答案回填进去。老师想一次看完全部题目，在网址后面加 ?preview 即可。",
+    keywords: ["数学", "复习", "月考", "评估", "分数", "小数", "钱币", "硬币", "钞票", "时间", "时刻", "度量衡", "长度", "质量", "液体体积", "立体图形", "展开图", "数据处理", "条形统计图", "二年级", "ulang kaji", "pecahan", "perpuluhan", "wang", "masa", "ukuran", "bentuk 3D", "data"],
+    url: "https://tahun2-mt-fuxi-oktober.vercel.app",
+    type: "练习",
+    hasLeaderboard: false,
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-14", note: "首次上架：40 题（易 30%／中 50%／难 20%），依学校评估范围单元 3–8；钱币用真实硬币钞票图；确认后当场对错反馈，答错给正确答案与针对性提示；预录朗读；可再试一次答错的题；教师预览页（?preview）；老师后台看答对率、各难度表现与错误类型，可回填纸本答案" },
+    ],
+    // 5 张用 Playwright 操作 https://tahun2-mt-fuxi-oktober.vercel.app 截的真实画面（Supabase 已拦截，没有写入真数据库）
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-mt-fuxi-oktober/1-cover.png", label: "封面：二年级数学复习本" },
+      { img: "assets/thumbs/tahun2-mt-fuxi-oktober/2-names.png", label: "进入时先点自己的名字，找不到可以手动输入" },
+      { img: "assets/thumbs/tahun2-mt-fuxi-oktober/3-fraction.png", label: "分数与小数：涂色部分写成分数" },
+      { img: "assets/thumbs/tahun2-mt-fuxi-oktober/4-money.png", label: "钱币：用真实的硬币和钞票图，答错马上告诉你为什么" },
+      { img: "assets/thumbs/tahun2-mt-fuxi-oktober/5-clock.png", label: "时间与时刻：看钟面写出几时几分" },
+    ],
+    // 只引用 DSKP_INDEX 已收录并核对过的代码；分数小数（3.x）、时间（5.x）、度量衡（6.x）、空间（7.x）、数据处理（8.x）尚未收入索引（见 coverage 表备注）
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "4.0", objectiveCodes: ["4.1", "4.2", "4.3", "4.6"] },
+    ],
+    practiceSummary: "二年级单元 3–8 复习：分数与小数（涂色、比较、排序）、钱币（认读、加减乘除、找回、储蓄）、时刻与时间、长度质量液体体积读数与单位、立体与展开图、条形统计图与记数符号",
+    teachingMode: ["个人练习"],
+    prep: "学生各自用手机、平板或电脑打开，需要联网；有声音朗读（建议戴耳机）。班级网址请带班级代码，例如 …vercel.app/?code=JBC1037-2B，学生就只会看到本班名单；没带代码会先请输入班级代码。纸本做的学生，由老师登录后台（Hub 的 mtfuxi-admin.html，仅限班级老师）把答案回填。学生的答案只有登录的班级老师看得到。老师想一次预览全部题目与答案：网址后面加 ?preview",
+  },
+
+  {
     slug: "tahun1-bc-fuxi-oktober",
     tahun: 1,
     subjek: "bc",
