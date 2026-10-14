@@ -164,7 +164,7 @@ const TOOLS = [
     ],
     // 缩图：第 1 张封面为 cx 生图；其余为 2026-10-10 用 Playwright 操作正式网址 https://tahun6-bi-questiontags.vercel.app 截的真实画面（1366×768），不是 mock
     thumbnails: [
-      { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-cover.png", label: "封面：Case Files: Question Tags（Tahun 6 · English）" },
+      { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-cover.png", label: "封面：Case Files: Question Tags（Year 6 · English）" },
       { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-home.png", label: "首页：三个案件加一份课本外拓展档案；规则提示在最上方" },
       { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-step2-clue.png", label: "第 2 步选助动词：线索把句中的动词标成黄色，并给出 be→be、can→can、其他→do/does" },
       { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-solved.png", label: "答对后：讲解为什么是这个尾巴，可点 Listen 听整句" },
