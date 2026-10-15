@@ -440,6 +440,41 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-bc-fuxi-oktober-2",
+    tahun: 1,
+    subjek: "bc",
+    status: "published",
+    title_zh: "一年级华文复习本（二）",
+    title_bm: "Buku Latihan Bahasa Cina Tahun 1 (Set 2)",
+    desc: "一年级华文复习本的第二套，题目全部换新、对准课本下册第 12–22 单元：阅读理解（邻家的菜园）、量词（把／朵／辆）、读音（多音字 角、只）、形近字（远／运、己／已）、选词填空、仿例仿写、看图填写（黄色小鸭子雨伞）与看图写句子，共 31 个小项。玩法与第一套相同：学生各自一台设备，选好答案按「确认」当场知道对错，答错有「差一点点」的解释，答对有鼓励；所有汉字配拼音（可开关），题目、课文与解释都能点喇叭朗读。写作类题目学生自己输入、不批改。老师在后台（仅限登录的班级老师）看全班错在哪一类，也能读到每个学生写了什么。",
+    keywords: ["华文", "复习", "练习", "月考", "诊断", "阅读理解", "邻家的菜园", "量词", "多音字", "读音", "形近字", "近似字", "选词填空", "词语运用", "仿写", "造句", "看图写话", "拼音", "朗读", "一年级", "第二套", "bahasa cina", "penjodoh bilangan", "kata pelbagai bunyi", "错误分析"],
+    url: "https://tahun1-bc-fuxi-oktober-2.vercel.app",
+    type: "练习",
+    hasLeaderboard: false,
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-15", note: "首次上架：第一套的第二套，31 个小项全部换新题（课本下册第 12–22 单元）；确认后当场反馈对错、汉字配拼音可开关、题目与解释可朗读；写作题自己输入不批改；成绩存在独立的表，老师后台 fuxi2-admin.html（登录后才看得到）" },
+    ],
+    // 4 张：用 Playwright 操作 https://tahun1-bc-fuxi-oktober-2.vercel.app 截的真实画面（Supabase 已拦截并用假名单 TEST-1I，没有真学生名字，没有写入真数据库）
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bc-fuxi-oktober-2/1-cover.png", label: "封面：一年级华文复习本（二）" },
+      { img: "assets/thumbs/tahun1-bc-fuxi-oktober-2/2-names.png", label: "进入时先点自己的名字，找不到可以手动输入" },
+      { img: "assets/thumbs/tahun1-bc-fuxi-oktober-2/3-wrong.png", label: "选错按「确认」：当场告诉你正确答案和为什么，课文一直在左边" },
+      { img: "assets/thumbs/tahun1-bc-fuxi-oktober-2/4-fillin.png", label: "看图填词：雨伞图旁选词，填进短文的空格里" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.1"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.3.1"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.2"] },
+    ],
+    practiceSummary: "阅读理解（课文细节、先后顺序、词语运用）、量词（把／朵／辆）、多音字读音（角、只）、形近字辨析、选词填空、仿例写句子、看图填词与看图写句子；每题当场反馈对错与原因，写作题不批改",
+    teachingMode: ["个人练习"],
+    prep: "学生各自用电脑、平板或手机打开（一人一台），需要联网；有声音最好（建议戴耳机）。必须带班级代码打开，例如 …vercel.app/?code=JBC1037-1I，学生才只会看到本班名单，没带代码会先请输入班级代码。答案只有登录的班级老师看得到，老师后台在 Hub 的 fuxi2-admin.html（不放首页入口）",
+  },
+
+  {
     slug: "tahun1-mt-ruang",
     tahun: 1,
     subjek: "mt",
