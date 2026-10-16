@@ -7,8 +7,19 @@
 //   老师之后从地址栏复制转发就不会漏算。
 // - 同一台浏览器 30 分钟内同一个工具只算一次（刷新不灌水），和首页「次到访」同一套规则。
 // - 失败一律静默，绝不影响学生玩。数字是客户端估计值，不是独立访客数。
+// - 2026-10-17：自动化浏览器（Playwright 验收、爬虫，navigator.webdriver 为真）不计；
+//   卢老师自己的设备在工具网址后加 ?nocount=1 打开一次就记住不计（?nocount=0 取消），只影响这台浏览器的这个工具。
 (function () {
   try {
+    if (navigator.webdriver) return;
+    var NO_COUNT_KEY = "kongsi-idea-no-count";
+    var q = new URL(location.href).searchParams.get("nocount");
+    try {
+      if (q === "1") localStorage.setItem(NO_COUNT_KEY, "1");
+      if (q === "0") localStorage.removeItem(NO_COUNT_KEY);
+      if (localStorage.getItem(NO_COUNT_KEY) === "1") return;
+    } catch (e) { /* storage 不能用就照常计数 */ }
+
     var el = document.currentScript;
     var slug = el && el.getAttribute("data-slug");
     var legacy = el && el.getAttribute("data-host"); // 改名前的旧网址（如 grade2-math-tools.vercel.app），仍有人在用才加
