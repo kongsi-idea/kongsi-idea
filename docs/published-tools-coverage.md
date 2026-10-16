@@ -26,6 +26,7 @@
 | `tahun1-bc-zaoju` | Tahun 1 | 华文 (bc) | 神奇句子小火车 | 3.0 书写技能 — 3.2 书面表达能力 | https://tahun1-bc-zaoju.vercel.app | `../teaching-tools/tahun1-bc-zaoju/` | — |
 | `tahun1-bc-kantu` | Tahun 1 | 华文 (bc) | 看图小侦探 | 3.0 书写技能 — 3.2 书面表达能力（3.2.1 教材建议「看图写话」；亦涉 1.3.1 交代时间地点人物，马来文用词未核对未收录） | https://tahun1-bc-kantu.vercel.app | `../teaching-tools/tahun1-bc-kantu/` | — |
 | `tahun1-bc-xingsi` | Tahun 1 | 华文 (bc) | 找对小帮手 | 5.0 语文基础知识 — 5.3.1 认识量词和近似字、多音字，辨析理解词义（取「近似字」部分；马来文用词未核对未收录） | https://tahun1-bc-xingsi.vercel.app | `../teaching-tools/tahun1-bc-xingsi/` | — |
+| `tahun1-bc-shizi-explore` | Tahun 1 | 华文 (bc) | 撕日历：昨天今天明天 | 2.0 阅读技能 — 2.1 阅读与理解教材（认读昨／今／明／天）；3.0 书写技能 — 3.1 应用铅笔写字（笔顺）（许愿池 #15；马来文用词未核对未收录） | https://tahun1-bc-shizi-explore.vercel.app | `../teaching-tools/tahun1-bc-shizi-explore/` | — |
 | `tahun1-pj-pergerakan` | Tahun 1 | 体育 (pjpk) | 动物模仿秀 | 1.0 动作技能 — 1.1.1 身体形状、1.6.1 动物动作、1.7.1／1.7.2 平衡；3.0 体能 — 3.3.1 伸展、3.4.1 俯卧撑预备姿势（DSKP 截取档，未逐字核对） | https://tahun1-pj-pergerakan.vercel.app | `../teaching-tools/tahun1-pj-pergerakan/` | v1.1.2（2026-10-10）国文名加 Pergerakan；v1.1.1 网址改 pergerakan（旧网址 301 跳转），名称不变；v1.0.3 修 iPhone 进动作画面缩小、照片以人的位置裁切；v1.0.2 手机拍照画面改成镜头占满屏、字缩小；v1.0.1 修正 iPhone 直拿时画面变横条。待办：学生真人实测侦测阈值、真机分享、要不要规定手机横放 |
 | `tahun2-pj-pergerakan` | Tahun 2 | 体育 (pjpk) | 蓝天操场 | 1.0 动作技能 — 1.3.1 非移动动作、1.7.1 静态平衡；3.0 体能 — 3.3.1 拉伸、3.4.1 肌耐力（改良撑地、踮脚、半蹲）（DSKP 截取档，未逐字核对） | https://tahun2-pj-pergerakan.vercel.app | `../teaching-tools/tahun2-pj-pergerakan/` | — |
 | `tahun1-pk-kecemasan` | Tahun 1 | 健康教育 (pk) | 找谁来帮忙 | 10.0 急救 — 10.1.1 认识紧急事件、10.1.2 明白该怎么做、10.1.3 实践求助（DSKP 截取档，未逐字核对） | https://tahun1-pk-kecemasan.vercel.app | `../teaching-tools/tahun1-pk-kecemasan/` | v1.0（2026-10-15）第一期：小镇探索，3 个地点（商场迷路／校门口陌生人／邻居着火 999）＋2 个假警报。待办：第二期（停电、有人敲门、车祸、溺水、我的求助卡、拼音）；课本页码待补；旁白与阿姨、老师同为晓晓靠音调区分，听感偏近；其余角色语速仍为负值，老师说先照原样；老师试玩后收集反馈 |
@@ -69,7 +70,7 @@
 
 | 年级 \ 科目 | bm | bi | bc | mt | dst/sains | sejarah | rbt | islam | moral | seni | muzik | pjpk | pk |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| Tahun 1 | ✅ 2.1音节 | ✅ 4.3.2拼写(水果蔬菜) | ✅ 2.1/3.1笔顺/3.2/5.1/5.3.1/5.4.1 (7个，含近似字「找对小帮手」)＋华文复习本(2.1/3.2/5.3.1) | ✅ 1.8近似值 | ✅ 7.1磁铁 | — | — | — | — | — | — | — | ✅ 10.1急救 |
+| Tahun 1 | ✅ 2.1音节 | ✅ 4.3.2拼写(水果蔬菜) | ✅ 2.1/3.1笔顺/3.2/5.1/5.3.1/5.4.1 (8个，含近似字「找对小帮手」、昨天今天明天「撕日历」)＋华文复习本(2.1/3.2/5.3.1) | ✅ 1.8近似值 | ✅ 7.1磁铁 | — | — | — | — | — | — | — | ✅ 10.1急救 |
 | Tahun 2 | ✅ 5.1.4(iii) kata arah | — | ✅ 3.1笔顺/5.1 (写字)＋综合复习 | ✅ 4.1钱币(部分)/1.4数位/1.7数列(3个)/2.3乘法 (共5个) | — | — | — | — | — | — | — | — | — |
 | Tahun 3 | — | — | ✅ 2.1课文理解 / 3.1笔顺+5.1(写字) | ✅ 6.1–6.3度量衡换算竖式 / 8.1.2/8.1.3坐标(行列) | ✅ 7.1密度 | — | — | — | — | — | — | — | — |
 | Tahun 4 | — | — | ✅ 3.1笔顺/5.1汉字基本知识 | ✅ 1.1数值 | — | — | — | — | — | — | — | — | — |

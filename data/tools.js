@@ -1169,6 +1169,40 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-bc-shizi-explore",
+    tahun: 1,
+    subjek: "bc",
+    modes: ["全班投影"],
+    status: "published",
+    title_zh: "撕日历：昨天今天明天",
+    title_bm: "Koyak Kalendar: Semalam, Hari Ini, Esok",
+    desc: "来自许愿池一位一年级老师的卡点：学生会念「昨天、今天、明天」，却不会写，有些连字都认不出来。这是老师投影、带全班一起用的教学工具，分四步：①撕日历——客厅墙上的日历从真正的今天开始，按一下撕掉一页，那页飞走变成「昨天」，后面露出「明天」，配语音「今天是星期六，昨天是星期五」；②字的秘密——一次讲一个字，部件分色、可以拆开看：昨＝日＋乍、明＝日＋月（太阳月亮一起出来）、今没有日字旁、天＝一＋大；③写一写——田字格里一笔一笔演示，全班书空，一体机上可请学生上来描；④考考你——8 题，看日历选昨天／今天／明天，或听音选字，错的选项都是一年级常见错法（昨↔作、今↔令、明↔朋、明写成目旁、天↔夫），选错会说出错在哪里。",
+    keywords: ["昨天", "今天", "明天", "昨", "今", "明", "天", "识字", "写字", "认读", "笔顺", "书空", "日字旁", "日历", "星期", "一年级", "华文", "投影", "幼小衔接", "shizi"],
+    url: "https://tahun1-bc-shizi-explore.vercel.app",
+    type: "工具",
+    stars: 0,
+    creator: { name: "一位一年级老师", initial: "师" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-17", note: "首次上架：撕日历（从真实日期起算）、字的秘密（部件拆解）、写一写（笔顺演示与描红）、考考你（8 题，错项对应常见错法）" },
+    ],
+    // 第 1 张是生图封面；其余 3 张是用 Playwright 操作正式网址 https://tahun1-bc-shizi-explore.vercel.app（?nocount=1）截的真实画面，4:3 裁切
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bc-shizi-explore/1-cover.png", label: "撕日历：认读和书写「昨天、今天、明天」" },
+      { img: "assets/thumbs/tahun1-bc-shizi-explore/2-tear.png", label: "撕下一页：今天那页飞走变成昨天，明天往前一格" },
+      { img: "assets/thumbs/tahun1-bc-shizi-explore/3-feedback.png", label: "考考你：选错「作」，告诉你昨天的昨左边是日" },
+      { img: "assets/thumbs/tahun1-bc-shizi-explore/4-guide.png", label: "老师看的教学建议：四个环节约 20 分钟、课本出处" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.1"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1"] },
+    ],
+    practiceSummary: "认读和书写「昨天、今天、明天」：用日历理解三个词，拆部件记字形（昨＝日＋乍、明＝日＋月），跟着笔顺书空，再分辨常见错字",
+    teachingMode: ["投影互动", "全班参与"],
+    prep: "打开即用，不需要打印、不需要学生设备。老师投影带全班（右上角可全屏），有喇叭更好（每一步都有语音）。日历会自动从当天日期开始；一体机触控屏可以请学生上来描字。适合一年级，也适合学前大班做幼小衔接",
+  },
+
+  {
     slug: "tahun2-mt-shuzhi",
     tahun: 2,
     subjek: "mt",
