@@ -4,6 +4,15 @@
 
 ## ⏯️ 目前做到哪
 
+**2026-10-17：Hub 整理上线**（`a87c3c6`、`55d07f0` 已推，已 `vercel --prod`，线上 curl 复验；规格 `docs/hub-reorg-2026-10.md`，决定见 `agents.md` 第 4、7、15、22、23、25、33–38 条）。
+- 工具登记搬到 `data/tools.js`；主题由 `dskp-index.js` 带出（补 7 份记录，`reviewed:false`，核对表 `~/Documents/my-agent/.ops/out/hub-topic-table.md`）；每个工具加 `modes`。
+- 首页：一套条件（年级／科目／主题药丸＋折叠的按课标查找），卡片四颗标签，「新」7 天最多 8 个；三组复习卷合成一张卡（每份各自开始使用／分享＝直接工具网址／老师后台）。
+- 通用老师后台 `teacher.html?tool=slug`，取代 6 个 `*-admin`（旧网址 307 转址带 `code`，旧档在 `~/Documents/待删除/kongsi-idea-旧后台-2026-10-17/`）。
+- 统计：自动化浏览器与 `?nocount=1` 设备不计；起算日期收在「数字怎么算？」。
+- **未验证**：老师在正式网址用 Google 登录 `teacher.html` 看真实成绩（新旧数字只用假资料逐字比对过）。
+- **之后**：复习卷真正合并成一个工具（`tahun1-bc-fuxi?set=…`）另排期，届时处理 `*-oktober*` 改名与转址（规格第 7、7b 节）。
+- `vercel alias set` 会报找不到（CLI 默认团队不对），`vercel --prod` 本身已把正式网域指到新版，线上已确认。
+
 **2026-10-14（晚）：两张英文工具封面「Tahun」→「Year」**（`1b04d26`、`b59e78f` 已推 origin/main；决定见 `agents.md` 第 33 条）。
 - `tahun6-bi-questiontags`、`tahun2-bi-dressing` 的封面副标题改为 Year 6／Year 2（cx 重生，PNG＋WebP＋app.js label）。
 - 推送前 `.git/refs` 里有 iCloud 重复档 `main 2`（heads／remotes 各一）卡住 fetch，已搬到 `~/Documents/待删除/kongsi-git-refs/`。
