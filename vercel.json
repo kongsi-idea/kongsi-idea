@@ -3,8 +3,115 @@
     {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/fuxi-admin(\\.html)?",
+      "has": [
+        {
+          "type": "query",
+          "key": "code",
+          "value": "(?<code>.+)"
+        }
+      ],
+      "destination": "/teacher.html?tool=tahun1-bc-fuxi-oktober&code=:code",
+      "permanent": false
+    },
+    {
+      "source": "/fuxi-admin(\\.html)?",
+      "destination": "/teacher.html?tool=tahun1-bc-fuxi-oktober",
+      "permanent": false
+    },
+    {
+      "source": "/fuxi2-admin(\\.html)?",
+      "has": [
+        {
+          "type": "query",
+          "key": "code",
+          "value": "(?<code>.+)"
+        }
+      ],
+      "destination": "/teacher.html?tool=tahun1-bc-fuxi-oktober-2&code=:code",
+      "permanent": false
+    },
+    {
+      "source": "/fuxi2-admin(\\.html)?",
+      "destination": "/teacher.html?tool=tahun1-bc-fuxi-oktober-2",
+      "permanent": false
+    },
+    {
+      "source": "/latihan-admin(\\.html)?",
+      "has": [
+        {
+          "type": "query",
+          "key": "code",
+          "value": "(?<code>.+)"
+        }
+      ],
+      "destination": "/teacher.html?tool=tahun1-mt-latihan-oktober&code=:code",
+      "permanent": false
+    },
+    {
+      "source": "/latihan-admin(\\.html)?",
+      "destination": "/teacher.html?tool=tahun1-mt-latihan-oktober",
+      "permanent": false
+    },
+    {
+      "source": "/latihan2-admin(\\.html)?",
+      "has": [
+        {
+          "type": "query",
+          "key": "code",
+          "value": "(?<code>.+)"
+        }
+      ],
+      "destination": "/teacher.html?tool=tahun2-mt-latihan-oktober&code=:code",
+      "permanent": false
+    },
+    {
+      "source": "/latihan2-admin(\\.html)?",
+      "destination": "/teacher.html?tool=tahun2-mt-latihan-oktober",
+      "permanent": false
+    },
+    {
+      "source": "/mtfuxi-admin(\\.html)?",
+      "has": [
+        {
+          "type": "query",
+          "key": "code",
+          "value": "(?<code>.+)"
+        }
+      ],
+      "destination": "/teacher.html?tool=tahun2-mt-fuxi-oktober&code=:code",
+      "permanent": false
+    },
+    {
+      "source": "/mtfuxi-admin(\\.html)?",
+      "destination": "/teacher.html?tool=tahun2-mt-fuxi-oktober",
+      "permanent": false
+    },
+    {
+      "source": "/mt1fuxi-admin(\\.html)?",
+      "has": [
+        {
+          "type": "query",
+          "key": "code",
+          "value": "(?<code>.+)"
+        }
+      ],
+      "destination": "/teacher.html?tool=tahun1-mt-fuxi-oktober&code=:code",
+      "permanent": false
+    },
+    {
+      "source": "/mt1fuxi-admin(\\.html)?",
+      "destination": "/teacher.html?tool=tahun1-mt-fuxi-oktober",
+      "permanent": false
     }
   ]
 }

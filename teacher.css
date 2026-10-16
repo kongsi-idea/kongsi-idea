@@ -1,0 +1,118 @@
+/* teacher.css · 通用老师后台（teacher.html）样式 */
+body { background: var(--paper, #FBF6EC); color: var(--ink, #1F3A34); font-family: var(--font-body, system-ui, sans-serif); margin: 0; }
+/* 通用老师后台：沿用 Hub 变量，所有选择器都挂在 .la 下，不影响别的页。由 6 份旧后台的样式合并而成。 */
+.la { max-width: 1100px; margin: 0 auto; padding: 20px 16px 64px; }
+.la h1 { font-family: var(--font-display, inherit); font-size: 1.5rem; margin: 0 0 2px; }
+.la h2 { font-size: 1.05rem; margin: 0 0 10px; }
+.la__sub { color: #5d6b66; font-size: .9rem; margin: 0 0 12px; }
+.la button, .la select, .la input { font: inherit; border: 1px solid #c9c2b2; border-radius: 8px; padding: 6px 10px; background: #fff; color: inherit; }
+.la button { cursor: pointer; min-height: 36px; }
+.la button:hover:not(:disabled) { border-color: var(--ink, #1F3A34); }
+.la button:disabled { opacity: .55; cursor: default; }
+.la button.on { background: var(--ink, #1F3A34); color: #fff; border-color: var(--ink, #1F3A34); }
+.la button.primary { background: var(--blue-deep, #23729E); color: #fff; border-color: var(--blue-deep, #23729E); }
+.la button.danger { color: #a63a2c; border-color: #d9a69d; }
+.la :focus-visible { outline: 3px solid var(--blue-deep, #23729E); outline-offset: 2px; }
+.la__bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; }
+.la__bar .grow { flex: 1; }
+.la__seg { display: inline-flex; gap: 0; }
+.la__seg button { border-radius: 0; margin-left: -1px; }
+.la__seg button:first-child { border-radius: 8px 0 0 8px; margin-left: 0; }
+.la__seg button:last-child { border-radius: 0 8px 8px 0; }
+.la__tabs { display: flex; gap: 6px; border-bottom: 2px solid #e0d9c8; margin: 14px 0; }
+.la__tabs button { border: none; border-radius: 8px 8px 0 0; background: transparent; padding: 8px 16px; font-weight: 600; margin-bottom: -2px; border-bottom: 2px solid transparent; }
+.la__tabs button.on { background: transparent; color: var(--ink, #1F3A34); border-bottom-color: var(--blue-deep, #23729E); }
+.la__card { background: #fff; border: 1px solid #e0d9c8; border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
+.la__card.hard { border: 2px solid var(--red, #D65B4A); background: #fff7f5; }
+.la__stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 12px; }
+.la__stat { background: #fff; border: 1px solid #e0d9c8; border-radius: 12px; padding: 12px 16px; }
+.la__stat b { display: block; font-size: 1.7rem; line-height: 1.2; }
+.la__stat span { color: #5d6b66; font-size: .85rem; }
+.la__two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 760px) { .la__two { grid-template-columns: 1fr; } }
+.la ol.rank { margin: 0; padding-left: 1.4em; }
+.la ol.rank li { margin: 6px 0; }
+.la .muted { color: #5d6b66; font-size: .85rem; }
+.la .pill { display: inline-block; font-size: .75rem; padding: 1px 8px; border-radius: 99px; background: #eee8d8; margin-left: 4px; }
+.la .pill.warn { background: #fde3dd; color: #8e2c1f; }
+.la .pill.info { background: #dcecf6; color: #17506f; }
+.la__sechead { font-weight: 700; margin: 14px 0 4px; font-size: .9rem; color: #3b4d47; }
+.la__bars { display: grid; grid-template-columns: minmax(150px, 34%) 1fr 90px; gap: 4px 10px; align-items: center; font-size: .9rem; }
+.la__bars .lab { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.la__track { background: #efe9d9; border-radius: 6px; height: 16px; overflow: hidden; }
+.la__fill { height: 100%; border-radius: 6px; background: #3e8e63; }
+.la__fill.mid { background: #d89a1e; }
+.la__fill.low { background: var(--red, #D65B4A); }
+.la__bars .num { text-align: right; font-variant-numeric: tabular-nums; }
+.la table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+.la th, .la td { text-align: left; padding: 7px 8px; border-bottom: 1px solid #eee8d8; vertical-align: top; }
+.la tr.stu { cursor: pointer; }
+.la tr.stu:hover { background: #faf5e8; }
+.la tr.detail > td { background: #fbf8ef; padding: 10px 14px; }
+.la td.bad { color: #a63a2c; font-weight: 600; }
+.la td.good { color: #2d7a4f; }
+.la__scroll { overflow-x: auto; }
+.la__msg { padding: 28px; text-align: center; color: #5d6b66; }
+.la__paper { display: grid; grid-template-columns: 200px 1fr; gap: 14px; align-items: start; }
+@media (max-width: 760px) { .la__paper { grid-template-columns: 1fr; } }
+.la__roster { display: flex; flex-direction: column; gap: 4px; max-height: 70vh; overflow-y: auto; }
+.la__roster button { text-align: left; }
+.la__roster button.done::after { content: " ✓"; color: #2d7a4f; font-weight: 700; }
+.la__roster button.on.done::after { color: #fff; }
+.la__qrow { display: grid; grid-template-columns: minmax(130px, 40%) 1fr; gap: 8px; align-items: center; padding: 5px 0; border-bottom: 1px dashed #e8e1d0; }
+.la__qrow .q { font-size: .9rem; }
+.la__qrow input[type=text], .la__qrow select { width: 100%; max-width: 220px; box-sizing: border-box; }
+.la__qrow .fields { display: flex; gap: 8px; flex-wrap: wrap; }
+.la__qrow .fields label { font-size: .8rem; color: #5d6b66; display: flex; flex-direction: column; }
+.la__qrow .fields input { width: 80px; }
+.la__qrow.err input, .la__qrow.err select { border-color: var(--red, #D65B4A); background: #fff1ee; }
+.la__qrow .errmsg { color: #a63a2c; font-size: .8rem; grid-column: 1 / -1; }
+.la__toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--ink, #1F3A34); color: #fff; padding: 10px 18px; border-radius: 10px; z-index: 9; max-width: 90vw; }
+.la__toast[hidden] { display: none; }
+/* 题目分析、分数选项、窄屏 */
+.la h3 { font-size: .9rem; margin: 10px 0 4px; color: #3b4d47; }
+.la ul.plain { list-style: none; margin: 0; padding: 0; }
+.la ul.plain li { margin: 5px 0; }
+.la .who { word-break: break-all; }
+.la tr.itm { cursor: pointer; }
+.la tr.itm:hover { background: #faf5e8; }
+.la #itemTable th.w, .la #itemTable td:nth-child(2) { width: 28%; min-width: 90px; }
+.la #itemTable .la__track { min-width: 80px; }
+.la td.num { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.la .ans { font-weight: 600; }
+.la .radios { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.la .radios .rad { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+.la .radios input { width: auto; }
+.la .fields .u { color: #5d6b66; }
+.la .frac, .la .fr { display: inline-flex; flex-direction: column; align-items: center; vertical-align: middle; line-height: 1.1; }
+/* 难度徽章、目标区间带、偏易/刚好/偏难提示 */
+.la .pill.lv { margin-left: 0; font-weight: 700; }
+.la .pill.lv-E { background: #dff0e3; color: #1f6a3b; }
+.la .pill.lv-M { background: #fbecc8; color: #7a5410; }
+.la .pill.lv-H { background: #fde3dd; color: #8e2c1f; }
+.la__track { position: relative; }
+.la__target { position: absolute; top: 0; bottom: 0; background: rgba(31,58,52,.22); border-left: 2px solid rgba(31,58,52,.55); border-right: 2px solid rgba(31,58,52,.55); box-sizing: border-box; pointer-events: none; }
+.la__verdict { margin: 0 0 10px; padding: 8px 12px; border-radius: 8px; background: #eee8d8; }
+.la__verdict.easy { background: #dcecf6; color: #17506f; }
+.la__verdict.fit { background: #dff0e3; color: #1f6a3b; }
+.la__verdict.hard { background: #fde3dd; color: #8e2c1f; }
+.la tr.itm td:first-child { min-width: 150px; }
+@media (max-width: 760px) { .la__bars { grid-template-columns: minmax(90px, 36%) minmax(40px, 1fr) 78px; font-size: .82rem; } .la__bars .lab { white-space: normal; } }
+/* 写作题（华文复习本） */
+.la .lab .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.la .lab { white-space: normal; }
+.la button.on .muted { color: #fff; opacity: .85; }
+.la .lure { font-size: .78rem; }
+.la__model { background: #eef6ee; border-radius: 8px; padding: 8px 12px; margin: 8px 0 12px; }
+.la__writes { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.la__write { background: #fbf8ef; border: 1px solid #e8e1d0; border-radius: 10px; padding: 8px 12px; }
+.la__write .who { font-size: .8rem; color: #5d6b66; margin-bottom: 2px; }
+.la__write .what { font-size: 1.1rem; line-height: 1.5; word-break: break-all; }
+/* 工具清单（没带 ?tool= 或不认得时） */
+.la__tools { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.la__tools a { display: block; background: #fff; border: 1px solid #e0d9c8; border-radius: 12px; padding: 12px 16px; color: inherit; text-decoration: none; }
+.la__tools a:hover { border-color: var(--ink, #1F3A34); }
+.la__tools .slug { color: #5d6b66; font-size: .78rem; word-break: break-all; }
+.la__back { font-size: .85rem; }
+@media (max-width: 480px) { .la { padding: 14px 12px 56px; } .la__stats { grid-template-columns: 1fr 1fr; } .la__stat b { font-size: 1.4rem; } .la__bar .grow { display: none; } }
+@media (max-width: 480px) { .la__scroll table { min-width: 520px; } }

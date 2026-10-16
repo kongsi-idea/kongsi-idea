@@ -21,1751 +21,6 @@ const SUBJECTS = [
 ];
 const SUBJECT_BY_CODE = Object.fromEntries(SUBJECTS.map((s) => [s.code, s]));
 
-// 每个工具都直接带 tahun + subjek，同一个年级/科目底下以后会有很多个工具，
-// 不再是「一个年级x科目只能对应一张卡」——分类靠下面的年级/科目筛选条来做交集，不是靠卡片数量固定
-//
-// status: "published" | "planned" | "archived" —— 只有 published 且有 url 的工具才计入
-// 「按学习目标找工具」结果与「个作品已上架」统计（docs/dskp-learning-objective-search.md 第2.7条）。
-// 2026-07-21：原本用来撑版面的 10 个示例作品（isDemo: true）已全部清掉，
-// 现在 TOOLS 里全部都是真实上架的工具，不再需要区分 isDemo。
-const TOOLS = [
-  {
-    slug: "tahun4-bi-writing",
-    tahun: 4,
-    subjek: "bi",
-    status: "published",
-    title_zh: "Story Quest · Sentence Workshop",
-    title_bm: "故事任务：句子工坊",
-    desc: "Year 4 guided English writing quest. Look at a picture to find the requirements, choose a story idea, match reasons with details, then combine five sentences into one paragraph. When finished, check the model text, then handwrite your own 40–50 word story and send a photo to the teacher for marking.",
-    keywords: ["Story Quest", "Sentence Workshop", "guided writing", "writing", "paragraph", "story", "英文写作", "句子", "段落", "四年级", "Bahasa Inggeris"],
-    url: "https://tahun4-bi-writing.vercel.app",
-    type: "写作闯关",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "0.3.0",
-    changelog: [
-      { version: "0.3.0", date: "2026-09-15", note: "正式上架：独立 Vercel 部署 + 纸本作业拍照投稿（私有审核，老师批准前不公开）" },
-      { version: "0.3.0", date: "2026-09-15", note: "完成本机验收；等待独立 Vercel 最终网址后上架" },
-    ],
-    thumbnails: [{ img: "assets/thumbs/tahun4-bi-writing/home.png", label: "Story Quest 首页" }],
-    standards: [], // DSKP 搜索索引尚未收录 Tahun 4 BI，确认索引资料后再启用。
-    practiceSummary: "Develop story ideas from pictures and prompts, match reasons with details, and assemble five sentences into a paragraph of about 40–50 English words",
-    teachingMode: ["Individual practice", "Teacher guidance", "Pen-and-paper writing"],
-    prep: "Ideally one device per student for the first seven levels; finish the last step by handwriting on paper. Uploaded photos of homework are private by default and count as complete only after the teacher approves them.",
-  },
-  {
-    slug: "tahun2-bi-punctuation",
-    tahun: 2,
-    subjek: "bi",
-    status: "published",
-    title_zh: "Sentence Train",
-    title_bm: "句子小火车",
-    desc: "Year 2 English punctuation practice for a common mistake: putting a full stop after a question. Each word is a carriage, capital letters are the engine, and the end punctuation is the last carriage. Level 1 \"Asking or Telling?\": sentences appear in all lowercase with no punctuation; choose a question mark or a full stop. A wrong answer lights up the first carriage and swaps carriages to show he is → is he. Every sentence is read aloud, and rising intonation is a clue too. Level 2 \"Fix the train\": tap the first letter to capitalise it, tap the last carriage to choose a full stop or question mark, and fix the whole sentence. Names and I are capitalised too. Each question is paired with a statement that differs only in word order, mixed together, so guessing by reflex will not work. Bank of 24 pairs (48 sentences) covering Unit 6–9 themes (clothes, home, body, holidays, habitats) and capital-letter practice (names, days, countries, capital I inside a sentence). Choose \"whole-class projection\" or \"self-practice\"; at the end the wrong answers are listed and can be practised again.",
-    keywords: ["标点", "问号", "句号", "大写", "问句", "陈述句", "punctuation", "question mark", "full stop", "capital letter", "二年级", "英文", "Bahasa Inggeris", "Year 2", "Superminds", "writing"],
-    url: "https://tahun2-bi-punctuation.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "Teacher Irene Wong", initial: "W" },
-    version: "1.1",
-    changelog: [
-      { version: "1.1", date: "2026-10-10", note: "按 Irene 老师反馈：句中大写词（人名 Mei Ling 两个词、星期、国家、句中的 I）整节车厢亮金色；车尾标点不再单独掉到下一行；题库 17→24 对（48 句），新增 I 在句中（My brother and I…／On Fridays I…）、星期（Sundays/Fridays…）、国家（Japan/Malaysia），每回合保证出现" },
-      { version: "1.0", date: "2026-10-10", note: "首次上架：两关（Asking or Telling? ／ Fix the train）× 两种模式（全班投影／自己练），17 对句子预录英文朗读，错题可再练" },
-    ],
-    // 缩图：2026-10-10 用 Playwright 实际操作正式网址 https://tahun2-bi-punctuation.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-bi-punctuation/v1-1-home.png", label: "首页：大写 I 变火车头、句点接成车尾；可选全班投影或自己练" },
-      { img: "assets/thumbs/tahun2-bi-punctuation/v1-2-ask-tell.png", label: "关 1：看句子选「问」或「说」，答对后车头大写、车尾接上标点" },
-      { img: "assets/thumbs/tahun2-bi-punctuation/v1-1-swap.png", label: "关 1 答错：句首车厢亮起，车厢换位演示 Mei Ling is → Is Mei Ling；人名整节亮金色" },
-      { img: "assets/thumbs/tahun2-bi-punctuation/v1-1-fix-I.png", label: "关 2：点字母变大写、点车尾选标点；句中的 I 也要大写，亮金色" },
-    ],
-    standards: [], // DSKP 搜索索引尚未收录 Tahun 2 BI；对照见 docs/dskp/tahun2/bahasa-inggeris.md：4.3.1（延伸 4.2.1）
-    practiceSummary: "Decide whether a sentence is a question or a statement and use the correct question mark or full stop at the end; capitalise the first word of a sentence, names, days, countries and the word I (DSKP Year 2 BI 4.3.1, extended 4.2.1)",
-    teachingMode: ["Classroom projection", "Individual practice"],
-    prep: "Open and use; no login or class code needed. Turn the sound on (sentences are read aloud). The question bank is written to match the Unit 6–9 themes and is not copied line by line from the textbook; progress is not saved.",
-  },
-
-  {
-    slug: "tahun2-bi-dressing",
-    tahun: 2,
-    subjek: "bi",
-    status: "published",
-    title_zh: "The Dressing Game",
-    title_bm: "穿衣拼字转盘",
-    desc: "Year 2 English spelling game for the Get Dressed! unit, built on the textbook's dressing-game wheel. Click the 3-second wheel (pictures only, no words), then work out the colour and the clothes from the picture and spell both words on the keyboard or with letter blocks (pupils can switch the blocks on or off). Wrong spellings shake and clear; right ones lock in green. Each correct item earns 5 stars, is unlocked in My Spelled Collection (unspelled ones stay Locked), and every 6 items complete one outfit, with a capybara reward picture. 18 items from the textbook wheel in all. Progress and stars are kept on the pupil's own device; no login or class code.",
-    keywords: ["Get Dressed", "clothes", "colours", "spelling", "wheel", "dressing game", "capybara", "typing", "keyboard", "Superminds", "二年级", "英文", "拼写", "颜色", "衣服", "Bahasa Inggeris", "Year 2"],
-    url: "https://tahun2-bi-dressing.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "2.0",
-    changelog: [
-      { version: "2.0", date: "2026-10-14", note: "v2 改版：纯拼写、点转盘就转、收藏一件件解锁、字母块自选且不扣星；界面与封面统一写 Year 2；修正裤子超框、夹克内里、转盘按钮对齐" },
-      { version: "1.0", date: "2026-10-11", note: "首次上架：课本转盘（3 秒）＋拼颜色词／衣服词＋卡比巴拉穿衣；实体键盘与屏幕键盘；三档 Help；一套 6 件、18 件全部收集；英式发音预录" },
-    ],
-    // 缩图：第 1 张为生图封面；其余 2026-10-14（v2）用 Playwright 实际操作 https://tahun2-bi-dressing.vercel.app 截的真实画面（横式 1366×768），不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-bi-dressing/v1-0-cover.png", label: "封面：卡比巴拉与课本转盘" },
-      { img: "assets/thumbs/tahun2-bi-dressing/v2-1-wheel.png", label: "转盘页：点转盘（或按空白键）转 3 秒，转盘上只有图没有字" },
-      { img: "assets/thumbs/tahun2-bi-dressing/v2-2-spell.png", label: "拼写：颜色词 blue 已拼对，正在拼 jacket，字母块可自选开关" },
-      { img: "assets/thumbs/tahun2-bi-dressing/v2-3-collection.png", label: "收藏：拼对的衣服一件件解锁，未拼的显示 Locked" },
-    ],
-    standards: [], // DSKP 搜索索引尚未收录 Tahun 2 BI；对照见 docs/dskp/tahun2/bahasa-inggeris.md：4.3.2（未核对官方 PDF，课本页码待补）
-    practiceSummary: "Spell familiar high-frequency words: ten colour words and six clothes words from the Get Dressed! unit, and recognise colour words from pictures (DSKP Year 2 BI 4.3.2, not yet checked against the official PDF)",
-    teachingMode: ["Individual practice", "Classroom projection"],
-    prep: "One device per pupil works best; a laptop with a real keyboard is ideal for typing practice, and tablets work with the on-screen keys. Turn the sound on (words are read aloud). The wheel follows the textbook, so pupils can look at the textbook too. Progress and stars are saved only on that device; no login or class code. The wheel only lands on clothes not yet worn in the current outfit.",
-  },
-
-  {
-    slug: "tahun1-bi-fruitveg",
-    tahun: 1,
-    subjek: "bi",
-    status: "published",
-    title_zh: "Spelling Market",
-    title_bm: "拼写小市场",
-    desc: "From the wish pool, a Year 1 teacher's sticking point: pupils can listen, speak and read the fruit and vegetable words, but cannot spell them (10-word dictations: only 2 right). So this tool teaches spelling in three steps at a market stall: Build (look at the word, tap the letters in order, vowels coloured) → Type (hear the word, spell it on a keyboard or on-screen keys, right letters lock in place, three levels of Help) → Dictation (listen only, no picture, no help, like the classroom test). 16 words from Unit 4 Lunchtime in three levels, plus a 10-word spelling test that picks the words each pupil has missed. Words are read aloud in British English.",
-    keywords: ["fruit", "vegetables", "spelling", "dictation", "phonics", "Lunchtime", "Unit 4", "Superminds", "apple", "banana", "carrot", "tomato", "一年级", "英文", "拼写", "听写", "水果", "蔬菜", "Bahasa Inggeris", "Year 1", "Tahun 1"],
-    url: "https://tahun1-bi-fruitveg.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "一位一年级老师", initial: "师" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-12", note: "首次上架（来自许愿池：Tahun 1 英文，学生会听说读却不会拼 fruit and vegetables，听写 10 题只对 2 题）：Build → Type → Dictation 三步；16 个词三个层级；10 词拼写测验优先出错过的词；英式发音预录" },
-    ],
-    // 缩图是 2026-10-12 用 Playwright 操作正式网址 https://tahun1-bi-fruitveg.vercel.app 截的真实画面（横式 1366×768），不是 mock；第 1 张是首页（未另做生图封面）
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bi-fruitveg/1-home.png", label: "首页：三个层级与 10 词拼写测验，下方是自己的小篮子" },
-      { img: "assets/thumbs/tahun1-bi-fruitveg/2-build.png", label: "Build：看着示范词（元音染色），按顺序点字母块" },
-      { img: "assets/thumbs/tahun1-bi-fruitveg/3-type.png", label: "Type：只听＋看图，打字拼写，对的字母会锁住，Help 分三档" },
-      { img: "assets/thumbs/tahun1-bi-fruitveg/5-dictation-reveal.png", label: "Dictation：不看图、不给帮助；拼完揭晓，错的字母标红" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "4.0", objectiveCodes: ["4.3"] },
-    ],
-    practiceSummary: "Spell familiar high-frequency words accurately: 16 fruit and vegetable words from Unit 4 Lunchtime (pea, pear, corn, apple, peach, onion, carrot, tomato, potato, banana, orange, coconut, pineapple, mushroom, broccoli, strawberry), from copying to spelling after listening only (DSKP Year 1 BI 4.3.2)",
-    teachingMode: ["Individual practice", "Classroom projection"],
-    prep: "One device per pupil, about 10 minutes; no login or class code. A laptop keyboard or tablet touch both work (on-screen letters are on the page). Turn the sound on: every word is read aloud. Start pupils at Level 1; the Spelling test button gives a 10-word dictation-style check and lists the words to practise. Progress and stars are saved only on that device. Textbook page numbers not yet added.",
-  },
-
-  {
-    slug: "tahun6-bi-questiontags",
-    tahun: 6,
-    subjek: "bi",
-    status: "published",
-    title_zh: "Case Files: Question Tags",
-    title_bm: "侦探语法局",
-    desc: "Year 6 English question-tag practice in a detective case-file theme (Unit 10 Lesson 3: be, can, present simple). Instead of guessing from a multiple-choice list, pupils build the tag in three steps: is the statement positive or negative, which helper verb (be / can / do-does), and which pronoun comes back. Two levels of clues per step highlight the negative word, the verb or the subject and state the textbook rule (be → be, can → can, other verbs → do/does). Three cases: Case 1 Be Inspector (14 statements), Case 2 Can Detective (13), Case 3 Do Files (14). After the three cases an Extra File unlocks with I am… aren't I? (beyond the textbook, not part of the score). Each solved statement explains why, and can be read aloud with a Listen button (pre-recorded British English). Statements are shuffled every round, and missed statements can be redone on their own.",
-    keywords: ["question tags", "tag questions", "isn't it", "aren't they", "can't he", "don't you", "助动词", "反意疑问句", "附加疑问句", "六年级", "英文", "Bahasa Inggeris", "Year 6", "Unit 10", "grammar"],
-    url: "https://tahun6-bi-questiontags.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "Teacher Irene Wong", initial: "W" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-10", note: "首次上架：三案（Be 14／Can 13／Do 14 题）＋拓展档案 I am… aren't I（5 题，三案后解锁、不计分）；每题三步（正负 → 助动词 → 代词）、两级线索、答对后讲解与预录朗读、错题可单独重做" },
-    ],
-    // 缩图：第 1 张封面为 cx 生图；其余为 2026-10-10 用 Playwright 操作正式网址 https://tahun6-bi-questiontags.vercel.app 截的真实画面（1366×768），不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-cover.png", label: "封面：Case Files: Question Tags（Year 6 · English）" },
-      { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-home.png", label: "首页：三个案件加一份课本外拓展档案；规则提示在最上方" },
-      { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-step2-clue.png", label: "第 2 步选助动词：线索把句中的动词标成黄色，并给出 be→be、can→can、其他→do/does" },
-      { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-solved.png", label: "答对后：讲解为什么是这个尾巴，可点 Listen 听整句" },
-      { img: "assets/thumbs/tahun6-bi-questiontags/v1-0-results.png", label: "结算：评级与错题档案，可只重做错的题" },
-    ],
-    standards: [], // DSKP 搜索索引未收录 Tahun 6 BI，未核对官方 PDF；内容依据 Year 6 Unit 10 Lesson 3 Grammar（PB p.125、WB p.104）
-    practiceSummary: "Use question tags to confirm information: be → be, can → can, present simple → do/does; positive statement → negative tag and the reverse (Year 6 Unit 10 Lesson 3; DSKP code not yet verified)",
-    teachingMode: ["Classroom projection", "Individual practice"],
-    prep: "Open and use; no login or class code needed. Turn the sound on if you want pupils to listen (optional Listen button after each answer). The statements follow Unit 10 Lesson 3 (be, can, present simple); the Extra File with I am… aren't I? goes beyond the textbook and unlocks after the three cases. Only the best score per case is remembered in this browser.",
-  },
-
-  {
-    slug: "tahun1to6-drone", tahun: 1, subjek: "mt", status: "published",
-    coverage: [
-      { tahun: 1, subjects: ["mt", "dst", "bm", "bi", "bc"] },
-      { tahun: 2, subjects: ["mt", "dst", "bm", "bi", "bc"] },
-      { tahun: 3, subjects: ["mt", "dst", "bm", "bi", "bc"] },
-      { tahun: 4, subjects: ["mt", "sains", "bm", "bi", "bc", "sejarah"] },
-      { tahun: 5, subjects: ["mt", "sains", "bm", "bi", "bc", "sejarah"] },
-      { tahun: 6, subjects: ["mt", "sains", "bm", "bi", "bc", "sejarah"] },
-    ],
-    title_zh: "飞学竞场", title_bm: "Arena Terbang Ilmu",
-    desc: "一至六年级的无人机飞行答题游戏。先试飞，再选择年级与学科；思考后跟着选项箭头飞进答案环。当前为试用题库。",
-    keywords: ["drone", "ilmu", "无人机", "飞行", "跨学科", "综合", "答题", "科学", "数学", "国文", "英文", "华文", "历史"],
-    url: "https://tahun1to6-drone.vercel.app", type: "游戏", stars: 0, creator: { name: "卢老师", initial: "卢" },
-    version: "0.4", changelog: [
-      {version:"0.4",date:"2026-09-14",note:"新增班级排行榜（网址带班级代码才会启用，选完名字后主画面出现「班级排行榜」按钮，穿环竞速/答题竞速分开两张榜）"},
-      {version:"0.3",date:"2026-09-14",note:"飞行试炼、跨学科选择与答案方向箭头；首次部署上线"},
-    ],
-    thumbnails: [{ img: "assets/thumbs/tahun1to6-drone/trial.png", label: "五段飞行试炼" }], standards: [],
-    practiceSummary: "飞行操控与跨学科选择题", teachingMode: ["个人练习"], prep: "手机横屏或电脑；需要网络；题库为待审起始包，正式课堂使用前建议教师先核对内容；班级排行榜需要网址带 kelasku 班级代码才会出现",
-  },
-  {
-    slug: "tahun2-mt-wang",
-    tahun: 2,
-    subjek: "mt",
-    status: "published",
-    title_zh: "钱币乐园",
-    title_bm: "Taman Wang",
-    desc: "确认币值、钱币组合拖拽、课堂抽签三合一的大荧幕互动工具，纸币/硬币大小都依真实马币比例换算。",
-    keywords: ["钱币", "二年级", "数学", "拖拽", "抽签", "wang", "money", "找零钱"],
-    url: "https://tahun2-mt-wang.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // 缩略图数量决定详情页的排版：1张=整幅铺开，2张=左右对分，4张=2x2
-    // 这 4 张是用 Playwright 实际操作 https://grade2-math-tools.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-mt-wang/confirm-value.png", label: "确认币值" },
-      { img: "assets/thumbs/tahun2-mt-wang/combo.png", label: "钱币组合" },
-      { img: "assets/thumbs/tahun2-mt-wang/duo.png", label: "双人对垒" },
-      { img: "assets/thumbs/tahun2-mt-wang/lottery.png", label: "抽签" },
-    ],
-    // 对应课程标准：只存代码引用，正式标题/来源/核对日期一律从 data/dskp-index.js 的 DSKP_INDEX 读取
-    // （见 docs/dskp-learning-objective-search.md 第1.2/6节），避免两处资料各自维护、慢慢不同步
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "4.0", objectiveCodes: ["4.1", "4.2", "4.3", "4.6"] },
-    ],
-    practiceSummary: "两个/三个币值相加、找零钱、用纸币硬币组成指定金额",
-    teachingMode: ["投影互动", "全班或小组", "双人对垒"],
-    prep: "打开即用，不需要打印，不需要学生设备",
-  },
-
-  {
-    slug: "tahun1-mt-bundar",
-    tahun: 1,
-    subjek: "mt",
-    status: "published",
-    title_zh: "近似值特快车",
-    title_bm: "Ekspres Pembundaran",
-    desc: "0–100 号站的骰子棋盘游戏，走到非整十号站要答对十位近似值才能滑向正确的站，答错倒退一格；队伍数量与队名可在开局前自订，2–8 组都能玩。",
-    keywords: ["近似值", "十位近似值", "一年级", "数学", "取整", "bundar", "pembundaran", "puluh terdekat", "棋盘游戏"],
-    url: "https://tahun1-mt-bundar.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // 这 4 张是用 Playwright 实际操作 https://tahun1-mt-bundar.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-mt-bundar/1-setup.png", label: "开局设定：队伍数量与队名可调整" },
-      { img: "assets/thumbs/tahun1-mt-bundar/2-board.png", label: "0-100 棋盘" },
-      { img: "assets/thumbs/tahun1-mt-bundar/3-question.png", label: "十位近似值挑战" },
-      { img: "assets/thumbs/tahun1-mt-bundar/4-after-answer.png", label: "答对后换下一队" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.8"] },
-    ],
-    practiceSummary: "整数取十位近似值（0-100范围内）、理解近似值可能比原数大也可能比原数小",
-    teachingMode: ["投影互动", "分组比赛"],
-    prep: "打开即用，不需要打印，不需要学生设备，开局前可现场调整组数与队名",
-  },
-
-  {
-    slug: "tahun1-mt-pecahan",
-    tahun: 1,
-    subjek: "mt",
-    status: "published",
-    title_zh: "燕菜切切乐",
-    title_bm: "Potong Agar-agar: Perdua dan Perempat",
-    desc: "在娘惹糕点铺的大理石桌上，用鼠标或手指在燕菜上划一条线就能切开，切开会抖。「分给朋友」要把燕菜分给 2 或 4 位动物朋友，切歪了照样分下去——拿到小块的朋友会说「我的比较小…」，让孩子亲眼看到「不一样大就不是几分之一」。「燕菜铺开张」有 10 位客人：先切成一样大再拿几块给客人、看盘上虚线空位说出拿走了几分之几、判断亮起的那块是不是四分之一（含切不等分的陷阱题），成绩上班级排行榜。「自由切」给老师示范，可关掉「帮手刀」故意切歪。全程有预录的真人感朗读。",
-    keywords: ["分数", "几分之几", "二分之一", "四分之一", "四分之二", "四分之三", "等分", "一年级", "数学", "pecahan", "perdua", "perempat", "pecahan wajar", "燕菜", "agar-agar", "切蛋糕", "排行榜"],
-    url: "https://tahun1-mt-pecahan.vercel.app",
-    type: "游戏",
-    hasLeaderboard: true,
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-09-29", note: "首次上架：分给朋友 5 关、燕菜铺开张 10 位客人（接班级名单与排行榜）、自由切；预录人声朗读；手机竖屏／横屏版面" },
-    ],
-    // 这 5 张是用 Playwright 实际操作 https://tahun1-mt-pecahan.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-mt-pecahan/1-home.png", label: "娘惹糕点铺首页：点燕菜会抖" },
-      { img: "assets/thumbs/tahun1-mt-pecahan/2-share-unfair.png", label: "切歪了照样分：拿到小块的朋友会不高兴" },
-      { img: "assets/thumbs/tahun1-mt-pecahan/3-share-fair.png", label: "切成 4 块一样大，每人得到四分之一" },
-      { img: "assets/thumbs/tahun1-mt-pecahan/4-shop-order.png", label: "燕菜铺：客人要四分之三，拿 3 块进打包盒" },
-      { img: "assets/thumbs/tahun1-mt-pecahan/5-shop-isit.png", label: "陷阱题：4 块不一样大，所以不是四分之一" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1", "3.2"] },
-    ],
-    practiceSummary: "用切燕菜建构二等份、四等份的真分数（1/2、1/4、2/4、3/4）；分辨「一样大才是几分之几」；解决分给朋友、客人点单的日常分数问题",
-    teachingMode: ["投影互动", "教师带教/演示", "个人自学"],
-    prep: "打开即用，不需要打印；电脑用鼠标划线、平板／一体机／手机用手指划线都可以。有声音朗读（建议开喇叭）。「燕菜铺开张」会请学生点自己的名字上班级排行榜（网址带 ?code= 班级代码，或当访客自己写名字）；老师示范用「自由切」，可关掉「帮手刀」故意切歪给全班看",
-  },
-  {
-    slug: "tahun1-mt-latihan-oktober",
-    tahun: 1,
-    subjek: "mt",
-    status: "published",
-    title_zh: "一年级10月数学练习",
-    title_bm: "Latihan Matematik Tahun 1 (Oktober)",
-    desc: "把一张纸本月考式练习变成一题一题做的电子版：分数涂色与读法、钱币计算与连线、换算钱币、星期、认时刻与分辨时针分针、一天的时段、立体图形的面和顶点、数量应用题、看图表。学生先点自己的名字（接班级名单，找不到可手动输入），每题有预录朗读，做的过程中不显示对错；交卷后看到答错的题和正确答案，可以再试一次。老师在后台（仅限登录的班级老师）看到每题答对率和学生常见的错误类型，也可以把纸本答案回填进去一起分析。",
-    keywords: ["数学", "练习", "月考", "诊断", "分数", "钱币", "时间", "星期", "时刻", "立体图形", "棒形图", "一年级", "latihan", "pecahan", "wang", "masa", "bentuk 3D", "错误分析"],
-    url: "https://tahun1-mt-latihan-oktober.vercel.app",
-    type: "练习",
-    hasLeaderboard: false,
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-12", note: "首次上架：29 个小项、手机／平板／电脑可用；选名字（班级名单或手动输入）；预录朗读；交卷后可重做错题；老师后台（登录后才看得到）看答对率与错误类型，可回填纸本答案" },
-    ],
-    // 这 5 张：第 1 张是生图封面；其余用 Playwright 操作 https://tahun1-mt-latihan-oktober.vercel.app 截的真实画面（Supabase 已拦截，没有写入真数据库）
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-mt-latihan-oktober/1-cover.png", label: "封面：一年级10月数学练习" },
-      { img: "assets/thumbs/tahun1-mt-latihan-oktober/2-names.png", label: "进入时先点自己的名字，找不到可以手动输入" },
-      { img: "assets/thumbs/tahun1-mt-latihan-oktober/3-money.png", label: "钱币计算：用屏幕数字键盘输入答案" },
-      { img: "assets/thumbs/tahun1-mt-latihan-oktober/4-clock.png", label: "认时刻：钟面上是几时" },
-      { img: "assets/thumbs/tahun1-mt-latihan-oktober/5-chart.png", label: "看图表：哪一班吃了 6 片三文治" },
-    ],
-    standards: [],
-    practiceSummary: "一年级 10 月综合练习：分数（二分之一至四分之三）、钱币（sen／仙／令吉）的计算与换算、星期顺序、认时刻与时针分针、一天的时段、立体图形（圆柱）的面与顶点、加减应用题、看棒形图／象形图回答问题",
-    teachingMode: ["个人练习"],
-    prep: "学生各自用手机、平板或电脑打开，需要联网；有声音朗读（建议戴耳机）。班级网址请带班级代码，例如 …vercel.app/?code=JBC1037-1I，学生就只会看到本班名单；没带代码会先请输入班级代码。纸本做的学生，由老师登录后台（Hub 的 latihan-admin.html，仅限班级老师）把答案回填。学生交卷的答案只有登录的班级老师看得到",
-  },
-
-  {
-    slug: "tahun2-mt-latihan-oktober",
-    tahun: 2,
-    subjek: "mt",
-    status: "published",
-    title_zh: "二年级10月数学练习",
-    title_bm: "Latihan Matematik Tahun 2 (Oktober)",
-    desc: "二年级数学月考复习的在线版，共 47 个小项：1000 以内的数值与加减乘除、分数与小数、钱币与储蓄消费、时刻与时间单位、长度质量液体体积、立体与平面图形（含展开图）、条形统计图。学生先点自己的名字（接班级名单，找不到可手动输入），选好或填好答案按「确认」当场知道对错：答对有鼓励，答错会给出正确答案、为什么，以及针对这类错误的提示；题目和解释都能点喇叭朗读。老师在后台（仅限登录的班级老师）看到每题答对率和学生常见的错误类型，也能把纸本答案回填进去一起分析。",
-    keywords: ["数学", "练习", "复习", "月考", "诊断", "数值", "近似值", "加法", "减法", "乘法", "除法", "分数", "小数", "钱币", "储蓄", "时刻", "时间", "长度", "质量", "液体体积", "立体图形", "展开图", "平面图形", "条形统计图", "二年级", "latihan", "pecahan", "perpuluhan", "wang", "masa", "ukuran", "bentuk 3D", "data", "错误分析"],
-    url: "https://tahun2-mt-latihan-oktober.vercel.app",
-    type: "练习",
-    hasLeaderboard: false,
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-14", note: "首次上架：47 个小项（含原卷没有的数与运算）；确认后当场对错反馈，答错给正确答案与针对性提示；预录朗读；手机／平板／电脑可用；可再试一次答错的题；老师后台（登录后才看得到）看答对率与错误类型，可回填纸本答案" },
-    ],
-    // 5 张用 Playwright 操作 https://tahun2-mt-latihan-oktober.vercel.app 截的真实画面（Supabase 已拦截，没有写入真数据库）
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-mt-latihan-oktober/1-cover.png", label: "封面：二年级10月数学练习" },
-      { img: "assets/thumbs/tahun2-mt-latihan-oktober/2-names.png", label: "进入时先点自己的名字，找不到可以手动输入" },
-      { img: "assets/thumbs/tahun2-mt-latihan-oktober/3-fraction.png", label: "分数与小数：涂色部分写成分数" },
-      { img: "assets/thumbs/tahun2-mt-latihan-oktober/4-clock.png", label: "认时刻：答错后马上告诉你为什么" },
-      { img: "assets/thumbs/tahun2-mt-latihan-oktober/5-chart.png", label: "条形统计图：读出每种面包卖了几个" },
-    ],
-    // 只引用 DSKP_INDEX 已收录并核对过的代码；分数小数、时间、度量衡、空间、数据处理尚未收入索引（见 coverage 表备注）
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.4"] },
-      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.3"] },
-      { curriculum: "KSSR Semakan 2017", unitCode: "4.0", objectiveCodes: ["4.1", "4.2", "4.3", "4.6"] },
-    ],
-    practiceSummary: "二年级 10 月综合练习：数值与近似值、四则运算、分数与小数（涂色、比较）、钱币计算与储蓄消费表、时刻与天／时／分换算、长度质量液体体积读数与单位、立体与展开图、条形统计图",
-    teachingMode: ["个人练习"],
-    prep: "学生各自用手机、平板或电脑打开，需要联网；有声音朗读（建议戴耳机）。班级网址请带班级代码，例如 …vercel.app/?code=JBC1037-2B，学生就只会看到本班名单；没带代码会先请输入班级代码。纸本做的学生，由老师登录后台（Hub 的 latihan2-admin.html，仅限班级老师）把答案回填。学生的答案只有登录的班级老师看得到",
-  },
-
-  {
-    slug: "tahun2-mt-fuxi-oktober",
-    tahun: 2,
-    subjek: "mt",
-    status: "published",
-    title_zh: "二年级数学复习本",
-    title_bm: "Buku Ulang Kaji Matematik Tahun 2 (Oktober)",
-    desc: "二年级数学评估（单元 3–8）的复习在线版，共 40 题，有易、中、难三种程度：分数与小数、钱币、时间与时刻、度量衡、空间、数据处理。学生先点自己的名字（接班级名单，找不到可手动输入），选好或填好答案按「确认」当场知道对错：答对有鼓励，答错会给出正确答案、为什么，以及针对这类错误的提示；题目和解释都能点喇叭朗读。钱币题用真实的硬币和钞票图。老师在后台（仅限登录的班级老师）看到每题答对率、各难度的整体表现和学生常见的错误类型，也能把纸本答案回填进去。老师想一次看完全部题目，在网址后面加 ?preview 即可。",
-    keywords: ["数学", "复习", "月考", "评估", "分数", "小数", "钱币", "硬币", "钞票", "时间", "时刻", "度量衡", "长度", "质量", "液体体积", "立体图形", "展开图", "数据处理", "条形统计图", "二年级", "ulang kaji", "pecahan", "perpuluhan", "wang", "masa", "ukuran", "bentuk 3D", "data"],
-    url: "https://tahun2-mt-fuxi-oktober.vercel.app",
-    type: "练习",
-    hasLeaderboard: false,
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-14", note: "首次上架：40 题（易 30%／中 50%／难 20%），依学校评估范围单元 3–8；钱币用真实硬币钞票图；确认后当场对错反馈，答错给正确答案与针对性提示；预录朗读；可再试一次答错的题；教师预览页（?preview）；老师后台看答对率、各难度表现与错误类型，可回填纸本答案" },
-    ],
-    // 5 张用 Playwright 操作 https://tahun2-mt-fuxi-oktober.vercel.app 截的真实画面（Supabase 已拦截，没有写入真数据库）
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-mt-fuxi-oktober/1-cover.png", label: "封面：二年级数学复习本" },
-      { img: "assets/thumbs/tahun2-mt-fuxi-oktober/2-names.png", label: "进入时先点自己的名字，找不到可以手动输入" },
-      { img: "assets/thumbs/tahun2-mt-fuxi-oktober/3-fraction.png", label: "分数与小数：涂色部分写成分数" },
-      { img: "assets/thumbs/tahun2-mt-fuxi-oktober/4-money.png", label: "钱币：用真实的硬币和钞票图，答错马上告诉你为什么" },
-      { img: "assets/thumbs/tahun2-mt-fuxi-oktober/5-clock.png", label: "时间与时刻：看钟面写出几时几分" },
-    ],
-    // 只引用 DSKP_INDEX 已收录并核对过的代码；分数小数（3.x）、时间（5.x）、度量衡（6.x）、空间（7.x）、数据处理（8.x）尚未收入索引（见 coverage 表备注）
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "4.0", objectiveCodes: ["4.1", "4.2", "4.3", "4.6"] },
-    ],
-    practiceSummary: "二年级单元 3–8 复习：分数与小数（涂色、比较、排序）、钱币（认读、加减乘除、找回、储蓄）、时刻与时间、长度质量液体体积读数与单位、立体与展开图、条形统计图与记数符号",
-    teachingMode: ["个人练习"],
-    prep: "学生各自用手机、平板或电脑打开，需要联网；有声音朗读（建议戴耳机）。班级网址请带班级代码，例如 …vercel.app/?code=JBC1037-2B，学生就只会看到本班名单；没带代码会先请输入班级代码。纸本做的学生，由老师登录后台（Hub 的 mtfuxi-admin.html，仅限班级老师）把答案回填。学生的答案只有登录的班级老师看得到。老师想一次预览全部题目与答案：网址后面加 ?preview",
-  },
-
-  {
-    slug: "tahun1-mt-fuxi-oktober",
-    tahun: 1,
-    subjek: "mt",
-    status: "published",
-    title_zh: "一年级数学复习本",
-    title_bm: "Buku Ulang Kaji Matematik Tahun 1 (Oktober)",
-    desc: "一年级数学（下册）评估范围的复习在线版，单元 3–8，共 30 题，分基础、过渡、拔高三种程度：分数、钱币（真实硬币与钞票图）、时间与时刻（一天、星期、钟面）、非标准单位量长度重量体积、立体与平面图形、象形统计图。学生先点自己的名字（接班级名单，找不到可手动输入），选好或填好答案按「确认」当场知道对错：答对有鼓励，答错会给出正确答案、为什么，以及针对这类错误的提示；每题和解释都能点喇叭朗读。老师在后台（仅限登录的班级老师）看到每题答对率、各难度的整体表现和学生常见的错误类型，也能把纸本答案回填进去。老师想一次看完全部题目，在网址后面加 ?preview 即可。",
-    keywords: ["数学", "复习", "月考", "评估", "分数", "钱币", "硬币", "钞票", "钱币换算", "时刻", "钟面", "星期", "一天", "非标准单位", "长度", "质量", "液体体积", "立体图形", "平面图形", "象形统计图", "一年级", "ulang kaji", "pecahan", "wang", "masa", "ukuran", "bentuk 3D", "data"],
-    url: "https://tahun1-mt-fuxi-oktober.vercel.app",
-    type: "练习",
-    hasLeaderboard: false,
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-16", note: "首次上架：30 题（基础 40%／过渡 20%／拔高 40%），依学校评估范围单元 3–8；钱币用真实硬币钞票图；确认后当场对错反馈，答错给正确答案与针对性提示；预录朗读；可再试一次答错的题；教师预览页（?preview）；老师后台看答对率、各难度表现与错误类型，可回填纸本答案" },
-    ],
-    // 5 张用 Playwright 操作 https://tahun1-mt-fuxi-oktober.vercel.app 截的真实画面（Supabase 已拦截，没有写入真数据库）
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-mt-fuxi-oktober/1-cover.png", label: "封面：一年级数学复习本" },
-      { img: "assets/thumbs/tahun1-mt-fuxi-oktober/2-names.png", label: "进入时先点自己的名字，找不到可以手动输入" },
-      { img: "assets/thumbs/tahun1-mt-fuxi-oktober/3-fraction.png", label: "分数：涂色部分是几分之几" },
-      { img: "assets/thumbs/tahun1-mt-fuxi-oktober/4-money.png", label: "钱币：用真实的硬币图，答错马上告诉你为什么" },
-      { img: "assets/thumbs/tahun1-mt-fuxi-oktober/5-clock.png", label: "钟面：看时针和分针，读出时刻" },
-    ],
-    // DSKP_INDEX 目前一年级数学只收 1.0（100 以内整数），本工具范围（3.0–8.0）尚未收入索引，不编代码（见 coverage 表备注）
-    standards: [],
-    practiceSummary: "一年级下册单元 3–8 复习：分数（1/2、1/4、3/4）、钱币（认读、换算、加减、找回、储蓄）、一天时段与星期、钟面（时、半、一刻、三刻）、非标准单位测量与比较、立体与平面图形及排列、象形统计图",
-    teachingMode: ["个人练习"],
-    prep: "学生各自用手机、平板或电脑打开，需要联网；有声音朗读（建议戴耳机）。班级网址请带班级代码，例如 …vercel.app/?code=JBC1037-1I，学生就只会看到本班名单；没带代码会先请输入班级代码。纸本做的学生，由老师登录后台（Hub 的 mt1fuxi-admin.html，仅限班级老师）把答案回填。学生的答案只有登录的班级老师看得到。老师想一次预览全部题目与答案：网址后面加 ?preview",
-  },
-
-  {
-    slug: "tahun1-bc-fuxi-oktober",
-    tahun: 1,
-    subjek: "bc",
-    status: "published",
-    title_zh: "一年级华文复习本",
-    title_bm: "Buku Latihan Bahasa Cina Tahun 1 (Oktober)",
-    desc: "一年级华文复习卷的在线版：阅读理解（国庆日）、量词、读音（多音字）、形近字、选词填空、仿例仿写、看图填写与看图写句子，共 31 个小项。学生各自一台设备，选好答案按「确认」当场知道对错：答错有「差一点点」的解释（为什么不对、正确答案是什么），答对有鼓励；所有汉字配拼音（可开关），题目、课文与解释都能点喇叭朗读。写作类题目学生自己输入、不批改。老师在后台（仅限登录的班级老师）看全班错在哪一类，也能读到每个学生写了什么。",
-    keywords: ["华文", "复习", "练习", "月考", "诊断", "阅读理解", "国庆日", "量词", "多音字", "读音", "形近字", "近似字", "选词填空", "词语运用", "仿写", "造句", "看图写话", "拼音", "朗读", "一年级", "bahasa cina", "penjodoh bilangan", "kata pelbagai bunyi", "错误分析"],
-    url: "https://tahun1-bc-fuxi-oktober.vercel.app",
-    type: "练习",
-    hasLeaderboard: false,
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-13", note: "首次上架：31 个小项；确认后当场反馈对错（答错有解释、答对有鼓励）；汉字配拼音可开关、题目与解释可朗读；选名字（班级名单或手动输入）；写作题自己输入不批改；老师后台（登录后才看得到）看全班错误类型与学生所写内容" },
-    ],
-    // 这 5 张：第 1 张是生图封面；其余用 Playwright 操作 https://tahun1-bc-fuxi-oktober.vercel.app 截的真实画面（Supabase 已拦截并用假名单 TEST-1I，没有真学生名字，没有写入真数据库）
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bc-fuxi-oktober/1-cover.png", label: "封面：一年级华文复习本" },
-      { img: "assets/thumbs/tahun1-bc-fuxi-oktober/2-names.png", label: "进入时先点自己的名字，找不到可以手动输入" },
-      { img: "assets/thumbs/tahun1-bc-fuxi-oktober/3-wrong.png", label: "选错按「确认」：当场告诉你正确答案和为什么，课文一直在左边" },
-      { img: "assets/thumbs/tahun1-bc-fuxi-oktober/4-fillin.png", label: "看图填词：饭盒图旁选词，填进短文的空格里" },
-      { img: "assets/thumbs/tahun1-bc-fuxi-oktober/5-finish.png", label: "做完啦：第一次答对几题，答错的题列出正确答案" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.1"] },
-      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.3.1"] },
-      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.2"] },
-    ],
-    practiceSummary: "阅读理解（课文细节、先后顺序、词语运用）、量词（只／颗／双）、多音字读音、形近字辨析、选词填空、仿例写句子、看图填词与看图写句子；每题当场反馈对错与原因，写作题不批改",
-    teachingMode: ["个人练习"],
-    prep: "学生各自用电脑、平板或手机打开（一人一台），需要联网；有声音最好（建议戴耳机）。必须带班级代码打开，例如 …vercel.app/?code=JBC1037-1I，学生才只会看到本班名单，没带代码会先请输入班级代码。答案只有登录的班级老师看得到，老师后台在 Hub 的 fuxi-admin.html（不放首页入口）",
-  },
-
-  {
-    slug: "tahun1-bc-fuxi-oktober-2",
-    tahun: 1,
-    subjek: "bc",
-    status: "published",
-    title_zh: "一年级华文复习本（二）",
-    title_bm: "Buku Latihan Bahasa Cina Tahun 1 (Set 2)",
-    desc: "一年级华文复习本的第二套，题目全部换新、对准课本下册第 12–22 单元：阅读理解（邻家的菜园）、量词（把／朵／辆）、读音（多音字 角、只）、形近字（远／运、己／已）、选词填空、仿例仿写、看图填写（黄色小鸭子雨伞）与看图写句子，共 31 个小项。玩法与第一套相同：学生各自一台设备，选好答案按「确认」当场知道对错，答错有「差一点点」的解释，答对有鼓励；所有汉字配拼音（可开关），题目、课文与解释都能点喇叭朗读。写作类题目学生自己输入、不批改。老师在后台（仅限登录的班级老师）看全班错在哪一类，也能读到每个学生写了什么；网址后面加 ?preview 可一页看全部题目与答案。",
-    keywords: ["华文", "复习", "练习", "月考", "诊断", "阅读理解", "邻家的菜园", "量词", "多音字", "读音", "形近字", "近似字", "选词填空", "词语运用", "仿写", "造句", "看图写话", "拼音", "朗读", "一年级", "第二套", "bahasa cina", "penjodoh bilangan", "kata pelbagai bunyi", "错误分析"],
-    url: "https://tahun1-bc-fuxi-oktober-2.vercel.app",
-    type: "练习",
-    hasLeaderboard: false,
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-15", note: "首次上架：第一套的第二套，31 个小项全部换新题（课本下册第 12–22 单元）；确认后当场反馈对错、汉字配拼音可开关、题目与解释可朗读；写作题自己输入不批改；成绩存在独立的表，老师后台 fuxi2-admin.html（登录后才看得到）" },
-    ],
-    // 4 张：用 Playwright 操作 https://tahun1-bc-fuxi-oktober-2.vercel.app 截的真实画面（Supabase 已拦截并用假名单 TEST-1I，没有真学生名字，没有写入真数据库）
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bc-fuxi-oktober-2/1-cover.png", label: "封面：一年级华文复习本（二）" },
-      { img: "assets/thumbs/tahun1-bc-fuxi-oktober-2/2-names.png", label: "进入时先点自己的名字，找不到可以手动输入" },
-      { img: "assets/thumbs/tahun1-bc-fuxi-oktober-2/3-wrong.png", label: "选错按「确认」：当场告诉你正确答案和为什么，课文一直在左边" },
-      { img: "assets/thumbs/tahun1-bc-fuxi-oktober-2/4-fillin.png", label: "看图填词：雨伞图旁选词，填进短文的空格里" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.1"] },
-      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.3.1"] },
-      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.2"] },
-    ],
-    practiceSummary: "阅读理解（课文细节、先后顺序、词语运用）、量词（把／朵／辆）、多音字读音（角、只）、形近字辨析、选词填空、仿例写句子、看图填词与看图写句子；每题当场反馈对错与原因，写作题不批改",
-    teachingMode: ["个人练习"],
-    prep: "学生各自用电脑、平板或手机打开（一人一台），需要联网；有声音最好（建议戴耳机）。必须带班级代码打开，例如 …vercel.app/?code=JBC1037-1I，学生才只会看到本班名单，没带代码会先请输入班级代码。答案只有登录的班级老师看得到，老师后台在 Hub 的 fuxi2-admin.html（不放首页入口）。老师想一次预览全部题目与答案：网址后面加 ?preview",
-  },
-
-  {
-    slug: "tahun1-mt-ruang",
-    tahun: 1,
-    subjek: "mt",
-    status: "published",
-    title_zh: "空间小天地",
-    title_bm: "Ruang: Bentuk Tiga Dimensi dan Dua Dimensi",
-    desc: "一年级「空间」单元的 3D 教学工具，可拖拽自由旋转。立体图形：六种立体，按「面／边／顶点」一个个圈出来报数，另有生活物品配对立体。平面图形：数直线边、顶点、曲线。模式排列：只比形状，一行从左到右读，按「为什么」框出重复的一组，老师也能自己出题。创意图案：拼平面图案、搭立体模型，三级小挑战（数图形、补对称、照样拼）。延伸：五种立体的展开图（正方体 11 种），看它站着打开、合起；还有「能折成正方体吗？」与「盖印章」小乐趣。每个模块都有「老师讲解」（先猜后揭晓）和「自己练习」（点选作答）两种模式。",
-    keywords: ["空间", "立体图形", "平面图形", "长方体", "正方体", "圆锥体", "正方棱锥体", "圆柱体", "球体", "正方形", "长方形", "三角形", "圆形", "面", "边", "顶点", "曲线", "模式排列", "规律", "创意图案", "展开图", "3D", "一年级", "数学", "ruang", "bentuk 3D", "bentuk 2D", "bucu", "sisi", "permukaan", "pola", "bentangan"],
-    url: "https://tahun1-mt-ruang.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-08", note: "首次上架：立体图形、平面图形、模式排列、创意图案，延伸展开图（5 种立体）与盖印章；老师讲解／自己练习两种模式；电脑、投影、手机竖屏版面" },
-    ],
-    // 这 5 张是用 Playwright 实际操作 https://tahun1-mt-ruang.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-mt-ruang/v1-0-1-home.png", label: "首页：立体图形、平面图形、模式排列、创意图案、展开图、盖印章" },
-      { img: "assets/thumbs/tahun1-mt-ruang/v1-0-2-vertex.png", label: "长方体：点「顶点」一个个圈出来报数，共 8 个" },
-      { img: "assets/thumbs/tahun1-mt-ruang/v1-0-3-net.png", label: "展开图：正方体站着一层层打开" },
-      { img: "assets/thumbs/tahun1-mt-ruang/v1-0-4-pattern.png", label: "模式排列：按「为什么」框出重复的一组" },
-      { img: "assets/thumbs/tahun1-mt-ruang/v1-0-5-create.png", label: "创意图案：用圆柱体和圆锥体搭出火箭" },
-    ],
-    // standards 暂不填：7.0 空间的马来文 DSKP 官方用词还没核对官方 PDF，不编造课程对照（对应 DSKP 7.1／7.2／7.3，见 published-tools-coverage.md）
-    standards: [],
-    practiceSummary: "说出六种立体与四种平面图形的名称；数立体的面、边、顶点与平面图形的直线边、顶点、曲线；依形状规律排列；用平面图形创作图案、用立体组合新模型；解决空间相关的数数与配对问题",
-    teachingMode: ["投影互动", "教师带教/演示", "个人自学"],
-    prep: "打开即用，不需要打印。Google Meet 共享屏幕、课室投影／一体机、学生在家用手机或电脑都可以。老师上课用「老师讲解」（名称和数量先藏起来，问完再揭晓）；学生自学切到「自己练习」（点选作答，不计分）。电脑有键盘快捷键：空白键揭晓、←→ 换下一个、R 复位视角",
-  },
-
-  {
-    slug: "tahun2-bm-kataarah",
-    tahun: 2,
-    subjek: "bm",
-    status: "published",
-    title_zh: "Di Mana Letaknya?",
-    title_bm: "Kata Arah 方位词",
-    desc: "Murid Tahun 2 belajar kata arah (atas, bawah, hadapan, belakang, luar, dalam, tepi) melalui dua pemandangan daripada buku teks: Bilik Sukan Sekolah dan Panasnya Cuaca, dibina semula dalam gaya mainan blok. Tiga peringkat: \"Kenali\" (sentuh kata untuk dengar ayat buku teks; guru boleh tekan \"Main semua\" di skrin besar), \"Jawab\" (lengkapkan ayat dengan kata arah yang betul) dan \"Susun\" (seret benda ke tempat yang betul tanpa petak bantuan; jika salah, murid diberitahu di mana benda itu sebenarnya diletakkan). Semua arahan dan suara dalam bahasa Melayu.",
-    keywords: ["方位词", "kata arah", "atas", "bawah", "hadapan", "belakang", "luar", "dalam", "tepi", "tatabahasa", "拖放", "二年级", "马来文", "国文", "bahasa melayu", "投影", "在家练习"],
-    url: "https://tahun2-bm-kataarah.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "Cikgu Lee Xin Hui", initial: "L" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-13", note: "首次上架（BM Tahun 2 课本第 49、82 页 Kata Arah，DSKP 5.1.4 (iii)；Kenali／Jawab／Susun 三阶段，积木玩具风格）" },
-    ],
-    // 封面是生图；其余是 Playwright 操作正式网址 https://tahun2-bm-kataarah.vercel.app 截的真实画面
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-bm-kataarah/1-cover.png", label: "封面：Di Mana Letaknya? Kata Arah" },
-      { img: "assets/thumbs/tahun2-bm-kataarah/2-kenali.png", label: "Kenali：点词，听课本例句" },
-      { img: "assets/thumbs/tahun2-bm-kataarah/3-jawab.png", label: "Jawab：选词完成句子" },
-      { img: "assets/thumbs/tahun2-bm-kataarah/4-susun.png", label: "Susun：把物件拖到正确位置" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.1"] },
-    ],
-    practiceSummary: "Memahami dan mengenal pasti penggunaan kata arah mengikut konteks: atas, bawah, hadapan, belakang, luar, dalam dan tepi (SP 5.1.4 (iii)), berdasarkan Buku Teks Bahasa Melayu Tahun 2 ms. 49 dan ms. 82",
-    teachingMode: ["Interaksi unjuran kelas", "Latihan sendiri di rumah", "Murid tampil ke hadapan"],
-    prep: "Boleh digunakan terus tanpa cetakan. Guru unjurkan di skrin besar dan panggil seorang murid ke hadapan untuk menyeret benda; murid lain menjawab dari tempat duduk. Murid juga boleh berlatih sendiri di rumah dengan komputer, tablet atau telefon. Tidak perlu daftar nama atau kod kelas.",
-  },
-
-  {
-    slug: "tahun1-bm-kataarah",
-    tahun: 1,
-    subjek: "bm",
-    status: "published",
-    title_zh: "Kibarkan Bendera",
-    title_bm: "Kata Arah 方位词",
-    desc: "Murid Tahun 1 belajar kata arah (atas, bawah, hadapan, belakang) melalui pemandangan perhimpunan mingguan di sekolah (buku teks BA ms. 28: Kibarkan Bendera Malaysia), dilukis dalam gaya kartun comel dengan pandangan serong 45 darjah. Tiga peringkat: \"Kenali\" (sentuh kata untuk dengar ayat buku teks; guru boleh tekan \"Main semua\" di skrin besar), \"Jawab\" (lengkapkan ayat dengan kata arah yang betul) dan \"Susun\" (tiga tahap \"Ketua Kecil mengatur perhimpunan\": murid menyeret watak ke tempat yang betul tanpa petak bantuan; jika salah, murid diberitahu di mana watak itu sebenarnya diletakkan; apabila semua betul, bendera dinaikkan). Semua arahan dan suara dalam bahasa Melayu. Sesuai untuk skrin besar di kelas atau latihan di rumah dengan telefon/komputer.",
-    keywords: ["方位词", "kata arah", "atas", "bawah", "hadapan", "belakang", "tatabahasa", "拖放", "一年级", "马来文", "国文", "bahasa melayu", "周会", "升旗", "投影", "在家练习"],
-    url: "https://tahun1-bm-kataarah.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "Cikgu Lee Xin Hui", initial: "L" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-14", note: "首次上架（BM Tahun 1 课本 BA 28 Kibarkan Bendera Malaysia，DSKP 5.1.4 (iii)；Kenali／Jawab／Susun 三阶段，Q 版卡通 45 度斜俯视周会场景）" },
-    ],
-    // 封面是生图；其余是 Playwright 操作正式网址 https://tahun1-bm-kataarah.vercel.app 截的真实画面
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bm-kataarah/1-cover.png", label: "封面：Kibarkan Bendera Kata Arah" },
-      { img: "assets/thumbs/tahun1-bm-kataarah/2-kenali.png", label: "Kenali：点词，听课本例句" },
-      { img: "assets/thumbs/tahun1-bm-kataarah/3-jawab.png", label: "Jawab：选词完成句子" },
-      { img: "assets/thumbs/tahun1-bm-kataarah/4-susun.png", label: "Susun：小班长排周会，把人放到正确位置" },
-    ],
-    standards: [
-      { curriculum: "KSSR 2015（原版）", unitCode: "5.0", objectiveCodes: ["5.1"] },
-    ],
-    practiceSummary: "Memahami dan mengenal pasti penggunaan kata arah mengikut konteks: atas, bawah, hadapan dan belakang (SP 5.1.4 (iii)), berdasarkan Buku Teks Bahasa Melayu Tahun 1 BA ms. 28 (Kibarkan Bendera Malaysia)",
-    teachingMode: ["Interaksi unjuran kelas", "Latihan sendiri di rumah", "Murid tampil ke hadapan"],
-    prep: "无需打印。班级大屏幕投影，请一位同学上台点或拖，其他同学在座位回答；在家用手机时以「点小人再点位置」操作；无需登记名单。Boleh digunakan terus tanpa cetakan; tidak perlu daftar nama atau kod kelas.",
-  },
-
-  {
-    slug: "tahun5-mt-data",
-    tahun: 5,
-    subjek: "mt",
-    status: "published",
-    title_zh: "数据侦探局",
-    title_bm: "Detektif Data",
-        desc: "来自许愿池一位五年级老师的卡点：学生分不清中位数和众数的意思，常把众数做成中位数（或反过来）。所以这个工具专攻「辨认」：老师投影，全班当侦探，找出中位数／众数／平均数／极差，或判断小侦探说得对不对；答完马上演示怎么找，答错会说出「你把它当成了哪一个」，一局结束列出全班最容易混的地方。",
-    keywords: ["众数", "中位数", "平均数", "极差", "数据处理", "五年级", "数学", "mod", "median", "min", "julat", "pemprosesan data", "投影", "全班"],
-    url: "https://tahun5-mt-data.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "一位五年级老师", initial: "师" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-12", note: "首次上架（来自许愿池：Tahun 5 数学，学生分不清中位数与众数）" },
-    ],
-    // 缩略图是 Playwright 操作正式网址截的真实画面
-    thumbnails: [
-      { img: "assets/thumbs/tahun5-mt-data/1-home.png", label: "首页：选练习范围与玩法" },
-      { img: "assets/thumbs/tahun5-mt-data/2-question.png", label: "一道题：小侦探说得对吗？" },
-      { img: "assets/thumbs/tahun5-mt-data/3-median-reveal.png", label: "揭晓：先排队，再找正中间" },
-      { img: "assets/thumbs/tahun5-mt-data/4-dots.png", label: "换成点点图看" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "8.0", objectiveCodes: ["8.2"] },
-    ],
-    practiceSummary: "从非分组数据认识并确定众数、中位数、平均数和极差；辨认「中位数要先排队」「众数看次数最多」等常见混淆；用数字卡和点点图两种方式看数据",
-    teachingMode: ["投影互动", "全班举手抢答", "分队轮流"],
-    prep: "打开即用，不需要打印，学生不需要设备。老师投影，每题先让全班举手投票，再点答案揭晓；键盘 1–4（或 Y／N）选答案，空白键进入下一题。「练哪些」可只练中位数 vs 众数，也可四个全练，双数个数据另外选",
-  },
-
-  {
-    slug: "tahun3-mt-koordinat",
-    tahun: 3,
-    subjek: "mt",
-    status: "published",
-    title_zh: "座位小侦探",
-    title_bm: "Detektif Tempat Duduk",
-    desc: "来自许愿池一位三年级老师的卡点：学生分不清行和列，忘了「先读列，再读行」的步骤，又没有耐心。所以这个工具把列变成蓝色竖光柱、行变成橙色横光带，而且严格先亮列、后亮行；学生说反了不扣分，直接演给全班看他点到的是哪个座位。老师投影，有找座位、看人说位置、找空位三个活动，各三关，提示逐关减少。",
-    keywords: ["行", "列", "第几列第几行", "位置", "坐标", "先列后行", "kedudukan", "koordinat", "lajur", "baris", "paksi mengufuk", "paksi mencancang", "三年级", "数学", "投影", "全班"],
-    url: "https://tahun3-mt-koordinat.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "一位三年级老师", initial: "师" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-15", note: "首次上架（来自许愿池：Tahun 3 数学，分不清行与列）" },
-    ],
-    // 缩略图是 Playwright 操作正式网址截的真实画面（封面为生图）
-    thumbnails: [
-      { img: "assets/thumbs/tahun3-mt-koordinat/1-cover.png", label: "封面：座位小侦探" },
-      { img: "assets/thumbs/tahun3-mt-koordinat/2-learn.png", label: "认识：点一位学生，蓝柱先亮、橙带后亮，名牌出现" },
-      { img: "assets/thumbs/tahun3-mt-koordinat/3-find-feedback.png", label: "找座位：列和行说反了，演出实际点到的座位" },
-      { img: "assets/thumbs/tahun3-mt-koordinat/4-empty.png", label: "找空位：三个选项，对照光柱和光带选" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "8.0", objectiveCodes: ["8.1"] },
-    ],
-    practiceSummary: "根据横轴和纵轴上的位置说出物体（座位上的学生）的名称，并确定物体在横轴和纵轴上的位置（DSKP 8.1.2、8.1.3）：先读列、再读行；找座位、看人说位置、找空位三个活动",
-    teachingMode: ["投影互动", "全班先喊再点", "请学生上台点"],
-    prep: "打开即用，不需要打印，学生不需要设备。老师投影，全班先喊出「第几列，第几行」，再请一位学生上台点；可在手机上使用，但主要设计给投影（竖屏 8×4 座位较小）",
-  },
-
-  {
-    slug: "tahun3-mt-sukatan",
-    tahun: 3,
-    subjek: "mt",
-    status: "published",
-    title_zh: "换算工坊",
-    title_bm: "Bengkel Tukar Unit",
-    desc: "来自许愿池一位三年级老师的卡点：学生做复名数竖式时，直接把 mℓ 的「1」进位到 ℓ 那一栏，没有先写出 mℓ 的总数再换算（这样的竖式不得分）；又常把三种单位的换算率搞混，写成 1 m = 1 000 cm。所以这个工具照课本的竖式格式一步一步来：算到小单位时先问「怎么写？」，选了直接进位就演出错写法、盖「不得分」章；再问「满几个 1 000 mℓ？」，答对才把满格的量杯倒成 1 ℓ，竖式写出蓝字「＋1 ℓ −1 000 mℓ」。减法借位、除法余数也一样演给全班看，最后用「找错医生」找同学草稿里错的那一行。老师投影，分组计分。",
-    keywords: ["度量衡", "单位换算", "复名数", "竖式", "进位", "借位", "长度", "质量", "液体的体积", "米", "厘米", "公斤", "克", "升", "毫升", "m", "cm", "kg", "g", "ℓ", "mℓ", "ukuran dan sukatan", "panjang", "jisim", "isi padu cecair", "menukar unit", "三年级", "数学", "投影", "分组"],
-    url: "https://tahun3-mt-sukatan.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "汽水老师", initial: "汽" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-17", note: "首次上架（来自许愿池：Tahun 3 数学，复名数竖式直接进位、换算率混淆）" },
-    ],
-    // 缩略图是 Playwright 操作正式网址截的真实画面（封面为生图）
-    thumbnails: [
-      { img: "assets/thumbs/tahun3-mt-sukatan/1-cover.png", label: "封面：换算工坊" },
-      { img: "assets/thumbs/tahun3-mt-sukatan/2-carry-nodefen.png", label: "进位工坊：选了直接进位，演出错写法并盖「不得分」章" },
-      { img: "assets/thumbs/tahun3-mt-sukatan/3-borrow-remainder.png", label: "借位工坊：除法余下的 4 ℓ 换成 4 000 mℓ 加进去" },
-      { img: "assets/thumbs/tahun3-mt-sukatan/4-doctor.png", label: "找错医生：找到换算错的那一行，旁边出现正确竖式" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "6.0", objectiveCodes: ["6.1", "6.2", "6.3"] },
-    ],
-    practiceSummary: "长度（m、cm）、质量（kg、g）、液体的体积（ℓ、mℓ）的单位换算，以及复名数的加法（至三个）、减法、乘法、除法竖式（DSKP 6.1–6.3）：换算口令、进位工坊（加·乘）、借位工坊（减·除）、找错医生四个活动",
-    teachingMode: ["投影互动", "全班举手指选答案", "分组计分"],
-    prep: "打开即用，不需要打印，学生不需要设备。老师投影，每一步先让全班喊答案或举手指选 1、2、3，再由老师点；底部计分条可设 2–6 组。上方可只练长度、质量或液体的体积；网址加 ?preview 可看全部题目和答案",
-  },
-
-  {
-    slug: "tahun4-mt-nombor",
-    tahun: 4,
-    subjek: "mt",
-    status: "published",
-    title_zh: "数学知识大比拼",
-    title_bm: "Pertandingan Ilmu Matematik",
-    desc: "输入学生总人数后现场抽签，两位学生分屏对战：读数、数位、数值、比大小、数列五种题型随机出现，先答对指定题数获胜，赢家可留下继续守擂。",
-    keywords: ["数值", "数位", "读数", "比大小", "数列", "四年级", "数学", "nombor", "nilai nombor", "PK", "对战"],
-    url: "https://tahun4-mt-nombor.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // 这 4 张是用 Playwright 实际操作 https://tahun4-mt-nombor.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun4-mt-nombor/1-setup.png", label: "开局设定：学生人数与获胜题数" },
-      { img: "assets/thumbs/tahun4-mt-nombor/2-ready.png", label: "抽签对战准备" },
-      { img: "assets/thumbs/tahun4-mt-nombor/3-playing.png", label: "分屏答题" },
-      { img: "assets/thumbs/tahun4-mt-nombor/4-winner.png", label: "获胜结算" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.1"] },
-    ],
-    practiceSummary: "100000以内数目的读法、数位与数值分析、比较大小、完成顺逆序数列",
-    teachingMode: ["投影互动", "双人对战"],
-    prep: "打开即用，不需要打印，不需要学生设备，开局前输入班上人数即可现场抽签",
-  },
-
-  {
-    slug: "tahun1-bc-shizi",
-    tahun: 1,
-    subjek: "bc",
-    status: "published",
-    title_zh: "识字大对决",
-    title_bm: "Pertarungan Mengecam Aksara",
-    desc: "覆盖一年级华文全年22个单元+5个识字复习单元的教材词汇（自动标注拼音）。两种模式：闪卡认读给学生自学巩固，PK进化赛让两班对抗、随机抽签点名，后段自动进入「进化」加速加倍得分阶段。",
-    keywords: ["识字", "写字", "拼音", "词语", "一年级", "华文", "PK", "对战", "闪卡"],
-    url: "https://tahun1-bc-shizi.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // 这 4 张是用 Playwright 实际操作 https://tahun1-bc-shizi.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bc-shizi/1-landing.png", label: "首页：闪卡 / PK 两种模式" },
-      { img: "assets/thumbs/tahun1-bc-shizi/2-flashcard.png", label: "闪卡认读（自动标注拼音）" },
-      { img: "assets/thumbs/tahun1-bc-shizi/3-pk-battle.png", label: "PK 对战：抽签点名+倒计时" },
-      { img: "assets/thumbs/tahun1-bc-shizi/4-pk-score.png", label: "答对得分" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.1"] },
-    ],
-    practiceSummary: "认读教材中的汉字词语、掌握词义、正确认读拼音",
-    teachingMode: ["投影互动", "个人自学", "两班对战"],
-    prep: "打开即用，不需要打印，不需要学生设备；PK模式开局前输入两班人数即可现场抽签点名",
-  },
-
-  {
-    slug: "tahun1-bc-bishun",
-    tahun: 1,
-    subjek: "bc",
-    status: "published",
-    title_zh: "一年级写字",
-    title_bm: "Menulis Aksara Tahun 1",
-    desc: "一年级华文 282 个习写生字，按 22 个单元 + 5 个识字单元分类。每个字三步：看笔顺动画（演示完自动读出字音，也能按「听读音」重听）→ 沿淡线描 → 盖住凭记忆写，写对得一颗星，整个单元写完盖朱砂「优」印章；每单元另有随机抽字的小考。笔画数据离线打包，学校网络慢也能用。网址带班级代码时读班级名单让学生选自己的名字、记录个人进度并可跨电脑接续。",
-    keywords: ["写字", "笔顺", "笔画", "习写生字", "田字格", "描红", "读音", "一年级", "华文", "识字", "个人练习", "电脑室"],
-    url: "https://tahun1-bc-bishun.vercel.app",
-    type: "练习",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.3",
-    changelog: [
-      { version: "1.3", date: "2026-09-11", note: "修多音字读音错误：田字格上方标注拼音，听读音/自动读音改读「字，词」而非孤字，逼出正确读音" },
-      { version: "1.2", date: "2026-09-09", note: "修「输班级代码后要 refresh 才出名单」" },
-      { version: "1.1", date: "2026-09-09", note: "字体换成全字库覆盖（生僻姓名不再缺字）；名称改为「一年级写字」；笔顺演示完自动读字音 + 「听读音」按钮" },
-      { version: "1.0", date: "2026-09-09", note: "首次上架" },
-    ],
-    // 这 4 张是用 Playwright 实际操作 https://tahun1-bc-bishun.vercel.app 截的真实画面（选名字页用示范名单，非真实学生）
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bc-bishun/1-names.png", label: "选名字：接班级名单，学生点自己的名字" },
-      { img: "assets/thumbs/tahun1-bc-bishun/2-units.png", label: "选单元：27 个单元，进度看得见" },
-      { img: "assets/thumbs/tahun1-bc-bishun/3-watch.png", label: "看一看：笔顺动画一笔一笔演示" },
-      { img: "assets/thumbs/tahun1-bc-bishun/4-done.png", label: "写一写：凭记忆写对，盖朱砂「优」印章" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1"] },
-      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.1"] },
-    ],
-    practiceSummary: "在田字格上按正确笔画笔顺书写正楷，认识笔画与汉字结构",
-    teachingMode: ["电脑室个人练习", "个人自学"],
-    prep: "电脑室个人练习工具，一人一台或两人轮流，用滑鼠描字，不需打印。网址加班级代码（例如 ?code=JBC1037-1I）→ 读班级名单让学生选名字、记录个人进度、换电脑登入同名字可接回；不加代码则手动输入名字、进度只存本机。",
-  },
-
-  {
-    slug: "tahun2-bc-bishun",
-    tahun: 2,
-    subjek: "bc",
-    status: "published",
-    title_zh: "二年级写字",
-    title_bm: "Menulis Aksara Tahun 2",
-    desc: "二年级华文 234 个习写生字，按 22 个单元 + 5 个识字单元分类。每个字三步：看笔顺动画（演示完自动读出字音，也能按「听读音」重听）→ 沿淡线描 → 盖住凭记忆写，写对得一颗星，整个单元写完盖金星「棒」印章；每单元另有随机抽字的小考。笔画数据离线打包，学校网络慢也能用。视觉走明快的「马力欧」风，跟一年级写字（水墨文房风）分开。网址带班级代码时读班级名单让学生选自己的名字、记录个人进度并可跨电脑接续。",
-    keywords: ["写字", "笔顺", "笔画", "习写生字", "田字格", "描红", "读音", "二年级", "华文", "识字", "个人练习", "电脑室"],
-    url: "https://tahun2-bc-bishun.vercel.app",
-    type: "练习",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.1",
-    changelog: [
-      { version: "1.1", date: "2026-09-11", note: "修多音字读音错误：田字格上方标注拼音，听读音/自动读音改读「字，词」而非孤字，逼出正确读音" },
-      { version: "1.0", date: "2026-09-10", note: "首次上架" },
-    ],
-    // 这 4 张是用 Playwright 实际操作 http://localhost 上的 tahun2-bc-bishun 截的真实画面（选名字页用示范名单，非真实学生；写一写那张是脚本真实描完整个字触发盖章）
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-bc-bishun/1-names.png", label: "选名字：接班级名单，学生点自己的名字" },
-      { img: "assets/thumbs/tahun2-bc-bishun/2-units.png", label: "选单元：27 个单元，进度看得见" },
-      { img: "assets/thumbs/tahun2-bc-bishun/3-watch.png", label: "看一看：笔顺动画一笔一笔演示" },
-      { img: "assets/thumbs/tahun2-bc-bishun/4-done.png", label: "写一写：凭记忆写对，盖金星「棒」印章" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1"] },
-      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.1"] },
-    ],
-    practiceSummary: "在田字格上按正确笔画笔顺书写正楷，练习二年级更复杂的字形与部件结构",
-    teachingMode: ["电脑室个人练习", "个人自学"],
-    prep: "电脑室个人练习工具，一人一台或两人轮流，用滑鼠描字，不需打印。网址加班级代码（例如 ?code=JBC1037-2I，需老师先在 kelasku 建二年级班级）→ 读班级名单让学生选名字、记录个人进度、换电脑登入同名字可接回；不加代码则手动输入名字、进度只存本机。",
-  },
-
-  {
-    slug: "tahun2-bc-zonghe",
-    tahun: 2,
-    subjek: "bc",
-    status: "published",
-    title_zh: "华文勇者大冒险",
-    title_bm: "Pengembaraan Ilmu Bahasa Cina Tahun 2",
-    desc: "二年级华文跨单元综合闯关：沿着知识岛完成22个站点，从字音、词语、句子到阅读理解，按基础、进阶、勇者三档挑战，收集积分与宝石。",
-    keywords: ["二年级", "华文", "综合复习", "跨单元", "字音", "词语", "句子", "阅读理解", "知识岛", "闯关", "Bahasa Cina", "Tahun 2"],
-    url: "https://tahun2-bc-zonghe.vercel.app",
-    type: "综合复习游戏",
-    stars: 0,
-    creator: { name: "李老师", initial: "李" },
-    version: "0.1.0",
-    changelog: [
-      { version: "0.1.0", date: "2026-09-22", note: "首次上架预览：220题、22个知识点、公开排行榜与班级代码机制" },
-    ],
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-bc-zonghe/1-home.png", label: "首页：二年级华文复习游戏" },
-      { img: "assets/thumbs/tahun2-bc-zonghe/2-difficulty.png", label: "知识岛路线：三档难度选择" },
-      { img: "assets/thumbs/tahun2-bc-zonghe/3-question.png", label: "四选一题目：即时反馈与继续前进" },
-      { img: "assets/thumbs/tahun2-bc-zonghe/4-board.png", label: "公开排行榜：班级与全部成绩" },
-    ],
-    standards: [],
-    practiceSummary: "以四选一自动判分复习二年级华文22个跨单元知识点；题库共220题，覆盖字音、词语、句子、阅读理解等，暂不代表听说读写全部课程。",
-    teachingMode: ["电脑室小组闯关", "个人自学", "公开排行榜"],
-    prep: "2–3人一组完成22站；可直接手填组员姓名，也可在网址加入班级代码读取 Kelasku 名单并进入本班榜。完成主线后正式成绩才会写入公开排行榜；无限挑战只作练习，不计入正式榜。",
-  },
-
-  {
-    slug: "tahun3-bc-bishun",
-    tahun: 3,
-    subjek: "bc",
-    status: "published",
-    title_zh: "三年级写字",
-    title_bm: "Menulis Aksara Tahun 3",
-    desc: "三年级华文 165 个习写生字，按 20 个单元分类。每个字三步：看笔顺动画（演示完自动读出字音，也能按「听读音」重听）→ 沿淡线描 → 盖住凭记忆写，写对得一颗星，整个单元写完盖金星「棒」印章；每单元另有随机抽字的小考。笔画数据离线打包，学校网络慢也能用。视觉走「We are Twinkle Twinkle」暖调梦幻绘本风（蜂蜜金晨光 + 垂吊金星 + 华丽金画框），跟一年级（水墨文房）、二年级（马力欧）分开。网址带班级代码时读班级名单让学生选自己的名字、记录个人进度并可跨电脑接续。",
-    keywords: ["写字", "笔顺", "笔画", "习写生字", "田字格", "描红", "读音", "三年级", "华文", "个人练习", "电脑室"],
-    url: "https://tahun3-bc-bishun.vercel.app",
-    type: "练习",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.3",
-    changelog: [
-      { version: "1.3", date: "2026-09-11", note: "修多音字读音错误：田字格上方标注拼音，听读音/自动读音改读「字，词」而非孤字，逼出正确读音" },
-      { version: "1.2", date: "2026-09-10", note: "加原创星星娃娃角色：写对时从格子角落蹦出来举星欢呼（不挡字），首页/练习页有坐云看书、云后探头的静态布景" },
-      { version: "1.1", date: "2026-09-10", note: "金星「棒」章移到田字格角外，写好的字完整露出；背景加厚（更多垂吊星星 + 云 + 星点）" },
-      { version: "1.0", date: "2026-09-10", note: "首次上架" },
-    ],
-    // 这 4 张是用 Playwright 实际操作 https://tahun3-bc-bishun.vercel.app 截的真实画面（选名字页用示范名单，非真实学生；写一写那张是脚本真实描完整个字触发盖章 + 星星娃娃弹入）
-    thumbnails: [
-      { img: "assets/thumbs/tahun3-bc-bishun/1-names.png", label: "选名字：接班级名单，学生点自己的名字" },
-      { img: "assets/thumbs/tahun3-bc-bishun/2-units.png", label: "选单元：20 个单元，进度看得见" },
-      { img: "assets/thumbs/tahun3-bc-bishun/3-watch.png", label: "看一看：笔顺动画一笔一笔演示" },
-      { img: "assets/thumbs/tahun3-bc-bishun/4-done.png", label: "写一写：写对了星星娃娃举星欢呼，盖金星「棒」印章" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1"] },
-      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.1"] },
-    ],
-    practiceSummary: "在田字格上按正确笔画笔顺书写正楷，练习三年级更复杂的字形与结构",
-    teachingMode: ["电脑室个人练习", "个人自学"],
-    prep: "电脑室个人练习工具，一人一台或两人轮流，用滑鼠描字，不需打印。网址加班级代码（例如 ?code=JBC1037-3I，需老师先在 kelasku 建三年级班级）→ 读班级名单让学生选名字、记录个人进度、换电脑登入同名字可接回；不加代码则手动输入名字、进度只存本机。",
-  },
-
-  {
-    slug: "tahun4-bc-bishun",
-    tahun: 4,
-    subjek: "bc",
-    status: "published",
-    title_zh: "四年级写字",
-    title_bm: "Menulis Aksara Tahun 4",
-    desc: "四年级华文课本 20 课、109 个习写生字的个人练习工具。学生在蓝天草地与毛绒写字伙伴陪伴下，从课本字表选择课次，观察笔顺、描红，再凭记忆临写；每个字有拼音、定音词朗读、笔画提示与完成印记。工具使用课本第 193–194 页习写生字表，笔画资料离线打包，适合电脑室个人练习。",
-    keywords: ["写字", "笔顺", "笔画", "习写生字", "田字格", "描红", "拼音", "四年级", "华文", "个人练习", "电脑室", "结构"],
-    url: "https://tahun4-bc-bishun.vercel.app",
-    type: "练习",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "2.1",
-    changelog: [
-      { version: "2.1", date: "2026-09-15", note: "视觉改为蓝天草地的毛绒写字会，统一中文／马来文名称为「四年级写字／Menulis Aksara Tahun 4」，并补上对应场景缩图" },
-      { version: "2.0", date: "2026-09-15", note: "重做为「课本档案室／写字实验台」：课次索引、字表索引与练习路线重新编排" },
-      { version: "1.0", date: "2026-09-15", note: "首次完成四年级习写生字练习工具" },
-    ],
-    thumbnails: [
-      { img: "assets/thumbs/tahun4-bc-bishun/writing-picnic.png", label: "四年级写字：蓝天草地写字会与毛绒伙伴" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1"] },
-      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.1"] },
-    ],
-    practiceSummary: "根据四年级华文课本习写生字表，在田字格上按正确笔画笔顺书写正楷，并通过观察结构、描红和临写逐步写稳。",
-    teachingMode: ["电脑室个人练习", "个人自学"],
-    prep: "电脑室个人练习工具，一人一台或两人轮流，用滑鼠描字，不需打印。网址加班级代码（例如 ?code=JBC1037-4I，需老师先在 kelasku 建四年级班级）→ 读班级名单让学生选名字、记录个人进度、换电脑登入同名字可接回；不加代码则手动输入名字、进度只存本机。",
-  },
-
-  {
-    slug: "tahun1-bm-huruf",
-    tahun: 1,
-    subjek: "bm",
-    status: "published",
-    title_zh: "Huruf A–Z: Mari Menulis",
-    title_bm: "Huruf A–Z 写字母",
-    desc: "Ajar murid Tahun 1 menulis huruf besar dan kecil bahasa Melayu A–Z di atas garis empat sama jarak. Setiap huruf ditanda dengan nombor urutan lorekan 1, 2, 3 dan anak panah yang memanjang mengikut arah lorekan. \"Tonton\" menulis setiap lorekan satu demi satu untuk seluruh kelas; \"Langkah demi langkah\" guru menekan sekali untuk setiap lorekan dan boleh diundur untuk diulang; \"Saya tulis\" murid menggunakan tetikus atau jari untuk mula dari titik yang berkelip, dan dakwat hanya muncul apabila lorekan betul. Apabila huruf siap, \"Bagus! Pandai!\" dan reben muncul (reben di belakang huruf, tidak menutup huruf). Halaman utama ialah 26 kad huruf yang digantung pada tali; vokal a e i o u dibezakan dengan kad merah jambu, dan huruf yang telah ditulis murid akan ditampal bintang. Semua arahan di halaman dalam bahasa Melayu.",
-    keywords: ["字母", "huruf", "huruf besar", "huruf kecil", "huruf vokal", "huruf konsonan", "menulis", "tulisan mekanis", "四线", "笔顺", "描红", "写字", "马来文", "一年级", "abjad"],
-    url: "https://tahun1-bm-huruf.vercel.app",
-    type: "工具",
-    stars: 0,
-    creator: { name: "Cikgu Lim Shih Eyong", initial: "L" },
-    version: "1.3",
-    changelog: [
-      { version: "1.3", date: "2026-10-01", note: "小写 k 两条斜线放平变长；R 第 3 画从竖线与第 2 条线交界开始、终点对齐半圆右边；小写 e 横线画细、字身收窄，空洞更大；负责老师改为 Cikgu Lim Shih Eyong" },
-      { version: "1.2", date: "2026-10-01", note: "照国文老师第二次核对：A 横线在第 2 条线上；k 两条斜线 45 度、一样长；R 的腿从第 2 条线 45 度到底线；Z/z 分成 3 画" },
-      { version: "1.1", date: "2026-10-01", note: "照国文老师核对修改笔顺：e 2 画、J 先竖弯钩后横、K/k 3 画交在竖线上、M 4 画尖头到底、V/v 2 画与 W/w 4 画（往上那画从底往上）、大写 U 没有尾巴" },
-      { version: "1.0", date: "2026-10-01", note: "首次上架：A–Z 26 组大小写笔顺（自动写／逐步／学生描写）、等距四线、字母挂卡主页、马来文介面" },
-    ],
-    // 这 5 张是用 Playwright 实际操作 https://tahun1-bm-huruf.vercel.app 截的真实画面（第 4、5 张是真的用滑鼠描 Q q），不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bm-huruf/v1-3-1-home.png", label: "主页：26 张字母挂卡，粉色是元音" },
-      { img: "assets/thumbs/tahun1-bm-huruf/v1-3-2-tonton.png", label: "Tonton：一笔一笔自动写，带笔顺号码和箭头" },
-      { img: "assets/thumbs/tahun1-bm-huruf/v1-3-3-langkah.png", label: "Langkah demi langkah：老师按一下出一笔（M 第 2 画）" },
-      { img: "assets/thumbs/tahun1-bm-huruf/v1-3-4-saya-tulis.png", label: "Saya tulis：学生从圆点开始描" },
-      { img: "assets/thumbs/tahun1-bm-huruf/v1-3-5-bagus.png", label: "写完：Bagus! Pandai! 与彩带" },
-    ],
-    standards: [
-      { curriculum: "KSSR 2015（原版）", unitCode: "3.0", objectiveCodes: ["3.1"] },
-    ],
-    practiceSummary: "Menulis huruf besar dan kecil bahasa Melayu secara mekanis, dengan urutan dan arah lorekan yang betul di atas garis empat (SP 3.1.1 (i) huruf)",
-    teachingMode: ["Interaksi unjuran", "Guru bimbing / tunjuk cara", "Belajar kendiri"],
-    prep: "Buka terus, tidak perlu cetak. Semasa unjuran, guru guna \"Tonton\" atau \"Langkah demi langkah\" untuk menunjuk cara; tekan ← → pada papan kekunci untuk tukar huruf. Murid menulis dengan tetikus di komputer, atau dengan jari di tablet / papan putih interaktif. Tambah #A (gantikan dengan mana-mana huruf) di hujung alamat untuk terus ke huruf itu. Bintang yang ditulis murid hanya disimpan di komputer tersebut.",
-  },
-
-  {
-    slug: "tahun1-bm-kvkv",
-    tahun: 1,
-    subjek: "bm",
-    status: "published",
-    title_zh: "Kebun Pintar KVKV",
-    title_bm: "KVKV音节打地鼠",
-    desc: "Dua pasukan memukul tikus serentak. Selepas mendengar perkataan yang dibacakan, cari tikus yang memegang kad suku kata yang sepadan. Perkataan bahasa Melayu berstruktur KV+KV (konsonan + vokal, diulang dua kali), dibaca dengan suara terbina dalam pelayar; tidak memerlukan sebarang perkhidmatan luar atau API rangkaian.",
-    keywords: ["KVKV", "音节", "拼音", "马来文", "一年级", "bahasa melayu", "suku kata", "打地鼠"],
-    url: "https://tahun1-bm-kvkv.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // 这 2 张是用 Playwright 实际操作 https://tahun1-bm-kvkv.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bm-kvkv/1-cover.png", label: "开局：18个KVKV词汇总览" },
-      { img: "assets/thumbs/tahun1-bm-kvkv/2-playing.png", label: "两队同时打地鼠" },
-    ],
-    standards: [
-      { curriculum: "KSSR 2015（原版）", unitCode: "2.0", objectiveCodes: ["2.1"] },
-    ],
-    practiceSummary: "Membaca dengan sebutan dan intonasi yang betul suku kata dan perkataan bahasa Melayu berstruktur KV+KV",
-    teachingMode: ["Interaksi unjuran", "Pertandingan dua pasukan"],
-    prep: "Buka terus, tidak perlu cetak, tiada peranti murid diperlukan, tiada kunci API rangkaian diperlukan.",
-  },
-
-  {
-    slug: "tahun1-bc-bushou",
-    tahun: 1,
-    subjek: "bc",
-    status: "published",
-    title_zh: "部首大对垒",
-    title_bm: "Pertarungan Radikal Aksara",
-    desc: "红蓝两组抽签点名，抢答找出跟给定汉字同部首的字。8组常见部首（扌木讠亻氵口辶⺮）共66个汉字，答错会被冷冻3秒。开局前可自订两组人数。",
-    keywords: ["部首", "识字", "偏旁", "一年级", "华文", "PK", "对战"],
-    url: "https://tahun1-bc-bushou.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // 这 3 张是用 Playwright 实际操作 https://tahun1-bc-bushou.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bc-bushou/1-setup.png", label: "开局设定：两组人数可调" },
-      { img: "assets/thumbs/tahun1-bc-bushou/2-selection.png", label: "抽签点名" },
-      { img: "assets/thumbs/tahun1-bc-bushou/3-playing.png", label: "抢答找同部首字" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.1"] },
-    ],
-    practiceSummary: "认识部首/偏旁，辨识同部首汉字",
-    teachingMode: ["投影互动", "两组对战"],
-    prep: "打开即用，不需要打印，不需要学生设备，开局前可调整两组人数",
-  },
-
-  {
-    slug: "tahun1-bc-zaoju",
-    tahun: 1,
-    subjek: "bc",
-    status: "published",
-    title_zh: "神奇句子小火车",
-    title_bm: "Kereta Api Ayat Ajaib",
-    desc: "拖拽或点选「时间/谁什么/地点/动作」四类词语卡组装成完整句子，实时判断语序是否通顺并给出提示；拼好后一键朗读（浏览器内建语音），还能现场抽签点名上台。",
-    keywords: ["造句", "写话", "语序", "一年级", "华文", "拖拽", "词语"],
-    url: "https://tahun1-bc-zaoju.vercel.app",
-    type: "工具",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // 这 3 张是用 Playwright 实际操作 https://tahun1-bc-zaoju.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bc-zaoju/1-empty.png", label: "四类词语卡" },
-      { img: "assets/thumbs/tahun1-bc-zaoju/2-filled.png", label: "组装成句+语序反馈" },
-      { img: "assets/thumbs/tahun1-bc-zaoju/3-draw.png", label: "抽签点名上台" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.2"] },
-    ],
-    practiceSummary: "练习写话，按时间/人物/地点/动作正确语序组装句子",
-    teachingMode: ["投影互动", "全班参与"],
-    prep: "打开即用，不需要打印，不需要学生设备，开局前可调整抽签人数",
-  },
-
-  {
-    slug: "tahun1-bc-kantu",
-    tahun: 1,
-    subjek: "bc",
-    status: "published",
-    title_zh: "看图小侦探",
-    title_bm: "Detektif Cilik: Lihat Gambar, Bina Ayat",
-    desc: "侦探笔记本主题的看图写话练习：看一张生活场景图，把「线索卡」拖进「＿时间＿，＿人物＿在＿地点＿＿做什么＿。」四个格子，按放大镜检查。干扰卡都是图里看得出不对的（大白天放「晚上」、只有一个人放「同学们」），错的格子会摇动并标出「时间不对」「地点不对」，语音提示该看图里哪里；四格全对就盖「破案！」章、朗读整句、给星星。第一关卡片按四要素分颜色，第二关全部同色、放错要素格也算错。24 个场景，时间看不出确切答案的题接受多个正确答案（例如傍晚／下午／放学后）。全部词语与句子用自然人声预录朗读，点一下卡片就读。",
-    keywords: ["看图写话", "看图造句", "写话", "造句", "时间", "人物", "地点", "做什么", "四要素", "一年级", "华文", "拖拽", "kantu"],
-    url: "https://tahun1-bc-kantu.vercel.app",
-    type: "工具",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-08", note: "首次上架：24 个场景、两关（颜色线索／真正的侦探）、随机 6 题与自己选题两种用法、预录朗读" },
-    ],
-    // 这 3 张是 2026-10-08 用 Playwright 实际操作正式网址 https://tahun1-bc-kantu.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bc-kantu/1-home.png", label: "主页：四要素与两关选择" },
-      { img: "assets/thumbs/tahun1-bc-kantu/2-feedback.png", label: "检查后：时间、做什么两格标红，人物、地点打勾" },
-      { img: "assets/thumbs/tahun1-bc-kantu/3-solved.png", label: "破案！盖章、星星、彩色整句朗读" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.2"] },
-    ],
-    practiceSummary: "看图写话：从图中找线索，用时间、人物、地点、做什么组成完整句子",
-    teachingMode: ["投影互动", "全班参与", "学生自学"],
-    prep: "打开即用。一体机全班做：用「自己选题」逐题讲；电脑室一人一台：用「开始破案」随机 6 题，建议戴耳机（会朗读）。触控屏、鼠标都能拖",
-  },
-
-  {
-    slug: "tahun1-bc-xingsi",
-    tahun: 1,
-    subjek: "bc",
-    status: "published",
-    title_zh: "找对小帮手",
-    title_bm: "Pembantu Cilik: Cari Aksara yang Betul",
-    desc: "这是给老师在课堂上带着全班用的教学工具（投影、老师操作），不是让学生自己玩的游戏。来自许愿池一位一年级老师的卡点：形似字选择题里，学生有些字还不会认读，只好乱猜，选错了。所以这个工具让每张字卡「点一下就读出来」（读「字，词」，例：清，清水），句子也能朗读。画面是纸艺叠层风：句子里挖一个空，下面摆 2–3 张形似字卡，选错时字卡抖动变灰，并用「偏旁＋声旁」把两个字不同的部件标黄（例：清＝氵＋青、请＝讠＋青），再给一句找偏旁的提示；选对就填进空格、读整句。题目全部取自一年级课本，包括《识字五》的包字族（包、抱、跑、泡、饱）以及青、白、巴、马、门、果、工、采、方、少、木等 23 个字族，共 65 题，每题标课本页码。字体与语音都打包在页面里，第一次打开后断网也能用。",
-    keywords: ["形似字", "近似字", "形近字", "认读", "识字", "偏旁", "字族", "包抱跑泡饱", "一年级", "华文", "投影", "离线", "xingsi"],
-    url: "https://tahun1-bc-xingsi.vercel.app",
-    type: "工具",
-    stars: 0,
-    creator: { name: "一位一年级老师", initial: "师" },
-    version: "1.1",
-    changelog: [
-      { version: "1.0", date: "2026-10-15", note: "首次上架：23 个字族、65 题、点字卡朗读、字形对比提示、可离线使用" },
-      { version: "1.1", date: "2026-10-15", note: "加上全屏按钮（右上角，或按 F 键），投影时可以铺满整个画面；Hub 分类由「游戏」改为「工具」" },
-    ],
-    // 第 1 张是生图封面；其余 3 张是用 Playwright 实际操作正式网址 https://tahun1-bc-xingsi.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bc-xingsi/cover.png", label: "找对小帮手：点字卡听声音，找出对的形似字" },
-      { img: "assets/thumbs/tahun1-bc-xingsi/1-home.png", label: "主页：选一个字族，或全部混合" },
-      { img: "assets/thumbs/tahun1-bc-xingsi/2-wrong.png", label: "选错：字卡变灰，标黄两个字不同的偏旁" },
-      { img: "assets/thumbs/tahun1-bc-xingsi/3-right.png", label: "选对：字填进空格，朗读整句" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.3.1"] },
-    ],
-    practiceSummary: "辨认形似字：听字卡读音，在句子里选出对的字，并看偏旁分辨差异",
-    teachingMode: ["投影互动", "全班参与"],
-    prep: "打开即用，不需要打印、不需要学生设备。老师投影带全班（右上角可全屏，或按 F 键）：点字卡听读音，学生商量后由老师点选。课前在有网络时先打开一次，之后断网也能用",
-  },
-
-  {
-    slug: "tahun2-mt-shuzhi",
-    tahun: 2,
-    subjek: "mt",
-    status: "published",
-    title_zh: "苹果果园数学",
-    title_bm: "Matematik Kebun Epal",
-    desc: "1-999的数字用箱子（百）、篮子（十）、苹果（个）视觉化分组展示，点数字有语音气泡解说数位与数值。单人挑战随机出题（数位/数值混合），另有四人竞赛二选一抢答模式，答错淘汰、答对排名。",
-    keywords: ["数位", "数值", "二年级", "数学", "nilai tempat", "nilai digit"],
-    url: "https://tahun2-mt-shuzhi.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // 这 3 张是用 Playwright 实际操作 https://tahun2-mt-shuzhi.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-mt-shuzhi/1-learn.png", label: "学习模式：果园视觉化分组" },
-      { img: "assets/thumbs/tahun2-mt-shuzhi/2-explain.png", label: "点数字看语音解说" },
-      { img: "assets/thumbs/tahun2-mt-shuzhi/3-competition.png", label: "四人竞赛二选一抢答" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.4"] },
-    ],
-    practiceSummary: "讲述1000以内数目的数位与数值、依数位数值分析数目",
-    teachingMode: ["投影互动", "单人挑战", "四人竞赛"],
-    prep: "打开即用，不需要打印，不需要学生设备",
-  },
-
-  {
-    slug: "tahun2-mt-shulie-explore",
-    tahun: 2,
-    subjek: "mt",
-    status: "published",
-    title_zh: "数序列小探险",
-    title_bm: "Pengembaraan Pola Nombor",
-    desc: "四个环节一站式：学习乐园（认识数列概念）→ 练习工坊（填一填）→ 数列小火车（趣味挑战）→ 终极挑战（测验），适合老师带全班从头教到尾建立概念。",
-    keywords: ["数列", "规律", "二年级", "数学", "pola nombor"],
-    url: "https://tahun2-mt-shulie-explore.vercel.app",
-    type: "工具",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // 这 2 张是用 Playwright 实际操作 https://tahun2-mt-shulie-explore.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-mt-shulie-explore/1-menu.png", label: "四个环节总览" },
-      { img: "assets/thumbs/tahun2-mt-shulie-explore/2-learn.png", label: "学习乐园：认识数列概念" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.7"] },
-    ],
-    practiceSummary: "认识数列规律、确认规律、完成简易规律数列",
-    teachingMode: ["投影互动", "全班带教", "个人练习"],
-    prep: "打开即用，不需要打印，不需要学生设备",
-  },
-
-  {
-    slug: "tahun2-mt-shulie-boss",
-    tahun: 2,
-    subjek: "mt",
-    status: "published",
-    title_zh: "数字数列大对决",
-    title_bm: "Pertarungan Pola Nombor",
-    desc: "单人挑战「数学怪兽」，三个难度关卡（1和10／2和5／混合），找出数列缺项攻击对方，答错或超时会被反打，倒计时条增加临场压力感，适合个人或轮流上台挑战。",
-    keywords: ["数列", "规律", "二年级", "数学", "闯关", "RPG"],
-    url: "https://tahun2-mt-shulie-boss.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // 这 2 张是用 Playwright 实际操作 https://tahun2-mt-shulie-boss.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-mt-shulie-boss/1-menu.png", label: "三个难度关卡" },
-      { img: "assets/thumbs/tahun2-mt-shulie-boss/2-battle.png", label: "对战数学怪兽" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.7"] },
-    ],
-    practiceSummary: "确认数列规律、找出数列缺项",
-    teachingMode: ["投影互动", "单人挑战"],
-    prep: "打开即用，不需要打印，不需要学生设备",
-  },
-
-  {
-    slug: "tahun2-mt-shulie-duel",
-    tahun: 2,
-    subjek: "mt",
-    status: "published",
-    title_zh: "双人数字对决",
-    title_bm: "Duel Pola Nombor Dua Pemain",
-    desc: "两位学生共用一台电脑同屏对战，玩家1用A/S/D键、玩家2用方向键抢答数列缺项，答对攻击对方血条、答错冻结2秒，先清空对方血条获胜。",
-    keywords: ["数列", "规律", "二年级", "数学", "双人", "对战"],
-    url: "https://tahun2-mt-shulie-duel.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // 这 2 张是用 Playwright 实际操作 https://tahun2-mt-shulie-duel.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-mt-shulie-duel/1-menu.png", label: "三个难度关卡+按键说明" },
-      { img: "assets/thumbs/tahun2-mt-shulie-duel/2-battle.png", label: "同屏双人对战" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.7"] },
-    ],
-    practiceSummary: "确认数列规律、找出数列缺项",
-    teachingMode: ["投影互动", "两人对战"],
-    prep: "打开即用，不需要打印，两位学生共用一台电脑/键盘",
-  },
-
-  {
-    slug: "tahun3-bc-kewen",
-    tahun: 3,
-    subjek: "bc",
-    status: "published",
-    title_zh: "语文课文大PK",
-    title_bm: "Pertarungan Pemahaman Teks",
-    desc: "两位学生同屏对战，键盘A/S/D vs J/K/L（或方向键）抢答课文填空题，29道题涵盖多篇课文（李光前故事/象棋/古诗/蚊子等），擂台制赢家留下接受新挑战。",
-    keywords: ["课文理解", "阅读", "三年级", "华文", "填空", "PK", "对战"],
-    url: "https://tahun3-bc-kewen.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // 这 3 张是用 Playwright 实际操作 https://tahun3-bc-kewen.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun3-bc-kewen/1-menu.png", label: "游戏规则说明" },
-      { img: "assets/thumbs/tahun3-bc-kewen/2-ready.png", label: "抽签对战准备" },
-      { img: "assets/thumbs/tahun3-bc-kewen/3-playing.png", label: "同屏抢答填空" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.1"] },
-    ],
-    practiceSummary: "阅读教材培养语感、体验情感、领会教育意义",
-    teachingMode: ["投影互动", "两人对战"],
-    prep: "打开即用，不需要打印，两位学生共用一台电脑/键盘",
-  },
-
-  {
-    slug: "tahun2-mt-baigetu",
-    tahun: 2,
-    subjek: "mt",
-    status: "published",
-    title_zh: "百格图乘法表动画",
-    title_bm: "Animasi Sifir dalam Carta Seratus",
-    desc: "1-100百格图逐格点亮某个乘数（2-10）的所有倍数，配合右侧同步高亮的乘法等式清单，可调速播放/暂停/直接展示，帮助建立乘法周期性斜线规律的数感。",
-    keywords: ["乘法", "乘法表", "口诀", "二年级", "数学", "sifir", "pendaraban"],
-    url: "https://tahun2-mt-baigetu.vercel.app",
-    type: "工具",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // 这 3 张是用 Playwright 实际操作 https://tahun2-mt-baigetu.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-mt-baigetu/1-init.png", label: "选择乘数" },
-      { img: "assets/thumbs/tahun2-mt-baigetu/2-complete.png", label: "直接展示全部倍数" },
-      { img: "assets/thumbs/tahun2-mt-baigetu/3-animating.png", label: "逐格动画+等式同步高亮" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.3"] },
-    ],
-    practiceSummary: "基本乘法（一位数×一位数）、认识乘法的周期性规律",
-    teachingMode: ["投影互动", "教师带教"],
-    prep: "打开即用，不需要打印，不需要学生设备",
-  },
-
-  {
-    slug: "tahun1-am-cahaya",
-    tahun: 1,
-    subjek: "am",
-    status: "published",
-    title_zh: "光的小探险",
-    title_bm: "Pengembaraan Cahaya",
-    desc: "2027 年新课程（KP2027）一年级 Alam dan Manusia 5.1 Kraf Cahaya（DSKP 5.1.1–5.1.4）的 3D 互动工具。第一幕：停电夜的娃娃屋剖面，学生先用手电筒做三件事（收玩具走到门口、照着楼梯往上走、看书上的图），来电后再做一次，比较明和暗的差别，体会「光让我们看得见」，并让眼睛休息一下（电子设备的光）。第二幕：在房间里找 9 样亮亮的东西，一样一样猜哪些会自己发光，再关灯做全黑测验；月亮的秘密用动画解说月亮自己不发光；最后天亮，总结光源。",
-    keywords: ["光", "光源", "手电筒", "太阳", "月亮", "明暗", "停电", "眼睛", "cahaya", "sumber cahaya", "Alam dan Manusia", "KP2027", "Kraf Cahaya", "一年级", "3D"],
-    url: "https://tahun1-am-cahaya.vercel.app",
-    type: "工具",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.1",
-    changelog: [
-      { version: "1.1", date: "2026-10-02", note: "黑暗中只有真光源会发亮：白色物件改哑光、手电筒亮度固定；全屋视角光圈加大" },
-      { version: "1.0", date: "2026-10-02", note: "首次上线：停电夜 3D 娃娃屋，两幕" },
-    ],
-    // 这 4 张是用 Playwright 实际操作 https://tahun1-am-cahaya.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-am-cahaya/v1-0-home.png", label: "开场：亮灯的房子，「这是你的家」" },
-      { img: "assets/thumbs/tahun1-am-cahaya/v1-0-torch.png", label: "第一幕：停电后，用手电筒照亮黑暗的客厅" },
-      { img: "assets/thumbs/tahun1-am-cahaya/v1-1-act2.png", label: "第二幕：停电后找亮亮的东西" },
-      { img: "assets/thumbs/tahun1-am-cahaya/v1-0-moon.png", label: "月亮的秘密：动画解说月亮不会自己发光" },
-    ],
-    standards: [], // KP2027 官方马来文用词未核对，暂不进 data/dskp-index.js（DSKP 5.1.1–5.1.4 写在 desc）
-    practiceSummary: "辨认光源，体会没有光就看不见，比较明暗中做事的差别，分辨会自己发光和不会自己发光的东西，并知道电子设备的光对眼睛的影响（DSKP 5.1.1–5.1.4）",
-    teachingMode: ["课堂投影", "个人练习", "教师引导"],
-    prep: "需要较新的电脑或平板（3D 画面）。建议课室投影全班一起玩，也可学生一人一机。不需要摄像头或麦克风；有音效，可关。每一幕约 15 分钟，共两幕。",
-  },
-
-  {
-    slug: "tahun1-dst-magnet",
-    tahun: 1,
-    subjek: "dst",
-    status: "published",
-    title_zh: "磁力创造实验室",
-    title_bm: "Makmal Cipta Magnet",
-    desc: "面向一年级的开放式磁力创造工具。学生可在磁力探索桌比较铁、钢、铝、铜、木与塑料等材料，在磁极谜题场观察相吸相斥，在公平实验室只改变距离并记录回形针数量，最后摆放磁铁、钢珠、障碍与终点，创造并亲自验证一项能给别人试玩的磁力挑战。课堂投影与家庭探索双模式；老师可暂停、隐藏结果、显示磁力线、记录预测票数、生成讨论问题及打印实验单。",
-    keywords: ["磁铁", "磁力", "磁极", "公平实验", "创造挑战", "一年级", "科学", "magnet", "tarikan", "tolakan", "eksperimen adil"],
-    url: "https://tahun1-dst-magnet.vercel.app",
-    type: "工具",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "2.0",
-    changelog: [
-      { version: "2.0", date: "2026-09-17", note: "重建为磁力创造实验室：四个开放工作区、课堂／家庭双模式、老师控制台，以及可试玩验证与导出的学生自创挑战" },
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // 这 4 张是用 Playwright 实际操作 https://tahun1-dst-magnet.vercel.app v2 正式版截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-dst-magnet/1-home-v2.png", label: "首页：选择课堂投影或家庭探索" },
-      { img: "assets/thumbs/tahun1-dst-magnet/2-poles-v2.png", label: "磁极谜题场：旋转磁铁破解相吸相斥任务" },
-      { img: "assets/thumbs/tahun1-dst-magnet/3-create-v2.png", label: "挑战创造工坊：摆放磁铁与障碍，试玩验证自创关卡" },
-      { img: "assets/thumbs/tahun1-dst-magnet/4-teacher-v2.png", label: "老师控制台：预测投票与课堂控制" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "7.1", objectiveCodes: ["7.1.1", "7.1.2", "7.1.3", "7.1.4", "7.1.5", "7.1.6"] },
-    ],
-    practiceSummary: "比较不同材料、探究磁极相吸相斥、进行距离与磁力的公平实验、解释观察并创造磁铁挑战",
-    teachingMode: ["课堂投影", "家庭探索", "学生创造"],
-    prep: "家庭打开即用；课堂建议配合真实磁铁示范，数字模拟不替代实体实验",
-  },
-
-  {
-    slug: "tahun1-pk-kecemasan",
-    tahun: 1,
-    subjek: "pk",
-    status: "published",
-    title_zh: "找谁来帮忙",
-    title_bm: "Kecemasan: Cari Bantuan",
-    desc: "一年级健康教育「急救」：学生在一个手绘小镇里点哪走哪，碰到闪动「!」的居民才触发学习。商场里迷路的小朋友、校门口递糖果和玩具的友善陌生叔叔、邻居家着火了，再加上玩具没电、想吃糖这两个「不是紧急事件」的假警报，要学生判断该怎么做。每次先点三下深呼吸让心安静，再选做法；选对时求助是真的动作：走去找保安，按住喇叭大声喊让路人回头，在电话亭按 9-9-9 并说清楚「发生什么事、在哪里、我是谁」，消防车才会开来。每个选项、提示和角色台词都有预录语音（不同角色不同声音），选错有不吓人的小后果，可以重来。完成一个地点就点亮徽章，小镇里的警车和救护车也会跑起来。这是第一期（3 个地点＋2 个假警报），停电、有人敲门、车祸、溺水等地点还在做。",
-    keywords: ["健康教育", "一年级", "急救", "紧急事件", "求助", "999", "112", "迷路", "陌生人", "糖果玩具不可要", "着火", "深呼吸", "冷静", "pendidikan kesihatan", "PK", "pertolongan cemas", "kecemasan", "meminta bantuan", "orang yang tidak dikenali", "角色扮演", "小镇"],
-    url: "https://tahun1-pk-kecemasan.vercel.app",
-    type: "工具",
-    stars: 0,
-    creator: { name: "黄友霞老师", initial: "黄" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-15", note: "首次上架（第一期：小镇探索，3 个事件地点＋2 个假警报）" },
-    ],
-    // v1.0：封面用工具自带素材合成，其余 4 张是对正式网址的真实截图（横式，配合 4:3 卡片）
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-pk-kecemasan/v1-0-cover.png", label: "封面：手绘小镇里，小朋友和保安、警察、老师一起，标题「找谁来帮忙」" },
-      { img: "assets/thumbs/tahun1-pk-kecemasan/v1-0-1-pick.png", label: "开局：选一位小朋友，一起去小镇帮忙（会朗读）" },
-      { img: "assets/thumbs/tahun1-pk-kecemasan/v1-0-2-town.png", label: "小镇：点哪走哪，闪动的「!」是需要帮忙的居民" },
-      { img: "assets/thumbs/tahun1-pk-kecemasan/v1-0-3-choice.png", label: "商场迷路的小朋友：深呼吸后选做法，每个选项都有喇叭朗读" },
-      { img: "assets/thumbs/tahun1-pk-kecemasan/v1-0-4-phone.png", label: "邻居着火：在电话亭按 9-9-9，再说清楚发生什么事、在哪里、我是谁" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "10.0", objectiveCodes: ["10.1"] },
-    ],
-    practiceSummary: "认识紧急事件（含不是紧急事件的假警报）、选对求助对象（路人、保安、老师、大人）、按 999 并说清楚三句话、拒绝陌生人的糖果玩具",
-    teachingMode: ["投影互动", "个人自学", "教师带教/演示"],
-    prep: "学生用手机或平板（横屏最好）、或老师用电脑投影全班，以 Chrome 或 Safari 打开；首次载入约 4MB（含语音和插图），建议用 Wi-Fi。有声音：喇叭按钮会朗读，拨 999 时有电话按键音，请开声音。进度存在本机浏览器。老师可在网址后加 ?preview 一页看全部台词、选项、正确答案和提示。",
-  },
-
-  {
-    slug: "tahun1-pj-pergerakan",
-    tahun: 1,
-    subjek: "pjpk",
-    status: "published",
-    title_zh: "动物模仿秀",
-    title_bm: "Pergerakan: Gaya Haiwan",
-    desc: "烟霾停课、不能到户外运动时，一年级学生在家用手机前置镜头做体育动作。先看动作教学（插画＋三个步骤＋朗读），再做站位检查：先调手机角度、站进屏幕上的人像，确认空间够做全部动作，并放拖鞋做记号。之后挑雨林动物来模仿：青蛙蹲、长颈鹿伸高、红鹤单脚站、小狗三脚站、海星大字形、鳄鱼撑地、小猫伸懒腰。手机辨认身体骨架，动作做对并撑住几秒就自动拍照，照片盖上名字、日期和动作名（华文＋马来文）。做完拼成一张「雨林探险」打卡卡，可分享到 Google Classroom、WhatsApp，或存进手机交给老师。影像只在手机本机处理，不会上传。",
-    keywords: ["体育", "一年级", "居家", "烟霾", "停课", "动作", "平衡", "伸展", "动物模仿", "拍照", "打卡", "Google Classroom", "pendidikan jasmani", "PJ", "imbangan", "regangan", "pergerakan haiwan", "kecergasan"],
-    url: "https://tahun1-pj-pergerakan.vercel.app",
-    type: "工具",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.1.2",
-    changelog: [
-      { version: "1.1.2", date: "2026-10-10", note: "国文名称加上 Pergerakan（体育打卡系列统一的分类词），功能没有改动" },
-      { version: "1.1.1", date: "2026-10-10", note: "网址改为 tahun1-pj-pergerakan（体育打卡系列统一分类用名，旧网址会自动跳转）；学生看到的名称仍是「动物模仿秀」，功能没有改动" },
-      { version: "1.0.3", date: "2026-10-10", note: "修正 iPhone 进动作后镜头画面缩小；拍照改以人的位置裁切，青蛙、小狗、鳄鱼等地上的动作不再被裁掉或被名牌条盖住" },
-      { version: "1.0.2", date: "2026-10-10", note: "手机拍照画面改版：镜头画面占满屏幕、上下控制列变薄叠在画面上、提示改单行小字，人形框更大" },
-      { version: "1.0.1", date: "2026-10-10", note: "修正 iPhone 直拿时摄像头画面变成扁横条、人形框对不上：改开直式画面" },
-      { version: "1.0", date: "2026-10-10", note: "首次上架" },
-    ],
-    // v1.0：封面由 cx 生图（雨林七动物＋工具名），其余 4 张是老师 2026-10-10 在电脑上操作正式网址的实际截图（横式，配合 4:3 卡片）
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-pj-pergerakan/v1-0-cover.png", label: "封面：雨林里七只动物各做一个动作，小朋友跟着摆海星" },
-      { img: "assets/thumbs/tahun1-pj-pergerakan/v1-1-2-home.png", label: "首页：输入名字和班级，开始前先看四个安全提示" },
-      { img: "assets/thumbs/tahun1-pj-pergerakan/v1-2-tutorial.png", label: "动作教学：红鹤单脚站的插画、三个步骤与要撑的秒数，会自动朗读" },
-      { img: "assets/thumbs/tahun1-pj-pergerakan/v1-3-position.png", label: "站位检查：先调手机角度让人像踩在地板上，再站进人像里" },
-      { img: "assets/thumbs/tahun1-pj-pergerakan/v1-4-list.png", label: "挑一只动物来模仿：七张标本卡，做完的会盖章、可重拍" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.1", "1.6", "1.7"] },
-      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.3", "3.4"] },
-    ],
-    practiceSummary: "模仿动物在低、高水平的动作，单脚与多支撑点平衡，大字形身体形状，俯卧撑预备姿势撑住，伸展拉筋",
-    teachingMode: ["学生自学", "个人练习"],
-    prep: "学生用手机（或有摄像头的电脑），以 Chrome 或 Safari 打开；在 Telegram／WhatsApp 里点开会提示改用浏览器。手机要立在桌上，人退后约 2–3 米，身边要有空地，建议有大人陪同。首次载入约 17MB（含动作辨认模型），建议用 Wi-Fi。旧手机辨认太慢时会自动改用 10 秒倒数拍。照片只存在学生手机，老师从 Classroom／WhatsApp 收打卡卡",
-  },
-
-  {
-    slug: "tahun2-pj-pergerakan",
-    tahun: 2,
-    subjek: "pjpk",
-    status: "published",
-    title_zh: "蓝天操场",
-    title_bm: "Pergerakan: Padang Langit Biru",
-    desc: "不能到户外运动时，二年级学生在家用手机前置镜头做体育动作，是一年级「动物模仿秀」的进阶版。先看动作教学（水彩动物示范＋三个步骤＋朗读），再做站位检查：先调手机角度、站进屏幕上的人像，确认空间够做全部动作，并放拖鞋做记号。之后挑战 7 个动作：飞机单脚站、大树站（平衡，撑 5 秒）、风车扭腰、小草随风（弯身与伸展）、火箭半蹲、踮脚摘云、膝盖撑地（肌耐力，撑 3 秒）。手机辨认身体骨架，动作做对并撑住就自动拍照，照片盖上名字、日期和动作名（华文＋马来文）。做完拼成一张「蓝天操场」打卡卡，可分享到 Google Classroom、WhatsApp，或存进手机交给老师。影像只在手机本机处理，不会上传。",
-    keywords: ["体育", "二年级", "居家", "停课", "动作", "平衡", "伸展", "半蹲", "踮脚", "撑地", "拍照", "打卡", "Google Classroom", "pendidikan jasmani", "PJ", "pergerakan", "imbangan statik", "pergerakan bukan lokomotor", "regangan", "kelenturan", "daya tahan otot", "separa cangkung", "tekan tubi ubah suai"],
-    url: "https://tahun2-pj-pergerakan.vercel.app",
-    type: "工具",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-10", note: "首次上架" },
-    ],
-    // v1.0：封面由 cx 生图（水彩动物＋工具名），其余 4 张是 2026-10-10 用 Playwright 操作正式网址的实际截图（横式，配合 4:3 卡片）
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-pj-pergerakan/v1-0-cover.png", label: "封面：蓝天操场上七只水彩动物各做一个动作" },
-      { img: "assets/thumbs/tahun2-pj-pergerakan/v1-1-home.png", label: "首页：输入名字和班级，开始前先看四个安全提示" },
-      { img: "assets/thumbs/tahun2-pj-pergerakan/v1-2-tutorial.png", label: "动作教学：飞机单脚站的插画、三个步骤与要撑的秒数，会自动朗读" },
-      { img: "assets/thumbs/tahun2-pj-pergerakan/v1-3-windmill.png", label: "动作教学：风车扭腰，一手摸对边的脚、另一手往上伸" },
-      { img: "assets/thumbs/tahun2-pj-pergerakan/v1-4-list.png", label: "选一个动作来挑战：七张卡片，做完的会盖章、可重拍" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.3", "1.7"] },
-      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.3", "3.4"] },
-    ],
-    practiceSummary: "单脚与不同支撑点的静态平衡，弯身、扭转、伸展等非移动动作，拉伸，半蹲、踮脚与改良撑地的肌耐力",
-    teachingMode: ["学生自学", "个人练习"],
-    prep: "学生用手机（或有摄像头的电脑），以 Chrome 或 Safari 打开；在 Telegram／WhatsApp 里点开会提示改用浏览器。手机要立在桌上，人退后约 2–3 米，身边要有空地，建议有大人陪同。首次载入约 17MB（含动作辨认模型），建议用 Wi-Fi。旧手机辨认太慢时会自动改用 10 秒倒数拍。照片只存在学生手机，老师从 Classroom／WhatsApp 收打卡卡。动作判定尚未经学生真人大量实测，做对没拍照时可改用倒数拍",
-  },
-
-  {
-    slug: "tahun3-dst-density",
-    tahun: 3,
-    subjek: "dst",
-    status: "published",
-    title_zh: "浮沉实验室：密度大发现",
-    title_bm: "Makmal Terapung-Tenggelam: Ketumpatan",
-    desc: "3D 写实的厨房实验台，真实浮力物理（东西会翻转、溅水花、冒气泡，水位会上升）。五个实验对应 DSKP 7.1：① 猜一猜：先猜浮或沉再放进水缸，结果自动分成浮／沉两组，再推断原因（7.1.1）；② 重的会沉吗：电子秤称重，大木块比铁钉重却会浮、剥了皮的橙子反而沉，并和「一样大小的水」比一比（7.1.2）；③ 救救鸡蛋：一匙一匙加盐或糖、汤匙搅拌，看鸡蛋慢慢浮起，自动记录（7.1.3）；④ 液体分层：油、炼奶倒进水里，再做五层彩虹杯，放软木塞、小番茄、葡萄看停在哪一层（DSKP 活动建议）；⑤ 我的发现：用实验时自动拍下的照片，拼句子做发现卡展示（7.1.4）。",
-    keywords: ["密度", "浮沉", "三年级", "科学", "density", "ketumpatan", "terapung", "tenggelam", "加盐", "加糖", "鸡蛋", "液体分层", "彩虹杯", "天平", "3D"],
-    url: "https://tahun3-dst-density.vercel.app",
-    type: "工具",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "3.0",
-    changelog: [
-      { version: "3.0", date: "2026-10-02", note: "整个重做成 3D 厨房实验台：真实浮力物理、水花与气泡；水缸为主角，物品架点一下就放进水里，拖到秤上自动称重；依 DSKP 原件补上加糖、油与炼奶、彩色液体分层、剥皮橙子；新增「我的发现」卡（7.1.4）" },
-      { version: "2.0", date: "2026-09-17", note: "全面重做为专业科学模拟：四个实验站对应 7.1.1–7.1.4＋学习报告；自学／老师投影双模式；SVG 烧杯水槽与半物理浮力（浸水比例＝密度比）；电子天平破除「重的会沉」误解；12 张写实物体素材取代图标；移除「轻/重」误导用语，数值密度默认隐藏" },
-      { version: "1.0", date: "2026-07-21", note: "首次上架" },
-    ],
-    // v3.0 缩图：2026-10-02 用 Playwright 实际操作正式网址 https://tahun3-dst-density.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun3-dst-density/v3-1-predict.png", label: "① 猜一猜：物品悬在水缸上方，先猜会浮还是会沉，再放进去" },
-      { img: "assets/thumbs/tahun3-dst-density/v3-2-scale.png", label: "② 重的会沉吗：大木块放在电子秤上，大字卡显示重量；铁钉已沉到缸底" },
-      { img: "assets/thumbs/tahun3-dst-density/v3-3-egg.png", label: "③ 救救鸡蛋：加了 4 匙盐，鸡蛋浮上水面，左边自动记录每一匙的结果" },
-      { img: "assets/thumbs/tahun3-dst-density/v3-4-rainbow.png", label: "④ 液体分层：五层彩虹杯，软木塞浮在最上面、小番茄停在油和水中间" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "7.1", objectiveCodes: ["7.1.1", "7.1.2", "7.1.3", "7.1.4"] },
-    ],
-    practiceSummary: "推断物体与材料的浮沉、联系浮沉与密度、确认增加水密度的方法（盐、糖）、观察液体分层，并用照片与句子解释发现",
-    teachingMode: ["投影互动", "教师带教/演示", "学生自学"],
-    prep: "打开即用，不需要真的水缸；建议用电脑或触控一体机横屏（3D 画面，旧电脑会自动降画质）。进度只存在该浏览器。数字模拟不替代真实的加盐救鸡蛋实验，可先模拟再动手做",
-  },
-
-  {
-    slug: "tahun2-dst-tower",
-    tahun: 2,
-    subjek: "dst",
-    status: "published",
-    title_zh: "科学叠叠塔",
-    title_bm: "Menara Sains",
-    desc: "二年级科学「光和暗」「混合物」的看图答题叠塔游戏。每题配一张图（光源、物体、屏幕，或盐水、沙子和筛网），答对才会落下一块积木，学生左右移动或单点快速落块，把塔叠得越高越好；两块并排先搭地基，塔越高越会摇晃，没接稳就倒塌。连续答对三题可选技能：稳固、双倍、自选积木形状。答对也会看到一句「为什么」，答错会指出正确答案和原因。叠到 100 cm、200 cm 会有庆祝提示。输入班级代码后从名单点自己的名字，成绩进入本班排行榜（每人每个题库只留最高塔）；也可以不登录用访客模式试玩。光和暗 19 题＋变式，混合物 52 题，全部配图。",
-    keywords: ["光和暗", "影子", "透光", "混合物", "溶解", "分离", "二年级", "科学", "叠叠塔", "看图答题", "排行榜", "cahaya", "bayang", "campuran", "larut"],
-    url: "https://tahun2-dst-tower.vercel.app",
-    type: "游戏",
-    hasLeaderboard: true,
-    stars: 0,
-    creator: { name: "曾慧恩老师", initial: "曾" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-09", note: "首次上架：接入班级代码名单与班级排行榜（访客可试玩）；答对也显示「为什么」，叠到 100 cm 有庆祝提示，塔越高天空越暗，答题卡不再挡住塔" },
-    ],
-    // 缩图：2026-10-09 用 Playwright 实际打开正式网址 https://tahun2-dst-tower.vercel.app 截的真实画面（访客模式），不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-dst-tower/v2-0-start.png", label: "开始页：登录（保存成绩、挑战班级排行榜）或访客模式（无需登录直接体验）" },
-      { img: "assets/thumbs/tahun2-dst-tower/v2-1-map.png", label: "科学冒险地图：两座岛——阳光城堡「光和暗」、像素矿场「混合物」" },
-      { img: "assets/thumbs/tahun2-dst-tower/v2-2-question.png", label: "看图答题：题目配一张光源、透明玻璃和屏幕的图，答对才有积木，旁边是自己的塔" },
-      { img: "assets/thumbs/tahun2-dst-tower/v2-3-tower.png", label: "叠塔：答对后积木落下，塔叠到 100 cm 时出现「突破 100 cm」庆祝提示" },
-    ],
-    // standards 暂不填：题库内的学习标准代码（光和暗 6.1.1–6.1.6、混合物 8.1.1–8.1.4）沿用原作者，未核对官方 PDF（本机无 Tahun 2 科学原件）；Hub 摘要只到内容标准 6.1／8.1
-    practiceSummary: "光和暗：确认光源、比较光暗、判断影子的方向、大小与清晰度；混合物：辨认可溶解与不可溶解的材料、选择分离混合物的方法、加快溶解的做法",
-    teachingMode: ["学生自学", "投影互动", "课堂竞赛"],
-    prep: "打开即用，需要网络。登录要班级代码（老师给，如 JBC1037-1A；网址后面加 ?code=班级代码 可直接带入，设备会记住），成绩进入该班排行榜；不想登录就选访客模式（不上榜）。建议一人一台平板或电脑，触控拖动或鼠标左右移动积木，单点快速落块；一体机投影也可全班轮流玩。题库里的学习标准代码来自原作者，尚未核对官方文件",
-  },
-
-  {
-    slug: "tahun1-mt-masa",
-    tahun: 1,
-    subjek: "mt",
-    status: "published",
-    title_zh: "时刻大对决",
-    title_bm: "Pertarungan Masa",
-    desc: "一年级「时间与时刻」拨钟工具，分课堂对垒和自由作答两种模式。题目只考整时、半、一刻、三刻（可自选），例如「把钟拨成 4 时半」。学生拖动分针和时针拨钟，时针也要跟着走到位才算对，答错会直接指出「分针对了，时针还没走到」。课堂对垒：左右各一个大钟，两位学生同屏抢拨，每答完一题就从班级名单重新抽一对新同学上场，不重复、全班轮完一遍才重来。自由作答：一个人练习，记录答对几题和用时。时针宽容度有宽松、标准、严格三档，可按学生程度调整；有音效（可静音）和排行榜，对垒与自由作答分开计分。",
-    keywords: ["时刻", "时间", "拨钟", "钟面", "整时", "半", "一刻", "三刻", "一年级", "数学", "masa", "jam", "waktu", "对决", "抢答", "排行榜"],
-    url: "https://tahun1-mt-masa.vercel.app",
-    type: "游戏",
-    hasLeaderboard: true,
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-08", note: "首次上架" },
-    ],
-    // 缩图：2026-10-08 用 Playwright 实际打开正式网址 https://tahun1-mt-masa.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-mt-masa/v1-0-hero.png", label: "开场：木框实体风格的大钟，下方写着「两个人比赛，看谁先把指针拨对！」和「开始」按钮" },
-      { img: "assets/thumbs/tahun1-mt-masa/v1-1-setup.png", label: "设定页：选课堂对垒或自由作答，输入蓝队红队名字，选要考哪几种时刻（整时、半、一刻、三刻）" },
-      { img: "assets/thumbs/tahun1-mt-masa/v1-2-solo.png", label: "自由作答：题目卡写着「把钟拨成 6 时」，下方是木框大钟，上方显示第几题和用时" },
-      { img: "assets/thumbs/tahun1-mt-masa/v1-3-duel.png", label: "课堂对垒：蓝队红队计分条，题目卡「把钟拨成 2 时」，下方并排两个大钟，两位学生同屏抢拨" },
-    ],
-    // standards 暂不填：马来文 DSKP 官方用词未核对官方 PDF，不编造课程对照
-    practiceSummary: "确认时针与分针的位置，读出并拨出整时、半、一刻、三刻",
-    teachingMode: ["投影互动", "课堂对垒", "学生自学"],
-    prep: "打开即用。课堂对垒建议用一体机或投影横屏，两位学生同屏拨钟；接班级名单后每题自动换一对新同学上场，没有名单可直接打名字。自由作答一人一台即可。时针宽容度预设「宽松」，要练习「半点时针要走到两个数字中间」请调到标准或严格",
-  },
-
-  {
-    slug: "tahun1-bc-liangci",
-    tahun: 1,
-    subjek: "bc",
-    status: "published",
-    title_zh: "量词大冒险",
-    title_bm: "Pengembaraan Penjodoh Bilangan",
-    desc: "开场先像素风主题页，点开始才进选班级（第三个选项「不选名字」可给其他学校直接借用）。看完 17 个常用量词的例子（如「一个苹果」「一只小鸟」，一年级适用的大字体+多色卡片），每个量词点 3 个例子确认读过，才能进入 Phaser 像素闯关游戏答题。一轮固定 10 题，正确率达标可以选择再玩一次或换人；答错太多则强制回去重新点完全部例子才能再挑战，不能直接跳过学习。改编自作者自己开发的 Mario 像素闯关引擎，换上量词题库。",
-    keywords: ["量词", "一年级", "华文", "liangci", "penjodoh bilangan", "像素游戏", "答题闯关", "自主学习", "mario"],
-    url: "https://tahun1-bc-liangci.vercel.app",
-    type: "游戏",
-    hasLeaderboard: true,
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.2",
-    changelog: [
-      { version: "1.0", date: "2026-07-22", note: "首次上架" },
-      { version: "1.1", date: "2026-07-22", note: "加开场主题页与访客模式；Slides 字体放大、卡片加大加多色；修复垫脚箱卡关与终点旗杆区没有地面的问题" },
-      { version: "1.2", date: "2026-08-05", note: "对照课本修正量词内容错误（群配老虎、枝配柳枝、串配露珠三处不对/别扭的例词与例句），并把偏书面的量词描述文字改成小朋友看得懂的口语说法" },
-    ],
-    // 这 4 张是用 Playwright 实际操作 https://tahun1-bc-liangci.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bc-liangci/1-title.png", label: "像素风开场页" },
-      { img: "assets/thumbs/tahun1-bc-liangci/2-slide.png", label: "量词学习卡片（点例子确认）" },
-      { img: "assets/thumbs/tahun1-bc-liangci/3-game.png", label: "Phaser 像素闯关" },
-      { img: "assets/thumbs/tahun1-bc-liangci/4-quiz.png", label: "答题：四色选项+上下键选择" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.3.1"] },
-    ],
-    practiceSummary: "认识17个常用量词的正确用法、根据名词判断合适的量词、辨析理解词义",
-    teachingMode: ["个人自学", "投影互动"],
-    prep: "打开即用，不需要打印；键盘操作游戏（方向键+空格），一台电脑轮流玩或每人一台皆可",
-  },
-
-  {
-    slug: "tahun1-bc-liangci1",
-    tahun: 1,
-    subjek: "bc",
-    status: "published",
-    title_zh: "量词南瓜丰收季",
-    title_bm: "Musim Menuai Labu: Penjodoh Bilangan",
-    desc: "把「双、朵、只、颗、片、群」六个量词送到南瓜上，收割南瓜。关卡一是短语：一屏 6 粒南瓜，每粒南瓜上有图和「一（？）鲜花」，把量词卡拖过去（或点一下卡再点南瓜）；「群」的图一律画出好几个聚在一起，「只」「颗」是单个，让学生靠数一数、看形状来判断。关卡二是句子：读句子、把量词送进空格。题目每次乱序，答案没有规律可猜；答错先给观察提示（只教怎么看，不说答案），再答错才给完整提示，第三次起正确的量词卡会发光。第一次就答错的题，会在这一遍结束后再回炉一轮；最后显示星星和每个量词的答对率，提醒哪个量词最该多练。每个字可打开拼音，题目和提示都有预录人声朗读。",
-    keywords: ["量词", "一年级", "华文", "南瓜", "双", "朵", "只", "颗", "片", "群", "penjodoh bilangan", "拖放", "拼音", "看图选词", "句子"],
-    url: "https://tahun1-bc-liangci1.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "陈晓琪老师", initial: "陈" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-09", note: "首次上架：改编自陈晓琪老师的「南瓜量词丰收季」，重新核对题库（群的图画出多个、句子补「一」、换掉画不对的珍珠／葡萄／大雁／海鸥）、乱序出题、三阶段提示、错题回炉、量词答对率、拼音开关、预录朗读" },
-    ],
-    // 缩图：2026-10-09 用 Playwright 实际打开正式网址 https://tahun1-bc-liangci1.vercel.app 截的真实画面，不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bc-liangci1/v1-0-home.png", label: "首页：量词南瓜丰收季，关卡一、关卡二和量词宝典三个按钮" },
-      { img: "assets/thumbs/tahun1-bc-liangci1/v1-1-level1.png", label: "关卡一：6 粒南瓜，每粒有图和「一（？）XX」，下方是双朵只颗片群六张量词卡" },
-      { img: "assets/thumbs/tahun1-bc-liangci1/v1-2-pinyin.png", label: "打开「拼」按钮：量词卡和题目的字上方都标出拼音" },
-      { img: "assets/thumbs/tahun1-bc-liangci1/v1-3-level2.png", label: "关卡二：一幅图加一个句子，把量词送进空格" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.3.1"] },
-    ],
-    practiceSummary: "认识双、朵、只、颗、片、群六个量词，根据图中事物的数量与形状选出合适的量词，并在句子里运用",
-    teachingMode: ["个人自学", "投影互动", "课堂练习"],
-    prep: "打开即用，不需要打印；拖放或点选都可，触控一体机、平板、手机皆可（建议横屏）。想看拼音点顶栏「拼」。一人一台自学，或投影后请学生上台拖一拖。与「量词大冒险」是不同玩法：这个只练六个最常用的量词，适合刚学量词时",
-  },
-
-  {
-    slug: "tahun1-bc-juxing",
-    tahun: 1,
-    subjek: "bc",
-    status: "published",
-    title_zh: "句型跳跳队",
-    title_bm: "Skuad Lompat Jenis Ayat",
-    desc: "全平台第一个摄像头体感游戏：点开先进教学导入，点卡片整页切换陈述句/疑问句/祈使句/感叹句的解释、课本例句与「读读比比」易混句型对照。分组上场（建议4-8人）后开镜头，输入组名，题目念完先有「回到中间站好」的缓冲，接着左右两侧出现句型选项，5秒倒数配合逼哔声与紧张背景音乐，全组一致跳到正确一侧才得分，答对区块亮青色。一轮固定10题，结算后可换组再战，排行榜用浏览器本机存档。摄像头画面全程只在学生电脑本机做姿态推理，不上传任何影像。",
-    keywords: ["句型", "句子功能", "陈述句", "疑问句", "祈使句", "感叹句", "一年级", "华文", "juxing", "jenis ayat", "摄像头", "体感游戏", "分组游戏", "AR"],
-    url: "https://tahun1-bc-juxing.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-07-31", note: "首次上架" },
-    ],
-    // 这 2 张是用 Playwright 实际操作 https://tahun1-bc-juxing.vercel.app 截的真实画面（教学导入部分）；
-    // 分组/答题画面需要真实摄像头，headless 浏览器没有镜头无法截到，先留空
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-bc-juxing/1-intro-overview.png", label: "教学导入总览：四种句型卡片" },
-      { img: "assets/thumbs/tahun1-bc-juxing/2-intro-detail.png", label: "点开单一句型：课本例句+读读比比对照" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "5.4", objectiveCodes: ["5.4.1"] },
-    ],
-    practiceSummary: "辨别陈述句、疑问句、祈使句、感叹句的功能与语气，连结对应标点符号与朗读语气",
-    teachingMode: ["摄像头体感互动", "分组比赛"],
-    prep: "需要摄像头（画面只在本机处理，不上传）；建议 4-8 人一组上场，需要一定活动空间；光线要充足；用 Chrome/Edge 等现代浏览器打开",
-  },
-
-  {
-    slug: "tahun1-mz-irama",
-    tahun: 1,
-    subjek: "muzik",
-    status: "published",
-    title_zh: "软糖回声乐园",
-    title_bm: "Taman Gema Irama",
-    desc: "一年级音乐节奏回声游戏：小动物先用鼓或三角铁打一段节奏，轨道上的草莓（鼓）和柠檬（三角铁）跟着亮起来；接着换学生在两个垫子上把同一段节奏打回来，每一下当场判「完美／很好／漏掉」，「很好」还会提示早了或晚了。轮到学生前，节拍器「嗒嗒嗒嗒」像扶梯一样一直转，画面出现「3、2、1」，学生准备好了自己在第一拍踏进来；玩的时候不讲话，只有节拍和音乐。6 个世界共 18 关：稳稳的拍子、两种声音、第一拍最重（强拍）、快快慢慢（变速）、看谱打（不示范，只看图标谱）、长长的回声（8 拍长句），每个世界第 3 关是大考验；伴奏有 6 种风格。开始前有跟着拍子点 12 下的校准，蓝牙喇叭慢半拍也能判准。先有 6 步「学一学」（含「听四下，再开始」）教会玩法。失败只说「再试一次」。",
-    keywords: ["音乐", "节奏", "拍子", "回声", "鼓", "三角铁", "kerincing", "强拍", "快慢", "图像谱", "一年级", "muzik", "irama", "rentak", "skor ikon", "节奏游戏"],
-    url: "https://tahun1-mz-irama.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "黄慧欣老师", initial: "黄" },
-    version: "1.1",
-    changelog: [
-      { version: "1.1", date: "2026-10-11", note: "试用老师回馈：玩的时候不讲话、预备改成扶梯式（节拍一直转，学生自己在第一拍踏进来）、学一学加「听四下，再开始」；铃鼓改三角铁（kerincing）；示范提示改「听我打」，换小动物也适用" },
-      { version: "1.0", date: "2026-10-11", note: "首次上架：6 个世界 18 关、学一学 5 步、延迟校准、预备倒数人声" },
-    ],
-    thumbnails: [
-      { img: "assets/thumbs/tahun1-mz-irama/v1-1-cover.png", label: "封面：软糖熊打鼓、小兔敲三角铁，草莓＝鼓、柠檬＝三角铁" },
-      { img: "assets/thumbs/tahun1-mz-irama/v1-1-play.png", label: "换你了：草莓和柠檬一颗颗亮圈，打在拍子上就是「完美」；下方是鼓和三角铁两个垫子" },
-      { img: "assets/thumbs/tahun1-mz-irama/v1-1-learn.png", label: "学一学「听四下，再开始」：节拍器一直转，看到 3、2、1 自己踏进来" },
-      { img: "assets/thumbs/tahun1-mz-irama/v1-1-map.png", label: "关卡地图：6 个世界、每个世界 3 关，第 3 关是大考验" },
-      { img: "assets/thumbs/tahun1-mz-irama/v1-3-result.png", label: "结算：星星与准确度，可再来一次或下一关" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "1.1", objectiveCodes: ["1.1.3"] },
-      { curriculum: "KSSR Semakan 2017", unitCode: "2.2", objectiveCodes: ["2.2.1", "2.2.2", "2.2.3", "2.2.4"] },
-    ],
-    practiceSummary: "分辨鼓和三角铁的音色，按拍子、按速度、按听到的节奏型以及按图像谱演奏打击乐器（听了再打出来）",
-    teachingMode: ["个人自学", "投影互动", "课堂练习"],
-    prep: "一定要有声音（打开喇叭、手机关静音键）；手机、平板、电脑、触控一体机都能玩，电脑也可用键盘 F/J 或左右键。第一次进入会先检查声音、跟着拍子点 12 下校准，换了喇叭（尤其蓝牙）请到「设定」重新校准。一人一台自学最准；投影全班玩时请一位学生上台点垫子，其他人拍手跟。",
-  },
-
-  {
-    slug: "tahun2-bc-biaodian",
-    tahun: 2,
-    subjek: "bc",
-    status: "published",
-    title_zh: "标点小蛇闯关",
-    title_bm: "Ular Tanda Baca",
-    desc: "二年级华文标点符号的贪吃蛇填空游戏，画面是玩具木盘：软胶小蛇在枫木盘上吃水果，每吃到一个就弹出一道标点题，把木头标点积木点进或拖进句子的空格里。三个关卡：简单（句号、问号、叹号、逗号）、中等（加上顿号，一句两个标点）、挑战（冒号和引号的对话句）。答对蛇会长一节，答错不长，并看到完整正确的句子和为什么；撞墙会晕眩 3 秒。每轮随机抽题，结算有 1–3 颗星、错题本和「再练错题」。挑战关全部答对还会解锁「无限挑战」，一直玩到撞墙或撞到自己为止。题目可以点「听一听」朗读，另有「标点小课堂」先温习六种标点的用法。学生各自一台电脑、平板或手机都能玩（滑动或方向键转向）。",
-    keywords: ["标点符号", "句号", "问号", "叹号", "逗号", "顿号", "冒号", "引号", "二年级", "华文", "贪吃蛇", "填空", "tanda baca", "tanda koma", "tanda soal", "tanda seru", "tanda petik", "titik", "游戏"],
-    url: "https://tahun2-bc-biaodian.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "陈晓琪老师", initial: "陈" },
-    version: "1.1",
-    changelog: [
-      { version: "1.1", date: "2026-10-12", note: "新增「无限挑战」：挑战关全部答对后解锁，蛇保持长度继续玩、继续答题，一直玩到撞墙或撞到自己才结束，并记录最高蛇长；挑战关改为 12 题" },
-      { version: "1.0", date: "2026-10-12", note: "首次上架：贪吃蛇＋标点填空，三个关卡（简单／中等／挑战），标点积木点选或拖放，答对蛇长一节，1–3 星结算、错题本与再练错题，题目与完整句子预录朗读，标点小课堂" },
-    ],
-    // 缩图：第 1 张封面为生图；其余 2026-10-12（无限挑战那张同日 v1.1） 用 Playwright 实际操作正式网址 https://tahun2-bc-biaodian.vercel.app 截的真实画面（1366×768），不是 mock
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-bc-biaodian/v1-0-cover.png", label: "封面：标点小蛇闯关，木牌旁是软胶小蛇、标点积木和苹果" },
-      { img: "assets/thumbs/tahun2-bc-biaodian/v1-1-home.png", label: "首页：三个关卡木牌（简单、中等、挑战），可先看标点小课堂" },
-      { img: "assets/thumbs/tahun2-bc-biaodian/v1-2-snake.png", label: "木盘上的小蛇：吃到水果就会弹出标点题，答对蛇会变长" },
-      { img: "assets/thumbs/tahun2-bc-biaodian/v1-4-quiz.png", label: "标点填空：把木头积木放进句子的空格，填满后才能提交" },
-      { img: "assets/thumbs/tahun2-bc-biaodian/v1-1-endless.png", label: "无限挑战：挑战关全对后解锁，一直玩到撞墙或撞到自己，记录最高蛇长" },
-    ],
-    // 学习标准只填到内容标准 5.5（认识各种标点符号）：Hub 摘要 docs/dskp/tahun2/bahasa-cina.md 的 5.5.1 顿号、冒号、引号，与课本第10页（冒号引号）、第36页（顿号）教学提示吻合；本机无二年级华文官方 PDF 可逐条核对
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.5"] },
-    ],
-    practiceSummary: "认识并正确使用句号、问号、叹号、逗号（一年级复习）和顿号、冒号、引号（二年级新学）",
-    teachingMode: ["个人自学", "课堂练习"],
-    prep: "打开即用，需要网络（首次载入约 4MB，含字体和朗读音档）。一人一台电脑、平板或手机都行：电脑用方向键或 WASD，触控屏在木盘上滑动或点方向键。进度不保存，每次从头抽题。声音可在右上角关掉。引号用「“ ”」，叹号沿用课本用词。",
-  },
-
-  {
-    slug: "tahun2-mz-irama",
-    tahun: 2,
-    subjek: "muzik",
-    status: "published",
-    title_zh: "醒狮节奏瀑布",
-    title_bm: "Air Terjun Irama",
-    desc: "二年级音乐节奏游戏：年柑从轨道上落下来，一颗大柑橘＝♩（ta，一拍）、两颗小柑橘＝♫（ti-ti，半拍半拍），落到判定线就按鼓、钹或锣，当场判「完美／很好」，「很好」还会提示早了或晚了。6 个世界、每个世界一首原创歌（童谣、国风流行、放克、电子舞曲、忽快忽慢、热闹新春），轨道从 1 条（鼓）加到 3 条（鼓、钹、锣），世界 5 主歌慢、副歌快，变速前有提示。每首歌三步「学 → 练 → 演出」：先学这首歌的节奏型，再慢速练，最后跟整首歌演出，整首都有音符可打；一直打漏时旋律会慢慢变小声，打中了又回来。开始前有跟着拍子点 12 下的校准，蓝牙喇叭慢半拍也能判准；先有「学一学」教会 ta 和 ti-ti 与读谱。舞狮只是画面元素。失败只说「再试一次」。",
-    keywords: ["音乐", "节奏", "拍子", "ta", "ti-ti", "四分音符", "八分音符", "图像谱", "快慢", "速度", "鼓", "钹", "锣", "二年级", "muzik", "irama", "corak irama", "detik", "tempo", "skor ikon", "节奏游戏"],
-    url: "https://tahun2-mz-irama.vercel.app",
-    type: "游戏",
-    stars: 0,
-    creator: { name: "黄慧欣老师", initial: "黄" },
-    version: "1.0",
-    changelog: [
-      { version: "1.0", date: "2026-10-11", note: "首次上架：6 个世界 6 首原创歌、每首学／练／演出三步、1–3 条轨道（鼓、钹、锣）、世界 5 变速、学一学、延迟校准；钹和锣用真实录音" },
-    ],
-    thumbnails: [
-      { img: "assets/thumbs/tahun2-mz-irama/v1-0-cover.png", label: "封面：庙会夜景里，柑橘顺着节奏轨道落下，底下是鼓、钹、锣，小醒狮跟着跳" },
-    ],
-    standards: [
-      { curriculum: "KSSR Semakan 2017", unitCode: "1.1", objectiveCodes: ["1.1.1", "1.1.3"] },
-      { curriculum: "KSSR Semakan 2017", unitCode: "2.2", objectiveCodes: ["2.2.1", "2.2.2", "2.2.3"] },
-    ],
-    practiceSummary: "按图像谱上的 ♩（ta）和 ♫（ti-ti）演奏打击乐器，按拍子、按节奏型、按快慢变化打出来",
-    teachingMode: ["个人自学", "课堂练习"],
-    prep: "一定要有声音（打开喇叭、手机关静音键）；手机、平板、电脑都能玩，电脑也可用键盘 ←↓→ 或 F J K。第一次进入会先检查声音、跟着拍子点 12 下校准，换了喇叭（尤其蓝牙）请到「设定」重新校准。一人一台最准。世界按顺序解锁（前一个世界演出拿到 ★）。",
-  },
-];
 
 // ---------- DSKP 索引查询辅助（读 data/dskp-index.js 的 DSKP_INDEX） ----------
 function findDskpRecord(tahun, subjek) {
@@ -1788,6 +43,119 @@ function resolveToolStandards(tool) {
     const objectives = s.objectiveCodes.map((c) => getObjective(unit, c)).filter(Boolean);
     return { record, unit, objectives };
   }).filter(Boolean);
+}
+
+// ---------- 主题（来自 DSKP，规格 docs/hub-reorg-2026-10.md 第 2.1 节） ----------
+// 工具不手填主题：先看 topicOverride（综合复习、跨科等跨很多单元的工具才写），
+// 再看 standards 第一条对应的学习目标 topic（语文），最后看该单元的 topic（数学、科学等）。
+// 资料还没填的工具一律回 null，卡片不显示主题颗，也不报错。
+function toolTopic(tool) {
+  const o = tool.topicOverride;
+  if (o && (o.zh || o.bm)) return o;
+  const first = tool.standards && tool.standards[0];
+  if (!first) return null;
+  const resolved = resolveToolStandards({ ...tool, standards: [first] })[0];
+  if (!resolved) return null;
+  const objective = resolved.objectives.find((x) => x.topic && (x.topic.zh || x.topic.bm));
+  if (objective) return objective.topic;
+  const unitTopic = resolved.unit.topic;
+  return unitTopic && (unitTopic.zh || unitTopic.bm) ? unitTopic : null;
+}
+// 马来文、英文工具显示 topic.bm（英文工具的 bm 栏放英文原文），其他显示 topic.zh
+function topicText(topic, subjek) {
+  if (!topic) return "";
+  return subjek === "bm" || subjek === "bi" ? (topic.bm || topic.zh || "") : (topic.zh || topic.bm || "");
+}
+function topicLabel(tool) {
+  return topicText(toolTopic(tool), tool.subjek);
+}
+// 同一内容跨年级靠 zh 相同连起来，所以分组、筛选、条件存网址都用这个键
+function topicKey(tool) {
+  const t = toolTopic(tool);
+  return t ? (t.zh || t.bm) : null;
+}
+
+// ---------- 复习卷合集（规格第 7b 节） ----------
+// 工具带 collection: "<id>" 的已上架成员，在首页、筛选、搜索里合成一张卡（entry）。
+// entry 是借用封面成员的字段拼出来的假「工具」：slug＝合集 id，members＝成员，其余字段（年级、科目、主题、上课方式）
+// 取封面成员，所以卡片、排序、筛选、主题都能沿用单个工具的函数；喜欢数和使用次数则由成员加总。
+function latestChangeTime(tool) {
+  const times = (tool.changelog || []).map((c) => Date.parse(c.date)).filter((n) => !isNaN(n));
+  return times.length ? Math.max(...times) : 0;
+}
+function mergeStandards(members) {
+  const merged = [];
+  members.forEach((m) => (m.standards || []).forEach((s) => {
+    const hit = merged.find((x) => x.curriculum === s.curriculum && x.unitCode === s.unitCode);
+    if (!hit) merged.push({ ...s, objectiveCodes: [...s.objectiveCodes] });
+    else s.objectiveCodes.forEach((c) => { if (!hit.objectiveCodes.includes(c)) hit.objectiveCodes.push(c); });
+  }));
+  return merged;
+}
+function buildCollectionEntry(id, members) {
+  const meta = TOOL_COLLECTIONS[id];
+  const cover = members.reduce((best, m) => (latestChangeTime(m) >= latestChangeTime(best) ? m : best)); // changelog 最新的当封面，同天取排后面的
+  return {
+    ...cover,
+    slug: id, collection: id, isCollection: true, members,
+    title_zh: meta.title_zh, title_bm: meta.title_bm, desc: meta.desc,
+    url: null, hasLeaderboard: false,
+    standards: mergeStandards(members),
+    changelog: members.flatMap((m) => (m.changelog || []).map((c) => ({ ...c, setLabel: m.setLabel })))
+      .sort((a, b) => Date.parse(a.date) - Date.parse(b.date)),
+  };
+}
+// 首页与筛选的最小单位：普通工具照旧，同一合集的成员合成 1 个 entry（出现在第一个成员的位置）
+let entriesCache = null;
+function allEntries() {
+  if (entriesCache) return entriesCache;
+  const published = TOOLS.filter((t) => t.status === "published" && !!t.url);
+  const seen = new Set();
+  entriesCache = [];
+  published.forEach((t) => {
+    if (!t.collection || typeof TOOL_COLLECTIONS === "undefined" || !TOOL_COLLECTIONS[t.collection]) { entriesCache.push(t); return; }
+    if (seen.has(t.collection)) return;
+    seen.add(t.collection);
+    entriesCache.push(buildCollectionEntry(t.collection, published.filter((m) => m.collection === t.collection)));
+  });
+  return entriesCache;
+}
+// ?tool= 可以是工具 slug，也可以是合集 id
+function findToolOrEntry(slug) {
+  return TOOLS.find((t) => t.slug === slug) || allEntries().find((e) => e.isCollection && e.slug === slug) || null;
+}
+
+// 「新」（规格 7c）：changelog 里最早一条（＝首次上架）在 7 天内，全站最多只标最新的 8 个。
+// 合集以最新上架的那份成员算。
+const NEW_TOOL_DAYS = 7;
+const NEW_TOOL_MAX = 8;
+function firstReleaseTime(tool) {
+  if (tool.members) return Math.max(...tool.members.map(firstReleaseTime));
+  const times = (tool.changelog || []).map((c) => Date.parse(c.date)).filter((n) => !isNaN(n));
+  return times.length ? Math.min(...times) : NaN;
+}
+let newSlugs = null;
+function isNewTool(tool) {
+  if (!newSlugs) {
+    const today = Math.floor(Date.now() / 86400000);
+    newSlugs = new Set(allEntries()
+      .map((e, i) => ({ slug: e.slug, t: firstReleaseTime(e), i }))
+      .filter((x) => isFinite(x.t) && today - Math.floor(x.t / 86400000) <= NEW_TOOL_DAYS)
+      .sort((a, b) => (b.t - a.t) || (b.i - a.i))
+      .slice(0, NEW_TOOL_MAX)
+      .map((x) => x.slug));
+  }
+  return newSlugs.has(tool.slug);
+}
+
+// 跨年级工具（有 coverage）写范围「1–6年级」，其他写「N年级」
+function gradeLabel(tool) {
+  if (tool.coverage && tool.coverage.length) {
+    const years = tool.coverage.map((r) => r.tahun);
+    const lo = Math.min(...years), hi = Math.max(...years);
+    return lo === hi ? `${lo}年级` : `${lo}–${hi}年级`;
+  }
+  return `${tool.tahun}年级`;
 }
 
 // 工具喜欢数／使用次数：全站真实聚合，存在 Supabase 的 tool_stats（见 supabase/schema.sql），
@@ -1817,7 +185,11 @@ function hasLiked(slug) {
   return !!(toolStatsCache[slug] && toolStatsCache[slug].liked);
 }
 function getLikes(tool) {
+  if (tool.members) return tool.members.reduce((sum, m) => sum + getLikes(m), 0);
   return (toolStatsCache[tool.slug] && toolStatsCache[tool.slug].likesCount) || 0;
+}
+function getToolUses(tool) {
+  return tool.members ? tool.members.reduce((sum, m) => sum + getUses(m.slug), 0) : getUses(tool.slug);
 }
 
 async function loadToolStats() {
@@ -1865,6 +237,7 @@ async function toggleLike(tool) {
 }
 
 async function bumpUses(slug) {
+  if (isUncountedVisitor()) return; // 自动化浏览器／卢老师自己的设备不计（链接本来就带 kh=1，工具端也不会计）
   const { data, error } = await supabaseClient.rpc("increment_tool_uses", { p_slug: slug });
   if (error) { console.error("记录使用次数失败", error); return; }
   toolStatsCache[slug] = { ...(toolStatsCache[slug] || { likesCount: 0, liked: false }), usesCount: data };
@@ -1875,11 +248,10 @@ const boardEl = document.getElementById("board");
 const boardEmptyEl = document.getElementById("boardEmpty");
 const gradeFacetEl = document.getElementById("gradeFacet");
 const subjekFacetEl = document.getElementById("subjekFacet");
+const topicRowEl = document.getElementById("topicRow");
+const topicFacetEl = document.getElementById("topicFacet");
 
-let gradeFilter = "all";
-let subjekFilter = "all";
-
-// 年级／科目条件只存在网址里（刷新、返回键、传网址都保留）；不再记在浏览器里——
+// 条件只存在网址里（刷新、返回键、传网址都保留）；不记在浏览器里——
 // 老师隔天直接打开网站，一律从「全部工具」开始，不会被上次的条件悄悄筛掉（2026-10-04 老师确认）。
 try { localStorage.removeItem("kongsi-idea-board-filter"); } catch (e) { /* 清旧记忆，失败不影响 */ }
 
@@ -1897,90 +269,126 @@ function scrollToBoard() {
   document.querySelector(".browse").scrollIntoView({ behavior: "smooth" });
 }
 
-// ---------- 上下共用同一套条件（2026-10-02 老师反馈：上面选 1 年级马来文，下面还显示全部，会混淆） ----------
-// finderState（「今天要教什么？」）是唯一来源；下方年级／科目按钮只是它的镜像。
-// 在任何一边改，另一边跟着变；下方卡片同时吃年级、科目、单元／学习目标、关键词。
-function syncFacetsFromFinder() {
-  gradeFilter = finderState.tahun || "all";
-  subjekFilter = finderState.subjek || "all";
-}
-function applyFacetsToFinder() {
-  const tahun = gradeFilter === "all" ? null : Number(gradeFilter);
-  const subjek = subjekFilter === "all" ? null : subjekFilter;
-  if (tahun !== finderState.tahun || subjek !== finderState.subjek) {
-    finderState.unit = null; finderState.objective = null; // 单元索引按年级×科目分，换了就失效
-  }
-  finderState.tahun = tahun;
-  finderState.subjek = subjek;
-}
+// ---------- 整页只有一套条件（2026-10-02 老师反馈：上面选 1 年级马来文，下面还显示全部，会混淆） ----------
+// finderState 是唯一来源：搜索框、年级／科目／主题药丸、课标精确查找都只改它，下面的卡片读它。
+// 2026-10-17 改版（docs/hub-reorg-2026-10.md 第 3 节）：面板里只剩这一套药丸，不再有下拉和第二套按钮。
 function clearAllConditions() {
-  finderState = { tahun: null, subjek: null, unit: null, objective: null, q: "" };
+  finderState = { tahun: null, subjek: null, topic: null, unit: null, objective: null, q: "" };
   finderQueryEl.value = "";
   renderFinder();
 }
 
-function renderFacet(container, options, activeValue, onPick) {
-  container.innerHTML = "";
-  options.forEach((opt) => {
-    const btn = document.createElement("button");
-    btn.className = "chip" + (opt.value === activeValue ? " active" : "");
-    btn.textContent = opt.label;
-    if (opt.disabled) {
-      btn.disabled = true;
-      btn.title = "这个科目还没有工具";
-      container.appendChild(btn);
-      return;
-    }
-    btn.addEventListener("click", () => {
-      onPick(opt.value);
-      renderFacets(); // 先让科目跟着年级校正，再写回 finderState
-      applyFacetsToFinder();
-      renderFinder();
-    });
-    container.appendChild(btn);
-  });
-}
-
-// 科目筛选：有工具的排前面可以按；还没有工具的排后面、灰色按不到——不删掉，让老师看得出「这科还能开发」
-// （2026-10-01 老师定）。科目跟着已选年级走；之前存的科目在新年级没有工具就回到「全部」。
-// 年级目前每级都有工具，没工具的年级直接不列。
+// 科目药丸：有工具（或有学习目标索引）的排前面可以按；还没有工具的排后面、灰色按不到——
+// 不删掉，让老师看得出「这科还能开发」（2026-10-01 老师定）。
 // 灰色只放「这个年级课纲里本来就有」的科目；课纲没有的（如 4 年级的科学与科技世界）不列，
 // 不然会被误读成「可以开发」。年级分段依 docs/subjek-tahun.md（KSSR Semakan 2017，2026-07-21 查证）。
 const SUBJECT_TAHUN = { am: [1], dst: [1, 2, 3], sains: [4, 5, 6], sejarah: [4, 5, 6], rbt: [4, 5, 6] };
 function subjectOfferedIn(code, tahun) {
   return !tahun || tahun === "all" || !SUBJECT_TAHUN[code] || SUBJECT_TAHUN[code].includes(Number(tahun));
 }
-function withEmptySubjectsLast(available, tahun) {
-  const codes = new Set(available.map((s) => s.code));
-  const empty = SUBJECTS.filter((s) => !codes.has(s.code) && subjectOfferedIn(s.code, tahun));
-  return [...available.map((s) => ({ ...s, empty: false })), ...empty.map((s) => ({ ...s, empty: true }))];
+// 药丸与分段小标题的科目顺序：华文、数学、马来文、英文在前（规格 7c），其余照 SUBJECTS 原顺序
+const SUBJECT_FIRST = ["bc", "mt", "bm", "bi"];
+const SUBJECTS_IN_DISPLAY_ORDER = [...SUBJECT_FIRST.map((c) => SUBJECT_BY_CODE[c]), ...SUBJECTS.filter((s) => !SUBJECT_FIRST.includes(s.code))];
+function subjectHasContent(code, tahun) {
+  if (finderToolsFor(tahun, code).length) return true;
+  return typeof DSKP_INDEX !== "undefined" && DSKP_INDEX.some((r) => r.subjek === code && (!tahun || r.tahun === tahun));
 }
-function publishedTools() {
-  return TOOLS.filter((t) => t.status === "published" && !!t.url);
+
+function makePill(label, { active, off, count, big, title, suffix, onClick }) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "pill" + (big ? " pill--big" : "") + (active ? " active" : "");
+  btn.textContent = label;
+  if (suffix) {
+    // 手机上年级药丸缩成一排「1 2 3 4 5 6」，「年级」两字用 CSS 藏起来，读屏仍读得到
+    const s = document.createElement("span");
+    s.className = "pill__suffix";
+    s.textContent = suffix;
+    btn.appendChild(s);
+  }
+  if (count != null) {
+    const n = document.createElement("span");
+    n.className = "pill__n";
+    n.textContent = count;
+    btn.appendChild(n);
+  }
+  if (title) btn.title = title;
+  if (off) btn.disabled = true;
+  else {
+    btn.setAttribute("aria-pressed", active ? "true" : "false");
+    btn.addEventListener("click", onClick);
+  }
+  return btn;
 }
+
+// 选了年级＋科目才出现的主题药丸：数量只算这个年级×科目（及已选单元）里的工具，同 zh 的主题合成一颗
+function topicPoolEntries() {
+  if (!finderState.tahun || !finderState.subjek) return [];
+  const entries = new Map();
+  finderToolsFor(finderState.tahun, finderState.subjek).filter(toolMatchesUnit).forEach((tool) => {
+    const topic = toolTopic(tool);
+    if (!topic) return;
+    const key = topic.zh || topic.bm;
+    if (!entries.has(key)) entries.set(key, { key, label: topicText(topic, finderState.subjek), n: 0 });
+    entries.get(key).n += 1;
+  });
+  return [...entries.values()].sort((a, b) => b.n - a.n);
+}
+
 function renderFacets() {
-  const tools = publishedTools();
-  const grades = TAHUN.filter((t) => tools.some((tool) => matchesToolCoverage(tool, t, "all")));
-  if (gradeFilter !== "all" && !grades.includes(Number(gradeFilter))) gradeFilter = "all";
-  const subjects = SUBJECTS.filter((s) => tools.some((tool) => matchesToolCoverage(tool, gradeFilter, s.code)));
-  if (subjekFilter !== "all" && !subjects.some((s) => s.code === subjekFilter)) subjekFilter = "all";
-  renderFacet(
-    gradeFacetEl,
-    [{ value: "all", label: "全部" }, ...grades.map((t) => ({ value: t, label: `${t}年级` }))],
-    gradeFilter,
-    (v) => (gradeFilter = v)
+  gradeFacetEl.replaceChildren(...TAHUN.map((g) => makePill(String(g), {
+    big: true,
+    suffix: "年级",
+    active: finderState.tahun === g,
+    onClick: () => pickGrade(g),
+  })));
+
+  const withContent = SUBJECTS_IN_DISPLAY_ORDER.filter((s) => subjectHasContent(s.code, finderState.tahun));
+  const empty = SUBJECTS_IN_DISPLAY_ORDER.filter((s) => !withContent.includes(s) && subjectOfferedIn(s.code, finderState.tahun));
+  subjekFacetEl.replaceChildren(
+    ...withContent.map((s) => makePill(s.title_zh, {
+      active: finderState.subjek === s.code,
+      count: finderToolsFor(finderState.tahun, s.code).length,
+      onClick: () => pickSubject(s.code),
+    })),
+    ...empty.map((s) => makePill(s.title_zh, { off: true, title: "这个科目还没有工具" }))
   );
-  renderFacet(
-    subjekFacetEl,
-    [{ value: "all", label: "全部" }, ...withEmptySubjectsLast(subjects, gradeFilter).map((s) => ({ value: s.code, label: s.title_zh, disabled: s.empty }))],
-    subjekFilter,
-    (v) => (subjekFilter = v)
-  );
+
+  const topics = topicPoolEntries();
+  topicRowEl.hidden = !topics.length;
+  topicFacetEl.replaceChildren(...topics.map((t) => makePill(t.label, {
+    active: finderState.topic === t.key,
+    count: t.n,
+    onClick: () => pickTopic(t.key),
+  })));
+}
+
+function pickGrade(g) {
+  finderState.tahun = finderState.tahun === g ? null : g;
+  if (finderState.subjek && !subjectHasContent(finderState.subjek, finderState.tahun)) finderState.subjek = null;
+  finderState.topic = null; finderState.unit = null; finderState.objective = null; // 单元索引按年级×科目分，换了就失效
+  renderFinder();
+}
+function pickSubject(code) {
+  finderState.subjek = finderState.subjek === code ? null : code;
+  finderState.topic = null; finderState.unit = null; finderState.objective = null;
+  renderFinder();
+}
+function pickTopic(key) {
+  finderState.topic = finderState.topic === key ? null : key;
+  renderFinder();
 }
 
 function tagChips(tool) {
-  const chips = tool.coverage ? [tool.type, "1–6年级", "综合学科"] : [tool.type, `${tool.tahun}年级`, SUBJECT_BY_CODE[tool.subjek].title_zh];
-  return chips.map((c) => `<span class="tag">${c}</span>`).join("");
+  const topic = topicLabel(tool);
+  const mode = tool.modes && tool.modes[0];
+  const scope = `${gradeLabel(tool)}·${tool.coverage ? "综合学科" : SUBJECT_BY_CODE[tool.subjek].title_zh}`;
+  return [
+    topic ? `<span class="tag tag--topic">${topic}</span>` : "",
+    mode ? `<span class="tag tag--mode">${mode}</span>` : "",
+    tool.type ? `<span class="tag tag--type">${tool.type}</span>` : "",
+    `<span class="tag">${scope}</span>`,
+  ].join("");
 }
 
 function creatorHtml(tool) {
@@ -2000,30 +408,43 @@ function thumbImgHtml(shot, eager) {
 }
 
 function cardHtml(tool, index) {
-  const uses = getUses(tool.slug);
-  const liked = hasLiked(tool.slug);
+  const uses = getToolUses(tool);
+  const liked = !tool.isCollection && hasLiked(tool.slug);
   const cover = tool.thumbnails && tool.thumbnails[0];
+  // 合集卡：副标放「N 份复习卷」；喜欢数是各份加总，只读（不能点）；不放排行榜奖杯
+  const subtitle = tool.isCollection ? `${tool.members.length} 份复习卷` : tool.title_bm;
+  const likeHtml = tool.isCollection
+    ? `<span class="card__like card__like--static" title="各份复习卷的喜欢数加总">${starIcon()}<span class="card__like-count">${getLikes(tool)}</span> 人喜欢</span>`
+    : `<button class="card__like${liked ? " liked" : ""}" data-like-slug="${tool.slug}" title="不用登录，谁都能点">${starIcon()}<span class="card__like-count">${getLikes(tool)}</span> 人喜欢</button>`;
   return `
     <div class="card" data-slug="${tool.slug}">
       <div class="card__thumb">${cover
         ? (cover.img ? thumbImgHtml(cover, index < 4) : `<span>${cover.label}</span>`)
-        : `<span>${subjectBadge(tool.subjek)}</span>`}${tool.hasLeaderboard
+        : `<span>${subjectBadge(tool.subjek)}</span>`}${isNewTool(tool)
+        ? '<strong class="card__new">新</strong>'
+        : ""}${tool.hasLeaderboard
         ? `<a class="card__board" href="${tool.url}?board=1" target="_blank" rel="noopener" title="查看排行榜" aria-label="查看排行榜" onclick="event.stopPropagation()">${trophyIcon()}</a>`
         : ""}</div>
       <h3 class="card__title-zh">${tool.title_zh}</h3>
-      <p class="card__title-bm">${tool.title_bm}</p>
+      <p class="card__title-bm">${subtitle}</p>
       ${creatorHtml(tool) || '<div class="creator"></div>'}
       <div class="card__tags">${tagChips(tool)}</div>
       <div class="card__stats">
-        <button class="card__like${liked ? " liked" : ""}" data-like-slug="${tool.slug}" title="不用登录，谁都能点">${starIcon()}<span class="card__like-count">${getLikes(tool)}</span> 人喜欢</button>
+        ${likeHtml}
         <span class="card__uses">用过 ${uses} 次</span>
       </div>
     </div>`;
 }
 
 function matchesQuery(tool, query) {
+  // 合集：任一成员命中，或合集名称命中，就显示整组
+  if (tool.members) {
+    return tool.members.some((m) => matchesQuery(m, query)) || `${tool.title_zh} ${tool.title_bm} ${tool.slug}`.toLowerCase().includes(query);
+  }
+  const topic = toolTopic(tool);
   const haystack = [
     tool.title_zh, tool.title_bm, (tool.keywords || []).join(" "), tool.slug, tool.type,
+    topic ? `${topic.zh || ""} ${topic.bm || ""}` : "", (tool.modes || []).join(" "),
     SUBJECT_BY_CODE[tool.subjek].title_zh, SUBJECT_BY_CODE[tool.subjek].title_bm,
     `tahun${tool.tahun}`, `${tool.tahun}年级`,
   ].join(" ").toLowerCase();
@@ -2044,12 +465,16 @@ function toolMatchesUnit(tool) {
   return (tool.standards || []).some((s) => s.unitCode === finderState.unit &&
     (!finderState.objective || s.objectiveCodes.includes(finderState.objective)));
 }
+function toolMatchesTopic(tool) {
+  return !finderState.topic || topicKey(tool) === finderState.topic;
+}
 function boardTools() {
   const query = boardQuery();
-  // 年级 AND 科目 AND 单元／学习目标 AND（没有查询词 OR 查询词匹配）
+  // 年级 AND 科目 AND 主题 AND 单元／学习目标 AND（没有查询词 OR 查询词匹配）
   // （年级科目与查询词要同时成立，见 docs/dskp-learning-objective-search.md 第7.1节／验收条件第2条）
-  return publishedTools().filter((tool) =>
-    matchesToolCoverage(tool, gradeFilter, subjekFilter) && toolMatchesUnit(tool) && (!query || matchesQuery(tool, query))
+  return allEntries().filter((tool) =>
+    matchesToolCoverage(tool, finderState.tahun, finderState.subjek) && toolMatchesTopic(tool) &&
+    toolMatchesUnit(tool) && (!query || matchesQuery(tool, query))
   );
 }
 
@@ -2060,6 +485,8 @@ function renderBoardSummary(count) {
   const parts = [];
   if (finderState.tahun) parts.push(`${finderState.tahun}年级`);
   if (finderState.subjek) parts.push(SUBJECT_BY_CODE[finderState.subjek].title_zh);
+  const topic = finderState.topic && topicPoolEntries().find((t) => t.key === finderState.topic);
+  if (topic) parts.push(topic.label);
   const record = finderState.tahun && finderState.subjek && findDskpRecord(finderState.tahun, finderState.subjek);
   const unit = record && finderState.unit && getUnit(record, finderState.unit);
   if (unit) {
@@ -2074,20 +501,46 @@ function renderBoardSummary(count) {
     `<button type="button" class="finder__browse-link" id="boardClearAll">清除条件</button>`;
   document.getElementById("boardClearAll").addEventListener("click", clearAllConditions);
 }
+
+// 卡片排序与分段（规格第 3 节）：「新」排前面，其余按喜欢数；
+// 没选年级＝不分段；只选年级＝按科目分段（跨年级工具归「综合学科」）；年级＋科目＝不分段，同主题排一起。
+function sortNewThenLikes(list) {
+  return list.slice().sort((a, b) => (Number(isNewTool(b)) - Number(isNewTool(a))) || (getLikes(b) - getLikes(a)));
+}
+function boardSections(list) {
+  const sorted = sortNewThenLikes(list);
+  if (!finderState.tahun) return [{ items: sorted }];
+  if (finderState.subjek) {
+    const order = [];
+    sorted.forEach((t) => { const k = topicKey(t); if (k && !order.includes(k)) order.push(k); });
+    const rank = (t) => { const k = topicKey(t); return k ? order.indexOf(k) : order.length; };
+    return [{ items: sorted.slice().sort((a, b) => rank(a) - rank(b)) }];
+  }
+  const groups = new Map();
+  sorted.forEach((t) => {
+    const key = t.coverage ? "_multi" : t.subjek;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(t);
+  });
+  return [...SUBJECTS_IN_DISPLAY_ORDER.map((s) => [s.code, s.title_zh]), ["_multi", "综合学科"]]
+    .filter(([key]) => groups.has(key))
+    .map(([key, heading]) => ({ heading, items: groups.get(key) }));
+}
 function renderBoard() {
-  let list = boardTools();
+  const list = boardTools();
   renderBoardSummary(list.length);
 
-  // 喜欢数最多的排前面，是老师最先看到的
-  list = list.slice().sort((a, b) => getLikes(b) - getLikes(a));
-
-  boardEl.innerHTML = list.map((tool, i) => cardHtml(tool, i)).join("");
+  let cardIndex = 0;
+  boardEl.innerHTML = boardSections(list).map((section) =>
+    (section.heading ? `<h3 class="board__section">${section.heading}<span class="board__section-count">${section.items.length} 个</span></h3>` : "") +
+    section.items.map((tool) => cardHtml(tool, cardIndex++)).join("")
+  ).join("");
   boardEmptyEl.hidden = list.length > 0;
   boardEl.hidden = list.length === 0;
 
   boardEl.querySelectorAll(".card[data-slug]").forEach((el) => {
     el.addEventListener("click", () => {
-      const tool = TOOLS.find((t) => t.slug === el.dataset.slug);
+      const tool = findToolOrEntry(el.dataset.slug);
       if (tool) openDetail(tool);
     });
   });
@@ -2119,6 +572,14 @@ function renderGallery(thumbnails) {
   });
 }
 
+// 合集：各份卷练什么（给老师读，放在说明之下）
+function renderSetNotes(tool) {
+  const el = document.getElementById("detailSetNotes");
+  el.hidden = !tool.isCollection;
+  el.innerHTML = !tool.isCollection ? "" : tool.members.map((m) =>
+    `<p><strong>${m.setLabel}</strong>${m.practiceSummary || ""}</p>`).join("");
+}
+
 function renderStandards(tool) {
   const el = document.getElementById("detailStandards");
   const resolved = resolveToolStandards(tool);
@@ -2146,46 +607,157 @@ function renderChangelog(tool) {
   el.innerHTML = `
     <p class="detail__changelog-title">更新记录</p>
     <ul class="detail__changelog-list">
-      ${rows.map((c) => `<li><span class="detail__changelog-version">v${c.version}</span> · ${c.date} · ${c.note}</li>`).join("")}
+      ${rows.map((c) => `<li><span class="detail__changelog-version">v${c.version}</span> · ${c.date} · ${c.setLabel ? `【${c.setLabel}】` : ""}${c.note}</li>`).join("")}
     </ul>
   `;
 }
 
-function openDetail(tool) {
+// 分隔线以下给老师的资料：类型、同主题的其他工具、老师后台入口（规格第 4 节）
+const RELATED_TOOLS_MAX = 8;
+function relatedTools(tool) {
+  const key = topicKey(tool);
+  if (!key) return [];
+  return allEntries()
+    .filter((t) => t.slug !== tool.slug && topicKey(t) === key)
+    .sort((a, b) => (Number(b.tahun === tool.tahun) - Number(a.tahun === tool.tahun)) || (a.tahun - b.tahun))
+    .slice(0, RELATED_TOOLS_MAX);
+}
+function renderDetailMore(tool) {
+  const typeEl = document.getElementById("detailType");
+  typeEl.hidden = !tool.type;
+  typeEl.textContent = tool.type ? `类型：${tool.type}` : "";
+
+  const relatedEl = document.getElementById("detailRelated");
+  const related = relatedTools(tool);
+  relatedEl.hidden = !related.length;
+  relatedEl.innerHTML = !related.length ? "" : `
+    <p class="detail__more-title">同主题的其他工具 <span class="detail__more-topic">${topicLabel(tool)}</span></p>
+    <div class="detail__related-list">${related.map((t) => {
+      const cover = t.thumbnails && t.thumbnails[0];
+      return `<button type="button" class="related-tool" data-slug="${t.slug}">
+        <span class="related-tool__thumb">${cover && cover.img ? thumbImgHtml(cover, false) : ""}</span>
+        <span class="related-tool__text"><span class="related-tool__name">${t.title_zh}</span><span class="related-tool__meta">${gradeLabel(t)}</span></span>
+      </button>`;
+    }).join("")}</div>`;
+  relatedEl.querySelectorAll(".related-tool").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const next = findToolOrEntry(btn.dataset.slug);
+      if (next) openDetail(next);
+    });
+  });
+
+  // 老师后台：只有登记在 data/teacher/index.js 的工具才有（该档还没建好或载入失败时 TEACHER_TOOLS 不存在，当没有）
+  // 合集的「老师后台」按钮在每份卷各自那一行，这里只留一句说明
+  const teacherEl = document.getElementById("detailTeacher");
+  const hasTeacher = (t) => typeof TEACHER_TOOLS !== "undefined" && Array.isArray(TEACHER_TOOLS) && TEACHER_TOOLS.includes(t.slug);
+  const showTeacher = tool.isCollection ? tool.members.some(hasTeacher) : hasTeacher(tool);
+  teacherEl.hidden = !showTeacher;
+  teacherEl.innerHTML = !showTeacher ? ""
+    : tool.isCollection
+      ? `<span class="detail__teacher-note">各份复习卷的「老师后台」在上面各自那一行。需要先在『我的班级』建班，让学生用班级码作答</span>`
+      : `<a class="detail__teacher-link" href="teacher.html?tool=${encodeURIComponent(tool.slug)}" target="_blank" rel="noopener">老师后台</a><span class="detail__teacher-note">需要先在『我的班级』建班，让学生用班级码作答</span>`;
+}
+
+// 合集详情：每份卷一行（范围、名称、版本、开始使用、分享给学生、老师后台）。
+// 分享链接是 Hub 的 ?tool=<成员 slug>，打开后是整组详情并标出那一份，同一般工具的分享做法。
+const SHARE_ICON = '<svg class="detail__share-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M12 3l-4 4M12 3l4 4M5 14v4a2 2 0 002 2h10a2 2 0 002-2v-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function renderDetailSets(entry, highlightSlug) {
+  const el = document.getElementById("detailSets");
+  const hasTeacher = (t) => typeof TEACHER_TOOLS !== "undefined" && Array.isArray(TEACHER_TOOLS) && TEACHER_TOOLS.includes(t.slug);
+  el.hidden = false;
+  el.innerHTML = `
+    <p class="detail__sets-hint">共 ${entry.members.length} 份，选一份开始，或把那一份的链接发给学生</p>
+    <ul class="detail__sets-list">${entry.members.map((m) => `
+      <li class="set${m.slug === highlightSlug ? " set--hl" : ""}" data-slug="${m.slug}">
+        <div class="set__info">
+          <span class="set__label">${m.setLabel || "复习卷"}${m.slug === highlightSlug ? '<span class="set__here">链接指向这份</span>' : ""}</span>
+          <span class="set__name">${m.title_zh}<span class="detail__version">${m.version ? `v${m.version}` : ""}</span></span>
+        </div>
+        <a class="detail__open set__open" href="${m.url}?kh=1" target="_blank" rel="noopener">开始使用</a>
+        <div class="set__sub">
+          <button type="button" class="detail__share set__share">${SHARE_ICON}<span class="set__share-label">分享给学生</span></button>
+          ${hasTeacher(m) ? `<a class="set__teacher" href="teacher.html?tool=${encodeURIComponent(m.slug)}" target="_blank" rel="noopener">老师后台</a>` : ""}
+        </div>
+        <input class="set__url" type="text" readonly hidden aria-label="${m.setLabel || m.title_zh} 分享链接">
+        <div class="detail__share-qr set__qr" hidden></div>
+      </li>`).join("")}</ul>`;
+  el.querySelectorAll(".set").forEach((row) => {
+    const m = entry.members.find((x) => x.slug === row.dataset.slug);
+    row.querySelector(".set__open").addEventListener("click", () => { bumpUses(m.slug); });
+    row.querySelector(".set__share").addEventListener("click", () => shareToolLink(m.slug, {
+      box: row.querySelector(".set__qr"), field: row.querySelector(".set__url"), label: row.querySelector(".set__share-label"),
+    }));
+  });
+}
+
+// 合集详情的画廊：每份卷的封面各一格（1、2、4 份各有版位；3 份时取前 2 份）
+function setGalleryShots(entry) {
+  const shots = entry.members.map((m) => {
+    const c = (m.thumbnails && m.thumbnails[0]) || { label: "缩略图待补" };
+    return { ...c, label: `${m.setLabel}：${c.label || m.title_zh}` };
+  });
+  return shots.length === 3 ? shots.slice(0, 2) : shots;
+}
+
+let currentDetailSlug = null; // 「分享给学生」分享的是哪个工具（合集详情里各份卷自己有分享按钮，用不到）
+
+function openDetail(tool, highlightSlug) {
+  // 点的是合集成员（?tool=成员 slug、搜索建议等）：打开整组详情并标出那一份
+  if (tool.collection && !tool.isCollection) {
+    const entry = allEntries().find((e) => e.isCollection && e.slug === tool.collection);
+    if (entry) { openDetail(entry, tool.slug); return; }
+  }
+  const isSet = !!tool.isCollection;
+  currentDetailSlug = isSet ? null : tool.slug;
   const detailUrl = new URL(window.location.href);
-  detailUrl.searchParams.set("tool",tool.slug);
+  detailUrl.searchParams.set("tool", isSet && highlightSlug ? highlightSlug : tool.slug);
   window.history.replaceState(null,"",detailUrl);
-  renderGallery(tool.thumbnails);
+  renderGallery(isSet ? setGalleryShots(tool) : tool.thumbnails);
   document.getElementById("detailCreator").innerHTML = creatorHtml(tool);
   document.getElementById("detailTitleZh").textContent = tool.title_zh;
   document.getElementById("detailTitleBm").textContent = tool.title_bm;
   document.getElementById("detailDesc").textContent = tool.desc;
+  renderSetNotes(tool);
   renderStandards(tool);
   document.getElementById("detailSlug").textContent = tool.slug;
-  document.getElementById("detailUses").textContent = `用过 ${getUses(tool.slug)} 次`;
-  document.getElementById("detailVersion").textContent = tool.version ? `v${tool.version}` : "";
+  document.getElementById("detailUses").textContent = `用过 ${getToolUses(tool)} 次`;
+  document.getElementById("detailVersion").textContent = isSet ? `${tool.members.length} 份` : (tool.version ? `v${tool.version}` : "");
   renderChangelog(tool);
+  renderDetailMore(tool);
 
-  const link = document.getElementById("detailOpenLink");
-  if (tool.url) {
-    link.href = `${tool.url}?kh=1`; // hub 已算过使用次数；工具端 data/track-use.js 看到 kh=1 会跳过并清掉它
-    link.classList.remove("detail__open--disabled");
-    link.textContent = "开始使用";
-    link.onclick = () => { bumpUses(tool.slug); };
+  const actionsEl = document.querySelector(".detail__actions");
+  const setsEl = document.getElementById("detailSets");
+  actionsEl.hidden = isSet;
+  setsEl.hidden = !isSet;
+  if (isSet) {
+    setsEl.innerHTML = "";
+    renderDetailSets(tool, highlightSlug);
   } else {
-    link.removeAttribute("href");
-    link.classList.add("detail__open--disabled");
-    link.textContent = "准备上线中";
-    link.onclick = (e) => e.preventDefault();
+    const link = document.getElementById("detailOpenLink");
+    if (tool.url) {
+      link.href = `${tool.url}?kh=1`; // hub 已算过使用次数；工具端 data/track-use.js 看到 kh=1 会跳过并清掉它
+      link.classList.remove("detail__open--disabled");
+      link.textContent = "开始使用";
+      link.onclick = () => { bumpUses(tool.slug); };
+    } else {
+      link.removeAttribute("href");
+      link.classList.add("detail__open--disabled");
+      link.textContent = "准备上线中";
+      link.onclick = (e) => e.preventDefault();
+    }
+
+    document.getElementById("detailShareUrl").hidden = true;
+    const qrBox = document.getElementById("detailShareQrBox");
+    qrBox.hidden = true;
+    qrBox.innerHTML = "";
+    document.getElementById("detailShareLabel").textContent = "分享给学生";
   }
 
-  document.getElementById("detailShareUrl").hidden = true;
-  const qrBox = document.getElementById("detailShareQrBox");
-  qrBox.hidden = true;
-  qrBox.innerHTML = "";
-  document.getElementById("detailShareLabel").textContent = "分享给学生";
-
   document.getElementById("detailModal").classList.add("open");
+  const frame = document.querySelector(".modal__frame--detail");
+  frame.scrollTop = 0; // 从「同主题」切过来时回到第一屏
+  const hl = setsEl.querySelector(".set--hl");
+  if (hl) hl.scrollIntoView({ block: "nearest" });
 }
 
 // ---------- 缩略图灯箱：点开放大，左右箭头/滑动切换 ----------
@@ -2246,86 +818,34 @@ document.getElementById("detailModal").addEventListener("click", (e) => {
 
 
 // ============================================================
-// 按学习目标找工具（主入口，阶段A） —— docs/dskp-learning-objective-search.md
+// 首页查找面板：搜索框 → 年级 → 科目 → 主题；单元／学习目标收在「按课标精确查找」里
+// （docs/hub-reorg-2026-10.md 第 3 节；学习目标检索原规格 docs/dskp-learning-objective-search.md）
 // ============================================================
-const finderTahunEl = document.getElementById("finderTahun");
-const finderSubjekEl = document.getElementById("finderSubjek");
 const finderQueryEl = document.getElementById("finderQuery");
 const finderSuggestionsEl = document.getElementById("finderSuggestions");
-const finderShortcutsEl = document.getElementById("finderShortcuts");
+const finderAdvEl = document.getElementById("finderAdv");
 const finderStatusEl = document.getElementById("finderStatus");
 const finderPathEl = document.getElementById("finderPath");
 const finderUnitsEl = document.getElementById("finderUnits");
 const finderResultsEl = document.getElementById("finderResults");
 
-let finderState = { tahun: null, subjek: null, unit: null, objective: null, q: "" };
+let finderState = { tahun: null, subjek: null, topic: null, unit: null, objective: null, q: "" };
 
-// 「常用入口」快捷方式；钱币有学习目标索引，其他几个当关键词搜索（见 renderFinderShortcuts）
-const FINDER_SHORTCUTS = [
-  { label: "钱币", tahun: 2, subjek: "mt", unit: "4.0" },
-  { label: "分数" },
-  { label: "时间" },
-  { label: "读写" },
-  { label: "词汇" },
-];
-
-finderTahunEl.innerHTML = '<option value="">选年级 Tahun</option>' +
-  TAHUN.map((t) => `<option value="${t}">Tahun ${t}（${t}年级）</option>`).join("");
-
-// 科目下拉：这个年级有东西的科目（有学习目标索引，或至少有一个已发布工具）排前面；
-// 没有工具的排后面、灰色不能选——保留让老师知道还能开发。2026-10-01 前 12 科挂「整理中」又能选，选了走进死路。
-function finderSubjectsFor(tahun) {
-  return SUBJECTS.filter((s) => findDskpRecord(tahun, s.code) || finderToolsFor(tahun, s.code).length);
-}
 function finderToolsFor(tahun, subjek) {
-  return publishedTools().filter((t) => matchesToolCoverage(t, tahun, subjek));
-}
-function fillFinderSubjekOptions() {
-  finderSubjekEl.dataset.tahun = String(finderState.tahun || "");
-  finderSubjekEl.disabled = false;
-  finderSubjekEl.innerHTML = '<option value="">选科目 Subjek</option>' +
-    withEmptySubjectsLast(finderSubjectsFor(finderState.tahun), finderState.tahun).map((s) =>
-      s.empty ? `<option value="${s.code}" disabled>${s.title_zh}</option>` : `<option value="${s.code}">${s.title_zh}</option>`
-    ).join("");
+  return allEntries().filter((t) => matchesToolCoverage(t, tahun, subjek));
 }
 
-// 常用入口：有学习目标索引的直接跳到那个单元；没有索引的当关键词搜索（同时筛下方卡片）。
-// 搜不到任何工具的入口不显示——不放点了只会看到「整理中」的按钮。
-function shortcutHasTools(s) {
-  if (s.tahun && findDskpRecord(s.tahun, s.subjek)) return true;
-  const q = s.label.toLowerCase();
-  return publishedTools().some((t) => matchesQuery(t, q));
-}
-function renderFinderShortcuts() {
-  const shortcuts = FINDER_SHORTCUTS.filter(shortcutHasTools);
-  finderShortcutsEl.parentElement.hidden = !shortcuts.length;
-  finderShortcutsEl.innerHTML = shortcuts.map((s, i) => `<button type="button" class="chip" data-idx="${i}">${s.label}</button>`).join("");
-  finderShortcutsEl.querySelectorAll("button").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const s = shortcuts[Number(btn.dataset.idx)];
-      if (s.tahun && findDskpRecord(s.tahun, s.subjek)) {
-        finderState = { tahun: s.tahun, subjek: s.subjek, unit: s.unit || null, objective: null, q: "" };
-        finderQueryEl.value = "";
-      } else {
-        // 关键词入口看全部年级科目，不然会被残留条件挡成「没有相符」
-        finderState = { tahun: null, subjek: null, unit: null, objective: null, q: s.label };
-        finderQueryEl.value = s.label;
-      }
-      renderFinder();
-    });
-  });
-}
-
+// 「按课标精确查找」里的提示：还没选好年级科目、或这个年级科目还没建学习目标索引时，如实说明
 function renderFinderStatus() {
-  if (!finderState.tahun || !finderState.subjek) { finderStatusEl.hidden = true; return; }
-  const record = findDskpRecord(finderState.tahun, finderState.subjek);
-  if (record) { finderStatusEl.hidden = true; return; }
-  // 有工具但还没建学习目标索引：如实说「还没按学习目标细分」，同时给出能用的工具，不让老师停在死路
-  const n = finderToolsFor(finderState.tahun, finderState.subjek).length;
-  finderStatusEl.hidden = false;
-  finderStatusEl.innerHTML = `${finderState.tahun}年级${SUBJECT_BY_CODE[finderState.subjek].title_zh}目前有 ${n} 个工具，还没按学习目标细分。<button type="button" class="finder__browse-link" id="finderBrowseLink">看这 ${n} 个工具</button>`;
-  const linkBtn = document.getElementById("finderBrowseLink");
-  if (linkBtn) linkBtn.addEventListener("click", scrollToBoard);
+  const { tahun, subjek } = finderState;
+  let msg = "";
+  if (!tahun || !subjek) msg = "先在上面选好年级和科目，这里会列出该科目的单元与学习目标。";
+  else if (!findDskpRecord(tahun, subjek)) {
+    const n = finderToolsFor(tahun, subjek).length;
+    msg = `${tahun}年级${SUBJECT_BY_CODE[subjek].title_zh}目前有 ${n} 个工具，还没按学习目标细分（工具已列在下方）。`;
+  }
+  finderStatusEl.hidden = !msg;
+  finderStatusEl.textContent = msg;
 }
 
 function renderFinderPath() {
@@ -2374,30 +894,10 @@ function renderFinderUnits() {
   });
 }
 
-function toolMatchesFinder(tool) {
-  if (tool.status !== "published") return false; // 示例作品不出现在「按学习目标找工具」结果里
-  if (!matchesToolCoverage(tool, finderState.tahun, finderState.subjek)) return false;
-  let unitOrObjectiveSelected = false;
-  if (finderState.unit) {
-    const coversUnit = (tool.standards || []).some((s) => s.unitCode === finderState.unit);
-    if (!coversUnit) return false;
-    if (finderState.objective) {
-      const coversObjective = (tool.standards || []).some((s) => s.unitCode === finderState.unit && s.objectiveCodes.includes(finderState.objective));
-      if (!coversObjective) return false;
-    }
-    unitOrObjectiveSelected = true;
-  }
-  // 已经选定单元/学习目标时，查询词只是保留在输入框给使用者看（规格要求），不再拿它去比对工具
-  // 标题/关键词——它本来就是 DSKP 单元/目标的文字，不是工具名，用它过滤会把刚匹配到的工具筛掉。
-  if (finderState.q && !unitOrObjectiveSelected) {
-    const q = finderState.q.toLowerCase();
-    const hay = [tool.title_zh, tool.title_bm, ...(tool.keywords || [])].join(" ").toLowerCase();
-    if (!hay.includes(q)) return false;
-  }
-  return true;
-}
-
+// 单元对照卡（可练习什么／准备条件／DSKP 核对状态）：选定单元／学习目标后，在「按课标精确查找」里列出符合的工具。
+// 合集（复习卷）一组一张，各份的内容按「范围：说明」分行列出。
 function finderResultCardHtml(tool) {
+  const parts = tool.members || [tool];
   const resolved = resolveToolStandards(tool);
   const objectives = finderState.objective
     ? resolved.flatMap((r) => r.objectives.filter((o) => o.code === finderState.objective))
@@ -2407,62 +907,38 @@ function finderResultCardHtml(tool) {
   const verifiedAt = resolved[0] ? resolved[0].record.verifiedAt : "";
   // 截取档没有审核（record.reviewed === false），不能写成「已核对」
   const unreviewed = resolved[0] && resolved[0].record.reviewed === false;
+  const perPart = (field) => tool.members
+    ? parts.map((m) => `<span class="finder-card__part"><strong>${m.setLabel}</strong> ${m[field] || "—"}</span>`).join("")
+    : (tool[field] || "—");
+  const modes = [...new Set(parts.flatMap((m) => m.teachingMode || []))].join("、") || "—";
   return `
     <div class="finder-card" data-slug="${tool.slug}">
-      <h4>${tool.title_zh} <span class="finder-card__bm">${tool.title_bm}</span></h4>
+      <h4>${tool.title_zh} <span class="finder-card__bm">${tool.isCollection ? `${parts.length} 份复习卷` : tool.title_bm}</span></h4>
       <dl class="finder-card__meta">
         <div><dt>对应学习目标</dt><dd>Tahun ${tool.tahun} ${SUBJECT_BY_CODE[tool.subjek].title_zh} · ${unitPart}${objLabel ? " · " + objLabel : ""}</dd></div>
-        <div><dt>可练习什么</dt><dd>${tool.practiceSummary || "—"}</dd></div>
-        <div><dt>课堂方式</dt><dd>${(tool.teachingMode || []).join("、") || "—"}</dd></div>
-        <div><dt>准备条件</dt><dd>${tool.prep || "—"}</dd></div>
+        <div><dt>可练习什么</dt><dd>${perPart("practiceSummary")}</dd></div>
+        <div><dt>课堂方式</dt><dd>${modes}</dd></div>
+        <div><dt>准备条件</dt><dd>${perPart("prep")}</dd></div>
         <div><dt>DSKP 核对状态</dt><dd>${unreviewed ? `已对照 · ${verifiedAt}` : `已核对 · ${verifiedAt}`}</dd></div>
       </dl>
     </div>`;
 }
 
-// 还没选年级＋科目、只打了关键词时：告诉老师下方卡片已经按关键词筛好，给一个跳过去的按钮
-function renderFinderQueryJump() {
-  const n = boardTools().length;
-  const q = boardQuery();
-  const hiddenByFacets = n ? 0 : publishedTools().filter((t) => matchesQuery(t, q)).length;
-  if (n) {
-    finderResultsEl.innerHTML = `<p class="finder__count">找到 ${n} 个名称相符的工具 <button type="button" class="finder__browse-link" id="finderJumpBoard">跳到工具</button></p>`;
-  } else if (hiddenByFacets) {
-    // 工具其实有，只是被目前选的年级／科目挡住——明说，并给一键清除
-    finderResultsEl.innerHTML = `<p class="finder__count">有 ${hiddenByFacets} 个工具相符，但不在目前选的年级／科目里。<button type="button" class="finder__browse-link" id="finderClearFacets">不限年级科目再找</button></p>`;
-  } else {
-    finderResultsEl.innerHTML = `<p class="finder__empty">没有名称相符的工具，换个关键词，或从下拉建议选学习目标。</p>`;
-  }
-  const btn = document.getElementById("finderJumpBoard");
-  if (btn) btn.addEventListener("click", scrollToBoard);
-  const clear = document.getElementById("finderClearFacets");
-  if (clear) clear.addEventListener("click", () => { finderState.tahun = null; finderState.subjek = null; renderFinder(); });
-}
-
-function renderFinderResults() {
-  if (!finderState.tahun || !finderState.subjek) {
-    if (finderState.q) renderFinderQueryJump(); else finderResultsEl.innerHTML = "";
-    return;
-  }
-  const record = findDskpRecord(finderState.tahun, finderState.subjek);
-  if (!record) { finderResultsEl.innerHTML = ""; return; }
-  if (!finderState.unit && !finderState.q) {
-    finderResultsEl.innerHTML = '<p class="finder__hint">在上面选一个单元或学习目标缩小范围；下方已经列出这个年级科目的全部工具。</p>';
-    return;
-  }
-  const matches = TOOLS.filter(toolMatchesFinder);
+// 选定了单元／学习目标：有工具就列对照卡，没有就如实说没有并给许愿入口（卡片区同时显示这些工具）
+function renderFinderNote() {
+  if (!finderState.unit) { finderResultsEl.innerHTML = ""; return; }
+  const matches = boardTools();
   if (!matches.length) {
     finderResultsEl.innerHTML = `
       <p class="finder__empty">这个学习目标目前还没有工具。</p>
       <button type="button" class="finder__wish-cta" id="finderWishCta">找不到合适工具？告诉我们这堂课卡在哪里</button>`;
-    const cta = document.getElementById("finderWishCta");
-    if (cta) cta.addEventListener("click", openWishFromFinder);
+    document.getElementById("finderWishCta").addEventListener("click", openWishFromFinder);
     return;
   }
   finderResultsEl.innerHTML = `<p class="finder__count">找到 ${matches.length} 个工具</p>` + matches.map(finderResultCardHtml).join("");
   finderResultsEl.querySelectorAll(".finder-card").forEach((card) => {
     card.addEventListener("click", () => {
-      const tool = TOOLS.find((t) => t.slug === card.dataset.slug);
+      const tool = findToolOrEntry(card.dataset.slug);
       if (tool) openDetail(tool);
     });
   });
@@ -2485,8 +961,9 @@ function renderFinderSuggestions() {
       });
     });
   });
-  TOOLS.filter((t) => t.status === "published").forEach((tool) => {
-    const hay = [tool.title_zh, tool.title_bm, ...(tool.keywords || [])].join(" ").toLowerCase();
+  allEntries().forEach((tool) => {
+    const parts = tool.members || [tool];
+    const hay = [tool.title_zh, tool.title_bm, ...parts.flatMap((m) => [m.title_zh, m.title_bm, ...(m.keywords || [])])].join(" ").toLowerCase();
     if (hay.includes(q)) suggestions.push({ type: "tool", label: tool.title_zh, tool });
   });
 
@@ -2512,10 +989,10 @@ function renderFinderSuggestions() {
     btn.addEventListener("click", () => {
       const s = top[Number(btn.dataset.idx)];
       if (s.type === "unit") {
-        finderState.tahun = s.record.tahun; finderState.subjek = s.record.subjek;
+        finderState.tahun = s.record.tahun; finderState.subjek = s.record.subjek; finderState.topic = null;
         finderState.unit = s.unit.code; finderState.objective = null;
       } else if (s.type === "objective") {
-        finderState.tahun = s.record.tahun; finderState.subjek = s.record.subjek;
+        finderState.tahun = s.record.tahun; finderState.subjek = s.record.subjek; finderState.topic = null;
         finderState.unit = s.unit.code; finderState.objective = s.objective.code;
       } else if (s.type === "tool") {
         finderSuggestionsEl.hidden = true;
@@ -2534,6 +1011,7 @@ function updateFinderUrl() {
   if (activeTool) params.set("tool",activeTool);
   if (finderState.tahun) params.set("tahun", finderState.tahun);
   if (finderState.subjek) params.set("subjek", finderState.subjek);
+  if (finderState.topic) params.set("topic", finderState.topic);
   if (finderState.unit) params.set("unit", finderState.unit);
   if (finderState.objective) params.set("objective", finderState.objective);
   if (finderState.q) params.set("q", finderState.q);
@@ -2545,12 +1023,13 @@ function loadFinderFromUrl() {
   const params = new URLSearchParams(window.location.search);
   const tahunRaw = Number(params.get("tahun"));
   const subjekRaw = params.get("subjek");
+  const topicRaw = params.get("topic");
   const unitRaw = params.get("unit");
   const objectiveRaw = params.get("objective");
   const q = params.get("q") || "";
 
   const validTahun = TAHUN.includes(tahunRaw) ? tahunRaw : null;
-  const validSubjek = finderSubjectsFor(validTahun).some((s) => s.code === subjekRaw) ? subjekRaw : null;
+  const validSubjek = SUBJECT_BY_CODE[subjekRaw] && subjectHasContent(subjekRaw, validTahun) ? subjekRaw : null;
   const record = validTahun && validSubjek ? findDskpRecord(validTahun, validSubjek) : null;
   let validUnit = null, validObjective = null;
   if (record && unitRaw) {
@@ -2560,58 +1039,45 @@ function loadFinderFromUrl() {
       if (objectiveRaw && getObjective(u, objectiveRaw)) validObjective = objectiveRaw;
     }
   }
-  finderState = { tahun: validTahun, subjek: validSubjek, unit: validUnit, objective: validObjective, q };
+  // 主题合不合法要等年级、科目、单元都定了才查，交给 renderFinder 的 normalizeFinderTopic
+  finderState = { tahun: validTahun, subjek: validSubjek, topic: topicRaw || null, unit: validUnit, objective: validObjective, q };
   finderQueryEl.value = q;
 }
 
+// 年级、科目、单元换了以后，主题药丸的范围跟着变：不在范围内的主题条件自动放掉（也挡住网址里的旧／乱主题）
+function normalizeFinderTopic() {
+  if (finderState.topic && !topicPoolEntries().some((t) => t.key === finderState.topic)) finderState.topic = null;
+}
+
 function renderFinder() {
-  finderTahunEl.value = finderState.tahun || "";
-
-  // 科目下拉不再要求先选年级——下方科目按钮本来就能单选科目，两边要能表达同一种状态
-  if (finderSubjekEl.dataset.tahun !== String(finderState.tahun || "")) fillFinderSubjekOptions();
-  finderSubjekEl.value = finderState.subjek || "";
-
+  normalizeFinderTopic();
+  if (finderState.unit) finderAdvEl.open = true; // 从网址或搜索建议带着单元进来时，把「按课标精确查找」展开给老师看
   renderFinderStatus();
   renderFinderPath();
   renderFinderUnits();
-  renderFinderResults();
+  renderFinderNote();
   updateFinderUrl();
-  syncFacetsFromFinder();
   renderFacets();
   renderBoard();
 }
 
-finderTahunEl.addEventListener("change", () => {
-  finderState.tahun = finderTahunEl.value ? Number(finderTahunEl.value) : null;
-  if (finderState.subjek && !finderSubjectsFor(finderState.tahun).some((s) => s.code === finderState.subjek)) finderState.subjek = null;
-  finderState.unit = null; finderState.objective = null;
-  renderFinder();
-});
-finderSubjekEl.addEventListener("change", () => {
-  finderState.subjek = finderSubjekEl.value || null;
-  finderState.unit = null; finderState.objective = null;
-  renderFinder();
-});
 finderQueryEl.addEventListener("input", () => {
   finderState.q = finderQueryEl.value.trim();
   renderFinderSuggestions();
-  renderFinderResults();
   updateFinderUrl();
   renderBoard();
 });
 document.addEventListener("click", (e) => {
   if (!finderSuggestionsEl.contains(e.target) && e.target !== finderQueryEl) finderSuggestionsEl.hidden = true;
 });
-// 下拉建议会盖住下面的「跳到工具」：Enter＝收起建议、直接看下方卡片（还没选年级科目时）；Esc＝只收起建议
+// 下拉建议会盖住下面的卡片：Enter＝收起建议、直接看下方卡片；Esc＝只收起建议
 finderQueryEl.addEventListener("keydown", (e) => {
   if (e.key === "Escape") { finderSuggestionsEl.hidden = true; return; }
   if (e.key !== "Enter") return;
   e.preventDefault();
   finderSuggestionsEl.hidden = true;
   finderQueryEl.blur(); // 手机上顺便收起键盘
-  if (finderState.q && !(finderState.tahun && finderState.subjek) && boardTools().length) {
-    scrollToBoard();
-  }
+  if (finderState.q && boardTools().length) scrollToBoard();
 });
 
 // ============================================================
@@ -3206,10 +1672,25 @@ if (typeof SJKC_SCHOOLS !== "undefined" && stateSelect) {
 const LAST_VISIT_KEY = "kongsi-idea-last-visit-ts";
 const VISIT_SESSION_WINDOW_MS = 30 * 60 * 1000;
 let pageViews = null;
+// 2026-10-17：自动化浏览器（Playwright 验收）与卢老师自己的设备（开过一次 ?nocount=1）不计入到访／使用，数字只反映别人真的打开
+// 与工具端 data/track-use.js 用同一个 key，Hub 和工具规则一致；?nocount=0 取消。只从网址删掉 nocount，筛选条件保留
+const NO_COUNT_KEY = "kongsi-idea-no-count";
+function isUncountedVisitor() {
+  if (navigator.webdriver) return true;
+  try {
+    const u = new URL(location.href);
+    const q = u.searchParams.get("nocount");
+    if (q === "1") localStorage.setItem(NO_COUNT_KEY, "1");
+    if (q === "0") localStorage.removeItem(NO_COUNT_KEY);
+    if (q !== null) { u.searchParams.delete("nocount"); history.replaceState(null, "", u.pathname + u.search + u.hash); }
+    return localStorage.getItem(NO_COUNT_KEY) === "1";
+  } catch (e) { return false; }
+}
 async function bumpPageViews() {
   const lastVisit = Number(localStorage.getItem(LAST_VISIT_KEY) || 0);
   const now = Date.now();
-  const isNewVisit = !lastVisit || (now - lastVisit) > VISIT_SESSION_WINDOW_MS;
+  // 不计的访客一律只读数字，不 +1，也不写 LAST_VISIT_KEY
+  const isNewVisit = !isUncountedVisitor() && (!lastVisit || (now - lastVisit) > VISIT_SESSION_WINDOW_MS);
   const { data, error } = await supabaseClient.rpc(isNewVisit ? "increment_page_views" : "get_page_views");
   if (!error && typeof data === "number") {
     pageViews = data;
@@ -3240,7 +1721,7 @@ function renderStats() {
   if (!statsBarEl) return;
   const totalUses = TOOLS.reduce((sum, t) => sum + getUses(t.slug), 0);
   // 「已上架」只算真的发布的工具，示例作品不计入——不然会假装平台有更多作品
-  const toolCount = TOOLS.filter((t) => t.status === "published").length;
+  const toolCount = allEntries().length; // 合集（复习卷）算 1 个
   const teacherStatHtml = teacherCount === null
     ? `<span class="stat stat--pending"><span class="stat__num" data-target="0">0</span><span class="stat__label">位老师注册</span><span class="stat__badge">即将上线</span></span>`
     : `<span class="stat"><span class="stat__num" data-target="${teacherCount}">0</span><span class="stat__label">位老师注册</span></span>`;
@@ -3353,10 +1834,7 @@ function showToast(message, type = "success") {
 bumpPageViews();
 // 「今天」两个字先出来，停顿 2 秒，再继续把后面的字打完，整体也放慢一点
 typewriterInto(document.getElementById("finderTitleText"), "今天要教什么？", { speed: 140, pauseAfterChar: 2, pauseMs: 2000 });
-renderFacets();
-renderBoard();
 renderStats();
-renderFinderShortcuts();
 resetWishForm();
 loadFinderFromUrl();
 renderFinder();
@@ -3365,24 +1843,24 @@ loadToolStats();
 initAuth();
 const requestedToolSlug = new URLSearchParams(window.location.search).get("tool");
 if (requestedToolSlug) {
-  const requestedTool = TOOLS.find(tool=>tool.slug === requestedToolSlug);
+  const requestedTool = findToolOrEntry(requestedToolSlug);
   if (requestedTool) openDetail(requestedTool);
   else showToast("找不到这个工具，请从目录重新选择。","error");
 }
 // 分享给学生：一次点击做两件事——复制链接＋就地生成QR码（离线的 qrcode-generator
 // 库，不外传网址给第三方 API）。老师课堂上两个通常都要（投影QR＋链接留着备用），
 // 不用先选「要哪一种分享方式」。再点一次收起QR（不重复复制，避免每次点都跳提示）。
-document.getElementById("detailShareBtn").addEventListener("click",async()=> {
-  const slug=new URLSearchParams(window.location.search).get("tool");
+// 一般工具只有一个分享按钮；合集详情里每份卷各自一个，QR 各自生成。
+async function shareToolLink(slug, { box, field, label }) {
   if (!slug) return;
-  const label=document.getElementById("detailShareLabel");
-  const box=document.getElementById("detailShareQrBox");
   if (!box.hidden) { box.hidden=true; label.textContent="分享给学生"; return; }
 
-  const url=new URL(window.location.pathname,window.location.origin);
-  url.searchParams.set("tool",slug);
-  try { await navigator.clipboard.writeText(url.href); showToast("已复制课堂点子铺的工具链接"); }
-  catch { const field=document.getElementById("detailShareUrl"); field.hidden=false; field.value=url.href; field.focus(); field.select(); showToast("请复制已选中的链接"); }
+  // 复习卷的每一份直接给工具网址：老师发哪一份，学生打开就是那一份，不用再从合集里点一次
+  const member=TOOLS.find((t)=>t.slug===slug && t.collection && t.url);
+  const url=member ? new URL(member.url) : new URL(window.location.pathname,window.location.origin);
+  if (!member) url.searchParams.set("tool",slug);
+  try { await navigator.clipboard.writeText(url.href); showToast(member ? "已复制这份复习卷的链接" : "已复制课堂点子铺的工具链接"); }
+  catch { field.hidden=false; field.value=url.href; field.focus(); field.select(); showToast("请复制已选中的链接"); }
 
   if (!box.innerHTML) {
     const qr=qrcode(0,"M");
@@ -3392,4 +1870,9 @@ document.getElementById("detailShareBtn").addEventListener("click",async()=> {
   }
   box.hidden=false;
   label.textContent="收起分享";
-});
+}
+document.getElementById("detailShareBtn").addEventListener("click",()=> shareToolLink(currentDetailSlug,{
+  box: document.getElementById("detailShareQrBox"),
+  field: document.getElementById("detailShareUrl"),
+  label: document.getElementById("detailShareLabel"),
+}));

@@ -10,17 +10,17 @@
 ## 与教学工具源码的关系
 - `kongsi-idea/` 只存平台代码、工具登记资料、缩略图、课程索引，**不存放工具源码**。
 - 工具源码在同级 [`../teaching-tools/`](../teaching-tools/)，每个 slug 独立 Git+Vercel。开发/部署工具先读 `../teaching-tools/agents.md`；上架/DSKP对照/平台展示回本资料夹。
-- 登记桥梁（新增/移动工具须同步）：`app.js` 的 `TOOLS`、`data/dskp-index.js`、`docs/published-tools-coverage.md`、`teaching-tools/README.md`。
+- 登记桥梁（新增/移动工具须同步）：`data/tools.js` 的 `TOOLS`（2026-10-17 老师定：登记从 `app.js` 搬出，`app.js` 不再放工具资料）、`data/dskp-index.js`、`docs/published-tools-coverage.md`、`teaching-tools/README.md`。
 - 全部工具进度看 `../teaching-tools/PROGRESS.md`；本目录 `docs/tools-status.md` 是同脚本生成镜像，不要手改。
 
 ## 关键决定（不要无充分理由推翻）
 1. 独立专案，与`二年级数学`、EduNeo（class_system-1）解耦
 2. 登录分层：浏览/使用免登录；反馈/许愿/投稿需登录
 3. hub 只做平台，工具各自独立部署；hub 用 iframe/新分页链接，反馈/星星/统计是 hub 自己的 UI
-4. 命名：`tahun{年级}-{科目缩写}-{单元}`，马来文简称（如 `tahun2-mt-wang`）
+4. 命名：`tahun{年级}-{科目缩写}-{单元关键词}`，同单元已有工具才加第四层玩法词（如 `tahun2-mt-wang`）。完整规则（玩法词表、范围写法、不放月份、不用数字后缀）见 `../teaching-tools/agents.md`「新工具资料夹命名」；**只管新工具，已上线的 slug 不改**（2026-10-17 老师定）
 5. 登记资料中马双语可搜索
 6. 分类靠「年级」+「科目」双筛选交集
-7. 卡片先看缩略图，点「开始使用」新分页全屏打开。**详情弹窗第一屏给学生**：「开始使用」要第一眼看到；作者/DSKP/版本号等给老师看的资料排分隔线以下。小屏断点见 `style.css` `@media (max-height: 560px)`
+7. 卡片先看缩略图，点「开始使用」新分页全屏打开。**详情弹窗第一屏给学生**：「开始使用」要第一眼看到；作者/DSKP/版本号等给老师看的资料排分隔线以下。小屏断点见 `style.css` `@media (max-height: 560px)`。2026-10-17 老师定：分隔线以下另有「同主题的其他工具」（主题 `zh` 相同的已上架工具，同年级优先）、「老师后台」链接（工具在 `data/teacher/index.js` 的 `TEACHER_TOOLS` 里才显示，旁注「需要先在『我的班级』建班，让学生用班级码作答」）、类型 `type`
 8. 两套星星分开：①工具「喜欢数」免登录一票，卡片按此排序；②老师「声望星星」需登录，待账号系统
 9. 使用次数阶段一用 localStorage，全体统计待后端
 10. 全局统计条公开；无真实数据来源如实显示 0，不编造
@@ -28,7 +28,7 @@
 12. 点子许愿池须结构化表单（规格 `docs/idea-wish-pool-spec.md`），需登录，不收集学生个资
 13. 每工具需 `version`+`changelog`（数组追加不覆盖）
 14. `creator` 须真实作者姓名，不能全挂卢老师
-15. 「网页浏览量」2026-09-11起用真实计数（`page_view_counter`+RPC，见 `supabase/migration-2026-09-11-page-views.sql`），历史无法补回，**不可用估算值填**，数字落差宁可暂藏统计卡不编数字。2026-09-17改名「次到访」并加30分钟session去重（`localStorage` key `kongsi-idea-last-visit-ts`）——单纯刷新会灌水，不反映真实到访意图；窗口内改打 `get_page_views()` 只读不加，超过窗口才打 `increment_page_views()`。这也是客户端估计值（清cache/换设备会重算），不是真独立访客数，但比纯page view更接近
+15. 「网页浏览量」2026-09-11起用真实计数（`page_view_counter`+RPC，见 `supabase/migration-2026-09-11-page-views.sql`），历史无法补回，**不可用估算值填**，数字落差宁可暂藏统计卡不编数字。2026-09-17改名「次到访」并加30分钟session去重（`localStorage` key `kongsi-idea-last-visit-ts`）——单纯刷新会灌水，不反映真实到访意图；窗口内改打 `get_page_views()` 只读不加，超过窗口才打 `increment_page_views()`。这也是客户端估计值（清cache/换设备会重算），不是真独立访客数，但比纯page view更接近。自动化浏览器（`navigator.webdriver`）与开过一次 `?nocount=1` 的设备不计（2026-10-17，key `kongsi-idea-no-count`，`?nocount=0` 取消）；首页统计条下写明起算日期
 16. `kongsi-idea.vercel.app` 域名可能从专案（`prj_Oyf637d4j8ODuilHIY7eZ2OoZswQ`）Domains列表消失（边缘缓存顶旧内容仍200）——线上无反应先查 Domains 列表，`POST /v10/projects/{id}/domains` 加回
 17. **只开放anon INSERT不开放SELECT的表，insert 绝不能带 `.select()`／`Prefer: return=representation`**（RETURNING读回要过SELECT检查，会撞 `42501`）。一律 `Prefer: return=minimal`
 18. 不需要 `supabase` CLI/`psql`：`supabase/.secrets.local.md` 存DB密码，Python `psycopg2` 直连 `db.{project_ref}.supabase.co:5432` 跑 migration，比手贴 Dashboard 快；Dashboard 降级为备案。密码那行是全角冒号 `Database password：`，解析用 `[:：]`，**不要把档案内容印出来**
@@ -36,10 +36,10 @@
 20. **详情打开次数（浏览→使用转化率）尚未做**，2026-09-25 讨论过：工程量小（现有 `tool_stats` 表加一栏＋RPC，複用 `increment_tool_uses` 那套模式），但老师自己一人经营、单工具日打开量小，数字只能当方向参考不能精算——之后要做才做，不是遗漏也不用主动补
 
 21. **缩略图两套**（2026-09-30）：`assets/thumbs/` 原图只给灯箱放大；卡片与详情弹窗读 `assets/thumbs-web/` 的 WebP（最长边 960px，`scripts/build-thumbs.py` 生成，原图 23MB→1.9MB）。**新增或换缩略图后必须跑一次该脚本**再部署；忘了跑不会破图（`onerror` 退回原图），但首页又会变慢。`vercel.json` 给 `/assets/*` 一天缓存。起因：首页一开就下载 8.3MB 原图 PNG，学校网路要等十几秒
-22. **版面天地格**（2026-09-30，10-01 修订）：全站区块用 `.container`（`--page-max: 1200px`、`--gutter`、`--space-section`）对齐同一条左右边界，不要再在单一区块写 `clamp(...)` 左右边距。工具卡片用 `grid-template-rows: subgrid` 跨 6 行（缩略图／中文名／马来文名／作者／标签／统计），同排卡片行线对齐——**卡片子元素数量必须固定 6 个**（没作者也要留空 `.creator`），增删栏位要同步改 `grid-row: span 6`。开发代号只在详情弹窗显示。栏数靠 `minmax(min(100%, 250px), 1fr)`：桌面 4、平板 2；**≤560px 手机改横式清单卡**（缩略图左、文字右、隐藏作者），整页从 14,000px 缩到 5,500px。⚠️ 卡片不能加 `container-type`，Chrome 会让 subgrid 的缩略图行高塌掉
-23. **首页只有一个搜索框、上下共用一套条件**（2026-10-01／10-02）：`finderState` 是唯一来源，下方年级／科目按钮只是镜像（`syncFacetsFromFinder`／`applyFacetsToFinder`），任何一边改另一边跟着变；下方卡片同时吃年级、科目、单元／学习目标、关键词，卡片上方「显示 N 个工具＋条件标签＋清除条件」说明为什么只剩这些。条件只存在网址（刷新／返回键保留），**不存 localStorage**——干净网址一律从全部工具开始，避免隔天回来被旧条件悄悄筛掉（10-04 老师确认）。**不要再让上下各有一套筛选状态**——老师 10-02 截图反馈上面选 1 年级马来文、下面仍显示全部会混淆。「今天要教什么？」的 `#finderQuery` 同时筛下方「浏览全部工具」卡片（`boardTools()`）；已选定单元／学习目标时不拿查询词筛卡片。不要再在浏览区加第二个搜索框——老师分不清用哪个。浏览区科目筛选与查找区科目下拉：有工具（或有学习目标索引）的科目排前面可按；**该年级课纲有、但还没有工具的科目排后面灰色按不到——不删掉，让老师看得出还能开发**（2026-10-01 老师定）；课纲没有的科目（依 `docs/subjek-tahun.md`，`app.js` 的 `SUBJECT_TAHUN`）不列。**不再出现「整理中」**；有工具没索引的显示「N年级X科目前有 N 个工具，还没按学习目标细分」＋直达按钮；「常用入口」没索引的当关键词搜索，搜不到工具的入口自动不显示
+22. **版面天地格**（2026-09-30，10-01 修订）：全站区块用 `.container`（`--page-max: 1200px`、`--gutter`、`--space-section`）对齐同一条左右边界，不要再在单一区块写 `clamp(...)` 左右边距。工具卡片用 `grid-template-rows: subgrid` 跨 6 行（缩略图／中文名／马来文名／作者／标签／统计），同排卡片行线对齐——**卡片子元素数量必须固定 6 个**（没作者也要留空 `.creator`），增删栏位要同步改 `grid-row: span 6`。开发代号只在详情弹窗显示。栏数靠 `minmax(min(100%, 250px), 1fr)`：桌面 4、平板 2；**≤560px 手机改横式清单卡**（缩略图左、文字右、隐藏作者），整页从 14,000px 缩到 5,500px。2026-10-17 老师定：标签那一格放四颗 tags——主题（橙底白字）、主要上课方式 `modes[0]`（浅蓝）、类型 `type`（描边）、`N年级·科目`；手机横式卡片隐藏「类型」；子元素仍固定 6 个、署名那行保留（手机照旧隐藏）。⚠️ 卡片不能加 `container-type`，Chrome 会让 subgrid 的缩略图行高塌掉
+23. **首页只有一套条件、单一来源**（2026-10-01／10-02，**2026-10-17 老师定改成新面板**，规格 `docs/hub-reorg-2026-10.md` 第 3 节）：顶部白色面板由上而下是搜索框 → 年级药丸（1–6，手机 ≤560px 缩成一排）→ 科目药丸（带工具数）→ 选了年级＋科目才出现的主题药丸（橙色，带数量）→ 收起的「按课标精确查找（单元／学习目标）」。**原本的年级／科目下拉、下方「浏览全部工具」的第二套年级／科目按钮、「常用入口」已拿掉**，只剩一套条件，`finderState` 仍是唯一来源；卡片同时吃年级、科目、主题、单元／学习目标、关键词，卡片上方「显示 N 个工具＋条件标签＋清除条件」说明为什么只剩这些。条件只存在网址（刷新／返回键保留），**不存 localStorage**——干净网址一律从全部工具开始，避免隔天回来被旧条件悄悄筛掉（10-04 老师确认）。**不要再让上下各有一套筛选状态，也不要再加第二个搜索框**——老师 10-02 截图反馈上面选 1 年级马来文、下面仍显示全部会混淆，分不清用哪个。科目药丸：有工具（或有学习目标索引）的科目可按；**该年级课纲有、但还没有工具的科目灰色按不到——不删掉，让老师看得出还能开发**（2026-10-01 老师定）；课纲没有的科目（依 `docs/subjek-tahun.md`，`SUBJECT_TAHUN`）不列；科目顺序华文最前，其后数学、马来文、英文。**不再出现「整理中」**；有工具没索引的显示「N年级X科目前有 N 个工具，还没按学习目标细分」＋直达按钮。卡片排序：没选年级不分段、「新」排前再按喜欢数；只选年级按科目分段；选了年级＋科目不分段、同主题排在一起。「新」＝`changelog` 最早日期 7 天内，且全站最多标最新 8 个。跨年级工具（有 `coverage`）选任何涵盖年级都要出现。
 24. **联络入口用 Telegram**（2026-10-01 老师选定）：「为什么会有这个地方」的按钮连 `https://t.me/yquanloo`，不公开 email
-25. **使用次数两条来源，不会重复计**（2026-10-08）：① Hub 详情页「开始使用」→ `bumpUses()`，链接带 `?kh=1`；② 工具被直接打开（老师转发网址）→ 工具入口的 `data/track-use.js`（`data-slug` 必须等于 `slug.vercel.app` 前缀，只在正式网址计数）。脚本看到 `kh=1` 就跳过并用 `replaceState` 清掉，老师从地址栏复制转发才不会漏算；同浏览器同工具 30 分钟去重（key `kongsi-idea-use-ts:{slug}`）。两边都调同一个 RPC `increment_tool_uses`，没有 schema 变更。**历史补不回来，从 2026-10-08 起算**；仍是客户端估计值，课室多台电脑同时开会各算一次。新工具必须带这一行（`teaching-tools/agents.md` 有规则，`npm run check` 会验）。**不要改 `data/track-use.js` 的路径或 `kh` 参数名**，所有已上线工具都依赖它。
+25. **使用次数两条来源，不会重复计**（2026-10-08）：① Hub 详情页「开始使用」→ `bumpUses()`，链接带 `?kh=1`；② 工具被直接打开（老师转发网址）→ 工具入口的 `data/track-use.js`（`data-slug` 必须等于 `slug.vercel.app` 前缀，只在正式网址计数）。脚本看到 `kh=1` 就跳过并用 `replaceState` 清掉，老师从地址栏复制转发才不会漏算；同浏览器同工具 30 分钟去重（key `kongsi-idea-use-ts:{slug}`）。两边都调同一个 RPC `increment_tool_uses`，没有 schema 变更。**历史补不回来，从 2026-10-08 起算**；仍是客户端估计值，课室多台电脑同时开会各算一次。新工具必须带这一行（`teaching-tools/agents.md` 有规则，`npm run check` 会验）。**不要改 `data/track-use.js` 的路径或 `kh` 参数名**，所有已上线工具都依赖它。自动化浏览器与 `?nocount=1` 设备不计（2026-10-17，Hub 的 `bumpUses` 与 `track-use.js` 同一个 key）。
 26. **非中文科目的工具，所有页面内容用该科目的语言**（2026-10-10 老师定，10-10 再次强调「下次要注意」）。适用：英文（BI）、马来文（BM）工具。国文（BC）工具本来就是华文，照旧。范围包括：
    - 主标题 `title_zh`（大字）用该科目语言，中文名放 `title_bm`（小字）。例：`Sentence Train`／「句子小火车」、`Huruf A–Z: Mari Menulis`／「Huruf A–Z 写字母」。
    - `desc`、`practiceSummary`、`teachingMode`、`prep` 全部用该语言撰写，不用中文转述。
@@ -55,13 +55,18 @@
 30. **许愿池来的工具，署名与许愿单收尾**（2026-10-12）：许愿单没署名时 `creator` 写「一位×年级老师」（`initial: "师"`），**不写「卢老师」、不写学校**（许愿默认不公开老师与学校）；「卢老师」只给卢老师自己主动做的工具。表单第 3 步有选填「想怎么署名」，**存在 `wishes.classroom_context` 末尾一行 `署名：…`**（不加栏位、不改 schema），**勾选确认句＝同意该署名写在工具上**。工具上线／修订后要回许愿池把该单改 `shipped`＋`linked_tool_slug`＋备注（agent 用 psycopg2 直连，只改这三栏）。完整流程在 `../teaching-tools/agents.md`「从许愿池做工具的标准流程」。
 31. **许愿池「错例」栏**（2026-10-12）：第 2 步新增选填「能给一道学生真的做错的题吗」，存成 `problem_description` 的 `错例：…` 一行；placeholder 随科目换（数学带数字）。起因：第 11 份仍只写概括没写具体错题。判断标准：之后的许愿里这栏有填的比例、填的是不是「题目＋错误答案」。
 32. **`dskp-index` 收录 Tahun 5 数学只含 8.0／8.2**（2026-10-12）：依资料库截取档（中文 SJKC＋马来文 SK），`reviewed:false`，页面显示「已对照」不显示「已核对」；只收工具实际覆盖的目标，不是整个单元。
-33. **英文科工具的缩图封面写「Year N · English」，不写「Tahun N」**（2026-10-14，老师纠正 questiontags 与 dressing 两张封面）：其他科目维持 Tahun。生封面的提示词要明写「必须是 Year N，不是 Tahun N」并逐字核对。封面是 PNG 里的文字，只能重生图（`cx-draw`），不能只改 app.js 的 label；改完跑 `scripts/build-thumbs.py`。
+33. **英文科工具的缩图封面写「Year N · English」，不写「Tahun N」**（2026-10-14，老师纠正 questiontags 与 dressing 两张封面）：其他科目维持 Tahun。生封面的提示词要明写「必须是 Year N，不是 Tahun N」并逐字核对。封面是 PNG 里的文字，只能重生图（`cx-draw`），不能只改 `data/tools.js` 里的 label；改完跑 `scripts/build-thumbs.py`。
+34. **Hub 整理的总规格在 `docs/hub-reorg-2026-10.md`**（2026-10-17 老师定案）：slug 命名、主题与上课方式、首页新面板、详情弹窗、通用老师后台、缩略图、复习卷合卡、版本记录都以它为准；上面各条与它冲突时以它为准。**已上线工具的 slug、网址不改**（网址、使用次数、喜欢数、转发出去的链接都绑 slug）。
+35. **主题与上课方式**（2026-10-17 老师定）：①主题写在 `data/dskp-index.js` 的节点上（`topic: { zh, bm }`），数学、科学、AM 等内容科标在单元层，语文（bc、bm、bi）标在内容标准（objective）层；**同一内容跨年级必须用完全相同的 `zh` 词**，Hub 靠它把不同年级连起来，所以加新主题词前先查现有的。②工具不手填主题，由 `standards` 第一条解析（objective.topic ＞ unit.topic）；**新工具上架必须有能解析出主题的 `standards`**，只有综合复习、跨科等跨很多单元的才在工具上写 `topicOverride: { zh, bm }`。③每个工具必须填 `modes`，值只能是 `全班投影`／`上台对战`／`各自练习`／`回家练习`，1–3 个，第一个是卡片上显示的主要方式；`teachingMode` 原文保留（详情页照旧用）。④显示语言：bm／bi 工具显示 `topic.bm`，其他显示 `topic.zh`；搜索两个都比对，`matchesQuery` 也比对 `modes`。
+36. **老师后台是一个通用页面，不再一工具一页**（2026-10-17 老师定）：`kongsi-idea.vercel.app/teacher.html?tool={slug}&code={班级码}`，登录、选班、成绩表、CSV、「不在名单」学生的对应全部共用。新工具要后台＝加一份 `data/teacher/{slug}.js` 设定（成绩表名、栏位、题库网址、特殊显示）＋在 `data/teacher/index.js` 的 `TEACHER_TOOLS` 加 slug；**不再复制整页 `*-admin.html`**。题库一律从工具线上网址读，不在 Hub 另存。现有 6 个旧后台（`fuxi-admin`、`fuxi2-admin`、`latihan-admin`、`latihan2-admin`、`mtfuxi-admin`、`mt1fuxi-admin`）一律改用它，旧网址由 `vercel.json` 转址并带过 `?code=` 等参数。`admin.html`（许愿池后台，见决定 29）不动。登录在 Hub 网域，不改 Supabase 设定。
+37. **复习卷在 Hub 合成一张卡**（2026-10-17 老师定）：同年级同科目的复习卷工具合成一张卡，工具本身不改、各自网址不变。做法：成员工具加 `collection: "<id>"` 与 `setLabel`（短的范围说明，如「下册第 12–22 单元」），并在 `data/tools.js` 的 `TOOL_COLLECTIONS` 登记 `{ title_zh, title_bm, desc }`。**新做复习卷必须加这两项，不要同年级同科目再各开一张卡。**卡片代表整组（标题如「一年级华文复习卷」、副标「N 份复习卷」），使用次数与喜欢数显示各成员加总；年级／科目／主题计数把整组算 1 个；详情弹窗每份卷各有「开始使用」、「分享给学生」、「老师后台」，`?tool=<成员slug>` 打开整组并标出该份。游戏类（如 `tahun2-bc-zonghe`）不并入。因此规格 P5「新工具改名」暂停。
+38. **版本记录规则**（2026-10-17 老师定）：Hub 整理（首页、详情页、后台改版、登记搬位置）学生端没变，**工具的 `version`／`changelog` 不因此升版**；这类改版记在 Hub 的 git commit、本档关键决定、`handoff.md`。工具真的改了学生看得到的东西才升版（见 `../teaching-tools/agents.md`「已上架工具每次上线新版本」）。
 
 ## 视觉设计
 布告栏意象；不用 emoji，图钉/星星/奖杯用 CSS/SVG；科目用缩写字母徽章（MT/BM/BI/BC/SA）；配色（跟 EduNeo 区分）：暖纸白 `#FBF6EC`、黑板绿 `#1F3A34`、橙黄 `#E8873E`、天空蓝 `#4FA8D8`（马来文）、珊瑚红 `#D65B4A`（中文/星星）、暖金 `#F0B429`；卡片±1-2°随机倾斜
 
 ## 资料夹结构（要点）
-`index.html/style.css/app.js` 首页；`kelasku.html/.js/.css` 班级名单页；`docs/dskp/{tahun}/{subjek}.md` DSKP摘要；`data/dskp-index.js` 结构化索引权威来源；`data/supabase-client.js`／`class-code-client.js` 前端SDK；`supabase/schema.sql`（wishes/tool_stats/tool_like_votes+RPC）、`supabase/.secrets.local.md`（DB密码，已gitignore，**凭证存于此**）。同级 `../teaching-tools/{slug}/` 各工具源码。工具登记未拆 `meta.json`，直接写 `app.js` 的 `TOOLS` 常量数组。
+`index.html/style.css/app.js` 首页；`kelasku.html/.js/.css` 班级名单页；`docs/dskp/{tahun}/{subjek}.md` DSKP摘要；`data/dskp-index.js` 结构化索引权威来源；`data/supabase-client.js`／`class-code-client.js` 前端SDK；`supabase/schema.sql`（wishes/tool_stats/tool_like_votes+RPC）、`supabase/.secrets.local.md`（DB密码，已gitignore，**凭证存于此**）。同级 `../teaching-tools/{slug}/` 各工具源码。工具登记在 `data/tools.js`（`TOOLS` 常量数组＋`TOOL_COLLECTIONS`），不再写在 `app.js`；老师后台设定在 `data/teacher/{slug}.js`，登记表 `data/teacher/index.js`。
 
 ## 账号系统与 Supabase
 独立 project，ref `gntnkhkkgonaehapcerr`，与 EduNeo 完全分开（公开平台 vs 私人学生资料）。老师登录用 Google OAuth。踩坑细节见 Claude memory `kongsi-idea-supabase-integration`。

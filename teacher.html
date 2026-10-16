@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>老师后台 · 点子铺</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="teacher.css">
+</head>
+<body>
+<main class="la">
+  <h1 id="pageTitle">老师后台</h1>
+  <p class="la__sub" id="pageSub">只有该班老师登录后才看得到学生答案。本页不对外公开，请自己存书签。</p>
+  <div id="app"><p class="la__msg">载入中…</p></div>
+</main>
+<div class="la__toast" id="toast" hidden role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="data/supabase-client.js"></script>
+<script src="data/teacher/index.js"></script>
+<script src="teacher.js"></script>
+</body>
+</html>

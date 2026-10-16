@@ -32,55 +32,44 @@
    </div>
   </header>
 
-  <!-- ============ 主入口：按学习目标找工具（阶段A） ============ -->
+  <!-- ============ 首页查找面板：搜索 → 年级 → 科目 → 主题（docs/hub-reorg-2026-10.md 第 3 节） ============ -->
   <section class="finder container">
     <div class="finder__intro">
       <h2 aria-label="今天要教什么？"><span id="finderTitleText" aria-hidden="true"></span><span class="typewriter-cursor" aria-hidden="true"></span></h2>
-      <p class="finder__sub">按学习目标找工具，不用先知道工具叫什么名字</p>
-    </div>
-
-    <div class="finder__row">
-      <select id="finderTahun" aria-label="选年级">
-        <option value="">选年级 Tahun</option>
-      </select>
-      <select id="finderSubjek" aria-label="选科目" disabled>
-        <option value="">先选年级</option>
-      </select>
+      <p class="finder__sub">选年级、科目，或直接搜索</p>
     </div>
 
     <div class="finder__search">
-      <label for="finderQuery" class="finder__search-label">搜索工具名称、学习目标或关键词</label>
-      <input type="text" id="finderQuery" autocomplete="off"
-        placeholder="例如：钱币、笔顺、4.2、tambah wang">
+      <input type="text" id="finderQuery" autocomplete="off" aria-label="搜索工具、主题或课标"
+        placeholder="搜索工具、主题、课标（如量词、4.2）">
       <div class="finder__suggestions" id="finderSuggestions" hidden role="listbox"></div>
     </div>
 
-    <div class="finder__shortcuts">
-      <span class="finder__shortcuts-label">常用入口：</span>
-      <div class="finder__shortcuts-chips" id="finderShortcuts"></div>
+    <div class="finder__facet">
+      <span class="finder__facet-label">年级</span>
+      <div class="pills pills--grade" id="gradeFacet"></div>
+    </div>
+    <div class="finder__facet">
+      <span class="finder__facet-label">科目</span>
+      <div class="pills pills--scroll" id="subjekFacet"></div>
+    </div>
+    <div class="finder__facet finder__facet--topic" id="topicRow" hidden>
+      <span class="finder__facet-label">主题</span>
+      <div class="pills pills--scroll" id="topicFacet"></div>
     </div>
 
-    <p class="finder__status" id="finderStatus" hidden></p>
-    <p class="finder__path" id="finderPath" hidden></p>
-    <div class="finder__units" id="finderUnits" hidden></div>
-    <div class="finder__results" id="finderResults"></div>
+    <details class="finder__adv" id="finderAdv">
+      <summary>按课标精确查找（单元／学习目标）</summary>
+      <p class="finder__status" id="finderStatus" hidden></p>
+      <p class="finder__path" id="finderPath" hidden></p>
+      <div class="finder__units" id="finderUnits" hidden></div>
+      <div class="finder__results" id="finderResults"></div>
+    </details>
   </section>
 
-  <!-- ============ 辅助路径：浏览全部工具 ============ -->
+  <!-- ============ 工具卡片区：吃上面同一套条件 ============ -->
   <section class="browse container">
-    <h2 class="browse__title">浏览全部工具</h2>
-
-    <div class="facets">
-      <div class="facet-row">
-        <span class="facet-row__label">年级</span>
-        <div class="facet-row__chips" id="gradeFacet"></div>
-      </div>
-      <div class="facet-row">
-        <span class="facet-row__label">科目</span>
-        <div class="facet-row__chips" id="subjekFacet"></div>
-      </div>
-    </div>
-
+    <h2 class="sr-only">工具列表</h2>
     <div class="board__summary" id="boardSummary" hidden aria-live="polite"></div>
 
     <main class="board" id="board">
@@ -115,6 +104,7 @@
     <div class="stats-bar container" id="statsBar">
       <!-- 统计数字由 app.js 填入，滑到这里才会跑动画 -->
     </div>
+    <details class="stats-note container"><summary>数字怎么算？</summary><p>到访自 2026-09-11 起计；工具使用自 2026-07-23 起计（直接打开工具网址自 2026-10-08 起计入）；不含自动测试</p></details>
   </footer>
 
   <div class="modal" id="detailModal">
@@ -128,6 +118,8 @@
              不是老师。按钮原本排在 DSKP／版本／更新记录之后，学生要滚很久才看得到，
              结果全班都去点最大、最像游戏的那张缩略图（2026-08-26 1I 班实测）。
              说明／标准／版本这些给老师读的内容一律下移到分隔线以下。 -->
+        <!-- 合集（复习卷）：第一屏改列每份卷各自的「开始使用」，由 app.js 的 renderDetailSets 填入，此时上面这组单个按钮隐藏 -->
+        <div class="detail__sets" id="detailSets" hidden></div>
         <div class="detail__actions">
           <a class="detail__open" id="detailOpenLink" href="#" target="_blank" rel="noopener">开始使用</a>
           <!-- 分享给学生：一个按钮同时做两件事（复制链接＋就地显示QR码），
@@ -142,11 +134,17 @@
         <hr class="detail__rule">
         <div class="creator" id="detailCreator"></div>
         <p class="detail__desc" id="detailDesc"></p>
+        <div class="detail__setnotes" id="detailSetNotes" hidden></div>
         <div class="detail__standards" id="detailStandards"></div>
         <div class="detail__meta">
           <span class="card__slug" id="detailSlug"></span>
           <span class="detail__version" id="detailVersion"></span>
           <span class="detail__uses" id="detailUses"></span>
+        </div>
+        <div class="detail__more">
+          <p class="detail__type" id="detailType" hidden></p>
+          <div class="detail__related" id="detailRelated" hidden></div>
+          <p class="detail__teacher" id="detailTeacher" hidden></p>
         </div>
         <div class="detail__changelog" id="detailChangelog" hidden></div>
       </div>
@@ -310,6 +308,8 @@
   <script src="data/supabase-client.js"></script>
   <script src="data/sjkc-schools.js"></script>
   <script src="data/dskp-index.js"></script>
+  <script src="data/tools.js"></script>
+  <script src="data/teacher/index.js"></script><!-- 定义 TEACHER_TOOLS（有老师后台的 slug）；档案没有时 app.js 当没有后台 -->
   <script src="app.js"></script>
 </body>
 </html>

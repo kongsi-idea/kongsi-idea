@@ -6,6 +6,8 @@
   --blue: #4FA8D8;
   --blue-deep: #23729E; /* 天空蓝的深一阶：白字放上去对比 5.3:1，过 WCAG AA；原天空蓝配白字只有 2.6 */
   --red: #D65B4A;
+  --orange-deep: #AE550E; /* 橙色的深一阶：白字对比 5.1:1（原橙配白字只有 2.6），主题颗与已选主题药丸用 */
+  --red-deep: #BF4838;    /* 「新」徽章：白字对比 5.0:1 */
   --gold: #F0B429;
   --card-radius: 10px;
 
@@ -14,7 +16,7 @@
   --font-mono: "SF Mono", "Consolas", "Courier New", monospace;
 
   /* 统一控件规格：所有「可填写/可选择」的输入框、下拉选单共用同一套尺寸，
-     跟「可点击的标签/按钮」（药丸形 .chip/.tag/.wish-chip）用形状区分开——
+     跟「可点击的标签/按钮」（药丸形 .pill/.tag/.wish-chip）用形状区分开——
      圆角矩形＝可填字段，药丸形＝可点动作，一致的形状语言比统一颜色更重要 */
   --field-radius: 12px;
   --field-border: 2px solid rgba(31,58,52,0.15);
@@ -76,7 +78,6 @@
 }
 
 /* ---------- 统一控件规格：搜索框/下拉选单/文字输入/文字区一律套用同一套尺寸 ---------- */
-.finder__row select,
 .finder__search input,
 .wish__field textarea,
 .wish__field select,
@@ -93,7 +94,6 @@
   background: #fff;
   color: var(--ink);
 }
-.finder__row select:focus,
 .finder__search input:focus,
 .wish__field textarea:focus,
 .wish__field select:focus,
@@ -107,7 +107,6 @@
 /* 原生 <select> 自带系统外观（macOS/Windows 各自的下拉框皮肤），就算 padding/字号完全一样，
    渲染出来的实际高度还是会跟一般输入框对不上——关掉系统外观、自己画箭头，让它完全照 CSS 走，
    才能跟旁边的搜索框像素级对齐 */
-.finder__row select,
 .wish__field select,
 .school-picker__row select {
   appearance: none;
@@ -223,52 +222,6 @@ body {
   box-shadow: 0 4px 0 rgba(31,58,52,0.12);
   text-decoration: none;
   text-align: center;
-}
-
-/* ---------- Facets: 年级 / 科目 双条件筛选，可同时选 ---------- */
-.facets {
-  padding: 18px 0 4px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.facet-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.facet-row__label {
-  font-family: var(--font-display);
-  font-size: 0.82rem;
-  color: rgba(31,58,52,0.55);
-  min-width: 34px;
-}
-.facet-row__chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.chip {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  border: none;
-  background: var(--paper-deep);
-  color: rgba(31,58,52,0.55);
-  padding: 8px 16px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: background 0.12s ease, color 0.12s ease;
-}
-.chip.active {
-  background: var(--ink);
-  color: var(--paper);
-}
-/* 还没有工具的科目：留着让老师知道「这科可以开发」，但灰掉、按不到 */
-.chip:disabled {
-  background: transparent;
-  color: rgba(31,58,52,0.32);
-  box-shadow: inset 0 0 0 1.5px rgba(31,58,52,0.12);
-  cursor: not-allowed;
 }
 
 /* ---------- Board ---------- */
@@ -412,6 +365,35 @@ body {
   background: rgba(31,58,52,0.08);
   color: rgba(31,58,52,0.65);
 }
+/* 卡片标签四颗：主题（橙）、主要上课方式（浅蓝）、类型（描边）、N年级·科目 */
+.tag--topic { background: var(--orange-deep); color: #fff; font-weight: 700; }
+.tag--mode { background: #E3F0F7; color: var(--blue-deep); font-weight: 600; }
+.tag--type { background: transparent; box-shadow: inset 0 0 0 1px rgba(31,58,52,0.22); }
+/* 「新」徽章：放缩略图左上角（右上角是排行榜奖杯）。用 <strong>，避开 .card__thumb span 的圆形样式 */
+.card__new {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  background: var(--red-deep);
+  color: #fff;
+  font-size: 0.78rem;
+  line-height: 1.2;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+/* 分段小标题（只选年级时按科目分）：横跨整行，自己占一条行线，不影响下面卡片的 subgrid 对齐 */
+.board__section {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 0 -12px;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+.board__section:not(:first-child) { margin-top: 10px; }
+.board__section-count { font-family: var(--font-body); font-size: 0.8rem; font-weight: 400; color: rgba(31,58,52,0.55); }
 .card__title-zh {
   font-family: var(--font-display);
   font-size: clamp(1.15rem, 1rem + 0.4vw, 1.35rem);
@@ -459,6 +441,9 @@ body {
 .card__like:hover { background: rgba(31,58,52,0.06); }
 .card__like.liked { color: var(--gold); }
 .card__like.liked .star-icon { fill: var(--gold); }
+/* 合集卡的喜欢数是各份加总，只读：看得到数字，不能点 */
+.card__like--static { cursor: default; }
+.card__like--static:hover { background: none; }
 .card__uses {
   font-size: 0.85rem;
   color: rgba(31,58,52,0.45);
@@ -517,6 +502,11 @@ body {
   color: rgba(251,246,234,0.6);
   max-width: 180px;
 }
+/* 起算日期收在「数字怎么算？」里：平时不占画面，有人好奇再点开（2026-10-17 老师定） */
+.stats-note { margin-top: 20px; text-align: center; font-size: 0.72rem; color: rgba(251,246,234,0.45); }
+.stats-note summary { cursor: pointer; list-style: none; display: inline-block; text-decoration: underline dotted; }
+.stats-note summary::-webkit-details-marker { display: none; }
+.stats-note p { margin: 6px 0 0; }
 .stat--pending .stat__num { color: rgba(251,246,234,0.35); }
 .star-icon { width: 14px; height: 14px; fill: var(--gold); }
 .card__like .star-icon { width: 16px; height: 16px; }
@@ -749,6 +739,59 @@ body {
 .detail__standards-list { margin: 0 0 6px; padding-left: 18px; font-size: 0.85rem; line-height: 1.6; }
 .detail__standards-source { font-size: 0.7rem; color: rgba(31,58,52,0.4); margin: 0; font-family: var(--font-mono); }
 
+/* 分隔线以下给老师的补充：类型、同主题的其他工具、老师后台 */
+.detail__more { display: flex; flex-direction: column; gap: 14px; margin-bottom: 12px; }
+.detail__type { margin: 0; font-size: 0.85rem; color: rgba(31,58,52,0.6); }
+.detail__more-title { margin: 0 0 8px; font-family: var(--font-display); font-size: 0.9rem; }
+.detail__more-topic {
+  margin-left: 4px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--orange-deep);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.detail__related-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
+.related-tool {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 7px;
+  border: none;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(31,58,52,0.1);
+  text-align: left;
+  font-family: var(--font-body);
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.related-tool:hover { box-shadow: 0 3px 10px rgba(31,58,52,0.16); }
+.related-tool:active { transform: scale(0.98); }
+.related-tool:focus-visible { outline: 2px solid var(--blue-deep); outline-offset: 2px; }
+.related-tool__thumb {
+  aspect-ratio: 4 / 3;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--paper-deep);
+}
+.related-tool__thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.related-tool__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.related-tool__name { font-size: 0.86rem; font-weight: 600; line-height: 1.3; }
+.related-tool__meta { font-size: 0.74rem; color: rgba(31,58,52,0.55); }
+.detail__teacher { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; }
+.detail__teacher-link {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--blue-deep);
+  text-decoration: underline;
+}
+.detail__teacher-note { font-size: 0.76rem; color: rgba(31,58,52,0.55); }
+
 .detail__meta {
   display: flex;
   align-items: center;
@@ -840,6 +883,37 @@ body {
 
 /* 按钮以下＝给老师读的资料（说明、DSKP、版本、更新记录），
    用一条分隔线把「学生的动作」跟「老师的资料」切开 */
+/* 合集（复习卷）详情的第一屏：每份卷一行，各自一颗「开始使用」。
+   宽屏：左边范围＋名称，右边开始使用，分享／老师后台在下一行；窄屏：开始使用整行宽 */
+.detail__sets { margin: 12px 0 0; }
+.detail__sets-hint { margin: 0 0 8px; font-size: 0.82rem; color: rgba(31,58,52,0.6); }
+.detail__sets-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.set {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px 14px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1.5px rgba(31,58,52,0.12);
+}
+.set--hl { background: #FFF1DE; box-shadow: inset 0 0 0 2.5px var(--orange); }
+.set__info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.set__label { font-family: var(--font-display); font-size: 1.02rem; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.set__here { font-family: var(--font-body); font-size: 0.7rem; font-weight: 600; color: #fff; background: var(--orange-deep); border-radius: 999px; padding: 1px 8px; }
+.set__name { font-size: 0.86rem; color: rgba(31,58,52,0.65); display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.set__open { width: auto; padding: 12px 24px; white-space: nowrap; }
+.set__sub { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 14px; }
+.set .detail__share { margin: 0; padding: 4px 10px 4px 0; }
+.set__teacher { font-size: 0.86rem; font-weight: 600; color: var(--blue-deep); text-decoration: underline; padding: 4px 0; }
+.set__url { grid-column: 1 / -1; width: 100%; padding: 10px; user-select: text; }
+.set__qr { grid-column: 1 / -1; margin: 4px auto 0; }
+.set__qr[hidden], .set__url[hidden] { display: none; }
+.detail__setnotes p { margin: 0 0 6px; font-size: 0.86rem; line-height: 1.6; color: rgba(31,58,52,0.75); }
+.detail__setnotes strong { font-family: var(--font-display); margin-right: 8px; color: var(--ink); }
+.detail__setnotes { margin: 0 0 12px; }
+
 .detail__rule {
   border: none;
   border-top: 2px dashed rgba(31,58,52,0.12);
@@ -855,6 +929,9 @@ body {
   .modal__frame--detail { gap: 12px; }
   .detail__open { font-size: 1rem; padding: 14px 16px; }
   .detail__rule { margin-top: 14px; }
+  .set { grid-template-columns: minmax(0, 1fr); padding: 12px; }
+  .set__open { grid-column: 1; width: 100%; padding: 13px 16px; }
+  .set__sub { grid-column: 1; }
 }
 
 /* 矮视口＝手机／平板横放，学生玩游戏最常见的握法。
@@ -1026,20 +1103,7 @@ body {
   .typewriter-cursor { animation: none; opacity: 0; }
 }
 
-/* grid 而不是 flex：两个 select 永远各占一半宽度，不会被选项文字长度撑开撑窄
-   （原本用 flex:1，年级选单选项短、科目选单选项长，浏览器会照各自内容撑宽度，
-   两者对不齐、长选项那个还会把整排撑出画面外——grid 直接锁死各半宽，多余文字自动裁切） */
-.finder__row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-.finder__row select { min-width: 0; } /* 允许 grid 子项缩到比内容窄，靠裁切而不是撑开容器 */
-.finder__row select:disabled { opacity: 0.5; }
-
-.finder__search { position: relative; margin-bottom: 14px; }
-.finder__search-label { display: block; font-size: 0.8rem; color: rgba(31,58,52,0.55); margin-bottom: 6px; }
+.finder__search { position: relative; }
 .finder__suggestions {
   position: absolute;
   top: calc(100% + 4px);
@@ -1073,10 +1137,6 @@ body {
   color: var(--blue);
   flex-shrink: 0;
 }
-
-.finder__shortcuts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; }
-.finder__shortcuts-label { font-size: 0.82rem; color: rgba(31,58,52,0.55); }
-.finder__shortcuts-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 
 .finder__status {
   background: rgba(79,168,216,0.1);
@@ -1128,8 +1188,31 @@ body {
 }
 .finder-objective.active { background: var(--orange); border-color: var(--orange); color: #fff8ef; }
 
-.finder__hint, .finder__empty { color: rgba(31,58,52,0.55); font-size: 0.9rem; }
+.finder__empty { color: rgba(31,58,52,0.55); font-size: 0.9rem; margin: 0; }
 .finder__count { font-size: 0.85rem; color: rgba(31,58,52,0.5); margin: 0 0 10px; }
+/* 「按课标精确查找」里的单元对照卡（可练习什么／准备条件／DSKP 核对状态） */
+.finder__results { display: flex; flex-direction: column; gap: 12px; }
+.finder__results:empty { display: none; }
+.finder-card {
+  border: 2px solid rgba(31,58,52,0.1);
+  border-radius: 12px;
+  padding: 16px 18px;
+  cursor: pointer;
+  background: #fff;
+  transition: border-color 0.12s ease, transform 0.12s ease;
+}
+.finder-card:hover { border-color: var(--orange); transform: translateY(-1px); }
+.finder-card h4 { font-family: var(--font-display); margin: 0 0 8px; font-size: 1.02rem; }
+.finder-card__bm { font-weight: normal; color: rgba(31,58,52,0.5); font-size: 0.85rem; }
+.finder-card__meta { display: flex; flex-direction: column; gap: 6px; margin: 0; }
+.finder-card__meta > div { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 4px 10px; }
+.finder-card__meta dt { font-size: 0.78rem; color: rgba(31,58,52,0.5); }
+.finder-card__meta dd { margin: 0; font-size: 0.86rem; }
+.finder-card__part { display: block; }
+.finder-card__part + .finder-card__part { margin-top: 4px; }
+@media (max-width: 560px) {
+  .finder-card__meta > div { grid-template-columns: 1fr; }
+}
 .finder__wish-cta {
   margin-top: 8px;
   font-family: var(--font-display);
@@ -1141,28 +1224,77 @@ body {
   cursor: pointer;
 }
 
-.finder__results { display: flex; flex-direction: column; gap: 12px; }
-.finder-card {
-  border: 2px solid rgba(31,58,52,0.1);
-  border-radius: 12px;
-  padding: 16px 18px;
-  cursor: pointer;
-  transition: border-color 0.12s ease, transform 0.12s ease;
+/* ---------- 年级／科目／主题药丸（2026-10-17 改版，取代原下拉与第二套按钮） ---------- */
+.finder__search + .finder__facet { margin-top: 16px; }
+.finder__facet {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 14px;
 }
-.finder-card:hover { border-color: var(--orange); transform: translateY(-1px); }
-.finder-card h4 { font-family: var(--font-display); margin: 0 0 8px; font-size: 1.02rem; }
-.finder-card__bm { font-weight: normal; color: rgba(31,58,52,0.5); font-size: 0.85rem; }
-.finder-card__meta { display: grid; grid-template-columns: 130px 1fr; gap: 4px 10px; margin: 0; }
-.finder-card__meta dt { font-size: 0.78rem; color: rgba(31,58,52,0.5); }
-.finder-card__meta dd { margin: 0; font-size: 0.86rem; }
+.finder__facet-label {
+  flex: 0 0 40px;
+  padding-top: 10px;
+  font-size: 0.85rem;
+  color: rgba(31,58,52,0.6);
+}
+.pills { display: flex; flex-wrap: wrap; gap: 8px; min-width: 0; }
+.pill {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  border: none;
+  background: var(--paper-deep);
+  color: var(--ink);
+  padding: 8px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.1s ease, color 0.1s ease, transform 0.1s ease;
+}
+.pill:hover:not(:disabled):not(.active) { background: #e7dcc4; }
+.pill:active:not(:disabled) { transform: scale(0.96); }
+.pill:focus-visible { outline: 2px solid var(--blue-deep); outline-offset: 2px; }
+.pill.active { background: var(--ink); color: var(--paper); }
+.pill--big { font-family: var(--font-display); font-size: 1.15rem; padding: 9px 20px; }
+.pill__n { margin-left: 5px; font-size: 0.75rem; font-weight: 400; opacity: 0.65; }
+.pill.active .pill__n { opacity: 0.85; }
+/* 还没有工具的科目：留着让老师知道「这科可以开发」，但灰掉、按不到 */
+.pill:disabled {
+  background: transparent;
+  color: rgba(31,58,52,0.32);
+  box-shadow: inset 0 0 0 1.5px rgba(31,58,52,0.12);
+  cursor: not-allowed;
+}
+/* 主题药丸：橙色一组，跟年级／科目的墨绿区分开 */
+.finder__facet--topic { background: #FFF4E6; border-radius: 12px; padding: 10px 12px; }
+.finder__facet--topic .finder__facet-label { padding-top: 10px; }
+.finder__facet--topic .pill { background: #fff; box-shadow: inset 0 0 0 2px var(--orange); color: #8a420c; }
+.finder__facet--topic .pill:hover:not(.active) { background: #fffaf3; }
+.finder__facet--topic .pill.active { background: var(--orange-deep); box-shadow: none; color: #fff; }
+
+/* 「按课标精确查找」：老师用的细筛选，默认收起 */
+.finder__adv { margin-top: 16px; font-size: 0.88rem; }
+.finder__adv > summary {
+  cursor: pointer;
+  color: var(--blue-deep);
+  font-weight: 600;
+  width: fit-content;
+}
+.finder__adv > summary:focus-visible { outline: 2px solid var(--blue-deep); outline-offset: 3px; border-radius: 4px; }
+.finder__adv[open] > summary { margin-bottom: 12px; }
+.finder__adv .finder__path { margin-top: 0; }
 
 /* ============ 浏览全部工具（辅助路径） ============ */
 .browse { margin-top: var(--space-section); }
-.browse__title {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  margin: 0 0 4px;
-  color: rgba(31,58,52,0.6);
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ============ 点子许愿池：三步表单 ============ */
@@ -1253,8 +1385,6 @@ body {
   .auth-status__email { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .site-head__actions { grid-area: act; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
   .wish-btn { margin-left: 0; padding: 10px 12px; }
-  .finder-card__meta { grid-template-columns: 1fr; }
-  .finder__row { grid-template-columns: 1fr; }
 }
 
 /* ---------- 手机：工具卡改横式清单（缩略图左、文字右） ----------
@@ -1280,6 +1410,8 @@ body {
   .card__title-zh { font-size: 1.1rem; }
   .card__title-bm { font-size: 0.82rem; }
   .card .tag { font-size: 0.74rem; padding: 2px 8px; }
+  .card .tag--type { display: none; }
+  .card__new { top: 4px; left: 4px; font-size: 0.7rem; padding: 2px 7px; }
   .card__stats { align-self: start; margin-top: 2px; }
   .card__like { font-size: 0.88rem; }
   .card__uses { font-size: 0.78rem; }
@@ -1287,3 +1419,19 @@ body {
   .card__board .trophy-icon { width: 14px; height: 14px; }
 }
 
+
+/* ---------- 手机：年级一排「1 2 3 4 5 6」，科目、主题横向滑动 ---------- */
+@media (max-width: 560px) {
+  .finder { padding: 18px 14px; }
+  .finder__facet { flex-direction: column; gap: 4px; margin-top: 10px; }
+  .finder__search + .finder__facet { margin-top: 12px; }
+  .finder__facet-label { flex: none; padding-top: 0; }
+  .finder__facet--topic { padding: 8px 10px; }
+  .pills--grade { flex-wrap: nowrap; gap: 6px; width: 100%; }
+  .pills--grade .pill { flex: 1; padding: 8px 0; font-size: 1.05rem; }
+  .pill__suffix { display: none; }
+  .pills--scroll { flex-wrap: nowrap; overflow-x: auto; width: 100%; padding-bottom: 4px; scrollbar-width: none; }
+  .pills--scroll::-webkit-scrollbar { display: none; }
+  .pills--scroll .pill { flex: 0 0 auto; }
+  .board__section { margin-bottom: -4px; }
+}
