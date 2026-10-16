@@ -404,6 +404,39 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-mt-fuxi-oktober",
+    tahun: 1,
+    subjek: "mt",
+    status: "published",
+    title_zh: "一年级数学复习本",
+    title_bm: "Buku Ulang Kaji Matematik Tahun 1 (Oktober)",
+    desc: "一年级数学（下册）评估范围的复习在线版，单元 3–8，共 30 题，分基础、过渡、拔高三种程度：分数、钱币（真实硬币与钞票图）、时间与时刻（一天、星期、钟面）、非标准单位量长度重量体积、立体与平面图形、象形统计图。学生先点自己的名字（接班级名单，找不到可手动输入），选好或填好答案按「确认」当场知道对错：答对有鼓励，答错会给出正确答案、为什么，以及针对这类错误的提示；每题和解释都能点喇叭朗读。老师在后台（仅限登录的班级老师）看到每题答对率、各难度的整体表现和学生常见的错误类型，也能把纸本答案回填进去。老师想一次看完全部题目，在网址后面加 ?preview 即可。",
+    keywords: ["数学", "复习", "月考", "评估", "分数", "钱币", "硬币", "钞票", "钱币换算", "时刻", "钟面", "星期", "一天", "非标准单位", "长度", "质量", "液体体积", "立体图形", "平面图形", "象形统计图", "一年级", "ulang kaji", "pecahan", "wang", "masa", "ukuran", "bentuk 3D", "data"],
+    url: "https://tahun1-mt-fuxi-oktober.vercel.app",
+    type: "练习",
+    hasLeaderboard: false,
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-16", note: "首次上架：30 题（基础 40%／过渡 20%／拔高 40%），依学校评估范围单元 3–8；钱币用真实硬币钞票图；确认后当场对错反馈，答错给正确答案与针对性提示；预录朗读；可再试一次答错的题；教师预览页（?preview）；老师后台看答对率、各难度表现与错误类型，可回填纸本答案" },
+    ],
+    // 5 张用 Playwright 操作 https://tahun1-mt-fuxi-oktober.vercel.app 截的真实画面（Supabase 已拦截，没有写入真数据库）
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-mt-fuxi-oktober/1-cover.png", label: "封面：一年级数学复习本" },
+      { img: "assets/thumbs/tahun1-mt-fuxi-oktober/2-names.png", label: "进入时先点自己的名字，找不到可以手动输入" },
+      { img: "assets/thumbs/tahun1-mt-fuxi-oktober/3-fraction.png", label: "分数：涂色部分是几分之几" },
+      { img: "assets/thumbs/tahun1-mt-fuxi-oktober/4-money.png", label: "钱币：用真实的硬币图，答错马上告诉你为什么" },
+      { img: "assets/thumbs/tahun1-mt-fuxi-oktober/5-clock.png", label: "钟面：看时针和分针，读出时刻" },
+    ],
+    // DSKP_INDEX 目前一年级数学只收 1.0（100 以内整数），本工具范围（3.0–8.0）尚未收入索引，不编代码（见 coverage 表备注）
+    standards: [],
+    practiceSummary: "一年级下册单元 3–8 复习：分数（1/2、1/4、3/4）、钱币（认读、换算、加减、找回、储蓄）、一天时段与星期、钟面（时、半、一刻、三刻）、非标准单位测量与比较、立体与平面图形及排列、象形统计图",
+    teachingMode: ["个人练习"],
+    prep: "学生各自用手机、平板或电脑打开，需要联网；有声音朗读（建议戴耳机）。班级网址请带班级代码，例如 …vercel.app/?code=JBC1037-1I，学生就只会看到本班名单；没带代码会先请输入班级代码。纸本做的学生，由老师登录后台（Hub 的 mt1fuxi-admin.html，仅限班级老师）把答案回填。学生的答案只有登录的班级老师看得到。老师想一次预览全部题目与答案：网址后面加 ?preview",
+  },
+
+  {
     slug: "tahun1-bc-fuxi-oktober",
     tahun: 1,
     subjek: "bc",
