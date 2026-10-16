@@ -25,11 +25,42 @@
     var legacy = el && el.getAttribute("data-host"); // 改名前的旧网址（如 grade2-math-tools.vercel.app），仍有人在用才加
     if (!slug || (location.hostname !== slug + ".vercel.app" && location.hostname !== legacy)) return;
 
+    // anon key 设计上就是公开的（见 data/supabase-client.js），权限由 RLS／RPC 限制
+    var URL_ = "https://gntnkhkkgonaehapcerr.supabase.co";
+    var ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdudG5raGtrZ29uYWVoYXBjZXJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4MDc2NTgsImV4cCI6MjEwMDM4MzY1OH0.9_08R--1vQxN6CIRmrbvkVN2O-bSDJgGq6XKgOp5mis";
+    function rpc(name, body) {
+      return fetch(URL_ + "/rest/v1/rpc/" + name, {
+        method: "POST",
+        keepalive: true,
+        headers: { "Content-Type": "application/json", apikey: ANON, Authorization: "Bearer " + ANON },
+        body: JSON.stringify(body)
+      });
+    }
+
+    // 2026-10-17：「几台设备用过」（supabase/migration-2026-10-17-device-seen.sql）。
+    // 从 Hub 进来会带 ?kd=Hub 的设备 id，沿用它，同一台电脑在 Hub 和各工具才算同一台；
+    // 每台设备每个工具只登记一次，成功才记住，失败下次再试
     var u = new URL(location.href);
-    if (u.searchParams.get("kh") === "1") {
+    var DEVICE_KEY = "kongsi-idea-device-key";
+    var REG_KEY = "kongsi-idea-device-reg:" + slug;
+    try {
+      var kd = u.searchParams.get("kd");
+      if (kd && /^[0-9a-f-]{36}$/i.test(kd)) localStorage.setItem(DEVICE_KEY, kd);
+      var device = localStorage.getItem(DEVICE_KEY);
+      if (!device && window.crypto && crypto.randomUUID) { device = crypto.randomUUID(); localStorage.setItem(DEVICE_KEY, device); }
+      if (device && localStorage.getItem(REG_KEY) !== device) {
+        rpc("register_device", { p_key: device, p_scope: slug })
+          .then(function (r) { if (r.ok) localStorage.setItem(REG_KEY, device); })
+          .catch(function () {});
+      }
+    } catch (e) { /* storage 不能用就不登记设备 */ }
+
+    if (u.searchParams.has("kh") || u.searchParams.has("kd")) {
+      var fromHub = u.searchParams.get("kh") === "1";
       u.searchParams.delete("kh");
+      u.searchParams.delete("kd");
       history.replaceState(null, "", u.pathname + u.search + u.hash);
-      return;
+      if (fromHub) return;
     }
 
     var KEY = "kongsi-idea-use-ts:" + slug;
@@ -39,14 +70,6 @@
       localStorage.setItem(KEY, String(now));
     } catch (e) { /* 读写不了 storage 就当每次都新来，宁可多算不漏算 */ }
 
-    // anon key 设计上就是公开的（见 data/supabase-client.js），权限由 RLS／RPC 限制
-    var URL_ = "https://gntnkhkkgonaehapcerr.supabase.co";
-    var ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdudG5raGtrZ29uYWVoYXBjZXJyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ4MDc2NTgsImV4cCI6MjEwMDM4MzY1OH0.9_08R--1vQxN6CIRmrbvkVN2O-bSDJgGq6XKgOp5mis";
-    fetch(URL_ + "/rest/v1/rpc/increment_tool_uses", {
-      method: "POST",
-      keepalive: true,
-      headers: { "Content-Type": "application/json", apikey: ANON, Authorization: "Bearer " + ANON },
-      body: JSON.stringify({ p_slug: slug })
-    }).catch(function () {});
+    rpc("increment_tool_uses", { p_slug: slug }).catch(function () {});
   } catch (e) { /* 静默 */ }
 })();
