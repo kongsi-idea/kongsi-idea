@@ -668,6 +668,38 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun3-mt-sukatan",
+    tahun: 3,
+    subjek: "mt",
+    status: "published",
+    title_zh: "换算工坊",
+    title_bm: "Bengkel Tukar Unit",
+    desc: "来自许愿池一位三年级老师的卡点：学生做复名数竖式时，直接把 mℓ 的「1」进位到 ℓ 那一栏，没有先写出 mℓ 的总数再换算（这样的竖式不得分）；又常把三种单位的换算率搞混，写成 1 m = 1 000 cm。所以这个工具照课本的竖式格式一步一步来：算到小单位时先问「怎么写？」，选了直接进位就演出错写法、盖「不得分」章；再问「满几个 1 000 mℓ？」，答对才把满格的量杯倒成 1 ℓ，竖式写出蓝字「＋1 ℓ −1 000 mℓ」。减法借位、除法余数也一样演给全班看，最后用「找错医生」找同学草稿里错的那一行。老师投影，分组计分。",
+    keywords: ["度量衡", "单位换算", "复名数", "竖式", "进位", "借位", "长度", "质量", "液体的体积", "米", "厘米", "公斤", "克", "升", "毫升", "m", "cm", "kg", "g", "ℓ", "mℓ", "ukuran dan sukatan", "panjang", "jisim", "isi padu cecair", "menukar unit", "三年级", "数学", "投影", "分组"],
+    url: "https://tahun3-mt-sukatan.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "汽水老师", initial: "汽" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-17", note: "首次上架（来自许愿池：Tahun 3 数学，复名数竖式直接进位、换算率混淆）" },
+    ],
+    // 缩略图是 Playwright 操作正式网址截的真实画面（封面为生图）
+    thumbnails: [
+      { img: "assets/thumbs/tahun3-mt-sukatan/1-cover.png", label: "封面：换算工坊" },
+      { img: "assets/thumbs/tahun3-mt-sukatan/2-carry-nodefen.png", label: "进位工坊：选了直接进位，演出错写法并盖「不得分」章" },
+      { img: "assets/thumbs/tahun3-mt-sukatan/3-borrow-remainder.png", label: "借位工坊：除法余下的 4 ℓ 换成 4 000 mℓ 加进去" },
+      { img: "assets/thumbs/tahun3-mt-sukatan/4-doctor.png", label: "找错医生：找到换算错的那一行，旁边出现正确竖式" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "6.0", objectiveCodes: ["6.1", "6.2", "6.3"] },
+    ],
+    practiceSummary: "长度（m、cm）、质量（kg、g）、液体的体积（ℓ、mℓ）的单位换算，以及复名数的加法（至三个）、减法、乘法、除法竖式（DSKP 6.1–6.3）：换算口令、进位工坊（加·乘）、借位工坊（减·除）、找错医生四个活动",
+    teachingMode: ["投影互动", "全班举手指选答案", "分组计分"],
+    prep: "打开即用，不需要打印，学生不需要设备。老师投影，每一步先让全班喊答案或举手指选 1、2、3，再由老师点；底部计分条可设 2–6 组。上方可只练长度、质量或液体的体积；网址加 ?preview 可看全部题目和答案",
+  },
+
+  {
     slug: "tahun4-mt-nombor",
     tahun: 4,
     subjek: "mt",

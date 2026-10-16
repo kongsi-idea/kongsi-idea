@@ -539,6 +539,7 @@ const DSKP_INDEX = [
   {
     // 依本机 DSKP 截取档：资料库/DSKP资料/KSSR2017/Matematik/SJKC/TAHUN3.md（中文）与 SK/TAHUN3.md（马来文原文）。
     // 截取档头部注明「没有审核」，故 reviewed: false。只收录已有工具覆盖的 8.1.2、8.1.3，不是整个坐标单元（8.1.1 参考点词汇、8.2 应用题未覆盖）。
+    // 2026-10-17 加 6.0 度量衡（换算工坊 tahun3-mt-sukatan）：只收 6.1／6.2／6.3 的换算与加减乘除，6.4 解决问题（编故事、应用题）未覆盖。
     curriculum: "KSSR Semakan 2017",
     tahun: 3,
     subjek: "mt",
@@ -547,6 +548,16 @@ const DSKP_INDEX = [
     reviewed: false,
     verifiedAt: "2026-10-15",
     units: [
+      {
+        code: "6.0",
+        title_zh: "度量衡",
+        title_bm: "Ukuran dan Sukatan",
+        objectives: [
+          { code: "6.1", title_zh: "长度：6.1.1 进行涉及米和厘米的长度单位换算；6.1.2–6.1.5 进行涉及米和厘米的长度加法（至三个）、减法、乘法和除法（与一位数）", title_bm: "Panjang: 6.1.1 Menukar unit ukuran panjang melibatkan meter dan sentimeter; 6.1.2–6.1.5 Menyelesaikan ayat matematik tambah, tolak, darab dan bahagi ukuran panjang melibatkan meter dan sentimeter", terms: ["长度", "米", "厘米", "单位换算", "复名数", "竖式", "进位", "借位", "panjang", "meter", "sentimeter", "menukar unit"] },
+          { code: "6.2", title_zh: "质量：6.2.1 进行涉及公斤和克的质量单位换算；6.2.2–6.2.5 进行涉及公斤和克的质量加法（至三个）、减法、乘法和除法（与一位数）", title_bm: "Jisim: 6.2.1 Menukar unit ukuran jisim melibatkan kilogram dan gram; 6.2.2–6.2.5 Menyelesaikan ayat matematik tambah, tolak, darab dan bahagi ukuran jisim melibatkan kilogram dan gram", terms: ["质量", "公斤", "克", "单位换算", "jisim", "kilogram", "gram"] },
+          { code: "6.3", title_zh: "液体的体积：6.3.1 进行涉及升和毫升的液体的体积单位换算；6.3.2–6.3.5 进行涉及升和毫升的液体的体积加法（至三个）、减法、乘法和除法（与一位数）", title_bm: "Isi padu cecair: 6.3.1 Menukar unit isi padu cecair melibatkan liter dan mililiter; 6.3.2–6.3.5 Menyelesaikan ayat matematik tambah, tolak, darab dan bahagi isi padu cecair melibatkan liter dan mililiter", terms: ["液体的体积", "升", "毫升", "单位换算", "isi padu cecair", "liter", "mililiter"] },
+        ],
+      },
       {
         code: "8.0",
         title_zh: "坐标",
