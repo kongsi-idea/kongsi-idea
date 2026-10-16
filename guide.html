@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>使用指南 · 课堂点子铺</title>
+<meta name="description" content="第一次来课堂点子铺的老师：怎么找工具、怎么用在课堂、怎么记录成绩、怎么许愿，一页看完。">
+<link rel="stylesheet" href="style.css">
+<style>
+/* 使用指南专属样式：沿用 style.css 的色彩变量与布告栏意象（暖纸白、黑板绿、橙），不用 emoji */
+.guide-home-link { color: inherit; text-decoration: none; }
+.guide-home-link:hover { text-decoration: underline; }
+.guide-back {
+  margin-left: auto;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: 38px;
+  padding: 8px 16px;
+  background: #fff;
+  color: var(--ink);
+  border: 2px solid rgba(31,58,52,0.15);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.guide-back:hover { border-color: rgba(31,58,52,0.35); }
+
+.guide { max-width: 800px; margin: 0 auto; padding: 28px 0 72px; }
+.guide__lead { font-size: 1rem; line-height: 1.8; margin: 0 0 18px; color: rgba(31,58,52,0.85); }
+.guide__toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 28px; padding: 0; list-style: none; }
+.guide__toc a {
+  display: inline-block;
+  padding: 8px 16px;
+  min-height: 38px;
+  background: var(--paper-deep);
+  color: var(--ink);
+  border-radius: 999px;
+  font-size: 0.88rem;
+  text-decoration: none;
+}
+.guide__toc a:hover { background: #e8dec6; }
+
+.gsec {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(31,58,52,0.08);
+  padding: 32px clamp(18px, 4vw, 36px) 28px;
+  margin: 0 0 28px;
+  scroll-margin-top: 16px;
+}
+.gsec::before { /* 图钉 */
+  content: "";
+  position: absolute;
+  top: -7px; left: 28px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ff8a65, var(--red));
+  box-shadow: 0 3px 4px rgba(31,58,52,0.35);
+}
+.gsec h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 14px;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+}
+.gsec__num {
+  flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--orange-deep);
+  color: #fff8ef;
+  font-size: 1rem;
+}
+.gsec p, .gsec li { line-height: 1.85; font-size: 0.97rem; }
+.gsec p { margin: 0 0 12px; }
+.gsec h3 { font-family: var(--font-display); font-size: 1.02rem; margin: 22px 0 8px; }
+.gsec ul { margin: 0 0 12px; padding-left: 1.3em; }
+.gsec li { margin-bottom: 6px; }
+
+/* 界面上的按钮／栏位名：小底色，跟一般文字分得开 */
+.ui {
+  display: inline-block;
+  padding: 0 8px;
+  background: var(--paper-deep);
+  border-radius: 6px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.code { font-family: var(--font-mono); font-size: 0.9em; background: var(--paper-deep); padding: 1px 6px; border-radius: 4px; word-break: break-all; }
+
+.gsteps { list-style: none; margin: 0 0 14px; padding: 0; counter-reset: gstep; }
+.gsteps > li {
+  counter-increment: gstep;
+  position: relative;
+  padding: 0 0 14px 44px;
+  margin: 0;
+}
+.gsteps > li::before {
+  content: counter(gstep);
+  position: absolute; left: 0; top: 2px;
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  border: 2px solid var(--orange-deep);
+  color: var(--orange-deep);
+  font-weight: 700; font-size: 0.9rem;
+}
+.gsteps > li:not(:last-child)::after { /* 步骤之间的虚线 */
+  content: "";
+  position: absolute; left: 13px; top: 34px; bottom: 4px;
+  border-left: 2px dashed rgba(31,58,52,0.18);
+}
+.gsteps b { font-family: var(--font-display); }
+
+.gnote {
+  background: #FFF7EA;
+  border-left: 5px solid var(--orange);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 14px 0;
+}
+.gnote p { margin: 0; font-size: 0.92rem; }
+
+.gfig { margin: 16px 0; }
+.gfig img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 2px solid rgba(31,58,52,0.1);
+  background: var(--paper);
+}
+.gfig figcaption { margin-top: 6px; font-size: 0.82rem; color: rgba(31,58,52,0.65); line-height: 1.5; }
+.gfig--narrow { max-width: 460px; }
+.gfigs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; align-items: start; }
+.gfigs .gfig { margin: 0; }
+
+.gfaq dt { font-family: var(--font-display); font-size: 1rem; margin: 18px 0 4px; }
+.gfaq dt::before { content: "问　"; color: var(--orange-deep); }
+.gfaq dd { margin: 0; padding-left: 2em; line-height: 1.85; font-size: 0.97rem; }
+.gfaq dd p { margin: 0 0 8px; }
+
+.guide__end { text-align: center; margin-top: 8px; font-size: 0.92rem; color: rgba(31,58,52,0.75); line-height: 1.9; }
+.guide__end a { color: var(--blue-deep); }
+.guide__end .guide-home-btn {
+  display: inline-block; margin-bottom: 10px;
+  padding: 12px 24px;
+  background: var(--orange-deep); color: #fff8ef;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  text-decoration: none;
+  box-shadow: 0 4px 0 rgba(31,58,52,0.25);
+}
+
+@media (max-width: 640px) {
+  .site-head__inner { grid-template-areas: "mark title auth" "tag tag tag"; }
+  .site-head__text h1 { font-size: 1.25rem; white-space: nowrap; }
+  .guide-back { padding: 7px 12px; min-height: 36px; }
+  .guide { padding-top: 20px; }
+  .gsec { padding-top: 28px; }
+  .gsec h2 { font-size: 1.2rem; }
+  .gfigs { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+  <header class="site-head">
+   <div class="container site-head__inner">
+    <div class="site-head__mark" aria-hidden="true"></div>
+    <div class="site-head__text">
+      <h1><a href="index.html" class="guide-home-link">课堂点子铺</a> · 使用指南</h1>
+      <p class="tagline"><span class="tagline__zh">第一次来的老师，一页看完</span></p>
+    </div>
+    <a href="index.html" class="guide-back" style="grid-area: auth">← 回首页</a>
+   </div>
+  </header>
+
+  <main class="container guide">
+    <p class="guide__lead">只想找个工具马上上课，看第 1、2 节就够了。要让工具记录学生成绩，再看第 3 节。</p>
+    <ul class="guide__toc" aria-label="本页目录">
+      <li><a href="#find">1 找工具</a></li>
+      <li><a href="#use">2 用在课堂</a></li>
+      <li><a href="#record">3 记录成绩</a></li>
+      <li><a href="#wish">4 许愿池</a></li>
+      <li><a href="#faq">5 常见问题</a></li>
+    </ul>
+
+    <!-- ============ 1 找工具 ============ -->
+    <section class="gsec" id="find">
+      <h2><span class="gsec__num">1</span>找工具</h2>
+      <p>首页上方的白色面板，由上而下是：<span class="ui">搜索框</span>、<span class="ui">年级</span>、<span class="ui">科目</span>，选了年级和科目之后，会多出一行橙色的<span class="ui">主题</span>。下面的卡片会跟着条件一起变少。</p>
+      <figure class="gfig">
+        <img src="assets/guide/home-panel.webp" width="1200" height="451" loading="lazy" alt="首页的查找面板：搜索框、年级、科目、主题四层，图中选了 1 年级、华文">
+        <figcaption>选了 1 年级、华文之后的面板。科目旁的小数字是工具数；灰色的科目＝课纲有这一科，但目前还没有工具。</figcaption>
+      </figure>
+      <ul>
+        <li><b>年级 → 科目 → 主题</b>：先点年级（1 到 6 年级），再点科目，需要的话再点主题缩小范围。卡片上方会写「显示 N 个工具」和目前的条件，点<span class="ui">清除条件</span>就回到全部工具。</li>
+        <li><b>搜索</b>：在搜索框打字，可以搜工具名、主题、课标，例如「量词」「4.2」。</li>
+        <li><b>按课标精确查找</b>：面板最下面一行，点开后可以按 DSKP 的单元、学习目标来选。选定之后，会列出对应的工具，并写明「可练习什么」和「准备条件」（需要什么设备、要不要班级码等）。</li>
+        <li><b>卡片上的小标签</b>：橙色是主题，浅蓝色是主要上课方式（全班投影、上台对战、各自练习、回家练习），再来是类型，最后是「N 年级・科目」。卡片上的「新」字，表示最近 7 天内才上架（全站最多标最新的 8 个）。</li>
+      </ul>
+    </section>
+
+    <!-- ============ 2 用在课堂 ============ -->
+    <section class="gsec" id="use">
+      <h2><span class="gsec__num">2</span>用在课堂</h2>
+      <p>点一张卡片，会打开这个工具的详情。第一屏最显眼的是橙色的<span class="ui">开始使用</span>：它会在新分页里打开工具，你可以投影给全班，也可以让学生自己点。</p>
+      <div class="gfigs">
+        <figure class="gfig">
+          <img src="assets/guide/tool-detail.webp" width="640" height="758" loading="lazy" alt="工具详情的第一屏：缩略图、工具名、橙色的开始使用按钮和分享给学生">
+          <figcaption>详情第一屏：「开始使用」在最上面，下面一行是「分享给学生」。</figcaption>
+        </figure>
+        <figure class="gfig">
+          <img src="assets/guide/share-qr.webp" width="640" height="792" loading="lazy" alt="按下分享给学生之后，下方出现二维码">
+          <figcaption>按一下「分享给学生」，链接已经复制好，下方同时出现 QR 码。</figcaption>
+        </figure>
+      </div>
+      <ul>
+        <li><b>分享给学生</b>：一个按钮同时做两件事，复制链接，并显示 QR 码。投影 QR 码给学生扫，或把链接贴到班级群都行。再按一次就收起 QR 码。这个链接打开后，是该工具的详情页，学生再按「开始使用」就进去了。QR 码在你的浏览器里生成，网址不会传给第三方网站。</li>
+        <li><b>复习卷合集</b>：同年级、同科目的复习卷合成一张卡，例如「一年级华文复习卷」。点开后，每一份卷各有自己的「开始使用」「分享给学生」，有后台的卷还有「老师后台」。每一份的分享链接就是那一份工具自己的网址，学生打开直接是那一份，不用再从合集里挑。</li>
+        <li><b>分隔线以下是给老师看的</b>：作者、课标对照、版本与更新记录、同主题的其他工具，以及「老师后台」链接（有后台的工具才有）。</li>
+      </ul>
+    </section>
+
+    <!-- ============ 3 记录成绩 ============ -->
+    <section class="gsec" id="record">
+      <h2><span class="gsec__num">3</span>记录成绩</h2>
+      <p>有些工具不用班级码，直接打开就能用。想让工具记住「这是哪个班、哪位同学」，并在后台看到成绩，才需要照下面做。<b>学生全程不用登录</b>，要登录的只有老师。</p>
+      <ol class="gsteps">
+        <li>
+          <b>建班</b>。到首页页首的<span class="ui">我的班级</span>，用 Google 登录。点<span class="ui">+ 新增班级</span>：
+          <ul>
+            <li>选学校：打学校名字搜索；找不到的话，点「找不到我的学校？」自己加入。</li>
+            <li>填班级缩写：只能用英文字母和数字，不能有空格，例如 <span class="code">1I</span>。</li>
+            <li>加学生：把备忘录里的中文名单整段贴上来，不用先整理；或上传 Excel（会自动找座号、中文名、英文名的栏位，表头不一定在第一行，但至少要有一栏中文姓名或英文姓名）。点「检查名单」，确认无误再按「建立班级」。</li>
+          </ul>
+        </li>
+        <li>
+          <b>得到班级码</b>。班级码的格式是「学校代码-班级缩写」，例如 <span class="code">JBC1037-1A</span>。在「我的班级」点进这个班就看得到，旁边有<span class="ui">复制</span>按钮。
+        </li>
+        <li>
+          <b>把班级码交给学生</b>。学生打开需要班级码的工具时，会跳出「输入班级代码」的框，输入后就显示这一班的名单。更省事的做法：你自己先在工具里输入班级码（这台电脑已经读到班级的话，点右上角的「换班级」再输入一次），浏览器地址栏的网址就会自动带上 <span class="code">?code=班级码</span>，复制这个网址发给学生，他们打开就直接看到名单。
+        </li>
+        <li>
+          <b>学生点自己的名字作答</b>。名单里找不到自己的学生，可以手写名字继续做；这样的名字在后台会标成手动输入。
+        </li>
+        <li>
+          <b>在后台看成绩</b>。有后台的工具，在详情页分隔线以下点<span class="ui">老师后台</span>，用同一个 Google 账号登录，选班级，就能看到全班的作答，并可以按<span class="ui">下载 CSV</span>存成表格。
+        </li>
+      </ol>
+      <figure class="gfig">
+        <img src="assets/guide/kelasku-login.webp" width="1200" height="338" loading="lazy" alt="我的班级页面，登录前的画面">
+        <figcaption>「我的班级」登录前的画面。登录之后，名单只有你自己和一起管理这个班的老师能改。</figcaption>
+      </figure>
+      <figure class="gfig gfig--narrow">
+        <img src="assets/guide/teacher-login.webp" width="700" height="290" loading="lazy" alt="老师后台登录前的画面，写着请先登录老师账号">
+        <figcaption>「老师后台」登录前的画面。后台只有管理这个班的老师登录后才看得到学生答案。</figcaption>
+      </figure>
+      <div class="gnote"><p><b>同事也教这个班？</b>建班时选同一间学校、填同一个班级缩写，系统会告诉你这个班已经有老师建过，按「加入这个班，一起管理」就行，不用重复建。班级画面会写目前有几位老师一起管理。</p></div>
+      <div class="gnote"><p><b>目前有老师后台的工具</b>是复习卷系列。详情页看得到「老师后台」链接的，才有后台。</p></div>
+      <p>后台里的分页会依工具不同而不同（例如总览、题目分析、学生），上方可以选班级、重新载入。网址里的班级码如果不是你管理的班，会改显示你自己的班。</p>
+    </section>
+
+    <!-- ============ 4 许愿池 ============ -->
+    <section class="gsec" id="wish">
+      <h2><span class="gsec__num">4</span>许愿池</h2>
+      <p>找不到想要的工具，或课堂上有个地方卡住、现有工具又解决不了，就到首页页首的<span class="ui">点子许愿池</span>写下来。送出需要用 Google 登录。</p>
+      <ol class="gsteps">
+        <li><b>这堂课</b>：年级、科目、这堂课要学会的具体内容（写出真正要教的字、词或题型，不要只写单元名）。</li>
+        <li><b>卡在哪里</b>：做什么题或活动时卡住，学生实际怎么答。如果能给一道学生真的做错的题（题目加上学生给的错误答案），最有用，我们会拿它直接设计练习。</li>
+        <li><b>想要的帮助</b>：最希望得到哪种帮助、上课用得到什么设备，另外有选填的署名与学校。</li>
+      </ol>
+      <div class="gnote"><p><b>默认不公开你和你的学校。</b>署名留空，工具上只会写「一位×年级老师」；想用名字才自己填。学校是选填，只用来汇总哪些地方有人需要，不会公开显示。表单里请不要写学生的名字或个人资料。</p></div>
+      <p>还没写完就关掉窗口，会问你要不要把内容暂存在这台设备上，下次打开可以接着写。</p>
+    </section>
+
+    <!-- ============ 5 常见问题 ============ -->
+    <section class="gsec" id="faq">
+      <h2><span class="gsec__num">5</span>常见问题</h2>
+      <dl class="gfaq">
+        <dt>学生要登录吗？</dt>
+        <dd>不用。浏览、使用工具都不用登录。要登录的只有老师：建班、看后台、送许愿单。</dd>
+
+        <dt>手机、平板能用吗？</dt>
+        <dd>
+          <p>点子铺和工具都是网页，用浏览器打开，不用安装任何东西。点子铺首页有手机版面。</p>
+          <p>各个工具适合什么设备并不一样，请看它的「准备条件」：在「按课标精确查找」里选到单元，列出的工具会写明，例如一人一台比较好、要不要开声音、要不要班级码。</p>
+        </dd>
+
+        <dt>要换班级怎么办？</dt>
+        <dd>
+          <p><b>学生那一端</b>：读到班级的工具，画面右上角会有<span class="ui">换班级</span>按钮，输入新的班级码，工具会重新载入，上一班的内容不会留着。浏览器会记住上次的班级码，所以共用电脑换班时，要用这个按钮。</p>
+          <p><b>老师这一端</b>：同一个账号可以管理好几个班，「我的班级」里都列得出来；在老师后台上方的下拉选单切换班级。</p>
+        </dd>
+
+        <dt>名单改错了、删错了学生？</dt>
+        <dd>在「我的班级」点进班级，每次改动前系统都会自动存档。点<span class="ui">查看历史版本</span>，选一个时间点<span class="ui">还原到这里</span>。注意：<span class="ui">删除这个班级</span>会连学生名单一起删掉，无法恢复。</dd>
+
+        <dt>「用过 N 次」是怎么算的？</dt>
+        <dd>
+          <p>在点子铺按「开始使用」，算一次；老师把工具网址直接转发、学生打开，也算一次（这一条自 2026-10-08 起计入）。同一台浏览器、同一个工具，30 分钟内只算一次，刷新不会增加。自动化测试用的浏览器不计入。</p>
+          <p>这是在浏览器端估算的次数，不是不重复的学生人数；课室里多台电脑同时开，会各算一次。</p>
+        </dd>
+      </dl>
+    </section>
+
+    <p class="guide__end">
+      <a href="index.html" class="guide-home-btn">回首页找工具</a><br>
+      用了觉得哪里不顺，欢迎在 <a href="https://t.me/yquanloo" target="_blank" rel="noopener">Telegram 私讯我</a>。
+    </p>
+  </main>
+
+</body>
+</html>

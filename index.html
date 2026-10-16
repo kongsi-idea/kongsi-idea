@@ -26,6 +26,7 @@
       </span>
     </div>
     <nav class="site-head__actions" aria-label="老师功能">
+      <a href="guide.html" class="site-head__guide">使用指南</a>
       <a href="kelasku.html" class="wish-btn wish-btn--quiet">我的班级 <span class="wish-btn__sub">kelasku</span></a>
       <button class="wish-btn" id="openWish">点子许愿池 <span class="wish-btn__sub">Kedai Idea</span></button>
     </nav>
@@ -293,12 +294,32 @@
     </div>
   </div>
 
-  <!-- 新访客欢迎侧边卡：只在这台浏览器第一次造访时延迟滑出，不会每次刷新都跳 -->
-  <div class="welcome-toast" id="welcomeToast" hidden>
+  <!-- 新访客欢迎侧边卡：第一次进站时延迟滑出；先问老师还是学生，各给一段话（2026-10-17 老师定）。
+       带 ?tool= 进站（学生点老师发的链接）不显示。选了身份或关闭才记住，不是每次刷新都跳 -->
+  <div class="welcome-toast" id="welcomeToast" hidden role="region" aria-label="欢迎">
     <button class="welcome-toast__close" id="welcomeToastClose" aria-label="关闭">✕</button>
-    <p class="welcome-toast__title">欢迎来到课堂点子铺</p>
-    <p class="welcome-toast__body">老师有点子，课堂有办法。找不到想要的工具？到点子许愿池告诉我们这堂课卡在哪里，我们一起想办法。</p>
-    <button class="welcome-toast__cta" id="welcomeToastCta">去点子许愿池看看</button>
+    <div class="welcome-pane" data-pane="ask">
+      <p class="welcome-toast__title">第一次来？你是——</p>
+      <div class="welcome-toast__choices">
+        <button type="button" class="welcome-toast__cta" id="welcomeIsTeacher">老师</button>
+        <button type="button" class="welcome-toast__cta welcome-toast__cta--alt" id="welcomeIsStudent">学生</button>
+      </div>
+    </div>
+    <div class="welcome-pane" data-pane="teacher" hidden>
+      <p class="welcome-toast__title">3 步就会用</p>
+      <ol class="welcome-toast__steps">
+        <li>选年级、科目，找到工具</li>
+        <li>点卡片，按「开始使用」，或「分享给学生」（链接＋QR）</li>
+        <li>要记录成绩，先到「我的班级」建班</li>
+      </ol>
+      <a class="welcome-toast__cta" id="welcomeGuide" href="guide.html">看完整指南</a>
+      <button type="button" class="welcome-toast__link" id="welcomeWish">找不到工具？去许愿池</button>
+    </div>
+    <div class="welcome-pane" data-pane="student" hidden>
+      <p class="welcome-toast__title">欢迎！</p>
+      <p class="welcome-toast__body">选你的年级，点一张卡片，按「开始使用」就能玩！</p>
+      <button type="button" class="welcome-toast__cta" id="welcomeOk">好</button>
+    </div>
   </div>
 
   <div class="toast-stack" id="toastStack" aria-live="polite"></div>

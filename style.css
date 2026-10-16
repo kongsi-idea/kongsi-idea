@@ -215,6 +215,17 @@ body {
 .wish-btn:hover { transform: translateY(-2px); }
 .wish-btn:active { transform: translateY(1px); box-shadow: 0 2px 0 rgba(31,58,52,0.25); }
 .wish-btn__sub { display: block; font-size: 0.68rem; font-weight: normal; opacity: 0.85; }
+/* 「使用指南」：低调的文字链接，不跟两个按钮抢视线（2026-10-17 老师定） */
+.site-head__actions { align-items: center; }
+.site-head__guide {
+  font-size: 0.85rem;
+  color: rgba(31,58,52,0.7);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 6px 4px;
+  white-space: nowrap;
+}
+.site-head__guide:hover { color: var(--ink); }
 /* 页首只留一个主按钮（许愿池）；「我的班级」是已登记老师才常用的入口，降为次要样式，不跟它抢视线 */
 .wish-btn--quiet {
   background: var(--paper-deep);
@@ -551,15 +562,45 @@ body {
   margin: 0 0 14px;
 }
 .welcome-toast__cta {
+  display: inline-block;
   font-family: var(--font-display);
-  background: var(--orange);
+  font-size: 0.95rem;
+  background: var(--orange-deep); /* 白字对比 5.1:1；原橙底白字只有 2.6 */
   color: #fff8ef;
   border: none;
   border-radius: 999px;
-  padding: 10px 18px;
+  padding: 10px 20px;
   cursor: pointer;
+  text-decoration: none;
   box-shadow: 0 4px 0 rgba(31,58,52,0.25);
 }
+.welcome-toast__cta:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(31,58,52,0.25); }
+.welcome-toast__cta--alt { background: var(--ink); }
+.welcome-toast__choices { display: flex; gap: 10px; margin-top: 4px; }
+.welcome-toast__choices .welcome-toast__cta { flex: 1; text-align: center; padding: 12px 0; font-size: 1.05rem; }
+.welcome-pane { animation: welcome-pane-in 0.22s ease; }
+@keyframes welcome-pane-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.welcome-toast__steps {
+  margin: 0 0 14px;
+  padding-left: 1.3em;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: rgba(31,58,52,0.8);
+}
+.welcome-toast__steps li { margin-bottom: 4px; }
+.welcome-toast__link {
+  display: block;
+  margin-top: 10px;
+  padding: 4px 0;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: rgba(31,58,52,0.65);
+  text-decoration: underline;
+  cursor: pointer;
+}
+@media (prefers-reduced-motion: reduce) { .welcome-pane { animation: none; } }
 .card--placeholder {
   background: repeating-linear-gradient(135deg, rgba(31,58,52,0.03) 0 8px, transparent 8px 16px);
   color: rgba(31,58,52,0.4);
@@ -1384,6 +1425,7 @@ body {
   .auth-status__login { padding: 7px 12px; }
   .auth-status__email { max-width: 110px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .site-head__actions { grid-area: act; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+  .site-head__guide { order: 3; grid-column: 1 / -1; justify-self: center; font-size: 0.82rem; padding: 6px 12px; }
   .wish-btn { margin-left: 0; padding: 10px 12px; }
 }
 

@@ -674,7 +674,7 @@ function renderDetailSets(entry, highlightSlug) {
           <span class="set__label">${m.setLabel || "复习卷"}${m.slug === highlightSlug ? '<span class="set__here">链接指向这份</span>' : ""}</span>
           <span class="set__name">${m.title_zh}<span class="detail__version">${m.version ? `v${m.version}` : ""}</span></span>
         </div>
-        <a class="detail__open set__open" href="${m.url}?kh=1" target="_blank" rel="noopener">开始使用</a>
+        <a class="detail__open set__open" href="${toolStartUrl(m.url)}" target="_blank" rel="noopener">开始使用</a>
         <div class="set__sub">
           <button type="button" class="detail__share set__share">${SHARE_ICON}<span class="set__share-label">分享给学生</span></button>
           ${hasTeacher(m) ? `<a class="set__teacher" href="teacher.html?tool=${encodeURIComponent(m.slug)}" target="_blank" rel="noopener">老师后台</a>` : ""}
@@ -736,7 +736,7 @@ function openDetail(tool, highlightSlug) {
   } else {
     const link = document.getElementById("detailOpenLink");
     if (tool.url) {
-      link.href = `${tool.url}?kh=1`; // hub 已算过使用次数；工具端 data/track-use.js 看到 kh=1 会跳过并清掉它
+      link.href = toolStartUrl(tool.url); // hub 已算过使用次数；工具端 data/track-use.js 看到 kh=1 会跳过并清掉它
       link.classList.remove("detail__open--disabled");
       link.textContent = "开始使用";
       link.onclick = () => { bumpUses(tool.slug); };
@@ -1687,6 +1687,29 @@ function isUncountedVisitor() {
     return localStorage.getItem(NO_COUNT_KEY) === "1";
   } catch (e) { return false; }
 }
+// 2026-10-17：「几台设备用过」，id 存在 localStorage，Hub 点「开始使用」时用 ?kd= 带给工具，同一台电脑才算同一台
+// kd 参数名与 data/track-use.js 绑定，不要改名。RPC 还没建好（migration 未执行）时静默失败，下次载入再试
+const DEVICE_KEY = "kongsi-idea-device-key";
+function getDeviceKey() {
+  try {
+    let key = localStorage.getItem(DEVICE_KEY);
+    if (!key) { key = crypto.randomUUID(); localStorage.setItem(DEVICE_KEY, key); }
+    return key;
+  } catch (e) { return null; }
+}
+async function registerHubDevice() {
+  if (isUncountedVisitor()) return;
+  const key = getDeviceKey();
+  if (!key) return;
+  try { if (localStorage.getItem("kongsi-idea-device-reg:hub") === key) return; } catch (e) { return; }
+  const { error } = await supabaseClient.rpc("register_device", { p_key: key, p_scope: "hub" });
+  if (!error) try { localStorage.setItem("kongsi-idea-device-reg:hub", key); } catch (e) {}
+}
+// 「开始使用」的网址：hub 已算过使用次数（kh=1），并带上设备 id（kd）。不计的访客照样带 kd
+function toolStartUrl(url) {
+  const key = getDeviceKey();
+  return `${url}?kh=1${key ? `&kd=${key}` : ""}`;
+}
 async function bumpPageViews() {
   const lastVisit = Number(localStorage.getItem(LAST_VISIT_KEY) || 0);
   const now = Date.now();
@@ -1773,24 +1796,37 @@ function animateCount(el) {
 }
 
 // ---------- 新访客欢迎侧边卡：只在这台浏览器第一次造访时出现，不是每次刷新都跳 ----------
+// 2026-10-17 老师定：先问「老师／学生」，各给一段话；带 ?tool= 进站（学生点老师发的链接）不显示，
+// 也不记 WELCOMED_KEY（下次直接进首页时仍可出现）。选了身份或关闭才记住。
 const WELCOMED_KEY = "kongsi-idea-welcomed";
+function markWelcomed() { try { localStorage.setItem(WELCOMED_KEY, "1"); } catch (e) {} }
 function closeWelcomeToast() {
   const el = document.getElementById("welcomeToast");
   if (!el) return;
+  markWelcomed();
   el.classList.remove("show");
   setTimeout(() => { el.hidden = true; }, 400);
 }
+function showWelcomePane(name) {
+  document.querySelectorAll("#welcomeToast .welcome-pane").forEach((p) => { p.hidden = p.dataset.pane !== name; });
+  if (name !== "ask") markWelcomed(); // 选了身份就算看过，下次不再弹
+}
 function maybeShowWelcome() {
   const el = document.getElementById("welcomeToast");
-  if (!el || localStorage.getItem(WELCOMED_KEY)) return;
-  localStorage.setItem(WELCOMED_KEY, "1");
+  if (!el) return;
+  if (new URLSearchParams(window.location.search).has("tool")) return; // 学生点老师发的链接进来
+  try { if (localStorage.getItem(WELCOMED_KEY)) return; } catch (e) { return; }
   setTimeout(() => {
     el.hidden = false;
     requestAnimationFrame(() => el.classList.add("show"));
   }, 900);
 }
 document.getElementById("welcomeToastClose").addEventListener("click", closeWelcomeToast);
-document.getElementById("welcomeToastCta").addEventListener("click", () => {
+document.getElementById("welcomeIsTeacher").addEventListener("click", () => showWelcomePane("teacher"));
+document.getElementById("welcomeIsStudent").addEventListener("click", () => showWelcomePane("student"));
+document.getElementById("welcomeOk").addEventListener("click", closeWelcomeToast);
+document.getElementById("welcomeGuide").addEventListener("click", markWelcomed); // 照常跳转到 guide.html
+document.getElementById("welcomeWish").addEventListener("click", () => {
   closeWelcomeToast();
   document.getElementById("openWish").click();
 });
@@ -1833,6 +1869,7 @@ function showToast(message, type = "success") {
 
 // ---------- 初始化 ----------
 bumpPageViews();
+registerHubDevice();
 // 「今天」两个字先出来，停顿 2 秒，再继续把后面的字打完，整体也放慢一点
 typewriterInto(document.getElementById("finderTitleText"), "今天要教什么？", { speed: 140, pauseAfterChar: 2, pauseMs: 2000 });
 renderStats();
