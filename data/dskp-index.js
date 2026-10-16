@@ -772,6 +772,15 @@ const DSKP_INDEX = [
             terms: ["汉字基本知识", "笔画", "部首", "偏旁", "结构", "笔顺", "aksara"],
           },
           {
+            // 2026-10-17 补（tahun2-bc-xingsi 拼字魔法锅）：docs/dskp/tahun2/bahasa-cina.md「5.3 认识各类词语｜5.3.1 认识量词、近似字、多音字，辨析理解词义」。
+            // topic 跟一年级同一条一样挂「量词」；近似字工具在工具上用 topicOverride（同 tahun1-bc-xingsi）。title_bm 是工作翻译，未核对官方 PDF 逐字马来文措辞
+            code: "5.3.1",
+            title_zh: "认识量词、近似字、多音字，辨析理解词义",
+            title_bm: "Mengenal pelbagai jenis perkataan (penjodoh bilangan, kata hampir sama, kata pelbagai bunyi)",
+            topic: { zh: "量词", bm: "Penjodoh Bilangan" },
+            terms: ["量词", "近似字", "形近字", "形似字", "多音字", "辨析词义", "penjodoh bilangan"],
+          },
+          {
             code: "5.5",
             title_zh: "认识各种标点符号：顿号、冒号、引号的使用（句号、问号、叹号、逗号为一年级所学）",
             title_bm: "Mengenal pelbagai tanda baca (tanda koma, tanda titik dua, tanda petik)",

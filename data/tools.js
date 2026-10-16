@@ -1235,6 +1235,40 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun2-bc-xingsi",
+    tahun: 2,
+    subjek: "bc",
+    modes: ["各自练习", "回家练习"],
+    topicOverride: { zh: "近似字", bm: "Kata Hampir Sama" }, // 同 tahun1-bc-xingsi：DSKP 5.3.1 的 topic 挂「量词」，近似字工具例外
+    status: "published",
+    title_zh: "拼字魔法锅",
+    title_bm: "Periuk Ajaib: Bina Aksara",
+    desc: "来自许愿池一位二年级老师的卡点：学生词汇量不足，很多字不会写，对学习缺乏信心和兴趣。所以这个工具让学生自己动手「拼字」：把两个字拖进魔法锅（或点一下），合成一个新字，例如竹＋巴＝笆、手＋巴＝把；拼对后字卡会把部首和另一半分两色显示，并说明「竹放到上面，变成竹字头」，接着在田字格里描一遍（可看笔顺动画，描得像就盖「写得好」章，乱涂不算）。拼出同一家的别的字（父＋巴＝爸、口＋龙＝咙）会告诉学生「这是爸爸的爸」，错两次就出现课本儿歌提示。五个字（笆、把、笼、提、题）取自二年级课本第 26 页《识字二》与第 63–64 页；拼完有「比一比」对照巴家、龙家、是家的形似字，再做 5 题课本句子的「考考你」，只报「第一次就答对几题」，不扣分、不排名。字卡、句子都有预录朗读，第一次打开后断网也能用。",
+    keywords: ["形似字", "近似字", "形近字", "部件", "部首", "偏旁", "拼字", "写字", "描红", "笆把笼提题", "识字二", "二年级", "华文", "离线", "xingsi"],
+    url: "https://tahun2-bc-xingsi.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "一位二年级老师", initial: "师" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-17", note: "首次上架：5 关部件拼字（笆、把、笼、提、题）＋描字、比一比、5 题复习、预录朗读、可离线使用" },
+    ],
+    // 4 张都是用 Playwright 实际操作正式网址 https://tahun2-bc-xingsi.vercel.app 截的真实画面（1200×900），不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-bc-xingsi/v1-0-1-cover.png", label: "拼字魔法锅：手＋是＝提，拼对后在田字格描一遍" },
+      { img: "assets/thumbs/tahun2-bc-xingsi/v1-0-2-play.png", label: "把部件拖进锅里：竹篱□ 要拼哪个字？" },
+      { img: "assets/thumbs/tahun2-bc-xingsi/v1-0-3-wrong.png", label: "拼错了：这是「爸爸」的爸，再试一次" },
+      { img: "assets/thumbs/tahun2-bc-xingsi/v1-0-4-compare.png", label: "比一比：巴家、龙家、是家的形似字，部首标橙色" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.3.1", "5.1"] },
+    ],
+    practiceSummary: "认识形似字：用部件拼出字、看部首分辨同一家的形似字，并描写一遍",
+    teachingMode: ["学生自学", "单人挑战"],
+    prep: "学生每人一台（电脑、平板、手机都可以，触控和鼠标都能拖），建议戴耳机（会朗读）。一轮约 10 分钟：5 关拼字＋描字，再做 5 题「考考你」。课前在有网络时先打开一次，之后断网也能用",
+  },
+
+  {
     slug: "tahun1-bc-shizi-explore",
     tahun: 1,
     subjek: "bc",
