@@ -698,6 +698,38 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun5-mt-wang",
+    tahun: 5,
+    subjek: "mt",
+    modes: ["各自练习", "回家练习"],
+    status: "published",
+    title_zh: "钱币小掌柜",
+    title_bm: "Juruwang Cilik: Masalah Wang",
+    desc: "来自许愿池一位五年级老师的卡点：学生读不懂钱币应用题，不知道该用哪种运算，常常选错方法。所以这个工具先不急着算，而是要学生想清楚：两步题先求什么、这一步用 ＋ − × ÷ 哪一种。木钱盘把题意摆成钞票和硬币长条（课本的线段图）；选错运算时，钱盘会摆出那样算的结果，让学生自己看出不合理（例如找回的钱比付的还多）；选错答案就用验算揭穿。分食堂（一步）、夜市（两步）、大生意（课本那样的大数目）三关，每关 8 题，结束时列出这一关最常犯的错法。",
+    keywords: ["钱币", "应用题", "选运算", "加减乘除", "两步题", "找钱", "分期付款", "线段图", "波利亚", "五年级", "数学", "wang", "masalah wang", "penyelesaian masalah", "operasi bergabung", "Model Polya"],
+    url: "https://tahun5-mt-wang.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "一位五年级老师", initial: "师" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-17", note: "首次上架（来自许愿池：Tahun 5 数学，钱币应用题不知道该用哪种运算）" },
+    ],
+    thumbnails: [
+      { img: "assets/thumbs/tahun5-mt-wang/1-cover.png", label: "封面：钱币小掌柜" },
+      { img: "assets/thumbs/tahun5-mt-wang/2-play.png", label: "选运算：钱盘把题目摆成钞票和硬币长条" },
+      { img: "assets/thumbs/tahun5-mt-wang/3-feedback.png", label: "选错运算：钱盘摆出那样算的结果，看出不合理" },
+      { img: "assets/thumbs/tahun5-mt-wang/4-preview.png", label: "老师看题库：每题的正确运算与每种错法" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1", "3.2", "3.5"] },
+    ],
+    practiceSummary: "解答涉及日常生活的钱币应用题（3.5.1）：按波利亚模式解析问题、拟定策略（两步题先求什么）、选对运算、验算；涵盖币值加减乘除（3.1）与两步混合运算（3.2）；用钱币长条（线段图）看出合并、拿走、相差、几份一样、平分",
+    teachingMode: ["学生各自练习", "居家练习"],
+    prep: "打开即用，不需要打印、不需要登记名单。学生每人一台电脑、平板或手机，一节约 20 分钟可玩完一关（8 题）。能力较好的学生可打开「挑战：先不摆钱盘」，先只看题目想运算。老师可在首页底部「老师看题库」看全部题目与错法说明",
+  },
+
+  {
     slug: "tahun3-mt-koordinat",
     tahun: 3,
     subjek: "mt",

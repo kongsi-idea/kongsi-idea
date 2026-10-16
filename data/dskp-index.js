@@ -639,6 +639,7 @@ const DSKP_INDEX = [
     // 截取档头部注明「没有审核」，故 reviewed: false（页面显示「已对照」，不显示「已核对」）。只收录已有工具覆盖的 8.2，不是整个单元。
     // 2026-10-17 加 2.0 的 2.1.1 分数乘法（分数乘法格子板 tahun6-mt-pecahan：六年级复习五年级内容，工具 standards 用 tahun: 5 指到这里）。
     // 2.2 小数、2.3 百分比、2.4 解决问题未覆盖。
+    // 2026-10-17 加 3.0 钱币的 3.1／3.2／3.5（钱币小掌柜 tahun5-mt-wang）；3.3 储蓄投资、3.4 信贷未覆盖。
     curriculum: "KSSR Semakan 2017",
     tahun: 5,
     subjek: "mt",
@@ -654,6 +655,18 @@ const DSKP_INDEX = [
         topic: { zh: "分数", bm: "Pecahan" },
         objectives: [
           { code: "2.1", title_zh: "分数：2.1.1 进行二个数目的分数乘法运算，涉及整数、真分数和带分数（分母至 10）", title_bm: "Pecahan: 2.1.1 Mendarab pecahan bagi dua nombor melibatkan nombor bulat, pecahan wajar dan nombor bercampur", terms: ["分数乘法", "分数", "真分数", "带分数", "假分数", "整数乘分数", "分子乘分子", "分母乘分母", "约简", "面积模型", "pecahan", "darab pecahan", "pecahan wajar", "nombor bercampur", "pecahan tak wajar"] },
+        ],
+      },
+      {
+        // 2026-10-17 加 3.0 钱币（钱币小掌柜 tahun5-mt-wang）：只收 3.1 基本运算、3.2 混合运算、3.5 解决问题；3.3 储蓄投资、3.4 信贷未覆盖。
+        code: "3.0",
+        title_zh: "钱币",
+        title_bm: "Wang",
+        topic: { zh: "钱币", bm: "Wang" },
+        objectives: [
+          { code: "3.1", title_zh: "钱币的基本运算：完成至三个币值的加法、减法，币值与至二位数、100 和 1000 的乘法与除法（RM1 000 000 以内）", title_bm: "Operasi asas melibatkan wang: menyelesaikan ayat matematik tambah, tolak, darab dan bahagi melibatkan nilai wang dalam lingkungan RM1 000 000", terms: ["钱币", "币值", "加法", "减法", "乘法", "除法", "找钱", "wang", "nilai wang", "operasi asas"] },
+          { code: "3.2", title_zh: "钱币的混合运算：完成 RM1 000 000 以内有括号和没有括号的混合运算（加和乘、减和乘、加和除、减和除）", title_bm: "Operasi bergabung melibatkan wang, dalam lingkungan RM1 000 000, tanpa dan dengan tanda kurung", terms: ["混合运算", "两步题", "operasi bergabung"] },
+          { code: "3.5", title_zh: "解决问题：3.5.1 解答涉及日常生活与 RM1 000 000 以内的钱币有关的应用题（波利亚模式：审题、拟定解答策略、进行解答策略、验算）", title_bm: "Penyelesaian masalah: 3.5.1 Menyelesaikan masalah melibatkan wang dalam lingkungan RM1 000 000 dalam situasi harian", terms: ["应用题", "解决问题", "波利亚", "验算", "选运算", "penyelesaian masalah", "Model Polya"] },
         ],
       },
       {
