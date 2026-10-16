@@ -664,6 +664,40 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun6-mt-pecahan",
+    tahun: 6,
+    subjek: "mt",
+    modes: ["全班投影"],
+    status: "published",
+    title_zh: "分数乘法格子板",
+    title_bm: "Papan Petak Darab Pecahan",
+    desc: "来自许愿池一位六年级老师的卡点：分数乘法练了又忘、听不懂概念、程度差异大，还容易把加法「先通分」的步骤搬到乘法里。所以这个工具在黑板格子上讲「为什么」（复习五年级分数乘法）：第一个数竖着切、第二个数横着切，重叠的格子就是答案；数重叠几格得到「分子 × 分子」，看一个整体被切成几格得到「分母 × 分母」。老师投影一步一步讲，「数一数」和「每一格多大」都先让全班猜再揭晓；每题最后点出这类题最常见的错法：分子分母都乘整数、像加法一样先通分、带分数拆开各乘各的。",
+    keywords: ["分数乘法", "分数", "真分数", "带分数", "假分数", "整数乘分数", "分子乘分子", "分母乘分母", "约简", "通分", "面积模型", "格子", "六年级", "五年级", "复习", "数学", "pecahan", "darab pecahan", "nombor bercampur", "pecahan wajar", "投影", "全班"],
+    url: "https://tahun6-mt-pecahan.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "一位六年级老师", initial: "师" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-17", note: "首次上架（来自许愿池：Tahun 6 数学，分数乘法概念不懂、步骤混淆）" },
+    ],
+    // 缩略图是 Playwright 操作正式网址截的真实画面（1200×900）
+    thumbnails: [
+      { img: "assets/thumbs/tahun6-mt-pecahan/v1-0-1-cover.png", label: "2/3 × 3/4：重叠 6 格，答案 6/12 = 1/2" },
+      { img: "assets/thumbs/tahun6-mt-pecahan/v1-0-2-count.png", label: "带分数先化成假分数，数一数重叠的格子" },
+      { img: "assets/thumbs/tahun6-mt-pecahan/v1-0-3-mistake.png", label: "别搞混：乘法不用像加法那样先通分" },
+      { img: "assets/thumbs/tahun6-mt-pecahan/v1-0-4-picker.png", label: "老师选题：三档预设题＋自己出题" },
+    ],
+    // 六年级复习五年级内容：tahun: 5 让 Hub 到五年级 DSKP 找 2.1.1
+    standards: [
+      { curriculum: "KSSR Semakan 2017", tahun: 5, unitCode: "2.0", objectiveCodes: ["2.1"] },
+    ],
+    practiceSummary: "用面积模型（格子）看懂分数乘法：整数 × 分数、真分数 × 真分数、带分数相乘（分母至 10）；带分数先化成假分数，分子乘分子、分母乘分母，再约简或化成带分数；对照三种常见错法",
+    teachingMode: ["投影互动", "教师带教/演示"],
+    prep: "打开即用，不需要打印，学生不需要设备，也不用登记名单。老师投影，按「下一步」（或键盘 →／空白键）一步一步讲；「数一数」「每一格多大」先让全班猜再揭晓。一题约 2–3 分钟，十分钟可讲 3–4 题。「换一题」可选三档预设题，或自己出题（分母 2–10）",
+  },
+
+  {
     slug: "tahun3-mt-koordinat",
     tahun: 3,
     subjek: "mt",

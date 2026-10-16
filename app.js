@@ -37,7 +37,8 @@ function getObjective(unit, objectiveCode) {
 function resolveToolStandards(tool) {
   if (!tool.standards || typeof DSKP_INDEX === "undefined") return [];
   return tool.standards.map((s) => {
-    const record = DSKP_INDEX.find((r) => r.curriculum === s.curriculum && r.tahun === tool.tahun && r.subjek === tool.subjek);
+    // s.tahun：复习低年级内容的工具（如六年级复习五年级分数乘法）可指到别的年级的 DSKP；没写就用工具自己的年级
+    const record = DSKP_INDEX.find((r) => r.curriculum === s.curriculum && r.tahun === (s.tahun || tool.tahun) && r.subjek === tool.subjek);
     const unit = record && getUnit(record, s.unitCode);
     if (!record || !unit) return null;
     const objectives = s.objectiveCodes.map((c) => getObjective(unit, c)).filter(Boolean);

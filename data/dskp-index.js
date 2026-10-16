@@ -637,6 +637,8 @@ const DSKP_INDEX = [
   {
     // 依本机 DSKP 截取档：资料库/DSKP资料/KSSR2017/Matematik/SJKC/TAHUN5.md（中文）与 SK/TAHUN5.md（马来文原文）。
     // 截取档头部注明「没有审核」，故 reviewed: false（页面显示「已对照」，不显示「已核对」）。只收录已有工具覆盖的 8.2，不是整个单元。
+    // 2026-10-17 加 2.0 的 2.1.1 分数乘法（分数乘法格子板 tahun6-mt-pecahan：六年级复习五年级内容，工具 standards 用 tahun: 5 指到这里）。
+    // 2.2 小数、2.3 百分比、2.4 解决问题未覆盖。
     curriculum: "KSSR Semakan 2017",
     tahun: 5,
     subjek: "mt",
@@ -645,6 +647,15 @@ const DSKP_INDEX = [
     reviewed: false,
     verifiedAt: "2026-10-12",
     units: [
+      {
+        code: "2.0",
+        title_zh: "分数、小数与百分比",
+        title_bm: "Pecahan, Perpuluhan dan Peratus",
+        topic: { zh: "分数", bm: "Pecahan" },
+        objectives: [
+          { code: "2.1", title_zh: "分数：2.1.1 进行二个数目的分数乘法运算，涉及整数、真分数和带分数（分母至 10）", title_bm: "Pecahan: 2.1.1 Mendarab pecahan bagi dua nombor melibatkan nombor bulat, pecahan wajar dan nombor bercampur", terms: ["分数乘法", "分数", "真分数", "带分数", "假分数", "整数乘分数", "分子乘分子", "分母乘分母", "约简", "面积模型", "pecahan", "darab pecahan", "pecahan wajar", "nombor bercampur", "pecahan tak wajar"] },
+        ],
+      },
       {
         code: "8.0",
         title_zh: "统计与概率——数据处理",

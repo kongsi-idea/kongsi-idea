@@ -56,6 +56,7 @@
 | `tahun1to6-drone` | Tahun 1–6 | 跨学科（综合/数学/科学/国文/英文/华文/历史） | 飞学竞场 | 无单点 DSKP 代码——飞行答题游戏跨全部年级与学科出题，`app.js` 用 `coverage` 字段列举各年级可选学科，不套用单一 `standards` 映射 | https://tahun1to6-drone.vercel.app | `../drone-soccer/` | 全平台首个跨年级跨学科工具，也是首个 Three.js 3D 工具。题库是按年段分层的**起始包**，非逐条核过课本/官方 DSKP 的正式题库，正式课堂使用前需教师审核内容（已在 Hub `prep` 栏标注）。马来文 DSKP 用词未查证 → 不进 `data/dskp-index.js`。真实 iOS Safari／「添加到主屏幕」图标表现未验证。v0.4 加班级排行榜（接 kelasku，`?code=` 才启用），表 `tahun1to6_drone_scores` 的 migration **还没跑**（`supabase/migration-2026-09-14-tahun1to6-drone-scores.sql`）；跑之前排行榜按钮正常出现，读写会静默失败，不影响游戏本身。 |
 | `tahun1-am-cahaya` | Tahun 1 | Alam dan Manusia (am) | 光的小探险 | KP2027 5.1 Kraf Cahaya — 5.1.1–5.1.4（光源、光让我们看得见、明暗中做事比较、电子设备的光与眼睛）；未进 `data/dskp-index.js` | https://tahun1-am-cahaya.vercel.app | `../teaching-tools/tahun1-am-cahaya/` | v1.1（2026-10-02）依老师实测修正：黑暗中非题目物件一律哑光、手电筒照度按距离固定、全屋视角光圈加大、切房间时找东西提示跟着更新；v1.0（2026-10-02）首次上线，两幕（停电夜与手电筒、找光源／全黑测验／月亮／天亮）。马来文用词待查证；未在学校电脑／投影实测。新增科目 `am`（Alam dan Manusia，KP2027 新课程，官方中文译名未核对）。 |
 | `tahun6-bi-questiontags` | Tahun 6 | 英文 (bi) | 侦探语法局 Case Files: Question Tags | Year 6 Unit 10 Lesson 3 Grammar（PB p.125、WB p.104）；DSKP 代码未核对，索引未收录 | https://tahun6-bi-questiontags.vercel.app | `../teaching-tools/tahun6-bi-questiontags/` | — |
+| `tahun6-mt-pecahan` | Tahun 6 | 数学 (mt) | 分数乘法格子板 | 六年级复习五年级内容：Tahun 5 的 2.0 分数、小数与百分比 — 2.1.1 分数乘法（整数、真分数、带分数，分母至 10）（已收进 dskp-index 的 Tahun 5 记录，依资料库截取档，`reviewed:false`；工具 standards 用 `tahun: 5`） | https://tahun6-mt-pecahan.vercel.app | `../teaching-tools/tahun6-mt-pecahan/` | v1.0（2026-10-17）首次上架，来自许愿池 #6。黑板面积模型、老师讲解型。待许愿老师回信补：是否其实要 Tahun 6 的分数除法／混合运算、学生真实错例、程度怎么分层；课本页码待补。 |
 | `tahun5-mt-data` | Tahun 5 | 数学 (mt) | 数据侦探局 | 8.0 数据处理 — 8.2.1 众数、中位数、平均数和极差（已收进 dskp-index，依资料库截取档，`reviewed:false`） | https://tahun5-mt-data.vercel.app | `../teaching-tools/tahun5-mt-data/` | v1.0（2026-10-12）首次上架，来自许愿池第 11 份。待老师回信补：真实错例、平均数／极差是否也有困难、课本数据形式（象形图／条形图尚未做）。 |
 | `tahun3-mt-koordinat` | Tahun 3 | 数学 (mt) | 座位小侦探 | 8.0 坐标 — 8.1.2/8.1.3 说出物体名称、确定位置（已收进 dskp-index，依资料库截取档，`reviewed:false`） | https://tahun3-mt-koordinat.vercel.app | `../teaching-tools/tahun3-mt-koordinat/` | v1.0（2026-10-15）首次上架，来自许愿池。待许愿老师回信补：真实错例、是否还有别的卡点；竖屏 8×4 座位仅 44px。 |
 | `tahun3-mt-sukatan` | Tahun 3 | 数学 (mt) | 换算工坊 | 6.0 度量衡 — 6.1/6.2/6.3 长度、质量、液体的体积的单位换算与加减乘除（已收进 dskp-index，依资料库截取档，`reviewed:false`；6.4 解决问题未覆盖） | https://tahun3-mt-sukatan.vercel.app | `../teaching-tools/tahun3-mt-sukatan/` | v1.2（2026-10-17）首次打开不再出现机械朗读；v1.1 同日兑换台改大单位在左、竖式数位对齐（卢老师当天指出）；v1.0 同日首次上架，来自许愿池（汽水老师）。待回信补：学生真实竖式错例、哪种运算错最多。 |
@@ -75,7 +76,7 @@
 | Tahun 3 | — | — | ✅ 2.1课文理解 / 3.1笔顺+5.1(写字) | ✅ 6.1–6.3度量衡换算竖式 / 8.1.2/8.1.3坐标(行列) | ✅ 7.1密度 | — | — | — | — | — | — | — | — |
 | Tahun 4 | — | — | ✅ 3.1笔顺/5.1汉字基本知识 | ✅ 1.1数值 | — | — | — | — | — | — | — | — | — |
 | Tahun 5 | — | — | — | ✅ 8.2众数中位数平均数极差 | — | — | — | — | — | — | — | — | — |
-| Tahun 6 | — | — | — | — | — | — | — | — | — | — | — | — | — |
+| Tahun 6 | — | — | — | ✅ 分数乘法(复习T5 2.1.1) | — | — | — | — | — | — | — | — | — |
 
 **一眼看出的缺口**（2026-07-22 更新）：16 个工具，Tahun 1/2 数学+华文仍最密集，Tahun 2 数学一个年级就占了 5 个（钱币/数位/数列×3/乘法），但每个工具教学场景不同（solo/双人/整班），不算重复堆砌。科学工具增加到 2 个：`tahun1-dst-magnet`（磁铁）+ `tahun3-dst-density`（密度浮沉），两个都是自主开发不靠老师投稿。**英文（bi）、历史/设计与工艺/伊斯兰/道德/视觉艺术/音乐/体育 这 7 个科目仍然完全空白**；数学 Tahun 6（Tahun 3 坐标、Tahun 5 数据处理已各有一个）、华文 Tahun 2/4/5/6、马来文 Tahun 2-6、科学 Tahun 2/4/5/6 也都还空着。下次找素材/构思新工具时优先看这些空科目/年级。
 
