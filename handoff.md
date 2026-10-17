@@ -4,6 +4,11 @@
 
 ## ⏯️ 目前做到哪
 
+**2026-10-17（下午）：欢迎卡问「老师／学生」、新老师指南 `guide.html`、管理手册 `docs/管理手册.md`、Hub 带设备码 `kd`**（`e8e15e4`、`2cd3f32` 已推）。
+- 本来要先部署预览版给老师点、再切正式网址，结果别的 session 上架 `tahun5-mt-wang`／`tahun2-bc-xingsi` 时从 main 部署 prod，把这些改动一起推上线了。正式网址 curl 复验：`guide.html` 200，`app.js` 有 `registerHubDevice`。**老师还没在线上看过欢迎卡**。
+- 管理手册另有私人 Artifact 版：https://claude.ai/artifact/Dbom31RP9TQbyC6Zwdg25t
+- 手册查出 agents.md 规则之间有几处互相矛盾（`idea-wish-pool-spec` 写「尚未实施」、决定 3 写 iframe、107／108 份），要老师拍板才改，未处理。
+
 **2026-10-17：Hub 整理上线**（`a87c3c6`、`55d07f0` 已推，已 `vercel --prod`，线上 curl 复验；规格 `docs/hub-reorg-2026-10.md`，决定见 `agents.md` 第 4、7、15、22、23、25、33–38 条）。
 - 工具登记搬到 `data/tools.js`；主题由 `dskp-index.js` 带出（补 7 份记录，`reviewed:false`，核对表 `~/Documents/my-agent/.ops/out/hub-topic-table.md`）；每个工具加 `modes`。
 - 首页：一套条件（年级／科目／主题药丸＋折叠的按课标查找），卡片四颗标签，「新」7 天最多 8 个；三组复习卷合成一张卡（每份各自开始使用／分享＝直接工具网址／老师后台）。
