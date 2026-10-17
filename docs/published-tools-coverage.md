@@ -66,6 +66,7 @@
 | `tahun3-mt-sukatan` | Tahun 3 | 数学 (mt) | 换算工坊 | 6.0 度量衡 — 6.1/6.2/6.3 长度、质量、液体的体积的单位换算与加减乘除（已收进 dskp-index，依资料库截取档，`reviewed:false`；6.4 解决问题未覆盖） | https://tahun3-mt-sukatan.vercel.app | `../teaching-tools/tahun3-mt-sukatan/` | v1.2（2026-10-17）首次打开不再出现机械朗读；v1.1 同日兑换台改大单位在左、竖式数位对齐（卢老师当天指出）；v1.0 同日首次上架，来自许愿池（汽水老师）。待回信补：学生真实竖式错例、哪种运算错最多。 |
 | `tahun2-bm-kataarah` | Tahun 2 | 马来文 (bm) | Di Mana Letaknya? Kata Arah | 5.0 Aspek Tatabahasa — 5.1.4 (iii) kata arah（已收进 dskp-index，逐字核对本机官方 PDF 第 38 页） | https://tahun2-bm-kataarah.vercel.app | `../teaching-tools/tahun2-bm-kataarah/` | v1.0（2026-10-13）首次上架。BM Tahun 2 课本第 49、82 页复刻（积木玩具风格重画，不用课本原图），Kenali／Jawab／Susun 三阶段，无格子拖放。待老师核对：补题措辞（体育室 2 题、前院 3 题）、锥筒摆在左架最底层（右架底层被篮球占满）；触控与朗读未在真机实测。做法见 `../teaching-tools/tahun2-bm-kataarah/METHOD.md` |
 | `tahun1-bm-kataarah` | Tahun 1 | 马来文 (bm) | Kibarkan Bendera Kata Arah | 5.0 Aspek Tatabahasa — 5.1.4 (iii) kata arah（依资料库 `KSSR2015/Bahasa-Melayu/SJK/TAHUN1.md` 的 5.1／5.1.4 (iii)，该档「仅为截取，没有审核」；马来文用词待查证） | https://tahun1-bm-kataarah.vercel.app | `../teaching-tools/tahun1-bm-kataarah/` | — 。备注：v1.0（2026-10-14）首次上架，BM Tahun 1 课本 BA 28 Kibarkan Bendera Malaysia，Q 版卡通 45 度周会场景，Kenali／Jawab／Susun 三阶段。课本第 2 句 Nani／Sin Ling 答案 belakang 已由老师确认（2026-10-14） |
+| `tahun3-bm-katatanya` | Tahun 3 | 马来文 (bm) | Wartawan Cilik: Kata Tanya | 5.0 Aspek Tatabahasa — 5.1.4 (iii) kata tanya、5.3.1 (iii) ayat tanya dengan kata tanya；1.2.3 mengemukakan soalan（已收进 dskp-index，逐字核对官方 PDF Terbitan 2017 第 29、40–42 页） | https://tahun3-bm-katatanya.vercel.app | `../teaching-tools/tahun3-bm-katatanya/` | v1.0（2026-10-17）首次上架，来自许愿池（三年级国文老师：听不懂概念、不愿参与问答、程度差异大）。小记者三场景×三关、举手指 1–4、两队计分。待回信补：学生真实的疑问词错法、署名；真人试听语音、夜市／运动会全流程未实测。 |
 
 > 「优化备注」栏：`—` 表示目前没有已知待改事项；有想法时写一句话摘要（如「拖拽手感偏慢，考虑换动画」），细节多的话另开该工具的 `handoff.md` 再从这里链过去。
 
@@ -77,7 +78,7 @@
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | Tahun 1 | ✅ 2.1音节 | ✅ 4.3.2拼写(水果蔬菜) | ✅ 2.1/3.1笔顺/3.2/5.1/5.3.1/5.4.1 (8个，含近似字「找对小帮手」、昨天今天明天「撕日历」)＋华文复习本(2.1/3.2/5.3.1) | ✅ 1.8近似值 | ✅ 7.1磁铁 | — | — | — | — | — | — | — | ✅ 10.1急救 |
 | Tahun 2 | ✅ 5.1.4(iii) kata arah | ✅ 4.3.1标点/4.3.2拼写/4.3.3单复数「水果单复数花园」 | ✅ 3.1笔顺/5.1 (写字)／5.3.1近似字「拼字魔法锅」＋综合复习 | ✅ 4.1钱币(部分)/1.4数位/1.7数列(3个)/2.3乘法 (共5个) | — | — | — | — | — | — | — | — | — |
-| Tahun 3 | — | — | ✅ 2.1课文理解 / 3.1笔顺+5.1(写字) | ✅ 6.1–6.3度量衡换算竖式 / 8.1.2/8.1.3坐标(行列) | ✅ 7.1密度 | — | — | — | — | — | — | — | — |
+| Tahun 3 | ✅ 5.1.4(iii)/5.3.1(iii) kata tanya 「Wartawan Cilik」 | — | ✅ 2.1课文理解 / 3.1笔顺+5.1(写字) | ✅ 6.1–6.3度量衡换算竖式 / 8.1.2/8.1.3坐标(行列) | ✅ 7.1密度 | — | — | — | — | — | — | — | — |
 | Tahun 4 | — | ✅ 4.2.5段落/4.3.2拼写「音节运动接力」 | ✅ 3.1笔顺/5.1汉字基本知识 | ✅ 1.1数值 | — | — | — | — | — | — | — | — | — |
 | Tahun 5 | — | — | — | ✅ 3.0钱币应用题选运算、8.2众数中位数平均数极差 | — | — | — | — | — | — | — | — | — |
 | Tahun 6 | — | — | — | ✅ 分数乘法(复习T5 2.1.1) | — | — | — | — | — | — | — | — | — |

@@ -388,6 +388,51 @@ const DSKP_INDEX = [
     ],
   },
   {
+    // 2026-10-17 逐字核对官方 PDF「KSSR Bahasa Melayu SJK Tahun 3」（Terbitan 2017）：第 29 页 1.2.3、第 40–41 页 5.1.4 (iii) kata tanya、第 41–42 页 5.3.1 (iii) ayat tanya dengan kata tanya
+    curriculum: "KSSR Semakan 2017",
+    tahun: 3,
+    subjek: "bm",
+    sourceUrl: "https://jpnpp.moe.gov.my/muat-turun/sektor/sektor-pembelajaran/bahasa/bahasa-melayu/sjk-1/258-dskp-bahasa-melayu-sjk-tahun-3/file",
+    sourceLabel: "DSKP KSSR Bahasa Melayu SJK Tahun 3 (Terbitan 2017)",
+    verifiedAt: "2026-10-17",
+    units: [
+      {
+        code: "5.0",
+        title_zh: "语法",
+        title_bm: "Aspek Tatabahasa",
+        objectives: [
+          {
+            code: "5.1",
+            title_zh: "理解并依语境运用词类：认识并运用虚词，包括疑问词（kata tanya）",
+            title_bm: "Memahami fungsi dan menggunakan golongan kata mengikut konteks (5.1.4 (iii) kata tanya)",
+            topic: { zh: "疑问词", bm: "Kata Tanya" },
+            terms: ["疑问词", "问句", "提问", "kata tanya", "kata tugas", "apa", "siapa", "di mana", "ke mana", "bila", "mengapa", "bagaimana", "berapa", "-kah", "tatabahasa"],
+          },
+          {
+            code: "5.3",
+            title_zh: "理解并依语境造句：有疑问词的疑问句（ayat tanya dengan kata tanya）",
+            title_bm: "Memahami dan membina ayat mengikut konteks (5.3.1 (iii) ayat tanya dengan kata tanya)",
+            topic: { zh: "句型", bm: "Jenis Ayat" },
+            terms: ["疑问句", "问句", "句型", "ayat tanya", "ayat tanya dengan kata tanya", "soalan"],
+          },
+        ],
+      },
+      {
+        code: "1.0",
+        title_zh: "听说技能",
+        title_bm: "Kemahiran Mendengar dan Bertutur",
+        objectives: [
+          {
+            code: "1.2",
+            title_zh: "为不同目的说话、传达信息与想法：提问以取得信息（1.2.3）",
+            title_bm: "Bertutur untuk menyampaikan maklumat dan idea bagi pelbagai tujuan (1.2.3 Mengemukakan soalan untuk mendapatkan maklumat)",
+            terms: ["提问", "问问题", "mengemukakan soalan", "bertutur", "soalan", "maklumat"],
+          },
+        ],
+      },
+    ],
+  },
+  {
     curriculum: "KSSR Semakan 2017",
     tahun: 3,
     subjek: "bc",

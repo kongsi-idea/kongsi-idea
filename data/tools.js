@@ -11,6 +11,40 @@
 //   toolTopic(tool) = tool.topicOverride ‖ 第一条 standards 对应 objective.topic ‖ 该 unit.topic ‖ null
 const TOOLS = [
   {
+    slug: "tahun3-bm-katatanya",
+    tahun: 3,
+    subjek: "bm",
+    modes: ["全班投影", "上台对战"],
+    status: "published",
+    title_zh: "Wartawan Cilik: Kata Tanya",
+    title_bm: "Kata Tanya 小记者问问看",
+    desc: "Daripada kolam hajat (许愿池), masalah seorang guru Bahasa Melayu Tahun 3: murid tidak faham konsep kata tanya, tidak mahu menyertai soal jawab, kurang minat, dan tahap murid sangat berbeza dalam kelas yang besar. Jadi murid menjadi wartawan cilik di tiga lokasi (Pasar Malam, Hari Sukan, Kantin Sekolah): kamera mengezum kepada watak, murid dengar jawapan dan pilih kata tanya yang sesuai. Tidak perlu bahan maujud: pilihan bernombor 1–4, seluruh kelas tunjuk jari dan guru tekan jawapan di skrin. Lapan kata tanya (apa, siapa, di mana, ke mana, bila, mengapa, bagaimana, berapa) termasuk bentuk -kah. Tiga tahap untuk murid yang berbeza tahap: Tahap 1 pilih kata tanya, Tahap 2 pilih soalan yang lengkap, Tahap 3 putar roda dan bina soalan sendiri secara lisan. Jika salah, suara menerangkan apa yang ditanya oleh kata itu. Mod dua kumpulan (Biru lawan Oren) untuk pertandingan. Pratonton guru: tambah ?preview pada pautan.",
+    keywords: ["kata tanya", "ayat tanya", "soalan", "apa", "siapa", "di mana", "ke mana", "bila", "mengapa", "bagaimana", "berapa", "siapakah", "-kah", "tatabahasa", "wartawan", "疑问词", "问句", "提问", "三年级", "马来文", "国文", "bahasa melayu", "投影", "分组比赛", "Tahun 3"],
+    url: "https://tahun3-bm-katatanya.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "一位三年级老师", initial: "师" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-17", note: "首次上架（来自许愿池：三年级国文 kata tanya，学生听不懂概念、不愿参与问答、程度差异大）：小记者三场景（夜市／运动会／食堂）× 三关（选疑问词／选完整问句／转盘自己发问）、8 个疑问词含 -kah、举手指 1–4 作答不需教具、两队计分、答错讲解、教师预览页 ?preview" },
+    ],
+    // 4 张都是 Playwright 操作正式网址 https://tahun3-bm-katatanya.vercel.app 截的真实画面（1600×1200；16:9 舞台上下是工具本身的深蓝外框）
+    thumbnails: [
+      { img: "assets/thumbs/tahun3-bm-katatanya/v1-0-1-cover.png", label: "封面：Wartawan Cilik，小记者拿麦克风，Kata Tanya" },
+      { img: "assets/thumbs/tahun3-bm-katatanya/v1-0-2-play.png", label: "Tahap 1：镜头推到 Pak Mat，听答案句、选疑问词 1–4" },
+      { img: "assets/thumbs/tahun3-bm-katatanya/v1-0-3-correct.png", label: "答对了：Siapakah yang membakar sate? 两队加分" },
+      { img: "assets/thumbs/tahun3-bm-katatanya/v1-0-4-preview.png", label: "教师预览 ?preview：三场景全部题目与答案" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.1", "5.3"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.2"] },
+    ],
+    practiceSummary: "Memahami, mengenal pasti dan menggunakan kata tanya mengikut konteks (SP 5.1.4 (iii)) serta ayat tanya dengan kata tanya (SP 5.3.1 (iii)), dan mengemukakan soalan untuk mendapatkan maklumat (SP 1.2.3): apa, siapa, di mana, ke mana, bila, mengapa, bagaimana dan berapa, termasuk bentuk -kah",
+    teachingMode: ["Interaksi unjuran kelas", "Murid tampil ke hadapan"],
+    prep: "Guru unjurkan di skrin besar; tidak perlu cetakan, kad warna atau peranti murid. Murid tunjuk jari 1–4 dari tempat duduk (butang Tunjuk jari! 3-2-1), guru tekan jawapan atau guna papan kekunci 1–4. Hidupkan pembesar suara: soalan dan penerangan dibaca. Pilih Satu Kelas (tanpa markah) atau Dua Kumpulan (Biru lawan Oren). Tahap 1 sesuai untuk murid lemah, Tahap 3 untuk murid yang sudah boleh bina soalan sendiri. Markah tidak disimpan. Harga dan hari dalam beberapa soalan diberi dalam ayat, bukan dalam gambar. Pratonton guru: tambah ?preview pada pautan.",
+  },
+
+  {
     slug: "tahun4-bi-writing",
     tahun: 4,
     subjek: "bi",
