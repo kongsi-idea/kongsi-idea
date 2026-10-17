@@ -106,6 +106,39 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun4-bi-sports",
+    tahun: 4,
+    subjek: "bi",
+    modes: ["上台对战", "全班投影"],
+    status: "published",
+    title_zh: "Syllable Sports Relay",
+    title_bm: "音节运动接力",
+    desc: "From the wish pool, a Year 4 English teacher's sticking point: in the Sports unit, pupils can read the sport words but cannot spell them; they cannot hold the sounds in their head and just spell \"by feel\" (basketball → baskitball, swimming → swiming). So this tool turns spelling into a Sports Day relay on the class screen. Each team in turn: look at the equipment and name the sport, then Hear it to check; clap the parts (choose how many syllables, then hear them one by one); then build the word one syllable at a time. Each part has 3 blocks: 1 right spelling and 2 that sound the same but are spelled wrong (ket / kit / cat, min / ming). A wrong block is crossed out with a short tip (It sounds like \"kit\", but we write ket). A word with no mistakes moves the team's runner 2 steps, with mistakes 1 step. 2–4 teams, 2–4 words per team; the finish is checked only after a full round, so every team gets the same number of turns. 14 sports: 10 from the DSKP Year 1–4 word list plus hockey, volleyball, netball and sepak takraw. Words and syllables are read aloud. Teacher preview: add ?preview to the link.",
+    keywords: ["spelling", "syllables", "sports", "Sports Day", "relay", "badminton", "basketball", "football", "tennis", "table tennis", "swimming", "skateboarding", "ice skating", "roller skating", "baseball", "hockey", "volleyball", "netball", "sepak takraw", "high frequency words", "拼写", "音节", "运动", "接力", "分组", "四年级", "英文", "Bahasa Inggeris", "Year 4"],
+    url: "https://tahun4-bi-sports.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "一位四年级老师", initial: "师" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-17", note: "首次上架：分队接力（认图→拍音节→按音节选积木拼写）、14 个运动词（DSKP 10＋马来西亚常见 4）、每段 2 个同音错写＋选错提示、预录朗读、教师预览页 ?preview" },
+    ],
+    // 4 张都是用 Playwright 实际操作正式网址 https://tahun4-bi-sports.vercel.app 截的真实画面（1200×900），不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun4-bi-sports/v1-0-1-cover.png", label: "Syllable Sports Relay：bad·min·ton，按音节拼出运动名称" },
+      { img: "assets/thumbs/tahun4-bi-sports/v1-0-2-play.png", label: "轮到一队：看器材图，一段一段选积木拼写" },
+      { img: "assets/thumbs/tahun4-bi-sports/v1-0-3-wrong.png", label: "选错了：同音错写被划掉，提示正确写法" },
+      { img: "assets/thumbs/tahun4-bi-sports/v1-0-4-preview.png", label: "教师预览 ?preview：14 个词的音节、正确写法、错写与提示" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "4.0", objectiveCodes: ["4.3.2"] },
+    ], // 2026-10-17 依资料库 BI SJK Y4 截取档补（4.3.2；课本单元词表与页码待许愿老师回信）
+    practiceSummary: "Spell sport words by syllables: name the sport from a picture, count the syllables, then choose the right spelling for each part from blocks that sound the same (DSKP Year 4 BI 4.3.2, not yet checked against the official PDF)",
+    teachingMode: ["Group competition", "Classroom projection"],
+    prep: "One teacher computer on the projector or smartboard; split the class into 2–4 teams that come up in turns (one pupil taps, the team helps). Turn the sound on: words and each syllable are read aloud. Choose teams and words per team on the cover; 4 teams × 3 words takes about 15 minutes. Keys 1–4 pick a block and Enter goes on, if you prefer a keyboard. Nothing is saved; no login or class code. The word list is 10 sports from the DSKP Year 1–4 word list plus 4 sports common in Malaysia; it is not yet matched to a textbook page. Teacher preview: add ?preview to the link to see every word, its wrong spellings and the hints.",
+  },
+
+  {
     slug: "tahun2-bi-plural",
     tahun: 2,
     subjek: "bi",

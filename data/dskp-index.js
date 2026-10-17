@@ -968,6 +968,8 @@ const DSKP_INDEX = [
         title_bm: "Writing",
         objectives: [
           { code: "4.2.5", title_zh: "用基本并列连词和指代代词把句子连成连贯的段落", title_bm: "Connect sentences into a coherent paragraph using basic coordinating conjunctions and reference pronouns", topic: { zh: "段落写作", bm: "Paragraph Writing" }, terms: ["paragraph", "coherent paragraph", "coordinating conjunctions", "reference pronouns", "writing", "段落", "连词"] },
+          // 2026-10-17 补（tahun4-bi-sports）。截取档第 681 行；主题沿用二年级 4.3.2 的「拼写」。
+          { code: "4.3.2", title_zh: "引导式写作中准确拼写大部分高频词", title_bm: "Spell most high frequency words accurately in guided writing", topic: { zh: "拼写", bm: "Spelling" }, terms: ["spelling", "spell", "high frequency words", "syllables", "拼写", "音节", "听写"] },
         ],
       },
     ],
