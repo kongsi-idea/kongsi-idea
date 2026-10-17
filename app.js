@@ -1727,8 +1727,15 @@ async function bumpPageViews() {
 // 每个老师登录后在 profiles 表写一笔自己的 id（RLS 只准写自己那笔），
 // 首页只透过 get_teacher_count() 这个 SECURITY DEFINER 函数拿总数，不读任何一笔个人资料
 let teacherCount = null;
+// 2026-10-17：老师那一格第二行「来自 X 间学校 · X 个州」，来自 kelasku 建班时选的学校（get_school_count，
+// 重复登记的学校已在 schools.same_as 并成一间）；没建班的老师没有学校资料，所以只当补充、不说「110 位来自 X 间」
+let schoolCount = null;
 async function refreshTeacherCount() {
-  const { data, error } = await supabaseClient.rpc("get_teacher_count");
+  const [{ data, error }, { data: schools, error: schoolsErr }] = await Promise.all([
+    supabaseClient.rpc("get_teacher_count"),
+    supabaseClient.rpc("get_school_count"),
+  ]);
+  if (!schoolsErr && schools && typeof schools.schools === "number") schoolCount = schools;
   if (!error && typeof data === "number") {
     teacherCount = data;
     renderStats();
@@ -1748,7 +1755,7 @@ function renderStats() {
   const toolCount = allEntries().length; // 合集（复习卷）算 1 个
   const teacherStatHtml = teacherCount === null
     ? `<span class="stat stat--pending"><span class="stat__num" data-target="0">0</span><span class="stat__label">位老师注册</span><span class="stat__badge">即将上线</span></span>`
-    : `<span class="stat"><span class="stat__num" data-target="${teacherCount}">0</span><span class="stat__label">位老师注册</span></span>`;
+    : `<span class="stat"><span class="stat__num" data-target="${teacherCount}">0</span><span class="stat__label">位老师注册</span>${schoolCount && schoolCount.schools ? `<span class="stat__sub">来自 ${schoolCount.schools} 间学校 · ${schoolCount.states} 个州</span>` : ""}</span>`;
   const visitsStatHtml = pageViews === null
     ? `<span class="stat stat--pending"><span class="stat__num" data-target="0">0</span><span class="stat__label">次到访</span><span class="stat__badge">即将上线</span></span>`
     : `<span class="stat"><span class="stat__num" data-target="${pageViews}">0</span><span class="stat__label">次到访</span></span>`;

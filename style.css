@@ -513,6 +513,8 @@ body {
   color: rgba(251,246,234,0.6);
   max-width: 180px;
 }
+/* 老师那一格的补充行（来自几间学校）：比标签再淡一级，读起来是附注不是第五个数字 */
+.stat__sub { margin-top: -2px; font-size: 0.72rem; color: rgba(251,246,234,0.45); }
 /* 起算日期收在「数字怎么算？」里：平时不占画面，有人好奇再点开（2026-10-17 老师定） */
 .stats-note { margin-top: 20px; text-align: center; font-size: 0.72rem; color: rgba(251,246,234,0.45); }
 .stats-note summary { cursor: pointer; list-style: none; display: inline-block; text-decoration: underline dotted; }
