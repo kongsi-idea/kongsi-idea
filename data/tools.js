@@ -106,6 +106,39 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun2-bi-plural",
+    tahun: 2,
+    subjek: "bi",
+    modes: ["各自练习", "回家练习"],
+    status: "published",
+    title_zh: "One or Many? Fruit Garden",
+    title_bm: "水果单复数花园",
+    desc: "From the wish pool, a Year 2 English teacher's sticking point: when pupils write sentences about fruits and vegetables, they do not know when to add s and when to use a or an (they cannot tell singular from plural). So every question starts with the picture: is there ONE or are there MANY? Level 1 \"One or Many?\": tap a / an / +s / +es to build the word (an apple, apples, tomatoes). Level 2 \"Where do they grow?\": build the whole sentence — subject, grow or grows, and where it grows (An apple grows on a tree. / Apples grow on trees.). Each right answer flies into a watercolour garden and grows on the tree, on the plants or in the ground. Wrong answers get a hint for that exact mistake (a or an?, one: no s, many: add s, s or es?, grow or grows?), and grow / grows is shown side by side in colour: one → An apple grows, many → Apples grow. 11 fruits and vegetables × one / many = 22 questions; each round picks 10. The results page lists each pupil's mistakes by type so the teacher can see what to reteach. Teacher preview: add ?preview to the link.",
+    keywords: ["singular", "plural", "a", "an", "articles", "-s", "-es", "grow", "grows", "fruits", "vegetables", "Where do they grow", "sentence", "grammar", "单数", "复数", "单复数", "冠词", "二年级", "英文", "造句", "Bahasa Inggeris", "Year 2"],
+    url: "https://tahun2-bi-plural.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "一位二年级老师", initial: "师" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-17", note: "首次上架：两关（One or Many? 拼名词／Where do they grow? 拼整句）、22 题、按错法给提示、答对长进水彩菜园、结果页错法统计、教师预览页 ?preview" },
+    ],
+    // 4 张都是用 Playwright 实际操作正式网址 https://tahun2-bi-plural.vercel.app 截的真实画面（1200×900），不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-bi-plural/v1-0-1-cover.png", label: "One or Many?：an apple／apples，花园里长着水果蔬菜" },
+      { img: "assets/thumbs/tahun2-bi-plural/v1-0-2-play.png", label: "关 2：看图拼整句——主语、grow 或 grows、长在哪" },
+      { img: "assets/thumbs/tahun2-bi-plural/v1-0-3-wrong.png", label: "答错了：grow or grows? one → An … grows，many → …s grow" },
+      { img: "assets/thumbs/tahun2-bi-plural/v1-0-4-preview.png", label: "教师预览 ?preview：22 题的答案、常见错法与提示" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "4.0", objectiveCodes: ["4.3.3"] },
+    ],
+    practiceSummary: "Use a / an for one thing and add -s / -es for many, then write simple sentences with grow / grows about where fruits and vegetables grow (on trees, on plants, in the ground) (DSKP Year 2 BI 4.3.3)",
+    teachingMode: ["Individual practice", "Home practice"],
+    prep: "One device per pupil (tablet, laptop or phone; tap only, no typing), about 10–15 minutes for both levels; no login or class code. Turn the sound on or use earphones: words and sentences are read aloud. Pupils show the teacher the results page (it lists their mistakes by type). Progress is not saved. The fruits and vegetables were chosen so where they grow is clear (no banana or papaya); -ies plurals are not included yet. Example sentences are written for the topic, not copied from a textbook page. Teacher preview: add ?preview to the link.",
+  },
+
+  {
     slug: "tahun1-bi-fruitveg",
     tahun: 1,
     subjek: "bi",

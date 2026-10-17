@@ -946,6 +946,8 @@ const DSKP_INDEX = [
         objectives: [
           { code: "4.3.1", title_zh: "引导式写作中恰当使用大写字母和句号（句子层面）", title_bm: "Use capital letters and full stops appropriately in guided writing at sentence level", topic: { zh: "标点", bm: "Punctuation" }, terms: ["punctuation", "capital letters", "full stop", "question mark", "标点", "大写"] },
           { code: "4.3.2", title_zh: "引导式写作中准确拼写少量熟悉的高频词", title_bm: "Spell a narrow range of familiar high frequency words accurately in guided writing", topic: { zh: "拼写", bm: "Spelling" }, terms: ["spelling", "spell", "high frequency words", "拼写", "听写"] },
+          // 2026-10-17 补（tahun2-bi-plural）。DSKP 二年级不设语法学习标准（截取档第 868 行：Year 2 不显式分析语法），工具练的是写简单句时的单复数与 a/an，挂 4.3.3。
+          { code: "4.3.3", title_zh: "计划、起草并写出简单句子", title_bm: "Plan, draft and write simple sentences", topic: { zh: "单复数", bm: "Singular and Plural" }, terms: ["simple sentences", "singular", "plural", "a", "an", "articles", "写句子", "造句", "单数", "复数", "单复数"] },
         ],
       },
     ],

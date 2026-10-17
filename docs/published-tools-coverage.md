@@ -41,6 +41,7 @@
 | `tahun3-dst-density` | Tahun 3 | 科学 (dst) | 浮沉实验室：密度大发现 | 7.1 密度 — 7.1.1/7.1.2/7.1.3/7.1.4 | https://tahun3-dst-density.vercel.app | `../teaching-tools/tahun3-dst-density/` | v3.0（2026-10-02）3D 厨房重做，五环节含加糖、液体分层、发现卡，DSKP 已对照本机原件；待观察：学校一体机流畅度未实测、手机直立画面偏小 |
 | `tahun2-bi-punctuation` | Tahun 2 | 英文 (bi) | 句子小火车 Sentence Train | BI 4.3.1 句子层面大写与句号（延伸 4.2.1 问句）—— DSKP 摘要对照 `docs/dskp/tahun2/bahasa-inggeris.md`，索引未收录 | https://tahun2-bi-punctuation.vercel.app | `../teaching-tools/tahun2-bi-punctuation/` | v1.1（2026-10-10）按 Irene 老师反馈加大写亮色、车尾不换行、题库 24 对；待观察：Irene 老师试用、字体待挑 |
 | `tahun2-bi-dressing` | Tahun 2 | 英文 (bi) | The Dressing Game 穿衣拼字转盘 | BI 4.3.2 拼写熟悉高频词（未核对官方 PDF，索引未收录；课本页码待补）—— DSKP 摘要对照 `docs/dskp/tahun2/bahasa-inggeris.md` | https://tahun2-bi-dressing.vercel.app | `../teaching-tools/tahun2-bi-dressing/` | v2.0（2026-10-14）改版，缩图与说明已换 v2；v1.0（2026-10-11）首次上架；待观察：真机声音、手机键盘键宽 34px、收集页深色模式未验 |
+| `tahun2-bi-plural` | Tahun 2 | 英文 (bi) | One or Many? Fruit Garden 水果单复数花园 | BI 4.3.3 写简单句（单复数、a/an、grow/grows；DSKP 截取档，reviewed: false；二年级 DSKP 不设语法标准，课本页码待补） | https://tahun2-bi-plural.vercel.app | `../teaching-tools/tahun2-bi-plural/` | v1.0（2026-10-17）首次上架（许愿池 #12）。待许愿老师回信：课本出处（DSKP 课本 Superminds 1 无此单元）、学生真实错句、设备、署名；-ies 复数与 mango 未收；真机未实测 |
 | `tahun1-bi-fruitveg` | Tahun 1 | 英文 (bi) | Spelling Market 拼写小市场 | BI 4.3.2 拼写熟悉高频词（Unit 4 Lunchtime 水果蔬菜 16 词；已对照本机 DSKP 截取档，`reviewed: false`，已收进 dskp-index） | https://tahun1-bi-fruitveg.vercel.app | `../teaching-tools/tahun1-bi-fruitveg/` | v1.0（2026-10-12）首次上架（许愿池）；待观察：真机（iPhone／平板／学校 Windows Chrome）未测、课本页码待补、等老师回信给 10 个听写真实词与错法 |
 | `tahun1-bc-liangci` | Tahun 1 | 华文 (bc) | 量词大冒险 | 5.0 语文基础知识 — 5.3.1 | https://tahun1-bc-liangci.vercel.app | `../teaching-tools/tahun1-bc-liangci/` | — |
 | `tahun1-bc-liangci1` | Tahun 1 | 华文 (bc) | 量词南瓜丰收季 | 5.0 语文基础知识 — 5.3.1（官方 DSKP 华文一年级 PDF 第 42 页，2026-10-09 核对） | https://tahun1-bc-liangci1.vercel.app | `../teaching-tools/tahun1-bc-liangci1/` | v1.0（2026-10-09）；作者陈晓琪老师；南瓜与背景为 SVG（生图额度用完），有额度可换生图 |
@@ -74,7 +75,7 @@
 | 年级 \ 科目 | bm | bi | bc | mt | dst/sains | sejarah | rbt | islam | moral | seni | muzik | pjpk | pk |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | Tahun 1 | ✅ 2.1音节 | ✅ 4.3.2拼写(水果蔬菜) | ✅ 2.1/3.1笔顺/3.2/5.1/5.3.1/5.4.1 (8个，含近似字「找对小帮手」、昨天今天明天「撕日历」)＋华文复习本(2.1/3.2/5.3.1) | ✅ 1.8近似值 | ✅ 7.1磁铁 | — | — | — | — | — | — | — | ✅ 10.1急救 |
-| Tahun 2 | ✅ 5.1.4(iii) kata arah | — | ✅ 3.1笔顺/5.1 (写字)／5.3.1近似字「拼字魔法锅」＋综合复习 | ✅ 4.1钱币(部分)/1.4数位/1.7数列(3个)/2.3乘法 (共5个) | — | — | — | — | — | — | — | — | — |
+| Tahun 2 | ✅ 5.1.4(iii) kata arah | ✅ 4.3.1标点/4.3.2拼写/4.3.3单复数「水果单复数花园」 | ✅ 3.1笔顺/5.1 (写字)／5.3.1近似字「拼字魔法锅」＋综合复习 | ✅ 4.1钱币(部分)/1.4数位/1.7数列(3个)/2.3乘法 (共5个) | — | — | — | — | — | — | — | — | — |
 | Tahun 3 | — | — | ✅ 2.1课文理解 / 3.1笔顺+5.1(写字) | ✅ 6.1–6.3度量衡换算竖式 / 8.1.2/8.1.3坐标(行列) | ✅ 7.1密度 | — | — | — | — | — | — | — | — |
 | Tahun 4 | — | — | ✅ 3.1笔顺/5.1汉字基本知识 | ✅ 1.1数值 | — | — | — | — | — | — | — | — | — |
 | Tahun 5 | — | — | — | ✅ 3.0钱币应用题选运算、8.2众数中位数平均数极差 | — | — | — | — | — | — | — | — | — |
