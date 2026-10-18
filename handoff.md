@@ -4,6 +4,9 @@
 
 ## ⏯️ 目前做到哪
 
+**2026-10-19：「分享给学生」改成直接复制工具网址**（my-agent 主会话）：以前一般工具复制的是 Hub 的 `?tool=<slug>`，学生会先进 Hub；10-08 起工具直接打开也计次，所以改成一律给工具网址（复习卷本来就是）。只改 `app.js` 的 `shareToolLink`（`6fedb26`），已 `vercel --prod` 并 curl 线上 `app.js` 确认新代码在；没在浏览器实点。决定写进 `agents.md` 第 19 条。回滚：`git revert 6fedb26` 后重新 `vercel --prod --yes`。
+- 工作区里 `agents.md` 第 40 条、`handoff.md` 用量结果、`花费记录.md` 10-19 那行、`_retro/2026-10-19-Vercel…` 是**清 Vercel 旧部署那个会话收工后没提交的改动**，本次没一起提交，原样留着待那边或老师决定。
+
 **2026-10-19：「位老师注册」少算一大半，已修**（Hub 会话 my-agent-79）：首页显示 110，实际登录过的老师 261。真因是登记用 `upsert`（`ON CONFLICT`），RLS 下要 SELECT 权限，`profiles` 不开 SELECT，所以从 08-07 起每次都失败（只有两次手动补登进了表）。`app.js`、`kelasku.js` 改普通 `insert`；DB 补了 151 笔（只加资料，不改结构；回滚清单在当次会话 scratchpad）。决定见 `agents.md` 第 28 条。
 
 **2026-10-19：清 Vercel 旧部署（只动 Vercel，没改代码）**（my-agent 主会话）：老师问 Hobby 用量还够用多久（Deployment Storage 7.26/10GB、CDN Requests 65 万/100 万）。查出配额是整个团队共用，Hub 占大头；删了 133 个旧部署（Hub 83＋六个较大工具专案 50），线上 Hub 与工具逐个 curl 皆 200。决定见 `agents.md` 第 40 条。
@@ -101,8 +104,8 @@
 ## 🕐 最后更新
 
 - 时间：2026-10-19
-- 更新者：Claude Sonnet 5.5 @ 这台 Mac（清 Vercel 旧部署；前一次 10-18 许愿池收尾）
-- Git push：✅ 已推 `7c0eef2`（10-19 收工文件；本次无代码改动，Vercel 旧部署清理不进 git）。
+- 更新者：Claude Opus 5.5 @ 这台 Mac（分享链接改工具网址；同日稍早另一会话清 Vercel 旧部署）
+- Git push：待推（本次 `6fedb26` 已推；收工文件待推）。
 
 ---
 

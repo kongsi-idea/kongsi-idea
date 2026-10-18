@@ -32,7 +32,7 @@
 16. `kongsi-idea.vercel.app` 域名可能从专案（`prj_Oyf637d4j8ODuilHIY7eZ2OoZswQ`）Domains列表消失（边缘缓存顶旧内容仍200）——线上无反应先查 Domains 列表，`POST /v10/projects/{id}/domains` 加回
 17. **只开放anon INSERT不开放SELECT的表，insert 绝不能带 `.select()`／`Prefer: return=representation`**（RETURNING读回要过SELECT检查，会撞 `42501`）。一律 `Prefer: return=minimal`
 18. 不需要 `supabase` CLI/`psql`：`supabase/.secrets.local.md` 存DB密码，Python `psycopg2` 直连 `db.{project_ref}.supabase.co:5432` 跑 migration，比手贴 Dashboard 快；Dashboard 降级为备案。密码那行是全角冒号 `Database password：`，解析用 `[:：]`，**不要把档案内容印出来**
-19. 详情弹窗「分享给学生」是**一个按钮同时做两件事**（复制链接＋就地生成QR码，`qrcode-generator` CDN 离线库，不外传网址给第三方 API），2026-09-22 老师反馈原本「复制分享链接」+「显示QR码」两个等重按钮排版鸡肋、跟「开始使用」抢视觉重量后改的——不要拆回两个按钮，也不要加"先选分享方式"的中间步骤，老师课堂场景两个通常都要。按钮样式故意做得比 `.detail__open` 轻（`.detail__share`，无边框、小字），维持关键决定7「第一屏只留一个焦点给学生」。
+19. 详情弹窗「分享给学生」是**一个按钮同时做两件事**（复制链接＋就地生成QR码，`qrcode-generator` CDN 离线库，不外传网址给第三方 API），2026-09-22 老师反馈原本「复制分享链接」+「显示QR码」两个等重按钮排版鸡肋、跟「开始使用」抢视觉重量后改的——不要拆回两个按钮，也不要加"先选分享方式"的中间步骤，老师课堂场景两个通常都要。按钮样式故意做得比 `.detail__open` 轻（`.detail__share`，无边框、小字），维持关键决定7「第一屏只留一个焦点给学生」。 **复制的链接一律是工具本身的网址**（2026-10-19 老师定，`6fedb26`）：学生扫码／点链接直接进工具，不经过 Hub，也就不会在 Hub 乱点别的工具；次数由工具端 `data/track-use.js` 计（决定 25），不会漏算。只有查不到工具网址才退回 Hub 的 `?tool=<slug>` 链接。代价是转发出去的链接不再替 Hub 曝光——这个按钮是给学生的，老师接受。不要改回 Hub 链接。
 20. **详情打开次数（浏览→使用转化率）尚未做**，2026-09-25 讨论过：工程量小（现有 `tool_stats` 表加一栏＋RPC，複用 `increment_tool_uses` 那套模式），但老师自己一人经营、单工具日打开量小，数字只能当方向参考不能精算——之后要做才做，不是遗漏也不用主动补（2026-10-19 定：维持不做，老师提出才做）
 
 21. **缩略图两套**（2026-09-30）：`assets/thumbs/` 原图只给灯箱放大；卡片与详情弹窗读 `assets/thumbs-web/` 的 WebP（最长边 960px，`scripts/build-thumbs.py` 生成，原图 23MB→1.9MB）。**新增或换缩略图后必须跑一次该脚本**再部署；忘了跑不会破图（`onerror` 退回原图），但首页又会变慢。`vercel.json` 给 `/assets/*` 一天缓存。起因：首页一开就下载 8.3MB 原图 PNG，学校网路要等十几秒
