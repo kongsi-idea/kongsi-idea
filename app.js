@@ -1900,11 +1900,12 @@ async function shareToolLink(slug, { box, field, label }) {
   if (!slug) return;
   if (!box.hidden) { box.hidden=true; label.textContent="分享给学生"; return; }
 
-  // 复习卷的每一份直接给工具网址：老师发哪一份，学生打开就是那一份，不用再从合集里点一次
-  const member=TOOLS.find((t)=>t.slug===slug && t.collection && t.url);
-  const url=member ? new URL(member.url) : new URL(window.location.pathname,window.location.origin);
-  if (!member) url.searchParams.set("tool",slug);
-  try { await navigator.clipboard.writeText(url.href); showToast(member ? "已复制这份复习卷的链接" : "已复制课堂点子铺的工具链接"); }
+  // 直接给工具网址，学生不经过 Hub：工具端 data/track-use.js 直接打开也会计次（2026-10-19 老师定）。
+  // 找不到工具网址才退回 Hub 的 ?tool= 链接
+  const tool=TOOLS.find((t)=>t.slug===slug && t.url);
+  const url=tool ? new URL(tool.url) : new URL(window.location.pathname,window.location.origin);
+  if (!tool) url.searchParams.set("tool",slug);
+  try { await navigator.clipboard.writeText(url.href); showToast(tool ? "已复制工具链接" : "已复制课堂点子铺的工具链接"); }
   catch { field.hidden=false; field.value=url.href; field.focus(); field.select(); showToast("请复制已选中的链接"); }
 
   if (!box.innerHTML) {
