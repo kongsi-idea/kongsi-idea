@@ -99,7 +99,7 @@
 
 - 时间：2026-10-19
 - 更新者：Claude Sonnet 5.5 @ 这台 Mac（清 Vercel 旧部署；前一次 10-18 许愿池收尾）
-- Git push：✅ 已推 `388ba30`（收工文件：agents.md 第 28、29 条、handoff 注册与后台段落）；代码 `46fed72`、`a6b80a3` 也已推。
+- Git push：✅ 已推 `7c0eef2`（10-19 收工文件；本次无代码改动，Vercel 旧部署清理不进 git）。
 
 ---
 
