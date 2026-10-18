@@ -4,6 +4,8 @@
 
 ## ⏯️ 目前做到哪
 
+**2026-10-19：「位老师注册」少算一大半，已修**（Hub 会话 my-agent-79）：首页显示 110，实际登录过的老师 261。真因是登记用 `upsert`（`ON CONFLICT`），RLS 下要 SELECT 权限，`profiles` 不开 SELECT，所以从 08-07 起每次都失败（只有两次手动补登进了表）。`app.js`、`kelasku.js` 改普通 `insert`；DB 补了 151 笔（只加资料，不改结构；回滚清单在当次会话 scratchpad）。决定见 `agents.md` 第 28 条。
+
 **2026-10-19：清 Vercel 旧部署（只动 Vercel，没改代码）**（my-agent 主会话）：老师问 Hobby 用量还够用多久（Deployment Storage 7.26/10GB、CDN Requests 65 万/100 万）。查出配额是整个团队共用，Hub 占大头；删了 133 个旧部署（Hub 83＋六个较大工具专案 50），线上 Hub 与工具逐个 curl 皆 200。决定见 `agents.md` 第 40 条。
 - **未验证**：Usage 页的 Deployment Storage 有没有降（MCP 与 CLI 都读不到团队用量，要老师刷新 Vercel Usage 页看；统计可能延迟几小时）。
 - **没做**：`.vercelignore` 排除 `assets/thumbs` 原图（见第 40 条）；CDN Requests 超过 80 万要考虑 Pro。

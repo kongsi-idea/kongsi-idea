@@ -1744,7 +1744,10 @@ async function refreshTeacherCount() {
 
 async function ensureProfileRow() {
   if (!currentSession) return;
-  await supabaseClient.from("profiles").upsert({ id: currentSession.user.id }, { onConflict: "id", ignoreDuplicates: true });
+  // 用普通 insert，不用 upsert：upsert 是 ON CONFLICT (id)，要 SELECT 权限，profiles 刻意不开 SELECT，
+  // 结果 2026-08 起每次都被 RLS 挡（10-19 查出）。已登记过的会回 23505 重复错误，属正常，忽略。
+  const { error } = await supabaseClient.from("profiles").insert({ id: currentSession.user.id });
+  if (error && error.code !== "23505") throw error;
 }
 
 function renderStats() {
