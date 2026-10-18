@@ -85,8 +85,9 @@ const TOOLS = [
     type: "游戏",
     stars: 0,
     creator: { name: "Teacher Irene Wong", initial: "W" },
-    version: "1.1",
+    version: "1.2",
     changelog: [
+      { version: "1.2", date: "2026-10-18", note: "感谢 Ming Zhu 老师发现：On Fridays 后面补上逗号（On Fridays, I ride my bike.）；科目名 Art 改大写（We have Art on Tuesdays. ／ When do we have Art?），大写提示加上 school subjects" },
       { version: "1.1", date: "2026-10-10", note: "按 Irene 老师反馈：句中大写词（人名 Mei Ling 两个词、星期、国家、句中的 I）整节车厢亮金色；车尾标点不再单独掉到下一行；题库 17→24 对（48 句），新增 I 在句中（My brother and I…／On Fridays I…）、星期（Sundays/Fridays…）、国家（Japan/Malaysia），每回合保证出现" },
       { version: "1.0", date: "2026-10-10", note: "首次上架：两关（Asking or Telling? ／ Fix the train）× 两种模式（全班投影／自己练），17 对句子预录英文朗读，错题可再练" },
     ],
@@ -95,12 +96,12 @@ const TOOLS = [
       { img: "assets/thumbs/tahun2-bi-punctuation/v1-1-home.png", label: "首页：大写 I 变火车头、句点接成车尾；可选全班投影或自己练" },
       { img: "assets/thumbs/tahun2-bi-punctuation/v1-2-ask-tell.png", label: "关 1：看句子选「问」或「说」，答对后车头大写、车尾接上标点" },
       { img: "assets/thumbs/tahun2-bi-punctuation/v1-1-swap.png", label: "关 1 答错：句首车厢亮起，车厢换位演示 Mei Ling is → Is Mei Ling；人名整节亮金色" },
-      { img: "assets/thumbs/tahun2-bi-punctuation/v1-1-fix-I.png", label: "关 2：点字母变大写、点车尾选标点；句中的 I 也要大写，亮金色" },
+      { img: "assets/thumbs/tahun2-bi-punctuation/v1-2-fix-art.png", label: "关 2：点字母变大写、点车尾选标点；科目名 Art 漏了大写，车厢变红并提示" },
     ],
     standards: [
       { curriculum: "KSSR Semakan 2017", unitCode: "4.0", objectiveCodes: ["4.3.1"] },
     ], // 2026-10-17 依资料库 BI SJK Y2 截取档补（4.3.1）
-    practiceSummary: "Decide whether a sentence is a question or a statement and use the correct question mark or full stop at the end; capitalise the first word of a sentence, names, days, countries and the word I (DSKP Year 2 BI 4.3.1, extended 4.2.1)",
+    practiceSummary: "Decide whether a sentence is a question or a statement and use the correct question mark or full stop at the end; capitalise the first word of a sentence, names, days, countries, school subjects and the word I (DSKP Year 2 BI 4.3.1, extended 4.2.1)",
     teachingMode: ["Classroom projection", "Individual practice"],
     prep: "Open and use; no login or class code needed. Turn the sound on (sentences are read aloud). The question bank is written to match the Unit 6–9 themes and is not copied line by line from the textbook; progress is not saved.",
   },
