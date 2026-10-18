@@ -4,6 +4,12 @@
 
 ## ⏯️ 目前做到哪
 
+**2026-10-19：清 Vercel 旧部署（只动 Vercel，没改代码）**（my-agent 主会话）：老师问 Hobby 用量还够用多久（Deployment Storage 7.26/10GB、CDN Requests 65 万/100 万）。查出配额是整个团队共用，Hub 占大头；删了 133 个旧部署（Hub 83＋六个较大工具专案 50），线上 Hub 与工具逐个 curl 皆 200。决定见 `agents.md` 第 40 条。
+- **未验证**：Usage 页的 Deployment Storage 有没有降（MCP 与 CLI 都读不到团队用量，要老师刷新 Vercel Usage 页看；统计可能延迟几小时）。
+- **没做**：`.vercelignore` 排除 `assets/thumbs` 原图（见第 40 条）；CDN Requests 超过 80 万要考虑 Pro。
+
+**2026-10-17（晚）：许愿池批量收尾**（my-agent 主会话）：钱币小掌柜封面重画（`d6868ad`，RM50 蓝绿、纸钞横放）＋ dressing 缩略图重建（`56f4813`，讯息误写「误覆盖」，实为同档重建）；Hub `vercel deploy --prod` 后 promote，现行部署 `kongsi-idea-cl8lrlx9h`（回滚：`vercel promote kongsi-idea-mttbcvz05 --scope kongsi-idea --yes`）。许愿单：14 shipped／#11 declined／#7 #13 #18 已寄说明信等回信／#8 待老师决定是否 declined。细节见 `../teaching-tools/handoff.md`。
+
 **2026-10-17（下午）：欢迎卡问「老师／学生」、新老师指南 `guide.html`、管理手册 `docs/管理手册.md`、Hub 带设备码 `kd`**（`e8e15e4`、`2cd3f32` 已推）。
 - 本来要先部署预览版给老师点、再切正式网址，结果别的 session 上架 `tahun5-mt-wang`／`tahun2-bc-xingsi` 时从 main 部署 prod，把这些改动一起推上线了。正式网址 curl 复验：`guide.html` 200，`app.js` 有 `registerHubDevice`。**老师还没在线上看过欢迎卡**。
 - 管理手册另有私人 Artifact 版：https://claude.ai/artifact/Dbom31RP9TQbyC6Zwdg25t
@@ -91,8 +97,8 @@
 
 ## 🕐 最后更新
 
-- 时间：2026-10-10
-- 更新者：Claude Haiku 5.5 @ 这台 Mac
+- 时间：2026-10-19
+- 更新者：Claude Sonnet 5.5 @ 这台 Mac（清 Vercel 旧部署；前一次 10-18 许愿池收尾）
 - Git push：✅ 已推 `388ba30`（收工文件：agents.md 第 28、29 条、handoff 注册与后台段落）；代码 `46fed72`、`a6b80a3` 也已推。
 
 ---
