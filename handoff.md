@@ -13,7 +13,7 @@
 **2026-10-17（下午）：欢迎卡问「老师／学生」、新老师指南 `guide.html`、管理手册 `docs/管理手册.md`、Hub 带设备码 `kd`**（`e8e15e4`、`2cd3f32` 已推）。
 - 本来要先部署预览版给老师点、再切正式网址，结果别的 session 上架 `tahun5-mt-wang`／`tahun2-bc-xingsi` 时从 main 部署 prod，把这些改动一起推上线了。正式网址 curl 复验：`guide.html` 200，`app.js` 有 `registerHubDevice`。**老师还没在线上看过欢迎卡**。
 - 管理手册另有私人 Artifact 版：https://claude.ai/artifact/Dbom31RP9TQbyC6Zwdg25t
-- 手册查出 agents.md 规则之间有几处互相矛盾（`idea-wish-pool-spec` 写「尚未实施」、决定 3 写 iframe、107／108 份），要老师拍板才改，未处理。
+- 手册查出的矛盾条目，10-19 老师说「你决定」，已统一（决定 3／19／20／28、资料夹结构、许愿池规格状态、本档目前状态与下一步）。
 
 **2026-10-17：Hub 整理上线**（`a87c3c6`、`55d07f0` 已推，已 `vercel --prod`，线上 curl 复验；规格 `docs/hub-reorg-2026-10.md`，决定见 `agents.md` 第 4、7、15、22、23、25、33–38 条）。
 - 工具登记搬到 `data/tools.js`；主题由 `dskp-index.js` 带出（补 7 份记录，`reviewed:false`，核对表 `~/Documents/my-agent/.ops/out/hub-topic-table.md`）；每个工具加 `modes`。
@@ -62,7 +62,8 @@
 
 ## 🚦 目前状态
 
-- Hub 正式网址：https://kongsi-idea.vercel.app，线上已是 `fb48c07` 的内容。
+- 以最上方「目前做到哪」最新一条为准；下面几行是 10-10 的旧状态，留作纪录。
+- （10-10）Hub 正式网址：https://kongsi-idea.vercel.app，线上已是 `fb48c07` 的内容。
 - 本次部署用 `vercel --prod --yes`，线上 curl 确认新文字在。**没有另外跑 `vercel alias set`**，因为 curl 结果已确认域名指向新内容。
 - 工作区未提交的东西不是本次做的：`assets/thumbs-web/tahun1-mt-ruang/` 是 untracked。
 - 别的 session 的提交也被一起推上去了：`f72cf1c`、`bb5065a`（tahun1-pj-haiwan）、`dd4d671`。
@@ -73,11 +74,11 @@
 1. **Sentence Train（BI 二年级）DSKP**：`standards` 仍是空的。要从官方 PDF 核对 4.3.1（延伸 4.2.1）原文，再写进 `data/dskp-index.js`。
 2. **马来文说明文字请马来文老师看一遍**：`huruf`、`kvkv` 的 desc、练习摘要、准备条件是我写的。
 3. **数学、科学、AM 工具**：说明仍是中文。SJK(C) 课标本身是中文，要不要改，先问老师。
-4. **haiwan 缩图 404**：线上复验 `tahun1-pj-haiwan` 的 `v1-3-list.png`。
+4. ~~haiwan 缩图 404~~：10-10 已复验，5 张都是 200。
 5. 确认「王菱敏」是不是「王凌敏」（学号 26311），老师核对后补 1I 最后一笔。
 6. 全校名单 `Kelas 2026` 缺 4F／5F／5I／5L 班代号，要不要补建。
 7. Story Quest 投稿审核仍只能在 Supabase Dashboard 手改状态。等真实投稿量再评估。
-8. 「详情打开次数」转化率：老师认同价值，还没拍板。
+8. ~~「详情打开次数」转化率~~：10-19 定，维持不做（`agents.md` 决定 20），老师提出才做。
 9. 其余 12 个工具的 DSKP 校准还没做。
 
 ## ⚠️ 注意事项
@@ -106,7 +107,7 @@
 ## 历史摘要
 
 - 2026-10-04：首页 提速＋天地格＋subgrid 卡片＋手机横式卡＋单一搜索框＋上下同步条件＋灰色无工具科目＋Telegram 联络（`8086a1f`）。
-- 2026-09-25：详情弹窗「分享给学生」合成一个次要按钮（`43776e0`／`d74e91e`）。
+- 2026-09-22：详情弹窗「分享给学生」合成一个次要按钮（`43776e0`／`d74e91e`）。
 - 2026-09-21：班级代码共用机制上线（`5564e3f`）。
 - 2026-09-17：磁力创造实验室 v2；首页「次到访」去重（`1e6a650`）；guard 深夜限制放开 vercel／push。
 - 2026-09-15：全校名单批量导入 kelasku（67 班／2581 人）；Story Quest v0.3.0 上线；`tahun4-bc-bishun` 登记。

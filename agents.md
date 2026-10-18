@@ -16,7 +16,7 @@
 ## 关键决定（不要无充分理由推翻）
 1. 独立专案，与`二年级数学`、EduNeo（class_system-1）解耦
 2. 登录分层：浏览/使用免登录；反馈/许愿/投稿需登录
-3. hub 只做平台，工具各自独立部署；hub 用 iframe/新分页链接，反馈/星星/统计是 hub 自己的 UI
+3. hub 只做平台，工具各自独立部署；hub 用新分页链接打开工具（不用 iframe），反馈/星星/统计是 hub 自己的 UI
 4. 命名：`tahun{年级}-{科目缩写}-{单元关键词}`，同单元已有工具才加第四层玩法词（如 `tahun2-mt-wang`）。完整规则（玩法词表、范围写法、不放月份、不用数字后缀）见 `../teaching-tools/agents.md`「新工具资料夹命名」；**只管新工具，已上线的 slug 不改**（2026-10-17 老师定）
 5. 登记资料中马双语可搜索
 6. 分类靠「年级」+「科目」双筛选交集
@@ -32,8 +32,8 @@
 16. `kongsi-idea.vercel.app` 域名可能从专案（`prj_Oyf637d4j8ODuilHIY7eZ2OoZswQ`）Domains列表消失（边缘缓存顶旧内容仍200）——线上无反应先查 Domains 列表，`POST /v10/projects/{id}/domains` 加回
 17. **只开放anon INSERT不开放SELECT的表，insert 绝不能带 `.select()`／`Prefer: return=representation`**（RETURNING读回要过SELECT检查，会撞 `42501`）。一律 `Prefer: return=minimal`
 18. 不需要 `supabase` CLI/`psql`：`supabase/.secrets.local.md` 存DB密码，Python `psycopg2` 直连 `db.{project_ref}.supabase.co:5432` 跑 migration，比手贴 Dashboard 快；Dashboard 降级为备案。密码那行是全角冒号 `Database password：`，解析用 `[:：]`，**不要把档案内容印出来**
-19. 详情弹窗「分享给学生」是**一个按钮同时做两件事**（复制链接＋就地生成QR码，`qrcode-generator` CDN 离线库，不外传网址给第三方 API），2026-09-25 老师反馈原本「复制分享链接」+「显示QR码」两个等重按钮排版鸡肋、跟「开始使用」抢视觉重量后改的——不要拆回两个按钮，也不要加"先选分享方式"的中间步骤，老师课堂场景两个通常都要。按钮样式故意做得比 `.detail__open` 轻（`.detail__share`，无边框、小字），维持关键决定7「第一屏只留一个焦点给学生」。
-20. **详情打开次数（浏览→使用转化率）尚未做**，2026-09-25 讨论过：工程量小（现有 `tool_stats` 表加一栏＋RPC，複用 `increment_tool_uses` 那套模式），但老师自己一人经营、单工具日打开量小，数字只能当方向参考不能精算——之后要做才做，不是遗漏也不用主动补
+19. 详情弹窗「分享给学生」是**一个按钮同时做两件事**（复制链接＋就地生成QR码，`qrcode-generator` CDN 离线库，不外传网址给第三方 API），2026-09-22 老师反馈原本「复制分享链接」+「显示QR码」两个等重按钮排版鸡肋、跟「开始使用」抢视觉重量后改的——不要拆回两个按钮，也不要加"先选分享方式"的中间步骤，老师课堂场景两个通常都要。按钮样式故意做得比 `.detail__open` 轻（`.detail__share`，无边框、小字），维持关键决定7「第一屏只留一个焦点给学生」。
+20. **详情打开次数（浏览→使用转化率）尚未做**，2026-09-25 讨论过：工程量小（现有 `tool_stats` 表加一栏＋RPC，複用 `increment_tool_uses` 那套模式），但老师自己一人经营、单工具日打开量小，数字只能当方向参考不能精算——之后要做才做，不是遗漏也不用主动补（2026-10-19 定：维持不做，老师提出才做）
 
 21. **缩略图两套**（2026-09-30）：`assets/thumbs/` 原图只给灯箱放大；卡片与详情弹窗读 `assets/thumbs-web/` 的 WebP（最长边 960px，`scripts/build-thumbs.py` 生成，原图 23MB→1.9MB）。**新增或换缩略图后必须跑一次该脚本**再部署；忘了跑不会破图（`onerror` 退回原图），但首页又会变慢。`vercel.json` 给 `/assets/*` 一天缓存。起因：首页一开就下载 8.3MB 原图 PNG，学校网路要等十几秒
 22. **版面天地格**（2026-09-30，10-01 修订）：全站区块用 `.container`（`--page-max: 1200px`、`--gutter`、`--space-section`）对齐同一条左右边界，不要再在单一区块写 `clamp(...)` 左右边距。工具卡片用 `grid-template-rows: subgrid` 跨 6 行（缩略图／中文名／马来文名／作者／标签／统计），同排卡片行线对齐——**卡片子元素数量必须固定 6 个**（没作者也要留空 `.creator`），增删栏位要同步改 `grid-row: span 6`。开发代号只在详情弹窗显示。栏数靠 `minmax(min(100%, 250px), 1fr)`：桌面 4、平板 2；**≤560px 手机改横式清单卡**（缩略图左、文字右、隐藏作者），整页从 14,000px 缩到 5,500px。2026-10-17 老师定：标签那一格放四颗 tags——主题（橙底白字）、主要上课方式 `modes[0]`（浅蓝）、类型 `type`（描边）、`N年级·科目`；手机横式卡片隐藏「类型」；子元素仍固定 6 个、署名那行保留（手机照旧隐藏）。⚠️ 卡片不能加 `container-type`，Chrome 会让 subgrid 的缩略图行高塌掉
@@ -49,7 +49,7 @@
    - 课标原文从 `资料库/DSKP资料/` 取，引用时不要在页面上加「（截取，未经审核）」这类字样；资料是否审核用记录的 `reviewed: false` 标记，只影响「核对状态」文字（显示「已对照」而非「已核对」）。
    - 数学、科学、AM 工具：SJK(C) 的课标本身是中文，目前仍用中文，要改先问老师。
 27. **马来文 DSKP 依资料库，不依网上版本**（2026-10-10 老师定）：马来文一年级课标以 `资料库/DSKP资料/KSSR2015/Bahasa-Melayu/SJK/TAHUN1.md`（KSSR 原版，Terbitan 2015）为准。资料库没有 Semakan 2017 的马来文，所以 `curriculum` 写「KSSR 2015（原版）」。该截取档没有审核，记录上标 `reviewed: false`，页面只显示「已对照」，不写「已核对」，也不在页面上加「未经审核」字样。Sentence Train（BI 二年级）的 DSKP 仍空着，等从官方 PDF 核对 4.3.1 后再补。
-28. **「位老师注册」= `profiles` 表的笔数**（2026-10-09，老师确认）。每位老师登录时写一笔（`ensureProfileRow`，放在 `handleAuthChange` 最前面，不可排在会出错的许愿恢复之后——2026-10-09 发现 107 位因此漏登记，已补回）。访客不能读 `profiles`（刻意不开放，避免枚举），只能经 `get_teacher_count()` 拿总数。数字跟「次到访」一样**每次载入页面读一次，不做定时刷新**，老师 10-10 确认够用。注册人数不会自己跳，要等下一次有人开首页。
+28. **「位老师注册」= `profiles` 表的笔数**（2026-10-09，老师确认）。每位老师登录时写一笔（`ensureProfileRow`，放在 `handleAuthChange` 最前面，不可排在会出错的许愿恢复之后——2026-10-09 发现上百位因此漏登记，已补回 108 笔）。访客不能读 `profiles`（刻意不开放，避免枚举），只能经 `get_teacher_count()` 拿总数。数字跟「次到访」一样**每次载入页面读一次，不做定时刷新**，老师 10-10 确认够用。注册人数不会自己跳，要等下一次有人开首页。
 29. **许愿池后台 `admin.html` 的权限放在数据库**（2026-10-09）：管理员名单在 `public.admins`（不开任何 policy），`is_admin()` 判断，`admin_list_wishes()`／`admin_update_wish()`／`admin_list_teachers()` 三个 RPC 只对管理员回资料，非管理员回空。前端只负责显示。**不要为了方便开放 `wishes` 或 `profiles` 的 select 给 anon／authenticated**。加管理员用 SQL `insert into public.admins`，目前只有 yquan77。页面 `noindex`，网址不对外发。
 
 30. **许愿池来的工具，署名与许愿单收尾**（2026-10-12）：许愿单没署名时 `creator` 写「一位×年级老师」（`initial: "师"`），**不写「卢老师」、不写学校**（许愿默认不公开老师与学校）；「卢老师」只给卢老师自己主动做的工具。表单第 3 步有选填「想怎么署名」，**存在 `wishes.classroom_context` 末尾一行 `署名：…`**（不加栏位、不改 schema），**勾选确认句＝同意该署名写在工具上**。工具上线／修订后要回许愿池把该单改 `shipped`＋`linked_tool_slug`＋备注（agent 用 psycopg2 直连，只改这三栏）。完整流程在 `../teaching-tools/agents.md`「从许愿池做工具的标准流程」。
@@ -68,7 +68,7 @@
 布告栏意象；不用 emoji，图钉/星星/奖杯用 CSS/SVG；科目用缩写字母徽章（MT/BM/BI/BC/SA）；配色（跟 EduNeo 区分）：暖纸白 `#FBF6EC`、黑板绿 `#1F3A34`、橙黄 `#E8873E`、天空蓝 `#4FA8D8`（马来文）、珊瑚红 `#D65B4A`（中文/星星）、暖金 `#F0B429`；卡片±1-2°随机倾斜
 
 ## 资料夹结构（要点）
-`index.html/style.css/app.js` 首页；`kelasku.html/.js/.css` 班级名单页；`docs/dskp/{tahun}/{subjek}.md` DSKP摘要；`data/dskp-index.js` 结构化索引权威来源；`data/supabase-client.js`／`class-code-client.js` 前端SDK；`supabase/schema.sql`（wishes/tool_stats/tool_like_votes+RPC）、`supabase/.secrets.local.md`（DB密码，已gitignore，**凭证存于此**）。同级 `../teaching-tools/{slug}/` 各工具源码。工具登记在 `data/tools.js`（`TOOLS` 常量数组＋`TOOL_COLLECTIONS`），不再写在 `app.js`；老师后台设定在 `data/teacher/{slug}.js`，登记表 `data/teacher/index.js`。
+`index.html/style.css/app.js` 首页；`kelasku.html/.js/.css` 班级名单页；`docs/dskp/{tahun}/{subjek}.md` DSKP摘要；`data/dskp-index.js` 结构化索引权威来源；`data/supabase-client.js`／`class-code-client.js` 前端SDK；`supabase/schema.sql`（wishes/tool_stats/tool_like_votes+RPC）、`supabase/.secrets.local.md`（DB密码，已gitignore，**凭证存于此**）。同级 `../teaching-tools/{slug}/` 各工具源码。工具登记在 `data/tools.js`（`TOOLS` 常量数组＋`TOOL_COLLECTIONS`），不再写在 `app.js`；老师后台设定在 `data/teacher/{slug}.js`，登记表 `data/teacher/index.js`。其他页面：`teacher.html/.js/.css` 通用老师后台（`?tool=slug&code=`，决定 36）；`admin.html` 许愿池审核后台（决定 29）；`guide.html`＋`assets/guide/` 新老师使用指南；`docs/管理手册.md` 给老师的总手册（改规则后顺手更新）；`docs/hub-reorg-2026-10.md` 2026-10 整理规格。
 
 ## 账号系统与 Supabase
 独立 project，ref `gntnkhkkgonaehapcerr`，与 EduNeo 完全分开（公开平台 vs 私人学生资料）。老师登录用 Google OAuth。踩坑细节见 Claude memory `kongsi-idea-supabase-integration`。
