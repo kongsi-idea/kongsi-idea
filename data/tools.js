@@ -552,6 +552,44 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-mt-fuxi-pecahan-masa",
+    collection: "tahun1-mt-fuxi",
+    setLabel: "加强：分数＋时刻",
+    tahun: 1,
+    subjek: "mt",
+    modes: ["各自练习", "回家练习"],
+    topicOverride: { zh: "综合复习", bm: "Ulang Kaji" },
+    status: "published",
+    title_zh: "分数与时刻复习加强本",
+    title_bm: "Buku Pengukuhan Ulang Kaji Matematik Tahun 1: Pecahan dan Masa",
+    desc: "「一年级数学复习本」做完后的加强练习，只补单元 3 分数和单元 5 时间与时刻，共 20 题。每一题对准一种学生真实答错的地方：数成没涂色的、分数上下写反、答了吃掉的不是剩下的、对折两次答成四分之二、时针和分针读反、整点读成「半」、时针还没走到下一个数字就读成下一个小时、一天的事情没有重新排、「昨天的昨天」只往前一天。先用彩色指针（时针红短、分针蓝长，同课本）带着认，再换成黑色钟面自己读；也有「分针走了四分之三圈是几时」把分数和时刻连起来。流程同复习本：先点自己的名字，按「确认」当场知道对错，答错给出为什么和针对这类错误的提示，题目和解释都能点喇叭朗读（读题和讲解是两种声音）。老师在后台（仅限登录的班级老师）看到每题答对率、各难度表现与错误类型，可回填纸本答案；网址后面加 ?preview 一次看完全部题目。",
+    keywords: ["数学", "复习", "加强", "补救", "分数", "几分之几", "二分之一", "四分之一", "四分之三", "对折", "时刻", "钟面", "时针", "分针", "半", "一刻", "三刻", "时段", "星期", "昨天", "一年级", "ulang kaji", "pengukuhan", "pecahan", "masa", "waktu", "muka jam"],
+    url: "https://tahun1-mt-fuxi-pecahan-masa.vercel.app",
+    type: "练习",
+    hasLeaderboard: false,
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-19", note: "首次上架：20 题（分数 10、时间与时刻 10；每个大题基础 3／过渡 4／拔高 3），依 1I 班「一年级数学复习本」第一次作答的错法出题；彩色指针钟面、图片选项选钟面、分针走几分之几圈；确认后当场对错反馈与针对性提示；读题与讲解两种人声朗读；可再试一次答错的题；教师预览页（?preview）；老师后台看答对率、各难度表现与错误类型，可回填纸本答案" },
+    ],
+    // 4 张：封面（看得到分数图和钟面）→ 做题中 → 答错反馈 → ?preview；用 Playwright 操作正式网址截（Supabase 已拦截）
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-mt-fuxi-pecahan-masa/1-cover.png", label: "封面：分数与时刻复习加强本" },
+      { img: "assets/thumbs/tahun1-mt-fuxi-pecahan-masa/2-clock-pick.png", label: "四个钟面，选出哪一个是 3 时半" },
+      { img: "assets/thumbs/tahun1-mt-fuxi-pecahan-masa/3-feedback.png", label: "答错马上告诉你为什么，并针对这种错给提示" },
+      { img: "assets/thumbs/tahun1-mt-fuxi-pecahan-masa/4-preview.png", label: "老师预览：一页看完 20 题、答案与难度" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.1", "3.2"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.1", "5.2"] },
+    ],
+    practiceSummary: "一年级单元 3 分数与单元 5 时间与时刻的补救练习：涂色与没涂色、分数的写法、吃掉与剩下、对折两次、一半的一半、涂色格不相邻；时针与分针、整点与半、一刻半三刻、时针没过下一个数字、分针走几分之几圈、一天的时段与事件先后、昨天的昨天",
+    teachingMode: ["个人练习"],
+    prep: "建议先做「一年级数学复习本」，再用这份补分数和时刻。学生各自用手机、平板或电脑打开，需要联网；有声音朗读（建议戴耳机）。班级网址请带班级代码，例如 …vercel.app/?code=JBC1037-1I，学生就只会看到本班名单；没带代码会先请输入班级代码。纸本做的学生，由老师登录后台（本页的「老师后台」，仅限班级老师）把答案回填。学生的答案只有登录的班级老师看得到。老师想一次预览全部题目与答案：网址后面加 ?preview",
+  },
+
+  {
     slug: "tahun1-bc-fuxi-oktober",
     collection: "tahun1-bc-fuxi",
     setLabel: "第一套",

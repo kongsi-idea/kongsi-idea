@@ -156,6 +156,13 @@ const DSKP_INDEX = [
         topic: { zh: "时间与时刻", bm: "Masa dan Waktu" },
         objectives: [
           {
+            // 2026-10-19 补（分数与时刻复习加强本 tahun1-mt-fuxi-pecahan-masa）：同上两份截取档；工具只覆盖 5.1.1–5.1.3，5.1.4 月份未覆盖
+            code: "5.1",
+            title_zh: "天和月份：讲述一天内的时刻；依序讲述一天内所发生的事件；说出一个星期里各天的名称；说出一年里各月份的名称",
+            title_bm: "Hari dan bulan: 5.1.1 Menyatakan waktu dalam sehari; 5.1.2 Menyatakan dalam urutan peristiwa dalam sehari; 5.1.3 Menamakan hari dalam seminggu; 5.1.4 Menamakan bulan dalam setahun",
+            terms: ["一天的时段", "清晨", "上午", "中午", "下午", "傍晚", "晚上", "先后顺序", "星期", "昨天", "今天", "明天", "月份", "waktu dalam sehari", "urutan peristiwa", "hari dalam seminggu", "bulan dalam setahun", "semalam", "hari ini", "esok"],
+          },
+          {
             code: "5.2",
             title_zh: "钟面：确认时针和分针；确认并讲述分针所指的「半」「一刻」「三刻」；使用模拟钟讲出及写出「时」「一刻」「半小时」「三刻」",
             title_bm: "Muka jam: 5.2.1 Mengenal pasti jarum jam pada muka jam; 5.2.2 Mengenal pasti dan menyatakan 'setengah', 'satu perempat' dan 'tiga perempat' berdasarkan muka jam; 5.2.3 Menyebut dan menulis waktu dalam jam, setengah dan satu perempat jam sahaja dengan menggunakan jam analog",
