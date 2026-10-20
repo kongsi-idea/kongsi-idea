@@ -350,7 +350,7 @@ const TOOLS = [
       { version: "1.0", date: "2026-10-20", note: "首次上架" },
     ],
     thumbnails: [
-      { img: "assets/thumbs/tahun2-mt-wang-practice/v1-0-cover.png", label: "找回多少钱：老板先握着零钱，算对才打开" },
+      { img: "assets/thumbs/tahun2-mt-wang-practice/v1-0-cover-art.png", label: "封面：零用钱跑腿日" },
       { img: "assets/thumbs/tahun2-mt-wang-practice/v1-0-play.png", label: "把钞票拖到柜台上付钱" },
       { img: "assets/thumbs/tahun2-mt-wang-practice/v1-0-feedback.png", label: "答错第二次：竖式图解" },
       { img: "assets/thumbs/tahun2-mt-wang-practice/v1-0-preview.png", label: "老师看题库：每题答案与常见错法" },
