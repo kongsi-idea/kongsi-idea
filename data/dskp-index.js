@@ -54,10 +54,31 @@ const DSKP_INDEX = [
             terms: ["钱币减法", "找零钱", "找钱", "tolak wang", "baki wang", "wang baki"],
           },
           {
+            // 2026-10-20 零用钱跑腿日补：BM 照 SK 版 DSKP 原文「4.4 Darab wang」
+            code: "4.4",
+            title_zh: "钱币乘法",
+            title_bm: "Darab wang",
+            terms: ["钱币乘法", "darab wang"],
+          },
+          {
+            // BM 照 SK 版 DSKP 原文「4.5 Bahagi wang」
+            code: "4.5",
+            title_zh: "钱币除法",
+            title_bm: "Bahagi wang",
+            terms: ["钱币除法", "平分", "bahagi wang"],
+          },
+          {
             code: "4.6",
             title_zh: "储蓄与投资",
             title_bm: "Simpanan dan pelaburan",
             terms: ["储蓄", "理财教育", "simpanan", "pelaburan"],
+          },
+          {
+            // BM 照 SK 版 DSKP 原文「4.7 Penyelesaian masalah」
+            code: "4.7",
+            title_zh: "解决问题",
+            title_bm: "Penyelesaian masalah",
+            terms: ["钱币应用题", "解决问题", "penyelesaian masalah"],
           },
         ],
       },

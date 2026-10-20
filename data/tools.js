@@ -332,6 +332,38 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun2-mt-wang-practice",
+    tahun: 2,
+    subjek: "mt",
+    modes: ["各自练习", "全班投影", "回家练习"],
+    status: "published",
+    title_zh: "零用钱跑腿日",
+    title_bm: "Misi Wang Saku",
+    desc: "像素 RPG 跑腿任务：先数妈妈给的钱、拿出 RM10 零用钱，再到杂货店、面包店把钞票拖到柜台付钱，算总价、找回多少、妈妈的钱包还剩多少；路过文具店和玩具店时自己决定零用钱要花还是存进扑满，最后算剩下的钱能买几个苹果、还剩多少。三天由浅到深（整令吉 → 有 sen → 平分与比价），答对才能往下走，答错依序给提示、竖式图解、完整算法；每题都列出要用的数字。结束有收支记录表和储蓄目标。",
+    keywords: ["钱币", "零用钱", "储蓄", "理财", "找钱", "找零钱", "应用题", "加减乘除", "能买几个", "扑满", "二年级", "数学", "wang", "wang saku", "simpanan", "baki wang", "penyelesaian masalah", "RPG"],
+    url: "https://tahun2-mt-wang-practice.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-20", note: "首次上架" },
+    ],
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-mt-wang-practice/v1-0-cover.png", label: "找回多少钱：老板先握着零钱，算对才打开" },
+      { img: "assets/thumbs/tahun2-mt-wang-practice/v1-0-play.png", label: "把钞票拖到柜台上付钱" },
+      { img: "assets/thumbs/tahun2-mt-wang-practice/v1-0-feedback.png", label: "答错第二次：竖式图解" },
+      { img: "assets/thumbs/tahun2-mt-wang-practice/v1-0-preview.png", label: "老师看题库：每题答案与常见错法" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "4.0", objectiveCodes: ["4.1", "4.2", "4.3", "4.4", "4.5", "4.6", "4.7"] },
+    ],
+    practiceSummary: "数妈妈给的钱（含 sen 换 RM）、组成 RM10（4.1）；两个／三个币值相加（4.2）；找零、还剩多少、连减（4.3）；几盒牛奶 × 单价（4.4）；一包平均一个多少（4.5）；零用钱先存后花、储蓄目标还差多少（4.6）；剩下的钱能买几个、剩多少（4.7）",
+    teachingMode: ["学生各自练习", "投影带全班", "居家练习"],
+    prep: "学生各自玩选「我自己玩」，输入班级代码选名字，成绩进老师后台；投影带全班选「全班一起玩」，不记名。电脑、平板、手机都可以，手机要横放。一天约 10–15 分钟，共 3 天，前一天完成才开下一天。网址加 ?preview 可看全部题目、答案与常见错法",
+  },
+
+  {
     slug: "tahun1-mt-bundar",
     tahun: 1,
     subjek: "mt",
