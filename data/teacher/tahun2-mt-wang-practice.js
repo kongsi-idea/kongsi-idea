@@ -1,7 +1,7 @@
-// 零用钱跑腿日 · 老师后台设定（2026-10-20；源自 teaching-tools/tahun2-mt-wang-practice/teacher-config.draft.js）
+// 零用钱跑腿日 · 老师后台设定（2026-10-20；源自 teaching-tools/tahun2-mt-wang-practice/teacher-config.draft.js，bank 2.0 三天连贯）
 // 题库来自工具线上的 bank.js（window.Mt2WangBank）；成绩表 tahun2_mt_wang_practice_answers，权限全由数据库 RLS 把关。
 // 33 道计分题（三天）＋ 3 笔理财记录（dN-money，graded:false，用 features.writing 把它们当「不计分」，显示在「写作题」分页）。
-// 学生端送出的 answer：number {v,t}、change {v,paid,t}、multi {n,left,t}、make {notes,t}；
+// 学生端送出的 answer：number {v,t[,w]}、change {v,paid,t[,w]}、multi {n,left,t[,w]}、make {notes,t[,w]}；
 //   答案本身（v／n、left／notes／paid）＝第一次作答的答案，is_correct、error_tag 就是用它判的；t＝试了几次才对。
 TEACHER_CONFIGS["tahun2-mt-wang-practice"] = {
   title: "零用钱跑腿日",
@@ -31,9 +31,12 @@ TEACHER_CONFIGS["tahun2-mt-wang-practice"] = {
       if (typeof ans === "string") return ans;
       if (item.kind === "money") {
         const bought = (ans.bought || []).map((b) => B.goods[b.g] + " " + rm(b.p)).join("、");
-        return `先存 ${rm(ans.saveFirst || 0)}；${bought ? "买了" + bought : "没买东西"}；共存 ${rm(ans.saved || 0)}；扑满 ${rm(ans.piggy || 0)}，${ans.reached ? "达成目标" : "没达成目标"}`;
+        const carry = ans.carryIn ? `接着前一天：扑满 ${rm(ans.carryIn.piggy)}、钱包 ${rm((ans.carryIn.purse || []).reduce((a, b) => a + b, 0))}；` : "";
+        const bg = ans.boughtGoal && ans.boughtGoal.length ? `买了：${ans.boughtGoal.map((g) => B.goods[g]).join("、")}；` : "";
+        return `${carry}${bg}先存 ${rm(ans.saveFirst || 0)}；${bought ? "买了" + bought : "没买东西"}；共存 ${rm(ans.saved || 0)}；扑满 ${rm(ans.piggy || 0)}，${ans.reached ? "达成目标" : "没达成目标"}`;
       }
       const a = ans;
+      if (item.kind === "goal") return typeof a === "object" ? `${rm(a.v)}（扑满 ${rm(a.piggy)}，目标 ${rm(a.price)}）` : rm(a);
       if (item.kind === "change") {
         const v = typeof a === "object" ? a.v : a, paid = ans.paid;
         return paid !== undefined ? `${rm(v)}（付了 ${rm(paid)}）` : rm(v);
