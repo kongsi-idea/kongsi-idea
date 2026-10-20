@@ -2136,9 +2136,9 @@ const TOOLS = [
       { version: "1.0.1", date: "2026-10-20", note: "修正：开场「闯关」卡片点了没反应；「大、小石头」用筛子改为分不开（细网筛，石头都比筛孔大，只能用手分）；筛子里的东西铺满网面，不再挤成一串" },
       { version: "1.0", date: "2026-10-19", note: "首次上架：六种分离法、12 个混合物、「为什么分得开」性质卡、先猜再试（老师示范）、13 关闯关（含连环分离：沙和盐、两杯找盐）、溶解赛跑（搅拌、水温、糖的大小）、预录语音；不用登入、不接名单" },
     ],
-    // 缩图：2026-10-19 用 Playwright 操作正式网址 https://tahun2-dst-campuran-lab.vercel.app 截的真实画面（1200×900），不是 mock
+    // 缩图：第 1 张是 2026-10-20 用 draw 生成的封面（老师挑 A）；第 2–4 张是 2026-10-19 用 Playwright 操作正式网址截的真实画面（1200×900），不是 mock
     thumbnails: [
-      { img: "assets/thumbs/tahun2-dst-campuran-lab/v1-1-cover.png", label: "开场：「分离大法实验室」，二年级科学混合物，四种玩法：自由实验、先猜再试、闯关、溶解赛跑" },
+      { img: "assets/thumbs/tahun2-dst-campuran-lab/v1-1-cover-art.png", label: "封面：「分离大法实验室」二年级 · 科学与科技世界；磁铁吸起铁钉、筛子漏下奶粉留住豆子、滤纸滤出清水、太阳晒出盐" },
       { img: "assets/thumbs/tahun2-dst-campuran-lab/v1-2-magnet.png", label: "自由实验：铁钉和沙，磁铁拿在碗上方，铁钉被吸起来挂在磁铁下面" },
       { img: "assets/thumbs/tahun2-dst-campuran-lab/v1-3-why.png", label: "结果：✅ 分开了！铁钉会被磁铁吸起来，沙不会；下面问「为什么分得开？因为它们……」，让学生选性质" },
       { img: "assets/thumbs/tahun2-dst-campuran-lab/v1-4-predict.png", label: "老师端「先猜再试」：底下预测板写着全班的猜测，试过的工具已翻出结果（磁铁、筛子分开了，漂浮法没分开）" },
