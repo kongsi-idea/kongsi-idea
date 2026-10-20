@@ -192,6 +192,22 @@ const DSKP_INDEX = [
         ],
       },
       {
+        // 2026-10-20 补（天平工坊 tahun1-mt-jisim）：依资料库 KSSR2017/Matematik/SJKC/TAHUN1.md「6.0 度量衡」与 SK/TAHUN1.md「6.0 UKURAN DAN SUKATAN」
+        // （截取档「没有审核」，马来文照 SK 版原文）。工具只覆盖 6.1 里的质量（6.1.2、6.1.3），长度、液体的体积与 6.2 解决问题未覆盖。主题词跟三、四年级同一个「度量衡」。
+        code: "6.0",
+        title_zh: "测量与几何——度量衡",
+        title_bm: "Ukuran dan Sukatan",
+        topic: { zh: "度量衡", bm: "Ukuran dan Sukatan" },
+        objectives: [
+          {
+            code: "6.1",
+            title_zh: "以相对单位测量长度、质量和液体的体积：6.1.2 使用非标准单位来测量物体的长度、质量和液体的体积；6.1.3 使用非标准单位来比较两个或两个以上物体的长度、质量和液体的体积",
+            title_bm: "Unit relatif untuk mengukur panjang, jisim dan isi padu cecair: 6.1.2 Membuat pengukuran, jisim dan menyukat objek menggunakan unit bukan piawai; 6.1.3 Membanding dua atau lebih ukuran, jisim dan isi padu cecair objek menggunakan unit bukan piawai",
+            terms: ["质量", "测量质量", "非标准单位", "天平", "比较轻重", "比较重", "比较轻", "最重", "最轻", "大约", "玻璃弹子", "回形针", "jisim", "unit bukan piawai", "neraca", "berat", "ringan"],
+          },
+        ],
+      },
+      {
         // 2026-10-17 补（空间小天地 tahun1-mt-ruang）：依资料库 KSSR2017/Matematik/SJKC/TAHUN1.md「7.0 空间」与 SK/TAHUN1.md「7.0 RUANG」
         // （截取档「没有审核」，马来文照 SK 版原文）。收 7.1 立体图形、7.2 平面图形；7.3 解决问题未单列。
         code: "7.0",
