@@ -1808,6 +1808,41 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-pj-congkak",
+    tahun: 1,
+    subjek: "pjpk",
+    modes: ["各自练习", "回家练习"],
+    status: "published",
+    title_zh: "一起玩冲格",
+    title_bm: "Permainan Tradisional: Congkak",
+    desc: "对应课本单元六「我爱休闲活动」第 46 页「冲格」。学生坐在甘榜高脚屋走廊的草席上，以第一视角玩马来民族的传统游戏冲格：点自己的子屋，小手把棋子一颗一颗放进每个洞，洞口数字跟着跳。先完成新手：认识冲格（子屋、母屋、可用玻璃弹子、石子、橡胶籽、贝壳当棋子），再过播种、接力、进母屋、吃子四个任务和毕业赛。毕业后开放跟电脑玩（Aisyah、伟杰、Priya、Jaimin、Sendi 五位不同民族的朋友轮流当对手，两种难度）和线上对战：同班同学开的房间会出现在大厅，点一下就能对战，也可以输入 4 位数房间号码。赢了得星星，可以在棋子柜换橡胶籽、小石子、玻璃弹珠、saga 红豆。规则照课本，开局改成轮流；另有每边 5 洞的新手板。",
+    keywords: ["体育", "一年级", "休闲活动", "传统游戏", "冲格", "马来民族", "两人对战", "线上对战", "congkak", "permainan tradisional", "rekreasi", "kesenggangan", "PJ"],
+    url: "https://tahun1-pj-congkak.vercel.app",
+    type: "工具",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-21", note: "首次上架" },
+    ],
+    // v1.0：封面 draw 生图；其余 3 张是 2026-10-21 用 Playwright 操作正式网址的实际画面（横式工具，置中 4:3）
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-pj-congkak/v1-0-cover.png", label: "封面：第一视角坐在草席上放贝壳，对面的 Aisyah 一起玩冲格" },
+      { img: "assets/thumbs/tahun1-pj-congkak/v1-0-2-play.png", label: "对局中：第一视角坐在草席上，小手抓起一把贝壳逐洞放下，对面是 Priya" },
+      { img: "assets/thumbs/tahun1-pj-congkak/v1-0-3-result.png", label: "一局结束：数出两边母屋的棋子，得到星星" },
+      { img: "assets/thumbs/tahun1-pj-congkak/v1-0-4-lobby.png", label: "线上大厅：同班同学开的房间直接出现，点一下就能对战；可选自己的头像" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.10"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.9"] },
+      { curriculum: "KSSR Semakan 2017", unitCode: "5.0", objectiveCodes: ["5.4"] },
+    ],
+    practiceSummary: "认识冲格（子屋、母屋、棋子），照课本规则播种、接力、进母屋、吃子，两人轮流对战、数母屋里的棋子",
+    teachingMode: ["个人练习", "学生自学", "两人对战"],
+    prep: "学生各用平板（或手机横放），以 Chrome 或 Safari 打开；第一次会问班级代码，再点自己的名字。全部图片约 2.5MB，建议用 Wi-Fi。有旁白和音效，请开声音。线上对战要两人都上网，同班的房间会自动出现在大厅；跨班可输入 4 位数号码。进度（新手任务、星星、棋子）存在该平板的浏览器。老师在网址后加 ?preview 可跳过新手、全部解锁检查。",
+  },
+
+  {
     slug: "tahun2-pj-pergerakan",
     tahun: 2,
     subjek: "pjpk",

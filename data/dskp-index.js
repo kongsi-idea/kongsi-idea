@@ -677,6 +677,16 @@ const DSKP_INDEX = [
           { code: "1.1", title_zh: "依动作概念探索身体形状、平衡等动作", title_bm: "Meneroka pelbagai corak pergerakan berdasarkan konsep pergerakan", terms: ["身体形状", "大字形", "动作概念", "konsep pergerakan", "bentuk badan"] },
           { code: "1.6", title_zh: "探索动物动作（低、中、高水平）", title_bm: "Melakukan penerokaan pergerakan haiwan", terms: ["动物动作", "动物模仿", "pergerakan haiwan", "aras rendah", "aras tinggi"] },
           { code: "1.7", title_zh: "平衡技能：单脚平衡、四至一个支撑点平衡", title_bm: "Melakukan kemahiran imbangan dengan lakuan yang betul", terms: ["平衡", "单脚站", "支撑点", "imbangan", "tapak sokongan"] },
+          { code: "1.10", title_zh: "休闲活动：传统游戏（如老虎先生、冲格）与创作", title_bm: "Melakukan aktiviti rekreasi dan kesenggangan", terms: ["休闲活动", "传统游戏", "冲格", "老虎先生", "rekreasi", "kesenggangan", "permainan tradisional", "congkak", "Datuk Harimau"] },
+        ],
+      },
+      {
+        code: "2.0",
+        title_zh: "体育：动作知识应用",
+        title_bm: "Aplikasi Pengetahuan dalam Pergerakan",
+        topic: { zh: "动作知识应用", bm: "Aplikasi Pengetahuan dalam Pergerakan" },
+        objectives: [
+          { code: "2.9", title_zh: "在休闲活动中运用策略与创意：认识传统游戏的玩法", title_bm: "Mengaplikasi strategi dan idea kreatif dalam aktiviti rekreasi dan kesenggangan", terms: ["传统游戏玩法", "冲格", "permainan tradisional", "cara bermain", "congkak"] },
         ],
       },
       {
@@ -687,6 +697,15 @@ const DSKP_INDEX = [
         objectives: [
           { code: "3.3", title_zh: "柔韧性：动态与静态伸展", title_bm: "Melakukan senaman kelenturan dengan lakuan yang betul", terms: ["伸展", "拉筋", "柔韧", "kelenturan", "regangan"] },
           { code: "3.4", title_zh: "肌耐力与肌力：保持俯卧撑预备姿势等", title_bm: "Melakukan senaman meningkatkan daya tahan dan kekuatan otot dengan lakuan yang betul", terms: ["肌耐力", "俯卧撑", "平板撑", "daya tahan otot", "tekan tubi"] },
+        ],
+      },
+      {
+        code: "5.0",
+        title_zh: "体育：运动精神",
+        title_bm: "Kesukanan",
+        topic: { zh: "运动精神", bm: "Kesukanan" },
+        objectives: [
+          { code: "5.4", title_zh: "团体动力：两人一组、在团体活动中感到快乐", title_bm: "Membentuk kumpulan dan bekerjasama dalam kumpulan semasa melakukan aktiviti", terms: ["两人一组", "合作", "对战", "dinamika kumpulan", "berpasangan"] },
         ],
       },
     ],
