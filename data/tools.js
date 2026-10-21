@@ -1821,14 +1821,15 @@ const TOOLS = [
     type: "工具",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
+    version: "1.1",
     changelog: [
+      { version: "1.1", date: "2026-10-21", note: "第一次使用加引导：每个画面第一次进入都有旁白说明，手指点按动画指着要点的地方（介绍页依序点子屋、我的母屋、对面的母屋），做完说下一步；右上「？」随时重看" },
       { version: "1.0", date: "2026-10-21", note: "首次上架" },
     ],
-    // v1.0：封面 draw 生图；其余 3 张是 2026-10-21 用 Playwright 操作正式网址的实际画面（横式工具，置中 4:3）
+    // v1.1：第 2 张换成新手引导画面；v1.0：封面 draw 生图；其余是 2026-10-21 用 Playwright 操作正式网址的实际画面（横式工具，置中 4:3）
     thumbnails: [
       { img: "assets/thumbs/tahun1-pj-congkak/v1-0-cover.png", label: "封面：第一视角坐在草席上放贝壳，对面的 Aisyah 一起玩冲格" },
-      { img: "assets/thumbs/tahun1-pj-congkak/v1-0-2-play.png", label: "对局中：第一视角坐在草席上，小手抓起一把贝壳逐洞放下，对面是 Priya" },
+      { img: "assets/thumbs/tahun1-pj-congkak/v1-1-2-guide.png", label: "第一次使用有引导：手指点按动画指着要点的子屋，旁白一步一步说明" },
       { img: "assets/thumbs/tahun1-pj-congkak/v1-0-3-result.png", label: "一局结束：数出两边母屋的棋子，得到星星" },
       { img: "assets/thumbs/tahun1-pj-congkak/v1-0-4-lobby.png", label: "线上大厅：同班同学开的房间直接出现，点一下就能对战；可选自己的头像" },
     ],
