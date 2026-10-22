@@ -4,6 +4,11 @@
 
 ## ⏯️ 目前做到哪
 
+**2026-10-22：点子铺 logo 设计，没定稿，老师喊停**（my-agent 主会话）：用 logo-design skill 做了十几轮（几何 SVG、灯泡角色、App 图标、气泡交集＝灯泡）＋ 4 张 AI 生图（共约 US$0.03），全部被否决；草稿在 `docs/logo/`（未进 git）。方向与「刻意不做」见 `agents.md` 第 41 条。网站没改。
+- **下一步**：老师拿我给的英文提示词去别处生成；拿回满意的图 → 描成干净 SVG、做 favicon／页首图标，再出预览给他点头才换。
+- **注意**：`docs/logo/` 约 7MB，没有 `.vercelignore`，`vercel --prod` 可能会把它一起上传；定稿后清掉不要的草稿。
+- 🕐 最后更新：2026-10-22 22:55，Claude Opus 5.5 @ mr007's Macbook Air；Git：待推
+
 **2026-10-19：「分享给学生」改成直接复制工具网址**（my-agent 主会话）：以前一般工具复制的是 Hub 的 `?tool=<slug>`，学生会先进 Hub；10-08 起工具直接打开也计次，所以改成一律给工具网址（复习卷本来就是）。只改 `app.js` 的 `shareToolLink`（`6fedb26`），已 `vercel --prod` 并 curl 线上 `app.js` 确认新代码在；没在浏览器实点。决定写进 `agents.md` 第 19 条。回滚：`git revert 6fedb26` 后重新 `vercel --prod --yes`。
 - 工作区里 `agents.md` 第 40 条、`handoff.md` 用量结果、`花费记录.md` 10-19 那行、`_retro/2026-10-19-Vercel…` 是**清 Vercel 旧部署那个会话收工后没提交的改动**，本次没一起提交，原样留着待那边或老师决定。
 
