@@ -1476,6 +1476,39 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun2-bc-kantu",
+    tahun: 2,
+    subjek: "bc",
+    modes: ["全班投影"],
+    status: "published",
+    title_zh: "心愿瓶看图写话",
+    title_bm: "Botol Hajat: Lihat Gambar, Tulis Perenggan",
+    desc: "一整堂看图写话课（约 50 分钟），老师投影或在 Google Meet 分享屏幕，带全班一步步写出「心愿瓶」一个不少于 40 字的段落。9 个步骤：看题目要求 → 手电筒看图找一找（图片变暗，照到哪里点哪里，12 样东西进词语库，有提示钮）→ 点选词语描写心愿瓶的样子 → 「五根手指说一说」（一指一句：时间地点、样子、愿望、原因、心情，段落一句句长出来，字数条涨到 40 变绿）→ 范文排一排（打乱的 5 句排顺序，排对后标出然后、因为、如果）→ 我们的段落（可盖住关键词只留句型）→ 自己写（横格纸段落句型，空格里有灰色提示字，附倒数计时和词语库）→ 看范文（三篇不同愿望的范文，按手指标出每一句）→ 写完检查三问。全部文字用规范楷体（霞鹜文楷 GB），方便学生照抄；原因句一律写成「我……，因为……」，不把「因为」放句首。",
+    keywords: ["看图写话", "写话", "写段落", "段落", "五根手指", "五指法", "心愿瓶", "愿望", "范文", "字数", "40个字", "网课", "Google Meet", "二年级", "华文", "kantu"],
+    url: "https://tahun2-bc-kantu.vercel.app",
+    type: "工具",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.3",
+    changelog: [
+      { version: "1.3", date: "2026-10-22", note: "首次上架：9 步全课流程（看图找一找、五根手指、范文排一排、自己写、看范文、写完检查），规范楷体，可在 Google Meet 分享屏幕使用" },
+    ],
+    // 第 1 张是 draw 生成的封面；其余 3 张是 2026-10-22 用 Playwright 实际操作正式网址 https://tahun2-bc-kantu.vercel.app 截的真实画面（1200×900），不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-bc-kantu/cover.png", label: "心愿瓶看图写话：五根手指写出一个段落" },
+      { img: "assets/thumbs/tahun2-bc-kantu/2-find.png", label: "看图找一找：用手电筒照图，找到的东西进词语库" },
+      { img: "assets/thumbs/tahun2-bc-kantu/3-check.png", label: "范文排一排：排错的格子显示「再想想」" },
+      { img: "assets/thumbs/tahun2-bc-kantu/4-fanwen.png", label: "看范文：按五根手指标出每一句，标出连接词" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "3.0", objectiveCodes: ["3.2"] },
+    ],
+    practiceSummary: "看图写一个段落：用五根手指（时间地点、样子、愿望、原因、心情）一句一句说，再连成不少于 40 字的段落",
+    teachingMode: ["投影互动", "全班参与"],
+    prep: "老师一台电脑操作（Chrome 全屏，键盘 ← → 或翻页笔换步骤）；网课在 Google Meet 分享这个分页，实体课用投影。学生准备作业本和笔。整套约 50 分钟；网页会记住做到哪一步，开课前按右下角「全部重来」清空",
+  },
+
+  {
     slug: "tahun1-bc-shizi-explore",
     tahun: 1,
     subjek: "bc",

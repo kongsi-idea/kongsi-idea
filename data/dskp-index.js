@@ -845,7 +845,7 @@ const DSKP_INDEX = [
   },
   {
     // 2026-10-17 补（Hub 整理 P2，tahun2-bc-bishun、tahun2-bc-biaodian）。BC 不在资料库，来源是本专案 docs/dskp/tahun2/bahasa-cina.md（官方 PDF 摘要，查证日期 2026-07-21），
-    // 所以 reviewed: false。只收录工具实际覆盖的 3.1、5.1、5.5。title_bm 是工作翻译，未核对官方 PDF 逐字马来文措辞
+    // 所以 reviewed: false。只收录工具实际覆盖的 3.1、3.2、5.1、5.5。title_bm 是工作翻译，未核对官方 PDF 逐字马来文措辞
     curriculum: "KSSR Semakan 2017",
     tahun: 2,
     subjek: "bc",
@@ -865,6 +865,14 @@ const DSKP_INDEX = [
             title_bm: "Menulis aksara dengan pensel",
             topic: { zh: "写字", bm: "Menulis Aksara" },
             terms: ["写字", "笔顺", "笔画", "田字格", "描红", "习写", "menulis aksara"],
+          },
+          {
+            // 2026-10-22 补（tahun2-bc-kantu 心愿瓶看图写话）：docs/dskp/tahun2/bahasa-cina.md「3.2 培养书面表达能力｜3.2.1」。topic 与一年级 3.2 同用「写话」；title_bm 沿用一年级工作翻译
+            code: "3.2",
+            title_zh: "培养书面表达能力：练习写话，尝试书面表达，不拘形式写自己想说的话，对写话产生信心和兴趣",
+            title_bm: "Memupuk kemahiran penulisan berformat bebas",
+            topic: { zh: "写话", bm: "Tulis Ayat" },
+            terms: ["写话", "看图写话", "写段落", "造句", "仿写", "penulisan"],
           },
         ],
       },
