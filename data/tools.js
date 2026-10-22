@@ -1488,7 +1488,7 @@ const TOOLS = [
     url: "https://tahun2-bc-kantu.vercel.app",
     type: "工具",
     stars: 0,
-    creator: { name: "卢老师", initial: "卢" },
+    creator: { name: "李老师", initial: "李" },
     version: "1.3",
     changelog: [
       { version: "1.3", date: "2026-10-22", note: "首次上架：9 步全课流程（看图找一找、五根手指、范文排一排、自己写、看范文、写完检查），规范楷体，可在 Google Meet 分享屏幕使用" },
