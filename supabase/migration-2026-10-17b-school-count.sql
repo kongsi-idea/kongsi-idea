@@ -16,6 +16,9 @@ update public.schools set same_as = (select id from public.schools where school_
   where school_code = 'JH1324';                                                                  -- SJK C CHEE TONG 两笔
 update public.schools set same_as = (select id from public.schools where school_code = 'SL1318')
   where school_code = 'SL1316';                                                                  -- SJK (C) SIN MING, SEMENYIH 两笔
+-- 2026-10-23 补：同一位老师 10-08 隔 1.5 分钟登记这两笔、各开一班；昔加末只有拉美士华小一间「拉」字头华小
+update public.schools set same_as = (select id from public.schools where school_code = 'JBC7014')
+  where school_code in ('JH1311', 'JH1312');                                                     -- 拉华小学、SJKC LABIS → 拉美士华小
 
 create or replace function public.get_school_count()
 returns json
