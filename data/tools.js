@@ -1408,6 +1408,40 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun1-bc-lijie",
+    tahun: 1,
+    subjek: "bc",
+    modes: ["全班投影", "各自练习"],
+    topicOverride: { zh: "阅读理解", bm: "Kefahaman" }, // DSKP 2.1 节点的 topic 挂「识字」（给识字工具用），阅读理解工具例外（老师 10-22 定用「阅读理解」）
+    status: "published",
+    title_zh: "答案藏在哪里？",
+    title_bm: "Di Mana Jawapannya? Kefahaman Membaca",
+    desc: "教一年级学生做阅读理解时「回文章找答案」，不靠猜。四步口诀：圈一圈（圈出问号词，知道要找人、地方、时间还是东西）、找一找（找题目里的关键词，文章可能换了说法，例如「请我们吃」＝「给我们吃」）、划一划（把答案所在的整句划下来，小心「没有」「可是」这类陷阱）、答一答（每个选项回文章对一对，再说出完整的答句）。分三段：①教一教：7 页讲解，用另一篇小短文示范，按一下出现一步，老师边讲学生边看；②练一练：《古玛家的屠妖节》9 题，一步一步跟着四步做，有手指提示；③考一考：新短文《和爷爷去巴刹》10 题，不给提示，答错才出解释（文章里划出答案句），学生各自做，成绩记在老师后台。投影、电脑、平板、手机直立或打横都能用。",
+    keywords: ["阅读理解", "理解", "找答案", "问号词", "疑问词", "关键词", "换说法", "陷阱", "先再最后", "屠妖节", "巴刹", "复习", "一年级", "华文", "lijie"],
+    url: "https://tahun1-bc-lijie.vercel.app",
+    type: "工具",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-22", note: "首次上架：教一教 7 页、练一练 9 题（四步引导）、考一考 10 题（记成绩、答错才出解释）、全尺寸适配、老师预览页" },
+    ],
+    // 第 1 张是 draw 生成的封面；其余 3 张是用 Playwright 实际操作正式网址 https://tahun1-bc-lijie.vercel.app 截的真实画面（1200×900），不是 mock
+    thumbnails: [
+      { img: "assets/thumbs/tahun1-bc-lijie/v1-0-1-cover.png", label: "答案藏在哪里？圈一圈、划一划，回文章找答案" },
+      { img: "assets/thumbs/tahun1-bc-lijie/v1-0-2-practice.png", label: "练一练：先圈出问号词，手指一步一步带着做" },
+      { img: "assets/thumbs/tahun1-bc-lijie/v1-0-3-wrong.png", label: "考一考答错：文章里划出答案句，再说明为什么" },
+      { img: "assets/thumbs/tahun1-bc-lijie/v1-0-4-preview.png", label: "老师预览：19 题的答案、答案所在句子与解释" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.1"] },
+    ],
+    practiceSummary: "阅读理解：圈问号词、找关键词（含换说法）、划答案句、逐个选项回文章核对；谁／哪里／什么时候／什么／先后顺序／说了什么",
+    teachingMode: ["投影互动", "全班参与", "个人练习"],
+    prep: "教一教和练一练：老师投影带全班，打开即用。考一考：学生各自用电脑、平板或手机打开（一人一台），需要联网；链接带班级代码与 go=kao，例如 tahun1-bc-lijie.vercel.app/?go=kao&code=JBC1037-1I，学生直接进考一考、只看到本班名单。成绩只有登录的班级老师看得到，在本页的「老师后台」链接。网址后面加 ?preview 可一次预览全部 19 题与答案",
+  },
+
+  {
     slug: "tahun2-bc-xingsi",
     tahun: 2,
     subjek: "bc",
