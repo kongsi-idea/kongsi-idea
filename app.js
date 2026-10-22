@@ -237,13 +237,7 @@ async function toggleLike(tool) {
   renderStats();
 }
 
-async function bumpUses(slug) {
-  if (isUncountedVisitor()) return; // 自动化浏览器／卢老师自己的设备不计（链接本来就带 kh=1，工具端也不会计）
-  const { data, error } = await supabaseClient.rpc("increment_tool_uses", { p_slug: slug });
-  if (error) { console.error("记录使用次数失败", error); return; }
-  toolStatsCache[slug] = { ...(toolStatsCache[slug] || { likesCount: 0, liked: false }), usesCount: data };
-  renderStats();
-}
+// 2026-10-22：使用次数改由工具端 data/track-use.js 计（停留满 20 秒才算），Hub 点「开始使用」不再 +1，不然一次使用会算两次
 
 const boardEl = document.getElementById("board");
 const boardEmptyEl = document.getElementById("boardEmpty");
@@ -684,7 +678,6 @@ function renderDetailSets(entry, highlightSlug) {
       </li>`).join("")}</ul>`;
   el.querySelectorAll(".set").forEach((row) => {
     const m = entry.members.find((x) => x.slug === row.dataset.slug);
-    row.querySelector(".set__open").addEventListener("click", () => { bumpUses(m.slug); });
     row.querySelector(".set__share").addEventListener("click", () => shareToolLink(m.slug, {
       box: row.querySelector(".set__qr"), field: row.querySelector(".set__url"), label: row.querySelector(".set__share-label"),
     }));
@@ -736,10 +729,9 @@ function openDetail(tool, highlightSlug) {
   } else {
     const link = document.getElementById("detailOpenLink");
     if (tool.url) {
-      link.href = toolStartUrl(tool.url); // hub 已算过使用次数；工具端 data/track-use.js 看到 kh=1 会跳过并清掉它
+      link.href = toolStartUrl(tool.url); // 工具端 data/track-use.js 会清掉 kh／kd，停留满 20 秒才计一次使用
       link.classList.remove("detail__open--disabled");
       link.textContent = "开始使用";
-      link.onclick = () => { bumpUses(tool.slug); };
     } else {
       link.removeAttribute("href");
       link.classList.add("detail__open--disabled");

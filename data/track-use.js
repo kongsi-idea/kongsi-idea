@@ -3,8 +3,9 @@
 //   <script src="https://kongsi-idea.vercel.app/data/track-use.js" data-slug="工具slug" defer></script>
 // 规则：
 // - 只在工具自己的正式网址（slug.vercel.app，或 data-host 指定的旧网址）计数，preview／本机不算，免得写进假 slug。
-// - 从 hub 点「开始使用」进来的网址带 ?kh=1：hub 已经算过，这里跳过，并把 kh 从网址拿掉，
-//   老师之后从地址栏复制转发就不会漏算。
+// - 从 hub 点「开始使用」进来的网址带 ?kh=1&kd=：这里把两个参数从网址拿掉，
+//   老师之后从地址栏复制转发才干净。2026-10-22 起 hub 不再自己计数，一律由这里算。
+// - 页面在前台累计停留满 20 秒才算一次（2026-10-22）。
 // - 同一台浏览器 30 分钟内同一个工具只算一次（刷新不灌水），和首页「次到访」同一套规则。
 // - 失败一律静默，绝不影响学生玩。数字是客户端估计值，不是独立访客数。
 // - 2026-10-17：自动化浏览器（Playwright 验收、爬虫，navigator.webdriver 为真）不计；
@@ -56,20 +57,27 @@
     } catch (e) { /* storage 不能用就不登记设备 */ }
 
     if (u.searchParams.has("kh") || u.searchParams.has("kd")) {
-      var fromHub = u.searchParams.get("kh") === "1";
       u.searchParams.delete("kh");
       u.searchParams.delete("kd");
       history.replaceState(null, "", u.pathname + u.search + u.hash);
-      if (fromHub) return;
     }
 
+    // 2026-10-22：页面在前台累计停留满 20 秒才算一次（老师定，数字延续不归零）。
+    // 切到别的分页／缩小时不计时；从 Hub 进来也在这里算，Hub 的「开始使用」不再自己 +1
+    var STAY_MS = 20 * 1000;
     var KEY = "kongsi-idea-use-ts:" + slug;
-    var now = Date.now();
-    try {
-      if (now - Number(localStorage.getItem(KEY) || 0) < 30 * 60 * 1000) return;
-      localStorage.setItem(KEY, String(now));
-    } catch (e) { /* 读写不了 storage 就当每次都新来，宁可多算不漏算 */ }
-
-    rpc("increment_tool_uses", { p_slug: slug }).catch(function () {});
+    var visibleMs = 0;
+    var timer = setInterval(function () {
+      if (document.visibilityState !== "visible") return;
+      visibleMs += 1000;
+      if (visibleMs < STAY_MS) return;
+      clearInterval(timer);
+      var now = Date.now();
+      try {
+        if (now - Number(localStorage.getItem(KEY) || 0) < 30 * 60 * 1000) return;
+        localStorage.setItem(KEY, String(now));
+      } catch (e) { /* 读写不了 storage 就当每次都新来，宁可多算不漏算 */ }
+      rpc("increment_tool_uses", { p_slug: slug }).catch(function () {});
+    }, 1000);
   } catch (e) { /* 静默 */ }
 })();
