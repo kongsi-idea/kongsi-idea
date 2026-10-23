@@ -7,7 +7,7 @@
 **2026-10-22～23：首页统计数字可信度**（my-agent 主会话）：工具使用改成页面前台停满 20 秒才算、只由 `track-use.js` 算，Hub 不再 +1，数字延续不归零（`d1b0896`，已 alias 正式网址并 curl 核对）；首页加「来自 X 间学校 · Y 个州」（`b98aa84`），重复学校用 `same_as` 合并，10-23 并了拉华小学／SJKC LABIS → 拉美士华小，现 25 间／6 州（`4ad5e13`）；设备数后台累计不显示；Playwright MCP 加不计数 init-script，复测通过。决定见 `agents.md` 第 15、25、42 条。老师已重设 DB 密码并更新 `supabase/.secrets.local.md`（10-23 连线验证通过）。
 - **下一步**：无待办；老师想放设备数上首页再做。
 - ⚠️ 想搜「还有哪些档存着 DB 密码」：在 `~/Documents/my-projects` 全盘 grep 两次都超时（iCloud），没跑完；要查就限定在 kongsi-idea 及用到它的工具目录。
-- 🕐 最后更新：2026-10-23，Claude Opus 5.5 @ mr007's Macbook Air；Git：待推
+- 🕐 最后更新：2026-10-23，Claude Opus 5.5 @ mr007's Macbook Air；Git：✅ 已推 `b4172ae`
 
 **2026-10-23：Vercel 额度满（CDN 100 万＋存储 10GB）→ 缓存＋语音包，全部上线**（my-agent 主会话）
 - 做了：删 119 个旧部署（误删 alias 指着的 Hub 部署，404 约 5 分钟，已恢复，规则补进第 40 条）；62 个工具 `vercel.json` 素材加一天缓存；10 个语音多的工具改语音包（找对小帮手 1.2、换算工坊／零用钱跑腿日／冲格 1.3、分离大法 1.0.2、看图小侦探／量词南瓜／座位小侦探／Kata Tanya／天平工坊 1.1），Hub 升版已部署（`c3a8592`，alias `kongsi-idea-2hte0ku0d`），10 个 `npm run check` 全过。做法在 teaching-tools `agents.md`「语音要打包、素材要缓存」。
