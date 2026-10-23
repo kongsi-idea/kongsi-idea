@@ -1387,10 +1387,11 @@ const TOOLS = [
     type: "工具",
     stars: 0,
     creator: { name: "一位一年级老师", initial: "师" },
-    version: "1.1",
+    version: "1.2",
     changelog: [
-      { version: "1.0", date: "2026-10-15", note: "首次上架：23 个字族、65 题、点字卡朗读、字形对比提示、可离线使用" },
+      { version: "1.2", date: "2026-10-23", note: "语音更快载入：231 句朗读合成一个语音包，第一次打开的下载次数从约 240 次降到约 12 次；画面与玩法不变" },
       { version: "1.1", date: "2026-10-15", note: "加上全屏按钮（右上角，或按 F 键），投影时可以铺满整个画面；Hub 分类由「游戏」改为「工具」" },
+      { version: "1.0", date: "2026-10-15", note: "首次上架：23 个字族、65 题、点字卡朗读、字形对比提示、可离线使用" },
     ],
     // 第 1 张是生图封面；其余 3 张是用 Playwright 实际操作正式网址 https://tahun1-bc-xingsi.vercel.app 截的真实画面，不是 mock
     thumbnails: [
