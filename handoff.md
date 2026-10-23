@@ -4,6 +4,14 @@
 
 ## ⏯️ 目前做到哪
 
+**2026-10-23：Vercel 额度满（CDN 100 万＋存储 10GB）→ 缓存＋语音包，全部上线**（my-agent 主会话）
+- 做了：删 119 个旧部署（误删 alias 指着的 Hub 部署，404 约 5 分钟，已恢复，规则补进第 40 条）；62 个工具 `vercel.json` 素材加一天缓存；10 个语音多的工具改语音包（找对小帮手 1.2、换算工坊／零用钱跑腿日／冲格 1.3、分离大法 1.0.2、看图小侦探／量词南瓜／座位小侦探／Kata Tanya／天平工坊 1.1），Hub 升版已部署（`c3a8592`，alias `kongsi-idea-2hte0ku0d`），10 个 `npm run check` 全过。做法在 teaching-tools `agents.md`「语音要打包、素材要缓存」。
+- 效果（10-23 07–17 时对 10-22 同时段）：请求 89,122 → 38,344；找对小帮手每次首开约 236 → 28 次。30 天累计仍 107 万，上学日约 3–4 万／天，仍贴着上限。
+- 老师定：设备统计照现在做法不改（`device_seen` 是「设备×工具」首开，不是新设备；见第 40 条）。
+- ➡️ 下一步：① 下周一看整天新版的 Usage（`vercel api "/v2/usage?teamId=…&type=requests"`，breakdown 每小时只给前三名）② 可选再省：`data/track-use.js` 每个工具打开都回 Hub 重新验证（max-age=0），可加短缓存；心情温度计、标点符号的语音打包 ③ 老师 iPad 开静音开关试听（iOS 处理只在模拟环境测过）；Deployment Storage 各专案占比截图仍未拿到。
+- ⚠️ Mac 磁碟 97% 满，iCloud 把仓库移出本机，git 会 `mmap failed`；改从 GitHub clone 到 `~/Library/Caches/` 做（memory `env-icloud-documents-eviction`）。
+- 🕐 最后更新：2026-10-23 17:40，Claude Opus 5.5 @ mr007's Macbook Air；Git：✅ 随本次收工 commit 推送
+
 **2026-10-22：点子铺 logo 设计，没定稿，老师喊停**（my-agent 主会话）：用 logo-design skill 做了十几轮（几何 SVG、灯泡角色、App 图标、气泡交集＝灯泡）＋ 4 张 AI 生图（共约 US$0.03），全部被否决；草稿在 `docs/logo/`（未进 git）。方向与「刻意不做」见 `agents.md` 第 41 条。网站没改。
 - **下一步**：老师拿我给的英文提示词去别处生成；拿回满意的图 → 描成干净 SVG、做 favicon／页首图标，再出预览给他点头才换。
 - **注意**：`docs/logo/` 约 7MB，没有 `.vercelignore`，`vercel --prod` 可能会把它一起上传；定稿后清掉不要的草稿。
