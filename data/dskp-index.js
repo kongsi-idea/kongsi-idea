@@ -120,6 +120,15 @@ const DSKP_INDEX = [
             topic: { zh: "乘法", bm: "Darab" },
             terms: ["乘法", "乘法表", "口诀", "darab", "pendaraban", "sifir"],
           },
+          {
+            // 2026-10-23 竖式小码头补：BM 照 SK 版 DSKP 原文「2.4 Bahagi dalam lingkungan 1000」
+            // （2.4.1 Membahagi dalam lingkungan fakta asas；2.4.2 Membahagi sebarang nombor dua digit dengan 10）
+            code: "2.4",
+            title_zh: "除法：基本除法（有余数和没有余数）、二位数÷10",
+            title_bm: "Bahagi dalam lingkungan 1000",
+            topic: { zh: "除法", bm: "Bahagi" },
+            terms: ["除法", "竖式", "长除法", "余数", "商", "被除数", "除数", "bahagi", "bentuk lazim", "baki"],
+          },
         ],
       },
     ],

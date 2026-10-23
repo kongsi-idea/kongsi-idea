@@ -368,6 +368,38 @@ const TOOLS = [
   },
 
   {
+    slug: "tahun2-mt-bahagi",
+    tahun: 2,
+    subjek: "mt",
+    modes: ["全班投影", "各自练习", "回家练习"],
+    status: "published",
+    title_zh: "竖式小码头",
+    title_bm: "Dermaga Bahagi Bentuk Lazim",
+    desc: "专练除法竖式：在码头上把货物平分给几艘船，同时一格一格写出竖式。每一步都是一个动作——除：在跳数尺上点「最接近又不超过」的那一格；乘：几艘船 × 每艘几个；减：还剩几个；比：余数比除数小才算分完；移：把下一位数字拖下来。左边货物和右边竖式同步变化，首位不够分时集装箱拆成木箱，让孩子看到为什么要「看头两位」。竖式写法照课本：商对齐被除数的那一位、有余数写「（余）」、2736÷9 写出「−0」那一行。8 关由扶到放：看懂竖式 → 有货物＋跳数尺 → 只看跳数尺 → 空白竖式 → 二位数÷10 → 三位数、四位数（为三年级铺路）。另有「老师出题」，课本上的任何一题都能投影带全班一步一步做。",
+    keywords: ["除法", "竖式", "长除法", "直式", "余数", "商", "被除数", "除数", "基本除法", "二年级", "三年级", "数学", "bahagi", "bentuk lazim", "baki", "跳数尺", "乘法表", "多位数除法"],
+    url: "https://tahun2-mt-bahagi.vercel.app",
+    type: "游戏",
+    stars: 0,
+    creator: { name: "卢老师", initial: "卢" },
+    version: "1.0",
+    changelog: [
+      { version: "1.0", date: "2026-10-23", note: "首次上架：8 关（二年级 2.4.1／2.4.2 ＋三位数、四位数铺垫）、老师出题、第一次引导、预录语音、?preview 教师预览页；横屏投影与手机直立都能用" },
+    ],
+    thumbnails: [
+      { img: "assets/thumbs/tahun2-mt-bahagi/v1-0-cover-art.png", label: "封面：竖式小码头" },
+      { img: "assets/thumbs/tahun2-mt-bahagi/v1-0-play.png", label: "2736 ÷ 9：商中间有 0，把下一位拖下来" },
+      { img: "assets/thumbs/tahun2-mt-bahagi/v1-0-feedback.png", label: "选太大：3 × 6 = 18 比 17 大，不够分" },
+      { img: "assets/thumbs/tahun2-mt-bahagi/v1-0-preview.png", label: "老师看题库：每关范围与完整正确竖式" },
+    ],
+    standards: [
+      { curriculum: "KSSR Semakan 2017", unitCode: "2.0", objectiveCodes: ["2.4"] },
+    ],
+    practiceSummary: "基本除法竖式（除数一位数，有余数和没有余数，2.4.1）；二位数 ÷ 10（2.4.2）；铺垫三年级：三位数、四位数 ÷ 一位数（首位不够除、商中间有 0、有余数）",
+    teachingMode: ["投影带全班", "学生各自练习", "居家练习"],
+    prep: "打开即用，不用登入、不接班级名单。投影可用「老师出题」输入课本上的题目带全班做；学生各自练习从第 1 关按顺序做，每关 5 题，进度存在玩的那台机器。电脑、平板、手机直立都可以。网址加 ?preview 可看每关题目范围与完整正确竖式",
+  },
+
+  {
     slug: "tahun1-mt-bundar",
     tahun: 1,
     subjek: "mt",
