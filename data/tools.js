@@ -1588,28 +1588,30 @@ const TOOLS = [
     status: "published",
     title_zh: "苹果果园数学",
     title_bm: "Matematik Kebun Epal",
-    desc: "1-999的数字用箱子（百）、篮子（十）、苹果（个）视觉化分组展示，点数字有语音气泡解说数位与数值。单人挑战随机出题（数位/数值混合），另有四人竞赛二选一抢答模式，答错淘汰、答对排名。",
-    keywords: ["数位", "数值", "二年级", "数学", "nilai tempat", "nilai digit"],
+    desc: "0–1000 的数用推车（千）、箱子（百）、篮子（十）、苹果（个）摆出来，每个容器都看得到里面 10 个。按 ＋／－ 看满 10 装篮、装箱的进位与拆开的退位；点数字卡用课本口吻说出数位和数值，分析区同步显示「7 个百、1 个十和 9 个一」「700 + 10 + 9」。单人挑战一轮 10 题六种题型；四人竞赛同题 5 题三选一，按答对数排名。",
+    keywords: ["数位", "数值", "分析数目", "进位", "千位", "二年级", "数学", "nilai tempat", "nilai digit", "cerakin"],
     url: "https://tahun2-mt-shuzhi.vercel.app",
     type: "游戏",
     stars: 0,
     creator: { name: "卢老师", initial: "卢" },
-    version: "1.0",
+    version: "2.0",
     changelog: [
+      { version: "2.0", date: "2026-10-26", note: "全面改版：Canva 新素材（容器看得出 10 个）、＋／－ 进位退位动画、支持 1000（千位）、分析数目（1.4.2）、0 的占位解说；重写题库，修正两位数被问百位与重复数字两个答案的错误；四人竞赛改为同题 5 题三选一、不淘汰；加开场封面、第一次引导与 ?preview 教师预览" },
       { version: "1.0", date: "2026-07-21", note: "首次上架" },
     ],
-    // 这 3 张是用 Playwright 实际操作 https://tahun2-mt-shuzhi.vercel.app 截的真实画面，不是 mock
+    // 第 1 张是 Canva 生成的封面；2–4 张是用 Playwright 操作 https://tahun2-mt-shuzhi.vercel.app 截的真实画面
     thumbnails: [
-      { img: "assets/thumbs/tahun2-mt-shuzhi/1-learn.png", label: "学习模式：果园视觉化分组" },
-      { img: "assets/thumbs/tahun2-mt-shuzhi/2-explain.png", label: "点数字看语音解说" },
-      { img: "assets/thumbs/tahun2-mt-shuzhi/3-competition.png", label: "四人竞赛二选一抢答" },
+      { img: "assets/thumbs/tahun2-mt-shuzhi/v2-1-cover.png", label: "封面" },
+      { img: "assets/thumbs/tahun2-mt-shuzhi/v2-2-orchard.png", label: "果园：容器、数字卡与分析" },
+      { img: "assets/thumbs/tahun2-mt-shuzhi/v2-3-feedback.png", label: "单人挑战答题反馈" },
+      { img: "assets/thumbs/tahun2-mt-shuzhi/v2-4-preview.png", label: "老师端：?preview 题型预览" },
     ],
     standards: [
       { curriculum: "KSSR Semakan 2017", unitCode: "1.0", objectiveCodes: ["1.4"] },
     ],
     practiceSummary: "讲述1000以内数目的数位与数值、依数位数值分析数目",
     teachingMode: ["投影互动", "单人挑战", "四人竞赛"],
-    prep: "打开即用，不需要打印，不需要学生设备",
+    prep: "打开即用，不需要打印，不需要学生设备；老师可在网址后加 ?preview 先看各题型示例",
   },
 
   {
