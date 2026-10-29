@@ -4,6 +4,13 @@
 
 ## ⏯️ 目前做到哪
 
+**2026-10-30：点子铺 logo 重来，仍未定稿，卡在等老师选号码**（my-agent 主会话）
+- 做了：把 10-22 的方向整个拆掉重试——两气泡交集、尾巴交叉、共用灯颈、串灯／拼半／一条灯丝、6 个灯泡剪影、气泡里放灯泡（玻璃质感）、单颗玻璃灯泡三色，**全被老师否**。老师最后要求：「找出和灯泡或者对话框有关系的 icon logo，我从全部里面看看」，已做编号图册。
+- **老师定了（写进 `agents.md` 第 41 条）**：对话气泡整个不要；logo 只放一个形状；灯丝里不放 K I。
+- **下一步**：老师看 `docs/logo/参考图库/`（灯泡 59、对话框 61），报几个不讨厌的号码 → 从中找共同点，再动手；报号前不要自己再造形状。选中的图标授权要核对，重画不直接用。
+- ⚠️ 草稿 `docs/logo/`（`geometry/` 1–9 号、`参考图库/`含 120 个原始 SVG）未进 git；同样没有 `.vercelignore`，定稿后清掉。网站本身没改。
+- 🕐 最后更新：2026-10-30，Claude Sonnet 5.5 @ mr007's Macbook Air；Git：✅ 随本次收工 commit 推送
+
 **2026-10-22～23：首页统计数字可信度**（my-agent 主会话）：工具使用改成页面前台停满 20 秒才算、只由 `track-use.js` 算，Hub 不再 +1，数字延续不归零（`d1b0896`，已 alias 正式网址并 curl 核对）；首页加「来自 X 间学校 · Y 个州」（`b98aa84`），重复学校用 `same_as` 合并，10-23 并了拉华小学／SJKC LABIS → 拉美士华小，现 25 间／6 州（`4ad5e13`）；设备数后台累计不显示；Playwright MCP 加不计数 init-script，复测通过。决定见 `agents.md` 第 15、25、42 条。老师已重设 DB 密码并更新 `supabase/.secrets.local.md`（10-23 连线验证通过）。
 - **下一步**：无待办；老师想放设备数上首页再做。
 - ⚠️ 想搜「还有哪些档存着 DB 密码」：在 `~/Documents/my-projects` 全盘 grep 两次都超时（iCloud），没跑完；要查就限定在 kongsi-idea 及用到它的工具目录。
@@ -17,10 +24,7 @@
 - ⚠️ Mac 磁碟 97% 满，iCloud 把仓库移出本机，git 会 `mmap failed`；改从 GitHub clone 到 `~/Library/Caches/` 做（memory `env-icloud-documents-eviction`）。
 - 🕐 最后更新：2026-10-23 17:40，Claude Opus 5.5 @ mr007's Macbook Air；Git：✅ 随本次收工 commit 推送
 
-**2026-10-22：点子铺 logo 设计，没定稿，老师喊停**（my-agent 主会话）：用 logo-design skill 做了十几轮（几何 SVG、灯泡角色、App 图标、气泡交集＝灯泡）＋ 4 张 AI 生图（共约 US$0.03），全部被否决；草稿在 `docs/logo/`（未进 git）。方向与「刻意不做」见 `agents.md` 第 41 条。网站没改。
-- **下一步**：老师拿我给的英文提示词去别处生成；拿回满意的图 → 描成干净 SVG、做 favicon／页首图标，再出预览给他点头才换。
-- **注意**：`docs/logo/` 约 7MB，没有 `.vercelignore`，`vercel --prod` 可能会把它一起上传；定稿后清掉不要的草稿。
-- 🕐 最后更新：2026-10-22 22:55，Claude Opus 5.5 @ mr007's Macbook Air；Git：✅ 已推 `0e09e22`
+**2026-10-22：点子铺 logo 十几轮没中（气泡交集＝灯泡），老师喊停**——已被 10-30 那段接续，细节见 `_retro/2026-10-22-logo十轮没中.md`。
 
 **2026-10-19：「分享给学生」改成直接复制工具网址**（my-agent 主会话）：以前一般工具复制的是 Hub 的 `?tool=<slug>`，学生会先进 Hub；10-08 起工具直接打开也计次，所以改成一律给工具网址（复习卷本来就是）。只改 `app.js` 的 `shareToolLink`（`6fedb26`），已 `vercel --prod` 并 curl 线上 `app.js` 确认新代码在；没在浏览器实点。决定写进 `agents.md` 第 19 条。回滚：`git revert 6fedb26` 后重新 `vercel --prod --yes`。
 - 工作区里 `agents.md` 第 40 条、`handoff.md` 用量结果、`花费记录.md` 10-19 那行、`_retro/2026-10-19-Vercel…` 是**清 Vercel 旧部署那个会话收工后没提交的改动**，本次没一起提交，原样留着待那边或老师决定。
